@@ -1,11 +1,8 @@
-# Karl Bartel's Website
+# Un vieux site du jurassic H
 
-I'm a Software developer in Berlin, Germany. I like free software, open data and keeping things simple.
+J'aime les choses simples alors voici un site ultra simple.
 
-Contact me via <a href="mailto:karl@karl.berlin" rel="me">email</a> or find me on
-<a href="https://github.com/karlb" rel="me">GitHub</a>,
-<a href="https://fosstodon.org/@karlb" rel="me">Mastodon</a>,
-<a href="https://twitter.com/karlb" rel="me">Twitter</a>,
-<a href="https://www.linkedin.com/pub/karl-bartel/a/a3a/6b7" rel="me">LinkedIn</a>. Subscribe to the [Atom feed](atom.xml) to get all new posts on this site.
+Contactez moi via <a href="mailto:eric(())jurassi.ch" rel="me">email</a>. 
+Souscrivez au [flux Atom](atom.xml) pour obtenir les nouveaux posts de ce site.
 
 ## Blog Posts

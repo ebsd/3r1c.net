@@ -1,6 +1,7 @@
 #!/bin/sh
 set -eu
-MARKDOWN=smu
+MARKDOWN=/usr/local/bin/smu
+#MARKDOWN=pandoc
 GEMINI() { <"$1" perl -0pe 's/<a href="([^"]*)".*>(.*)<\/a>/[\2](\1)/g;s/^<!--.*-->//gsm' | md2gemini --links paragraph; }
 IFS='	'
 
@@ -86,10 +87,11 @@ write_page() {
 		cat header.html - |\
 		sed "s/{{TITLE}}/$title/" \
 		> "$target"
+		echo '\n</main>' >> "$target"
 
-	GEMINI "$filename" | \
-		sed "$ s/$/\\n\\n$dates_text/" \
-		> "$(echo "$target" | sed s/.html/.gmi/)"
+	#GEMINI "$filename" | \
+	#	sed "$ s/$/\\n\\n$dates_text/" \
+	#	> "$(echo "$target" | sed s/.html/.gmi/)"
 }
 
 
@@ -105,7 +107,7 @@ index_gmi() {
 	 	echo "=> $link $created - $title"
 	done < "$1"
 
-	GEMINI pages/projects.md
+	GEMINI pages/about.md
 }
 
 rm -fr build && mkdir build
@@ -114,7 +116,7 @@ rm -fr build && mkdir build
 index_tsv posts | sort -rt "	" -k 3 > build/posts.tsv
 index_html build/posts.tsv hide-drafts > build/index.html
 index_html build/posts.tsv show-drafts > build/index-with-drafts.html
-index_gmi build/posts.tsv hide-drafts > build/index.gmi
+#index_gmi build/posts.tsv hide-drafts > build/index.gmi
 atom_xml build/posts.tsv > build/atom.xml
 while read -r f title created updated; do
 	write_page "$f" "$title" "$created" "$updated"
@@ -127,4 +129,4 @@ while read -r f title created updated; do
 done < build/pages.tsv
 
 # Static files
-cp -r posts/*/ build
+cp -r posts/* build
