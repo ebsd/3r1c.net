@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Configurer un umask + securisé</title>
+	<link href="https://jurassi.ch/atom.xml" type="application/atom+xml" rel="alternate" title="Atom feed for blog posts" />
+	<style>
+		body {
+			font-family: sans-serif;
+			margin: 0 auto;
+			max-width: 48rem;
+			line-height: 1.45;
+			padding: 0.5rem 0 1.6rem;
+			#box-shadow: 0 0 2rem 0 #bbb;
+			#border-radius: 0 0 0.6rem 0.6rem;
+		}
+		main {
+			padding: 0 1.4rem;
+			hyphens: auto;
+		}
+		code {
+			background: #eee;
+			padding: 0.3rem;
+			tab-size: 4;
+		}
+		pre code {
+			display: block;
+			overflow-x: auto;
+			padding: 0.3rem 0.6rem;
+		}
+
+		nav ul {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			background: #a11;
+		}
+		nav li {
+			list-style: none;
+		}
+		nav li * {
+			display: block;
+			padding: 0.4rem 0.4rem;
+			color: white;
+		}
+		nav li strong {
+			padding-left: 1.5rem;
+			padding-right: 1rem;
+		}
+		nav a {
+			text-decoration: none;
+		}
+		nav a:hover {
+			background: #ad4949;
+		}
+	</style>
+</head>
+
+<nav>
+	<ul>
+		<li><strong>Jurassi.ch</strong></li>
+		<li><a href="index.html">/home</a></li>
+		<li><a href="about.html">about</a></li>
+	</ul>
+</nav>
+
+<main>
+<h1>Configurer un umask + securisé</h1>
+<p>Je fais le point sur les différentes options de configuration du umask. Pour rendre les permissions de votre système plus restrictives, sans pour aurant bloquer tout son fonctionnement, le umask idéal est à mon sens le 027 ; l'utilisateur peut lire et écrire, et le groupe peut seulement lire. Les autres utilisateurs ne possèdent pas de permissions.</p>
+<h2>Quel est le Umask par defaut ?</h2>
+<p>Pour cet article, nous utilisons une distribution redhat like.</p>
+<p>Il existe de nombreux shell comme bash, ksh, zsh, et tcsh. Ces shells peuvent se comporter en tant que login shells et non login-shells. Le login shell est généralement appelé en ouvrant un terminal natif ou depuis une GUI.</p>
+<h3>Login shell ou non-login shell ?</h3>
+<p>Pour déterminer quel type de shell on exécute, utilisons la commande <code>echo $0</code>.</p>
+<p>Si la sortie de <code>echo $0</code> retourne bash, alors c'est un non-login shell qui est exécuté. La commande <code>sudo -s</code> ne créé pas un login shell.</p>
+<pre><code>$ echo $0
+bash
+</code></pre>
+<p>Le umask par défaut pour un non-login shell est configuré dans /etc/bashrc.</p>
+<p>Si la sortie de <code>echo $0</code> retourne -bash, alors c'est un login shell qui est utilisé. La commande <code>sudo su -</code> créé un login shell par exemple.</p>
+<pre><code># echo $0
+-bash
+</code></pre>
+<p>Le umask par défaut pour un login shell est configuré dans /etc/profile.</p>
+<p>Pour afficher le umask configuré par défaut pour un non-login shell :</p>
+<pre><code>$ grep umask /etc/bashrc
+# By default, we want umask to get set. This sets it for non-login shell.
+</code></pre>
+<pre><code>   umask 002
+   umask 022
+</code></pre>
+<p>Pour afficher le umask configuré par défaut pour un login shell :</p>
+<pre><code>$ grep umask /etc/profile
+# By default, we want umask to get set. This sets it for login shell
+</code></pre>
+<pre><code>   umask 002
+   umask 022
+   
+</code></pre>
+<h2>Configurer un umask plus restrictif</h2>
+<p>Nous allons nous attacher aux login shells plus particulièrement.</p>
+<p>Utilisons une valeur du umask plus sécurisée dans /etc/profile : umask 022 =&gt; umask 027</p>
+<pre><code>if [ $UID -gt 199 ] &amp;&amp; [ &quot;/usr/bin/id -gn&quot; = &quot;/usr/bin/id -un&quot; ]; then
+	umask 002
+else
+	umask 027
+fi
+</code></pre>
+<p>En complément, on souhaite conserver un umask à 022 pour un utilisateur particulier :</p>
+<pre><code>$ echo 'umask 022' &gt;&gt; /home/username/.bashrc
+</code></pre>
+<h2>Job Ansible</h2>
+<p>Et voici une tâche ansible qui fait le job :</p>
+<pre><code>- name: Set default umask 027 in /etc/profile for login shells
+  replace:
+    path: /etc/profile
+    regexp: '(^\s+umask) (0[012][0-6])'
+    replace: '\1 027'
+</code></pre>
+<pre><code>- name: Set default umask 027 in /etc/login.defs for newly created home directories
+  replace:
+    path: /etc/login.defs
+    regexp: '(umask|UMASK).+(0[012][0-6])'
+    replace: '\1 027'
+</code></pre>
+<pre><code>- name: Set mask 022 or set back to 022 if other umask already set for specific account
+  lineinfile:
+    dest: /home/username/.bashrc
+    state: present
+    regexp: '^(umask|UMASK)'
+    line: 'umask 022'
+</code></pre>
+<p>Tags: linux, security, umask, ansible</p>
+<small>Written on 2023-09-11.</small>
+\n</main>
