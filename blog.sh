@@ -132,5 +132,5 @@ done < build/pages.tsv
 # Static files
 cp -r posts/* build
 
-# CNAME for github pages
+# add CNAME file for github pages hosting
 echo "jurassi.ch" >> build/CNAME
