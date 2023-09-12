@@ -1,4 +1,4 @@
-# Un vieux site du jurassic H.
+# Un vieux site du jurassic H
 
 J'aime les choses simples alors voici un site ultra simple.
 
