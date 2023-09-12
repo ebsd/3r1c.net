@@ -31,6 +31,7 @@ index_html() {
 		created=$(echo "$created" | sed -E 's/T.*//')
 	 	echo "$created &mdash; <a href=\"$link\">$title</a><br/>"
 	done < "$1"
+	echo '</main>'
 }
 
 atom_xml() {
@@ -87,7 +88,7 @@ write_page() {
 		cat header.html - |\
 		sed "s/{{TITLE}}/$title/" \
 		> "$target"
-		echo '\n</main>' >> "$target"
+		echo '</main>' >> "$target"
 
 	#GEMINI "$filename" | \
 	#	sed "$ s/$/\\n\\n$dates_text/" \
