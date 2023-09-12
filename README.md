@@ -50,3 +50,25 @@ This is when you commit.
 ```
 git commit --amend --date="Tue May 10 11:02 2022 +0200"
 ```
+
+# github pages notes
+
+```
+--------
+# initial setup
+git add --all
+git commit -m "update"
+git push
+./blog.sh 
+git add build
+git commit -m "Initial build subtree commit"
+git subtree push --prefix build origin gh-pages
+
+-----
+# update build dir to gh-pages branch
+./blog.sh (construit le contenu du dossier build)
+git add --all
+git commit -m "update"
+git push
+git push origin `git subtree split --prefix build master`:gh-pages --force
+```
