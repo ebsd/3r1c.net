@@ -1,7 +1,7 @@
 # Best links ever
 [512kb club](https://512kb.club/)
 
-[10kb cluc](https://10kbclub.com)
+[10kb club](https://10kbclub.com)
 
 [nocss club](https://nocss.club/)
 
