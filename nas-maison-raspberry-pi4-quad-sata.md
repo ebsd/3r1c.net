@@ -1,5 +1,7 @@
 # Home made  nas
 
+> Ceci est obsolète, je n'utilise plus de VPS, seulement des rpi.
+
 En complément de mon serveur VPS en ligne, j'ai récemment acquis un **Raspberry Pi 4** et un **[Quad Sata Hat](https://wiki.radxa.com/Dual_Quad_SATA_HAT)**. Ce dernier permet de connecter jusqu'à 4 disques SATA 2,5p au Raspberry Pi. Parfait pour un RAID qui sécurise mes données. Celles-ci sont synchronisées entre le VPS et le Pi via [Syncthing](https://syncthing.net). Je dispose ensuite de backups incémentaux effectués sur les disques du RAID grâce à rsync. Voici quelques infos pour la mise en route du **Quad Sata Hat** et d'un RAID1 logiciel sous Raspbian. Pour l'exercice, nous devons créer ce RAID mirroir sur 2 disques **sans perdre les données déjà présentes** sur un des deux disques. Voici une modeste représentation visuelle de mon installation. 
 ```
     <------+  CLOUD  +----->             <---+ HOME +--->

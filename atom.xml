@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-09-12T10:41:44+02:00</updated>
+	<updated>2023-09-12T12:46:19+02:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -10,6 +10,8 @@
 	<entry>
 		<title>Home made  nas</title>
 		<content type="html">&lt;h1&gt;Home made  nas&lt;/h1&gt;
+&lt;blockquote&gt;&lt;p&gt;Ceci est obsolète, je n&#39;utilise plus de VPS, seulement des rpi.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;En complément de mon serveur VPS en ligne, j&#39;ai récemment acquis un &lt;strong&gt;Raspberry Pi 4&lt;/strong&gt; et un &lt;strong&gt;&lt;a href=&quot;https://wiki.radxa.com/Dual_Quad_SATA_HAT&quot;&gt;Quad Sata Hat&lt;/a&gt;&lt;/strong&gt;. Ce dernier permet de connecter jusqu&#39;à 4 disques SATA 2,5p au Raspberry Pi. Parfait pour un RAID qui sécurise mes données. Celles-ci sont synchronisées entre le VPS et le Pi via &lt;a href=&quot;https://syncthing.net&quot;&gt;Syncthing&lt;/a&gt;. Je dispose ensuite de backups incémentaux effectués sur les disques du RAID grâce à rsync. Voici quelques infos pour la mise en route du &lt;strong&gt;Quad Sata Hat&lt;/strong&gt; et d&#39;un RAID1 logiciel sous Raspbian. Pour l&#39;exercice, nous devons créer ce RAID mirroir sur 2 disques &lt;strong&gt;sans perdre les données déjà présentes&lt;/strong&gt; sur un des deux disques. Voici une modeste représentation visuelle de mon installation. &lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;    &amp;lt;------+  CLOUD  +-----&amp;gt;             &amp;lt;---+ HOME +---&amp;gt;
     rclone         ___                       ___
