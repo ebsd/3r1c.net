@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Home made  nas</title>
+	<link href="https://jurassi.ch/atom.xml" type="application/atom+xml" rel="alternate" title="Atom feed for blog posts" />
+	<style>
+		body {
+			font-family: sans-serif;
+			margin: 0 auto;
+			max-width: 48rem;
+			line-height: 1.45;
+			padding: 0.5rem 0 1.6rem;
+			#box-shadow: 0 0 2rem 0 #bbb;
+			#border-radius: 0 0 0.6rem 0.6rem;
+		}
+		main {
+			padding: 0 1.4rem;
+			hyphens: auto;
+		}
+		code {
+			background: #eee;
+			padding: 0.3rem;
+			tab-size: 4;
+		}
+		pre code {
+			display: block;
+			overflow-x: auto;
+			padding: 0.3rem 0.6rem;
+		}
+
+		nav ul {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			background: #a11;
+		}
+		nav li {
+			list-style: none;
+		}
+		nav li * {
+			display: block;
+			padding: 0.4rem 0.4rem;
+			color: white;
+		}
+		nav li strong {
+			padding-left: 1.5rem;
+			padding-right: 1rem;
+		}
+		nav a {
+			text-decoration: none;
+		}
+		nav a:hover {
+			background: #ad4949;
+		}
+	</style>
+</head>
+
+<nav>
+	<ul>
+		<li><strong>Jurassi.ch</strong></li>
+		<li><a href="index.html">/home</a></li>
+		<li><a href="about.html">about</a></li>
+	</ul>
+</nav>
+
+<main>
+<h1>Home made  nas</h1>
+<p>En complément de mon serveur VPS en ligne, j'ai récemment acquis un <strong>Raspberry Pi 4</strong> et un <strong><a href="https://wiki.radxa.com/Dual_Quad_SATA_HAT">Quad Sata Hat</a></strong>. Ce dernier permet de connecter jusqu'à 4 disques SATA 2,5p au Raspberry Pi. Parfait pour un RAID qui sécurise mes données. Celles-ci sont synchronisées entre le VPS et le Pi via <a href="https://syncthing.net">Syncthing</a>. Je dispose ensuite de backups incémentaux effectués sur les disques du RAID grâce à rsync. Voici quelques infos pour la mise en route du <strong>Quad Sata Hat</strong> et d'un RAID1 logiciel sous Raspbian. Pour l'exercice, nous devons créer ce RAID mirroir sur 2 disques <strong>sans perdre les données déjà présentes</strong> sur un des deux disques. Voici une modeste représentation visuelle de mon installation. </p>
+<pre><code>    &lt;------+  CLOUD  +-----&gt;             &lt;---+ HOME +---&gt;
+    rclone         ___                       ___
+    crypt         +===+     Syncthing       +===+
+    +-----------+ |VPS|  &lt;---------------+&gt; |Pi |
+    |             +___+                  |  +___+
+    |               ^                    |
+    |               | syncthing          |  ++ ++ 2 HDD    ++ ++ 2 HDD
+    v               |                    +&gt; || || RAID1    || || RAID1
+    gdrive          v                       ++ ++          ++ ++
+                  Laptop                      +   rsnapshot  ^
+                                              +--------------+
+</code></pre>
+<p>Le Quad Sata Hat est disponible <a href="https://shop.allnetchina.cn/products/dual-sata-hat-open-frame-for-raspberry-pi-4">ici</a>.</p>
+<h4>Installation du Quad Sata HAT sur raspbian</h4>
+<p>Script d'installation :</p>
+<pre><code>curl -sL https://rock.sh/get-rockpi-sata | sudo -E bash -
+</code></pre>
+<p>On obtient un nouveau dossier :</p>
+<pre><code>/usr/bin/rockpi-sata
+</code></pre>
+<p>Et un fichier de configuration, voir détails plus bas [1] </p>
+<pre><code>/etc/rockpi-sata.conf
+</code></pre>
+<h4>Comment créer un RAID1 dont 1 des 2 disques contient déjà mes donneés ?</h4>
+<p>Je dispose de deux disques :</p>
+<ul>
+<li>/dev/sda = disque contenant mes données</li>
+<li>/dev/sdb = nouveau disque vièrge</li>
+</ul>
+<p>On installe les outils de gestion du RAID:
+</p>
+<pre><code>
+apt-get install mdadm
+</code></pre>
+<p>On démonte les disques :</p>
+<pre><code>umount /mnt/disk1
+umount /mnt/disk2
+</code></pre>
+<p>On utilise sfdisk pour dupliquer la configuration des partitions du disque sda vers le disque sdb.</p>
+<pre><code>sfdisk -d /dev/sda | sfdisk /dev/sdb
+</code></pre>
+<p>Utilisons maintenant <code>mdadm</code> pour créer un RAID1. On marque le premier disque sda comme "manquant" (missing) pour que les données du disque ne soient pas écrasées par la construction du RAID. Le second /dev/sdb1 est présent.</p>
+<pre><code>mdadm --create /dev/md0 --level 1 --raid-devices=2 missing /dev/sdb1
+</code></pre>
+<p>On formatte le nouveau RAID :</p>
+<pre><code>mkfs.ext4 /dev/md0
+</code></pre>
+<p>On monte le RAID :</p>
+<pre><code>mkdir /mnt/raid1
+mount /dev/md0 /mnt/raid1
+</code></pre>
+<p>Copions le contenu du disque /dev/sda1 dans /dev/md0.</p>
+<pre><code>mount /dev/sda1 /mnt/disk1
+rsync -rtavz --delete /mnt/disk1/ /mnt/raid1/
+</code></pre>
+<p>Démontons le disque que nous allons ensuite activer dans le RAID1.</p>
+<pre><code>umount /mnt/disk1
+</code></pre>
+<p>Inrégrer le disque 1 au RAID</p>
+<pre><code>mdadm --add /dev/md0 /dev/sda1
+</code></pre>
+<p>Le RAID va se construire, ce que nous pouvons suivre ainsi :</p>
+<pre><code>cat /proc/mdstat
+</code></pre>
+<p>[1]: Fichier /etc/rockpi-sata.conf</p>
+<pre><code>[fan]
+# When the temperature is above lv0 (35'C), the fan at 25% power,
+# and lv1 at 50% power, lv2 at 75% power, lv3 at 100% power.
+# When the temperature is below lv0, the fan is turned off.
+# You can change these values if necessary.
+lv0 = 35
+lv1 = 40
+lv2 = 45
+lv3 = 50
+[key]
+# You can customize the function of the key, currently available functions are
+# slider: oled display next page
+# switch: fan turn on/off switch
+# reboot, poweroff
+# If you have any good suggestions for key functions, 
+# please add an issue on https://rock.sh/rockpi-sata
+click = slider
+twice = switch
+press = none
+[time]
+# twice: maximum time between double clicking (seconds)
+# press: long press time (seconds)
+twice = 0.7
+press = 1.8
+[slider]
+# Whether the oled auto display next page and the time interval (seconds)
+auto = true
+time = 10
+[oled]
+# Whether rotate the text of oled 180 degrees, whether use Fahrenheit
+rotate = false
+f-temp = false	
+</code></pre>
+<p>Tags: raspberry, linux</p>
+<h2>Restaurer les données du raid sur une autre machine</h2>
+<p>Brancher le disque en usb sur un laptop, puis :</p>
+<pre><code>$ sudo mdadm --examine /dev/sdb1 
+/dev/sdb1:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x1
+     Array UUID : 3c2a5eff:d7455954:d77b1813:e27e8d72
+           Name : raspberrypi:0
+  Creation Time : Sat Feb  8 15:34:52 2020
+     Raid Level : raid1
+   Raid Devices : 2
+
+ Avail Dev Size : 976506928 (465.63 GiB 499.97 GB)
+     Array Size : 488253440 (465.63 GiB 499.97 GB)
+  Used Dev Size : 976506880 (465.63 GiB 499.97 GB)
+    Data Offset : 264192 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=264112 sectors, after=48 sectors
+          State : clean
+    Device UUID : 32d73af4:2948dafd:90cb7742:bfaa2b58
+
+Internal Bitmap : 8 sectors from superblock
+    Update Time : Fri Dec 17 20:57:07 2021
+  Bad Block Log : 512 entries available at offset 16 sectors
+       Checksum : 61023788 - correct
+         Events : 21788
+
+
+   Device Role : Active device 0
+   Array State : AA ('A' == active, '.' == missing, 'R' == replacing)
+</code></pre>
+<h3>Assemblage</h3>
+<p>Je tente avec cette commande qui échoue.</p>
+<pre><code>$ sudo mdadm --assemble /dev/md0 /dev/sdb1
+mdadm: /dev/sdb1 is busy - skipping
+</code></pre>
+<p>Puis, assemblage automatique : Il existe déjà un RAID détecté dans /dev/md127.</p>
+<pre><code>$ sudo mdadm --detail --scan
+INACTIVE-ARRAY /dev/md127 metadata=1.2 name=raspberrypi:0 UUID=3c2a5eff:d7455954:d77b1813:e27e8d72
+</code></pre>
+<pre><code>$ cat /proc/mdstat 
+Personalities : 
+md127 : inactive sdb1[2](S)
+      488253464 blocks super 1.2
+</code></pre>
+<pre><code>   
+</code></pre>
+<pre><code>unused devices: &lt;none&gt;
+</code></pre>
+<p>Mais impossible de monter le raid.</p>
+<pre><code>$ sudo mount /dev/md127 /mnt/nas/
+mount: /mnt/nas: can't read superblock on /dev/md127.
+</code></pre>
+<p>Donc je stoppe le raid /dev/md127 qui semble avoir été créé automatiquement. Et je lance une détection auto. Un nouveau /dev/md/raspberry devient dispo.</p>
+<pre><code>$ sudo mdadm --stop /dev/md127
+mdadm: stopped /dev/md127
+$ sudo  mdadm --assemble --scan
+mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
+</code></pre>
+<p>Et cette fois-ci je peux monter le raid :</p>
+<pre><code>$ sudo mount /dev/md/raspberrypi\:0 /mnt/raid1
+</code></pre>
+<small>Written on draft.</small>
+</main>
