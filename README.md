@@ -9,6 +9,11 @@
 
 See the [blog post](http://www.karl.berlin/blog.html) for more details.
 
+## Requirements
+
+- smu or pandoc
+- md2gemini
+
 ## Quickstart
 
 * Clone this repository `git clone git@github.com:karlb/karl.berlin.git`
@@ -17,8 +22,31 @@ See the [blog post](http://www.karl.berlin/blog.html) for more details.
 * Commit posts in git to add timestamps and have them show up in `build/index.html`
 * Copy the content of `build` to your webserver, so that other people can read your blog
 
-Feel free to [contact me](karl@karl.berlin) if you have any questions.
+## Mofify a blog post date
 
-# karl.berlin
+### For an old post
 
-The repo also contains the content for my personal blog and homepage (http://www.karl.berlin). If this is a problem for anyone who wants to use `blog.sh`, please let me know and I will split the repos. For now, this is more convenient for me.
+Get the commit date of the file
+
+```
+$ git log posts/my-post.md
+```
+
+Use the commit hash value.
+
+```
+git filter-branch --env-filter \
+    'if [ $GIT_COMMIT = 119f9ecf58069b265ab22f1f97d2b648faf932e0 ]
+     then
+         export GIT_AUTHOR_DATE="Fri Jan 2 21:38:53 2009 +0200"
+         export GIT_COMMITTER_DATE="Sat May 19 01:01:01 2007 +0200"
+     fi'
+```
+
+### For a new post
+
+This is when you commit.
+
+```
+git commit --amend --date="Tue May 10 11:02 2022 +0200"
+```
