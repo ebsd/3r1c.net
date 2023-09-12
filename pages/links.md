@@ -1,5 +1,5 @@
 # Best links ever
-<a href="https://512kb.club/">512kb club</a>
-<a href="https://10kbclub.com/">10kb club</a>
-[https://nocss.club/](nocss club)
+[512kb club](https://512kb.club/)
+[10kb cluc](https://10kbclub.com)
+[nocss club](https://nocss.club/)
 [https://benhoyt.com/writings/the-small-web-is-beautiful/](https://benhoyt.com/writings/the-small-web-is-beautiful/)
