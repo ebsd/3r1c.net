@@ -2,4 +2,4 @@
 [512kb club](https://512kb.club/)
 [10kb cluc](https://10kbclub.com)
 [nocss club](https://nocss.club/)
-[https://benhoyt.com/writings/the-small-web-is-beautiful/](https://benhoyt.com/writings/the-small-web-is-beautiful/)
+[the small web is beautiful](https://benhoyt.com/writings/the-small-web-is-beautiful/)
