@@ -1,5 +1,9 @@
 # Best links ever
+[1mb club](https://1mb.club/)
+
 [512kb club](https://512kb.club/)
+
+[250kb club](https://250kb.club/)
 
 [10kb club](https://10kbclub.com)
 
