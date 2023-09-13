@@ -6,3 +6,5 @@
 [nocss club](https://nocss.club/)
 
 [the small web is beautiful](https://benhoyt.com/writings/the-small-web-is-beautiful/)
+
+[QotNews](https://news.t0.vc)
