@@ -1,5 +1,6 @@
 # Best links ever
 
+## Small web 
 [1mb club](https://1mb.club/)
 
 [512kb club](https://512kb.club/)
