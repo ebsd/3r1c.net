@@ -12,3 +12,8 @@
 [the small web is beautiful](https://benhoyt.com/writings/the-small-web-is-beautiful/)
 
 [QotNews](https://news.t0.vc)
+
+[chotrin smoll internet](https://chotrin.org/notes/smol_internet.html)
+
+[the small things manifesto](https://ajroach42.com/the-small-things-manifesto/)
+
