@@ -25,4 +25,5 @@
 
 [blogroll.org](https://blogroll.org/)
 
-http://si3t.ch/
+## Francophone
+[si3t.ch](http://si3t.ch/)
