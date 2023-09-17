@@ -8,6 +8,10 @@ En ce milieu de 4ème semaine de **confinement**~, ...plus tard, je fais le poin
 - [Pandoc](https://pandoc.org) : pour générer de magnifiques PDF
 ### Navigation
 - [qutebrowser](https://qutebrowser.org/)
+#### Add-ons
+- [cookie-autodelete](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/)
+- [I still don't care about cookies](https://addons.mozilla.org/en-US/firefox/addon/istilldontcareaboutcookies/)
+- [ublock origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
 ### Desktop
 - [Flameshot](https://github.com/lupoDharkael/flameshot) : pour de superbes captures d'écran
 - [pass](https://www.passwordstore.org) : the standard unix password manager
