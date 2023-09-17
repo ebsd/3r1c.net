@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-09-17T10:44:50+02:00</updated>
+	<updated>2023-09-17T10:48:06+02:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -21,6 +21,12 @@
 &lt;h3&gt;Navigation&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://qutebrowser.org/&quot;&gt;qutebrowser&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Add-ons&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/&quot;&gt;cookie-autodelete&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://addons.mozilla.org/en-US/firefox/addon/istilldontcareaboutcookies/&quot;&gt;I still don&#39;t care about cookies&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/&quot;&gt;ublock origin&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Desktop&lt;/h3&gt;
 &lt;ul&gt;
