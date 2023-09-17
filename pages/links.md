@@ -25,5 +25,7 @@
 
 [blogroll.org](https://blogroll.org/)
 
+[deskto.ps](https://deskto.ps/)
+
 ## Francophone
 [si3t.ch](http://si3t.ch/)
