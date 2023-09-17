@@ -2,11 +2,58 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-09-17T10:34:05+02:00</updated>
+	<updated>2023-09-17T10:35:20+02:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
 	<id>tag:jurassi.ch,2020-05-23:default-atom-feed</id>
+	<entry>
+		<title>Outils et services</title>
+		<content type="html">&lt;h1&gt;Outils et services&lt;/h1&gt;
+&lt;p&gt;En ce milieu de 4ème semaine de &lt;strong&gt;confinement&lt;/strong&gt;~, ...plus tard, je fais le point sur mon outillage quotidien et services en ligne.&lt;/p&gt;
+&lt;h2&gt;Les installables&lt;/h2&gt;
+&lt;h3&gt;Texte&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://typora.io&quot;&gt;Typora&lt;/a&gt; : Mon éditeur Markdown préféré&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://obsidian.md/&quot;&gt;Obsidian&lt;/a&gt; : qui pourrait devenir mon éditeur préféré&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://pandoc.org&quot;&gt;Pandoc&lt;/a&gt; : pour générer de magnifiques PDF&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Navigation&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://qutebrowser.org/&quot;&gt;qutebrowser&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Desktop&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/lupoDharkael/flameshot&quot;&gt;Flameshot&lt;/a&gt; : pour de superbes captures d&#39;écran&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.passwordstore.org&quot;&gt;pass&lt;/a&gt; : the standard unix password manager&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://vim.org&quot;&gt;vim&lt;/a&gt; : l&#39;éditeur incontournable&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://syncthing.net/&quot;&gt;Syncthing&lt;/a&gt; : synchroniser mes fichiers, mais surtout pour radier g--gle drive. Couplé à un VPS et un Raspberry Pi + le&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&quot;https://wiki.radxa.com/Dual_Quad_SATA_HAT&quot;&gt;Quad Sata Hat&lt;/a&gt;. Vous obtenez une solution de stockage efficace et à bas prix.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://rsnapshot.org/&quot;&gt;rsnapshot&lt;/a&gt; :pour mes backups incrementaux&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://rclone.org/&quot;&gt;rclone&lt;/a&gt; : pour mes sauvegardes en ligne&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://nuetzlich.net/gocryptfs/&quot;&gt;gocryptfs&lt;/a&gt; : pour chiffrer mes backups et quelques infos sensibles&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://manjaro.org&quot;&gt;Manjaro&lt;/a&gt; : OS favori pour mon laptop&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://debian.org&quot;&gt;Debian&lt;/a&gt; : OS favori pour mes serveurs&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://kali.org&quot;&gt;kali&lt;/a&gt; : OS favori pour mes pentests, Black Arch à étudier aussi :)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Les hébergés&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.photopea.com&quot;&gt;Photopea&lt;/a&gt; : en remplacement de Photoshop&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://asciiflow.com/&quot;&gt;Asciiflow&lt;/a&gt; : pour quelques schémas&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.lucidpress.com&quot;&gt;lucidpress&lt;/a&gt; : en remplacement de Indesign&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Le quotidien&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://dev.yorhel.nl/ncdu&quot;&gt;ncdu&lt;/a&gt; : pour gérer mon espace disque&lt;/li&gt;
+&lt;/ul&gt;</content>
+		<link href="outils-et-services.html"/>
+		<id>tag:jurassi.ch,2023-09-17:posts/outils-et-services.md</id>
+		<published>2023-09-17T10:34:05+02:00</published>
+		<updated>2023-09-17T10:34:05+02:00</updated>
+	</entry>
 	<entry>
 		<title>Home made  nas</title>
 		<content type="html">&lt;h1&gt;Home made  nas&lt;/h1&gt;
