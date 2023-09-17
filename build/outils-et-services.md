@@ -8,6 +8,7 @@ En ce milieu de 4ème semaine de **confinement**~, ...plus tard, je fais le poin
 - [Pandoc](https://pandoc.org) : pour générer de magnifiques PDF
 ### Navigation
 - [qutebrowser](https://qutebrowser.org/)
+- Firefox
 #### Add-ons
 - [cookie-autodelete](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/)
 - [I still don't care about cookies](https://addons.mozilla.org/en-US/firefox/addon/istilldontcareaboutcookies/)
