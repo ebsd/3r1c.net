@@ -12,7 +12,7 @@ En ce milieu de 4ème semaine de **confinement**~, ...plus tard, je fais le poin
   - `about:config`
     - `widget.non-native-theme.scrollbar.style: 4`
     - `widget.non-native-theme.scrollbar.size.override: 12`
-#### Add-ons
+#### Firefox Add-ons
 - [cookie-autodelete](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/)
 - [I still don't care about cookies](https://addons.mozilla.org/en-US/firefox/addon/istilldontcareaboutcookies/)
 - [ublock origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
