@@ -31,6 +31,12 @@ index_html() {
 		created=$(echo "$created" | sed -E 's/T.*//')
 	 	echo "$created &mdash; <a href=\"$link\">$title</a><br/>"
 	done < "$1"
+	## Fediring
+	echo '<p>'
+	echo '<a href="https://fediring.net/previous?host=https://jurassi.ch"><<</a>'
+	echo '<a href="https://fediring.net/">Fediring</a>'
+	echo '<a href="https://fediring.net/next?host=example.com">>></a>'
+	# Closing main at the end of the page
 	echo '</main>'
 }
 
