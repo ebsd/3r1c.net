@@ -29,7 +29,7 @@ index_html() {
 		if [ "$created" = "draft" ] && [ "$2" = "hide-drafts" ]; then continue; fi
 		link=$(echo "$f" | sed -E 's|.*/(.*).md|\1.html|')
 		created=$(echo "$created" | sed -E 's/T.*//')
-	 	echo "$created &mdash; <a href=\"$link\">$title</a><br/>"
+	 	echo "$created &mdash; <a href=\"$link\">$title</a><br>"
 	done < "$1"
 	## Fediring
 	echo '<img src="https://i.imgur.com/U9O16k9.gif">'
