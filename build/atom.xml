@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-09-17T10:57:28+02:00</updated>
+	<updated>2023-09-20T20:02:09+02:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -68,7 +68,7 @@
 		<link href="outils-et-services.html"/>
 		<id>tag:jurassi.ch,2023-09-17:posts/outils-et-services.md</id>
 		<published>2023-09-17T10:34:05+02:00</published>
-		<updated>2023-09-17T10:56:28+02:00</updated>
+		<updated>2023-09-17T10:57:28+02:00</updated>
 	</entry>
 	<entry>
 		<title>Home made  nas</title>

@@ -30,4 +30,4 @@
 ## Francophone
 [si3t.ch](http://si3t.ch/)
 
-https://blog.skiserv.eu/
+[skiserv.eu](https://blog.skiserv.eu/)
