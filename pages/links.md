@@ -27,6 +27,8 @@
 
 [deskto.ps](https://deskto.ps/)
 
+[paritybit.ca](https://paritybit.ca)
+
 ## Francophone
 [si3t.ch](http://si3t.ch/)
 
