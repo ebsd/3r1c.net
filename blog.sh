@@ -39,7 +39,7 @@ index_html() {
 	echo '<a href="https://fediring.net/next?host=https://jurassi.ch">>></a>'
 	echo '<a href="https://hotlinewebring.club/jurassi/previous">&lt;&lt;</a>'
 	echo '<a href="https://hotlinewebring.club">Hotline webring</a>'
-	echo '<a href="https://hotlinewebring.club/jurassi/next">&lt;&lt;</a>'
+	echo '<a href="https://hotlinewebring.club/jurassi/next">>></a>'
 	echo '</p>'
 	# Closing main at the end of the page
 	echo '</main>'
