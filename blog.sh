@@ -37,7 +37,7 @@ index_html() {
 	echo '<a href="https://fediring.net/previous?host=https://jurassi.ch">&lt;&lt;</a>'
 	echo '<a href="https://fediring.net/">Fediring</a>'
 	echo '<a href="https://fediring.net/next?host=https://jurassi.ch">>></a>'
-	echo '<a href="https://hotlinewebring.club/jurassi/previous">&lt;&lt;</a>'
+	echo ' | <a href="https://hotlinewebring.club/jurassi/previous">&lt;&lt;</a>'
 	echo '<a href="https://hotlinewebring.club">Hotline webring</a>'
 	echo '<a href="https://hotlinewebring.club/jurassi/next">>></a>'
 	echo '</p>'
