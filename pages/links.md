@@ -29,7 +29,7 @@
 
 [paritybit.ca](https://paritybit.ca)
 
-https://thewebisfucked.com/
+[theWebIsFucked](https://thewebisfucked.com/)
 
 ## Francophone
 [si3t.ch](http://si3t.ch/)
