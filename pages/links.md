@@ -31,6 +31,10 @@
 
 [theWebIsFucked](https://thewebisfucked.com/)
 
+[https://tilde.pt/~fimdomeio/index2.html](web 0.5)
+
+[http://www.textfiles.com](textfiles.com)
+
 ## Francophone
 [si3t.ch](http://si3t.ch/)
 
