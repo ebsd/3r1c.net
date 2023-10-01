@@ -35,3 +35,17 @@
 [si3t.ch](http://si3t.ch/)
 
 [skiserv.eu](https://blog.skiserv.eu/)
+
+## News
+
+[https://lobste.rs/top](lobste.rs)
+[https://tilde.news](tilde.news)
+
+## Social
+
+[https://midnight.pub/](midnight.pub)
+[https://smol.pub/feed](smol.pub)
+
+## Search engines
+
+[https://wiby.me/](wiby.me)
