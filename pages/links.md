@@ -31,9 +31,9 @@
 
 [theWebIsFucked](https://thewebisfucked.com/)
 
-[https://tilde.pt/~fimdomeio/index2.html](web 0.5)
+[web 0.5](https://tilde.pt/~fimdomeio/index2.html)
 
-[http://www.textfiles.com](textfiles.com)
+[textfiles.com](https://textfiles.com)
 
 ## Francophone
 [si3t.ch](http://si3t.ch/)
@@ -41,14 +41,14 @@
 [skiserv.eu](https://blog.skiserv.eu/)
 
 ## News
-[https://lobste.rs/top](lobste.rs)
+[lobste.rs](https://lobste.rs/top]
 
-[https://tilde.news](tilde.news)
+[tilde.net](https://tilde.news)
 
 ## Social
-[https://midnight.pub/](midnight.pub)
+[midnight.pub](https://midnight.pub/)
 
-[https://smol.pub/feed](smol.pub)
+[smol.pub](https://smol.pub)
 
 ## Search engines
-[https://wiby.me/](wiby.me)
+[wiby.me](https://wiby.me)
