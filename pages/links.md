@@ -43,7 +43,7 @@
 ## News
 [lobste.rs](https://lobste.rs/top)
 
-[tilde.net](https://tilde.news)
+[tilde.news](https://tilde.news)
 
 ## Social
 [midnight.pub](https://midnight.pub/)
