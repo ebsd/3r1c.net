@@ -41,7 +41,7 @@
 [skiserv.eu](https://blog.skiserv.eu/)
 
 ## News
-[lobste.rs](https://lobste.rs/top]
+[lobste.rs](https://lobste.rs/top)
 
 [tilde.net](https://tilde.news)
 
