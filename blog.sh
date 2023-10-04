@@ -31,8 +31,9 @@ index_html() {
 		created=$(echo "$created" | sed -E 's/T.*//')
 	 	echo "$created &mdash; <a href=\"$link\">$title</a><br>"
 	done < "$1"
+	## xxiivv webring
+	echo '<a href="https://webring.xxiivv.com/#your-id-here" target="_blank" rel="noopener">  <img src="https://webring.xxiivv.com/icon.black.svg" alt="XXIIVV webring"/></a>'
 	## Fediring
-	echo '<img src="https://i.imgur.com/U9O16k9.gif" alt="fediring">'
 	echo '<p>'
 	echo '<a href="https://fediring.net/random">Fediring</a>'
 	echo ' | <a href="https://hotlinewebring.club/jurassi/previous">&lt;&lt;</a>'
