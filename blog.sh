@@ -32,7 +32,7 @@ index_html() {
 	 	echo "$created &mdash; <a href=\"$link\">$title</a><br>"
 	done < "$1"
 	## xxiivv webring
-	echo '<a href="https://webring.xxiivv.com/#jurassich" target="_blank" rel="noopener">  <img src="https://webring.xxiivv.com/icon.black.svg" alt="XXIIVV webring" width="35" height="35"/></a>'
+	echo '<a href="https://webring.xxiivv.com/#jurassich" target="_blank" rel="noopener">  <img src="https://webring.xxiivv.com/icon.black.svg" alt="XXIIVV webring" width="35" height="35"/></a> | '
 	## Fediring
 	#echo '<p>'
 	echo '<a href="https://fediring.net/random">Fediring</a>'
