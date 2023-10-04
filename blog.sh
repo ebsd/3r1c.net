@@ -34,12 +34,12 @@ index_html() {
 	## xxiivv webring
 	echo '<a href="https://webring.xxiivv.com/#jurassich" target="_blank" rel="noopener">  <img src="https://webring.xxiivv.com/icon.black.svg" alt="XXIIVV webring" width="35" height="35"/></a>'
 	## Fediring
-	echo '<p>'
+	#echo '<p>'
 	echo '<a href="https://fediring.net/random">Fediring</a>'
 	echo ' | <a href="https://hotlinewebring.club/jurassi/previous">&lt;&lt;</a>'
 	echo '<a href="https://hotlinewebring.club">Hotline webring</a>'
 	echo '<a href="https://hotlinewebring.club/jurassi/next">>></a>'
-	echo '</p>'
+	#echo '</p>'
 	# Closing main at the end of the page
 	echo '</main>'
 }
