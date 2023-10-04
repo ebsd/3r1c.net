@@ -145,5 +145,8 @@ cp -r posts/* build
 # Robots.txt file
 cp pages/robots.txt build
 
+# twtxt file
+cp pages/twtxt.txt build
+
 # add CNAME file for github pages hosting
 echo "jurassi.ch" >> build/CNAME
