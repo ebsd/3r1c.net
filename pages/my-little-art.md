@@ -8,6 +8,10 @@
 
 ## Mes petits comics
 
-<img src="img/image1.jpg" width="200"><br/>
-<img src="img/image2.jpg" width="200"><br/>
+<img src="img/image1.jpg" width="200">
+
+<img src="img/image2.jpg" width="200">
+
 <img src="img/image3.jpg" width="200">
+
+<img src="img/image4.jpg" width="200">
