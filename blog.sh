@@ -148,5 +148,9 @@ cp pages/robots.txt build
 # twtxt file
 cp pages/twtxt.txt build
 
+# img files
+mkdir build/img
+cp pages/img/* build/img
+
 # add CNAME file for github pages hosting
 echo "jurassi.ch" >> build/CNAME
