@@ -42,6 +42,8 @@
 
 [ferale.art](https://ferale.art/blog/2021/le-monde-est-en-transition.html)
 
+[hugo.spocy.cc](https://hugo.soucy.cc/)
+
 ## News
 [lobste.rs](https://lobste.rs/top)
 
