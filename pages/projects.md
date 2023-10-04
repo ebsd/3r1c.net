@@ -2,6 +2,6 @@
 
 - [x] Replace gdrive and dropbox by syncthing
 - [x] Setup a small website
-- [ ] Find a way to (close my gmail account)[close-gmail.html]. 
+- [ ] Find a way to <a href="close-gmail.html">close my gmail account</a>. 
 - [ ] Take part of the fediverse, webrings
 - [x] Participate in tildeverse
