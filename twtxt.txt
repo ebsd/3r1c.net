@@ -78,25 +78,19 @@
 2020-05-06T07:46:28+02:00	 patching AMSI and bypassing Windows Defender https://github.com/Flangvik/NetLoader
 2020-05-07T19:53:01.000000Z	[AVBuster](https://github.com/diljith369/AvBuster)
 2020-05-09T12:35:04.000000Z	https://Ippsec.rocks
-2020-05-10T11:44:54.000000Z	meteojura #uptime 194 days
 2020-05-11T10:39:50+02:00	 GET ENCRYPTED DATA FROM PEOPLE THAT DON'T KNOW HOW TO ENCRYPT https://hawkpost.co/
 2020-05-11T19:14:11.000000Z	https://www.geber.ga/gerer-ses-mots-de-passe-avec-passwordstore/
 2020-05-12T18:48:52.000000Z	https://net-security.fr/security/creer-une-csr-avec-des-san-sur-openssl/
 2020-05-12T18:51:30.000000Z	https://www.grottedubarbu.fr/outils-pentest-site/
-2020-05-13T18:34:41.000000Z	sed -n '/2020-04-29/,/2020-06-02/p' test.md | sort -b -k2,2
-2020-05-13T18:46:20.000000Z	grep '2020-0[4-5]-[01-31]' test.md | sort -b -k2,2
-2020-05-14T10:42:10+02:00	 Finalement : awk -F'-' ' ( >= 04 &&  >= 28) || ( == 05) { print }' *.md | sort -b -k2,2 | sed '/^[[:space:]]*$/d'
 2020-05-14T18:41:01.000000Z	https://www.atlassian.com/git/tutorials/dotfiles
 2020-05-15T15:21:28+02:00	 https://medium.com/@waxzce/use-bashrc-d-directory-instead-of-bloated-bashrc-50204d5389ff
 2020-05-16T08:30:48.000000Z	https://www.hackingarticles.in/
-2020-05-16T08:39:36.000000Z	https://www.amazon.fr/NVMe-PCIe-Bo%C3%AEtier-Externe-Adaptateur/dp/B07M9LJG53/ref=sr_1_3?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&dchild=1&keywords=usb+to+m2&qid=1589618326&sr=8-3
 2020-05-16T08:44:26.000000Z	https://gnomepomodoro.org/
 2020-05-22T19:32:45.000000Z	https://github.com/hydrargyrum/attic/tree/master/hibp
 2020-05-25T18:52:19.000000Z	https://book.hacktricks.xyz/pentesting/5985-5986-pentesting-winrm
 2020-05-26T20:24:19.000000Z	https://whynotsecurity.com/blog/teamviewer/
 2020-05-26T20:27:52.000000Z	https://github.com/vah13/extractTVpasswords
 2020-05-26T20:28:52.000000Z	Teamviewer 7 msf module
-2020-05-31T19:18:48.000000Z	https://www.ebay.fr/itm/113727788642
 2020-06-02T07:15:49+02:00	 https://blogduyax.madyanne.fr/2020/dispersion-du-gros-nuage/
 2020-06-11T14:23:09+02:00	 https://book.hacktricks.xyz/windows/active-directory-methodology/acl-persistence-abuse
 2020-06-15T11:53:29+02:00	 https://0xdf.gitlab.io/2020/06/13/htb-monteverde.html
@@ -110,7 +104,6 @@
 2022-03-01T21:35:12+01:00	 https://github.com/tsale/translated_conti_leaked_comms
 2022-03-05T13:03:35.000000Z	https://www.aukfood.fr/teleport-une-solution-pour-votre-bastion-ssh/
 2022-03-14T10:06:58.000000Z	This repository contains all the Incident Response Playbooks and Workflows of Company's SOC [https://gitlab.com/syntax-ir/playbooks]
-2022-03-27T12:12:19.000000Z	Sécurisez, Auditez, Automatisez vos bases de données PostgreSQL https://blog.ippon.fr/2022/03/07/securisez-auditez-automatisez-vos-bases-postgresql-1/
 2022-03-27T12:26:52.000000Z	https://www.nbs-system.com/publications/expertise/creation-de-sa-cle-gpg-et-utilisation-avec-passwordstore-enigmail-gpg-agent/
 2022-09-18T09:41:38.000000Z	1ere gelée de la saison vers 1000m
 2022-09-18T09:44:22.000000Z	Yubikey Linux auth (pam sudo gnome) https://www.aukfood.fr/yubikey-parametrage-authentification-linux/
