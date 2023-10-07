@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-04T22:13:18+02:00</updated>
+	<updated>2023-10-07T13:27:20+02:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -17,6 +17,7 @@
 &lt;li&gt;&lt;a href=&quot;https://typora.io&quot;&gt;Typora&lt;/a&gt; : Mon éditeur Markdown préféré&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://obsidian.md/&quot;&gt;Obsidian&lt;/a&gt; : qui pourrait devenir mon éditeur préféré&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://pandoc.org&quot;&gt;Pandoc&lt;/a&gt; : pour générer de magnifiques PDF&lt;/li&gt;
+&lt;li&gt;pdfunite : pour unifier plusieurs pdf&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Navigation&lt;/h3&gt;
 &lt;ul&gt;

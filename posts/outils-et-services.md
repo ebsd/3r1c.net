@@ -6,6 +6,7 @@ En ce milieu de 4ème semaine de **confinement**~, ...plus tard, je fais le poin
 - [Typora](https://typora.io) : Mon éditeur Markdown préféré
 - [Obsidian](https://obsidian.md/) : qui pourrait devenir mon éditeur préféré
 - [Pandoc](https://pandoc.org) : pour générer de magnifiques PDF
+- pdfunite : pour unifier plusieurs pdf
 ### Navigation
 - [qutebrowser](https://qutebrowser.org/)
 - Firefox
