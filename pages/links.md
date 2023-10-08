@@ -56,3 +56,7 @@
 
 ## Search engines
 [wiby.me](https://wiby.me)
+
+## vim
+
+[vim anti patterns](https://blog.sanctum.geek.nz/vim-anti-patterns/)
