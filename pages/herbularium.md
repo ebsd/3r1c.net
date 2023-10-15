@@ -5,4 +5,21 @@
 - le souci pour cicatriser
 - la verveine officinale ou le thym pour apaiser les rhumes
 - l'armoise ou la mélisse pour soulager les douleurs menstruations
-- l'hysope
+- l'hysope contre les affections bronchiques et le nez bouché, et pour réhausser les sauces
+- la lavande contre les troubles du sommeil et pour aromatiser les desserts
+- la mélisse contre les troubles nerveux du sommeil et digestifs, mais aussi pour assaisonner les salades
+- la menthe contre les troubles de la digestion et pour parfumer la cuisine
+- le romarin pour son action sur le foie et son côté stimulant et pour aromatiser les viandes
+- la sauge officinale contre les problèmes digestifs et les règles difficiles et pour donner du goût aux farces
+- le thym pour éloigner les rhumes et composer les bouquets garnis
+- et aussi :
+	- l'aneth
+	- l'armoise commune
+	- la camomille romaine
+	- le fenouil doux
+	- la ciboulette
+	- la marjolaine vraie
+	- le serpolet
+	- le souci
+	- la verveine odorante
+	- la verveine officinale
