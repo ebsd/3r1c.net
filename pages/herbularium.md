@@ -1,5 +1,5 @@
 # Herbularium
-
+Se préparer à vivre dans ce [nouveau monde](le-monde-de-demain.html), c'est aussi apprendre à cultiver quelques plantes bien utiles.
 - menthe, absinthe et chardon pour les maux de ventres
 - la petite camomille, la verveine officinale et la benoîte pour la fièvre
 - le souci pour cicatriser
