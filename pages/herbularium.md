@@ -13,13 +13,13 @@ Se préparer à vivre dans ce [nouveau monde](le-monde-de-demain.html), c'est au
 - la sauge officinale contre les problèmes digestifs et les règles difficiles et pour donner du goût aux farces
 - le thym pour éloigner les rhumes et composer les bouquets garnis
 - et aussi :
-	- l'aneth
-	- l'armoise commune
-	- la camomille romaine
-	- le fenouil doux
-	- la ciboulette
-	- la marjolaine vraie
-	- le serpolet
-	- le souci
-	- la verveine odorante
-	- la verveine officinale
+  - l'aneth
+  - l'armoise commune
+  - la camomille romaine
+  - le fenouil doux
+  - la ciboulette
+  - la marjolaine vraie
+  - le serpolet
+  - le souci
+  - la verveine odorante
+  - la verveine officinale
