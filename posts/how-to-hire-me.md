@@ -10,4 +10,4 @@ I currently have a stable job that pays reasonably well for my locale. If you’
 - citizenship, visa, and clearance requirements
 - why the position is open
 
-Please do not send me contract-to-hire jobs, send email to my work accounts, or address me as "Matt". Such familiarity toward a stranger is unprofessional and unwelcome.
+Please do not send me contract-to-hire jobs, send email to my work accounts, or call me by my first name. Such familiarity toward a stranger is unprofessional and unwelcome.
