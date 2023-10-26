@@ -60,7 +60,9 @@
 [wiby.me](https://wiby.me)
 
 ## vim
-
 [vim anti patterns](https://blog.sanctum.geek.nz/vim-anti-patterns/)
 
 [https://ronaldsvilcins.com/2023/10/01/ultimate-vim-cheat-sheet/](https://ronaldsvilcins.com/2023/10/01/ultimate-vim-cheat-sheet/)
+
+## encryption
+https://github.com/drduh/YubiKey-Guide
