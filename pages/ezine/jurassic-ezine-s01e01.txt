@@ -72,16 +72,17 @@ Véhicule électrique : un véhicule vert ?
 Tout d'abord, je voudrais préciser que je suis utilisateur d'un VE (véhicule
 électrique) depuis presque 2 ans. Je pense sincèrement que ce type de
 motorisation ne sauvera pas le monde. Bien qu'il offre des avantages comme ne
-plus émettre de particules fines, le VE reste un moyen de transport qui nécessite
-des routes, des autoroutes, des parkings et tout cela continue à détruire la
-biodiversité. Le problème ne réside pas tellement dans la source d'énergie
-(pétrole ou électrique), mais plutôt dans ce qu'on fait de cette énergie. Alors
-évidemment on sait qu'on va sauver des milliers de personnes lorsqu'on émettra
-plus de particules fines, mais en attendant on continue à générer du co2, des
-batteries de 500kg, à raser les forêts : et on nous vend de la voiture "verte".
-Ne soyons pas dupe, les VE ne sont pas écologiques et aucun moyen de transport
-ne le sera jamais. Après ces bonnes nouvelles je vous propose quelques reco pour
-le rechargement de votre VE :)
+plus émettre de particules fines, le VE reste un moyen de transport qui
+nécessite des routes, des autoroutes, des parkings et tout cela continue à
+détruire la biodiversité. Le problème ne réside pas tellement dans la source
+d'énergie (pétrole ou électrique), mais plutôt dans ce qu'on fait de cette
+énergie. Alors évidemment on sait qu'on va sauver des milliers de personnes
+lorsqu'on émettra plus de particules fines, mais en attendant on continue à
+générer du co2, des batteries de 500kg, à raser les forêts : et on nous vend de
+la voiture "verte".  Ne soyons pas dupe, les VE ne sont pas écologiques et
+aucun moyen de transport ne le sera jamais (hormis peut être le vélo). Après
+ces bonnes nouvelles je vous propose quelques reco pour le rechargement de
+votre VE :)
 
 Recommandations de recharge de véhicule électrique
 ==================================================
@@ -100,4 +101,3 @@ Prochain numéro
 Dans le prochain numéro votre serviteur abordera (si tout va bien) :
 
 - le smoll web
-
