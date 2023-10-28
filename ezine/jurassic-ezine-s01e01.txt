@@ -6,6 +6,7 @@ Sommaire
 1. Qu'est-ce que c'est ?
 2. De-googlisation
 3. Recommandations de recharge de véhicule électrique
+4. Véhicule électrique : un véhicule vert ?
 
 Qu'est-ce que c'est ?
 ======================
@@ -61,6 +62,17 @@ Je réfléchis toujours à une alternative auto-hébergée. Mais qui ne génère
 Recommandations de recharge de véhicule électrique
 ==================================================
 
+L'objet de l'article, est de noter mes quelques recommandations d'usage de la
+batterie d'un véhucule électrique afin de conserver un bon niveau de santé.
+
+- Recharger au max à 80%, sauf si on utilise les 20% de 80 à 100% dans les 24h
+- Ne pas stocker les derniers 20% plus de 24h.
+- Lorsque le véhicule ne bouge pas durablement, charger entre 55 et 70%.
+- Eviter les recharges sur courant continu (DC) : les recharges à plus de 22kw.
+
+Véhicule électrique : un véhicule vert ?
+========================================
+
 Tout d'abord, je voudrais préciser que je suis utilisateur d'un VE (véhicule
 électrique) depuis presque 2 ans. Je pense sincèrement que ce type de
 motorisation ne sauvera pas le monde. Bien qu'elle offre des avantages comme ne
@@ -71,11 +83,4 @@ biodiversité. Le problème ne réside pas tellement dans la source d'énergie
 évidemment on sait qu'on va sauver des milliers de personnes lorsqu'on émettra
 plus de particules fines, en attendant on continue à générer du co2, des
 batteries de 500kg, et on nous vend de la voiture "verte". Ne soyons pas dupe,
-les VE ne sont pas écologiques. L'objet de l'article, après cette introduction
-enjouante, était de noter mes quelques recommandations d'usage de la batterie
-afin de conserver un bon niveau de santé.
-
-- Recharger au max à 80%, sauf si on "vide" les 20% de 80 à 100% dans les 24h
-- Ne pas stocker les derniers 20% plus de 24h.
-- Lorsque le véhicule ne bouge pas durablement, charger entre 55 et 70%.
-- Eviter les recharges sur courant continu (DC) : les recharges à plus de 22kw.
+les VE ne sont pas écologiques.
