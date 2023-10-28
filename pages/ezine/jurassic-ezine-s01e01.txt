@@ -3,17 +3,21 @@ Jurassic H. S01E01 - Novembre 2023
 Sommaire
 ========
 
-1. Introduction
+1. Qu'est-ce que c'est ?
 2. De-googlisation
+3. Recommandations de recharge de véhicule électrique
 
-Introduction
-============
+Qu'est-ce que c'est ?
+======================
 
-Ceci est un simple document qui me permet de retracer mes activités sur une
-période de 1 à 2 mois. A mon sens, elles peuvent être utiles à d'autres alors je
-partage ce document. Toute participation est la bienvenue, soit par l'ajout de
-contenu (pull request), soit par relecture et corrections des éventuelles
-coquilles (pull request aussi :-).
+Ceci est un simple document qui me permet de "tracer" mes activités sur une
+période de 1 à 2 mois. A mon sens, elles peuvent être utiles à d'autres
+ alors les partage via ce modeste document. Toute participation est la
+bienvenue, soit par l'ajout de contenu (pull request), soit par relecture et/
+ou corrections des éventuelles coquilles (pull request aussi :-).
+
+Les sujets abordés sont : informatique en général, plus particulièrement la
+sécurité.
 
 En espérant que ceci soit utile...
 
@@ -32,7 +36,7 @@ Exit maps
 
 Je n'en suis qu'à mes premiers pas :-) J'ai un tout petit peu progressé du côté
 de mon smartphone. Une des grandes interrogations étaient de trouver une
-alternative à maps. C'est chose faite avec "Organic Maps", disponible sur
+alternative à maps. C'est chose faite avec **Organic Maps**, disponible sur
 F-Droid.
 
 Il faut donc installer F-Droid dans un 1er temps. Puis, lui donner
@@ -47,4 +51,31 @@ J'en profite pour faire part également de ma découverte de ces applications :
 - Mull, un navigateur orienté "vie privée" basé sur Mozilla
 - Sky Map, une fenêtre sur votre ciel
 - New Pipe, un client youtube
+
+gmail
+-----
+
+Je réfléchis toujours à une alternative auto-hébergée. Mais qui ne génère pas
+"trop" de maintenance. Exim ?
+
+Recommandations de recharge de véhicule électrique
+==================================================
+
+Tout d'abord, je voudrais préciser que je suis utilisateur d'un VE (véhicule
+électrique) depuis presque 2 ans. Je pense sincèrement que ce type de
+motorisation ne sauvera pas le monde. Bien qu'elle offre des avantages comme ne
+plus émettre de particules fines, elle reste un moyen de transport qui nécessite
+des routes, des autoroutes, des parkings et tout celà continue à détruire la
+biodiversité. Le problème ne réside pas tellement dans la source d'énergie
+(pétrole ou électrique), mais plutôt dans ce qu'on fait de cette énergie. Alors
+évidemment on sait qu'on va sauver des milliers de personnes lorsqu'on émettra
+plus de particules fines, en attendant on continue à générer du co2, des
+batteries de 500kg, et on nous vend de la voiture "verte". Ne soyons pas dupe,
+les VE ne sont pas écologiques. L'objet de l'article, après cette introduction
+enjouante, était de noter mes quelques recommandations d'usage de la batterie
+afin de conserver un bon niveau de santé.
+
+- Recharger au max à 80%, sauf si on "vide" les 20% de 80 à 100% dans les 24h
+- Ne pas stocker les derniers 20% plus de 24h.
+- Lorsque le véhicule ne bouge pas durablement, charger entre 55 et 70%.
 
