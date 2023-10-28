@@ -1,7 +1,6 @@
 # Wrap Existing Text at 80 Characters in Vim
 
 You have an existing block of text or code in vim. You want to re-format it to wrap to 80-characters.
-
 ```
 :set textwidth=80
 ```

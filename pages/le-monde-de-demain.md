@@ -1,6 +1,6 @@
 # Le monde de demain, le monde d'après ?
 
-_Ceci est une fiction. Toute ressemblence avec une réalité serait purement fortuite.__
+_Ceci est une fiction. Toute ressemblence avec une réalité alternative serait purement fortuite.__
 
 Alors voyez-vous les temps post-covid devaient définir le monde d'après. Un monde nouveau dans lequel on aurait tiré les enseignements de la pandémie. Mais quels seraient-ils ? La pénurie de paracétamol ? Les lacunes de l'industrie pharmaceutique ? Le télétravail qui réduit les émissions de gaz à effets de serre ? Tels seraient les challenges à relever...
 
