@@ -1,21 +1,24 @@
-Jurassic H. S01E01 - Novembre 2023
+Jurassic H. S01E01 - Octobre 2023
 
 Sommaire
 ========
 
+Dans ce numéro :
+
 1. Qu'est-ce que c'est ?
 2. De-googlisation
-3. Recommandations de recharge de véhicule électrique
-4. Véhicule électrique : un véhicule vert ?
+3. Véhicule électrique : un véhicule vert ?
+4. Recommandations de recharge de véhicule électrique
 
 Qu'est-ce que c'est ?
-======================
+=====================
 
-Ceci est un simple document qui me permet de "tracer" mes activités sur une
-période de 1 à 2 mois. A mon sens, elles peuvent être utiles à d'autres
- alors les partage via ce modeste document. Toute participation est la
-bienvenue, soit par l'ajout de contenu (pull request), soit par relecture et/
-ou corrections des éventuelles coquilles (pull request aussi :-).
+Ceci est un simple document qui me permet de "tracer" mes activités, mes
+découvertes sur une période de 1 à 2 mois. A mon sens, elles peuvent être
+utiles à d'autres alors les partage via ce modeste document. Toute
+participation est la bienvenue, soit par l'ajout de contenu (pull request),
+soit par relecture et/ ou corrections des éventuelles coquilles (pull request
+aussi :-).
 
 Les sujets abordés sont : informatique en général, plus particulièrement la
 sécurité.
@@ -26,9 +29,9 @@ De-googlisation
 ===============
 
 Je ne sais pas si c'est correctement orthographié, mais vous voyez bien l'idée.
-Depuis quelques temps j'explore les pistes pour sortir de l'emprise de gouglle.
+Depuis quelques temps j'explore les pistes pour sortir de l'emprise du gouglle.
 
-Aujourd'hui parlons smarphone. Abandonner android c'est pas encore pour demain
+Aujourd'hui parlons smartphone. Abandonner android c'est pas encore pour demain
 selon mes quelques lectures. Cepandant, on peut sans doute commencer par
 quelques applications.
 
@@ -57,7 +60,28 @@ gmail
 -----
 
 Je réfléchis toujours à une alternative auto-hébergée. Mais qui ne génère pas
-"trop" de maintenance. Exim ?
+"trop" de maintenance. Exim ?  Il faut dire que c'est un peu compliqué car je ne
+dispose que d'une connexion 4G (pas de fibre ou adsl) et en conséquence je n'ai
+pas vraiment d'IP publique, et celle qui est vue de "l'extérieure" est en fait
+partagée avec des centaines de personnes. J'aurais donc sans doute à utiliser un
+VPS en tant que relai smtp. Ca ne simplifie pas les choses.
+
+Véhicule électrique : un véhicule vert ?
+========================================
+
+Tout d'abord, je voudrais préciser que je suis utilisateur d'un VE (véhicule
+électrique) depuis presque 2 ans. Je pense sincèrement que ce type de
+motorisation ne sauvera pas le monde. Bien qu'il offre des avantages comme ne
+plus émettre de particules fines, le VE reste un moyen de transport qui nécessite
+des routes, des autoroutes, des parkings et tout cela continue à détruire la
+biodiversité. Le problème ne réside pas tellement dans la source d'énergie
+(pétrole ou électrique), mais plutôt dans ce qu'on fait de cette énergie. Alors
+évidemment on sait qu'on va sauver des milliers de personnes lorsqu'on émettra
+plus de particules fines, mais en attendant on continue à générer du co2, des
+batteries de 500kg, à raser les forêts : et on nous vend de la voiture "verte".
+Ne soyons pas dupe, les VE ne sont pas écologiques et aucun moyen de transport
+ne le sera jamais. Après ces bonnes nouvelles je vous propose quelques reco pour
+le rechargement de votre VE :)
 
 Recommandations de recharge de véhicule électrique
 ==================================================
@@ -70,17 +94,10 @@ batterie d'un véhucule électrique afin de conserver un bon niveau de santé.
 - Lorsque le véhicule ne bouge pas durablement, charger entre 55 et 70%.
 - Eviter les recharges sur courant continu (DC) : les recharges à plus de 22kw.
 
-Véhicule électrique : un véhicule vert ?
-========================================
+Prochain numéro
+===============
 
-Tout d'abord, je voudrais préciser que je suis utilisateur d'un VE (véhicule
-électrique) depuis presque 2 ans. Je pense sincèrement que ce type de
-motorisation ne sauvera pas le monde. Bien qu'elle offre des avantages comme ne
-plus émettre de particules fines, elle reste un moyen de transport qui nécessite
-des routes, des autoroutes, des parkings et tout celà continue à détruire la
-biodiversité. Le problème ne réside pas tellement dans la source d'énergie
-(pétrole ou électrique), mais plutôt dans ce qu'on fait de cette énergie. Alors
-évidemment on sait qu'on va sauver des milliers de personnes lorsqu'on émettra
-plus de particules fines, en attendant on continue à générer du co2, des
-batteries de 500kg, et on nous vend de la voiture "verte". Ne soyons pas dupe,
-les VE ne sont pas écologiques.
+Dans le prochain numéro votre serviteur abordera (si tout va bien) :
+
+- le smoll web
+

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Wrap Existing Text at 80 Characters in Vim</title>
+	<link href="https://jurassi.ch/atom.xml" type="application/atom+xml" rel="alternate" title="Atom feed for blog posts">
+	<style>
+		body {
+			font-family: sans-serif;
+			margin: 0 auto;
+			#max-width: 48rem;
+			max-width: 80ch;
+			line-height: 1.45;
+			padding: 0.5rem 0 1.6rem;
+			#box-shadow: 0 0 2rem 0 #bbb;
+			#border-radius: 0 0 0.6rem 0.6rem;
+		}
+		main {
+			padding: 0 1.4rem;
+			hyphens: auto;
+		}
+		code {
+			background: #eee;
+			padding: 0.3rem;
+			tab-size: 4;
+		}
+		pre code {
+			display: block;
+			overflow-x: auto;
+			padding: 0.3rem 0.6rem;
+		}
+
+		nav ul {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			background: #a11;
+		}
+		nav li {
+			list-style: none;
+		}
+		nav li * {
+			display: block;
+			padding: 0.4rem 0.4rem;
+			color: white;
+		}
+		nav li strong {
+			padding-left: 1.5rem;
+			padding-right: 1rem;
+		}
+		nav a {
+			text-decoration: none;
+		}
+		nav a:hover {
+			background: #ad4949;
+		}
+	</style>
+</head>
+
+<nav>
+	<ul>
+		<li><strong>Jurassi.ch</strong></li>
+		<li><a href="index.html">/home</a></li>
+		<li><a href="about.html">/about</a></li>
+		<li><a href="links.html">/links</a></li>
+		<!--<li><a href="projects.html">/projects</a></li>-->
+		<li><a href="my-little-art.html">/arts</a></li>
+		<li><a href="le-monde-de-demain.html">/le monde de demain</a></li>
+                <li><a href="kit-survie.html">/kit de survie</a></li>
+
+	</ul>
+</nav>
+
+<main>
+<h1>Wrap Existing Text at 80 Characters in Vim</h1>
+<p>You have an existing block of text or code in vim. You want to re-format it to wrap to 80-characters.</p>
+<pre><code>:set textwidth=80
+</code></pre>
+<p>You might want this setting to apply automatically within certain file types like Markdown:</p>
+<pre><code>au BufRead,BufNewFile *.md setlocal textwidth=80
+</code></pre>
+<p>We have that setting in thoughtbot/dotfiles.</p>
+<p>Select the lines of text you want to re-format:</p>
+<pre><code>v
+</code></pre>
+<p>Reformat it:</p>
+<pre><code>gq
+</code></pre>
+<p>Learn more:</p>
+<pre><code>:h gq
+</code></pre>
+<small>Written on draft.</small>
+</main>
