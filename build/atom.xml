@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-28T17:40:03+02:00</updated>
+	<updated>2023-10-28T17:51:27+02:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -10,6 +10,18 @@
 	<entry>
 		<title>How to Hire Me</title>
 		<content type="html">&lt;h1&gt;How to Hire Me&lt;/h1&gt;
+&lt;p&gt;J&#39;occupe actuellement un emploi satisfaisant associé à une rémunération tout à fait convenable. Si vous recherchez à recruter, je vous remercie de fournir les informations suivantes afin que je puisse étudier l&#39;offre et effectuer les recherches d&#39;usage concernant l&#39;entreprise.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;le nom de l&#39;entreprise qui propose l&#39;emploi&lt;/li&gt;
+&lt;li&gt;le salaire et les éventuels avantages&lt;/li&gt;
+&lt;li&gt;les compétences requises&lt;/li&gt;
+&lt;li&gt;les compétences appréciées&lt;/li&gt;
+&lt;li&gt;la part de télé-travail&lt;/li&gt;
+&lt;li&gt;les besoins en déplacements&lt;/li&gt;
+&lt;li&gt;nationalité acceptées, permis de travail éventuels et autres autorisations nécessaires&lt;/li&gt;
+&lt;li&gt;pourquoi le poste est ouvert ?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;S&#39;il vous plaît ne m&#39;écrivez pas sur mes comptes professionnels. &lt;/p&gt;
 &lt;p&gt;I currently have a stable job that pays reasonably well for my locale. If you’re looking to hire, please provide the following information so that I can make an informed decision and do further research to learn about your company.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;the name of the company offering the job&lt;/li&gt;
@@ -20,7 +32,7 @@
 &lt;li&gt;citizenship, visa, and clearance requirements&lt;/li&gt;
 &lt;li&gt;why the position is open&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Please do not send me contract-to-hire jobs, send email to my work accounts, or call me by my first name. Such familiarity toward a stranger is unprofessional and unwelcome.&lt;/p&gt;</content>
+&lt;p&gt;Please do not send email to my work accounts.&lt;/p&gt;</content>
 		<link href="how-to-hire-me.html"/>
 		<id>tag:jurassi.ch,2023-10-26:posts/how-to-hire-me.md</id>
 		<published>2023-10-26T21:02:53+01:00</published>
