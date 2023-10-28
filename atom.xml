@@ -2,11 +2,35 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-28T18:50:18+02:00</updated>
+	<updated>2023-10-28T18:54:21+02:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
 	<id>tag:jurassi.ch,2020-05-23:default-atom-feed</id>
+	<entry>
+		<title>Wrap Existing Text at 80 Characters in Vim</title>
+		<content type="html">&lt;h1&gt;Wrap Existing Text at 80 Characters in Vim&lt;/h1&gt;
+&lt;p&gt;You have an existing block of text or code in vim. You want to re-format it to wrap to 80-characters.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;:set textwidth=80
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You might want this setting to apply automatically within certain file types like Markdown:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;au BufRead,BufNewFile *.md setlocal textwidth=80
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We have that setting in thoughtbot/dotfiles.&lt;/p&gt;
+&lt;p&gt;Select the lines of text you want to re-format:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Reformat it:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gq
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Learn more:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;:h gq
+&lt;/code&gt;&lt;/pre&gt;</content>
+		<link href="wrap-existing-test-at-80-char-in-vim.html"/>
+		<id>tag:jurassi.ch,2023-10-28:posts/wrap-existing-test-at-80-char-in-vim.md</id>
+		<published>2023-10-28T18:50:19+02:00</published>
+		<updated>2023-10-28T18:50:19+02:00</updated>
+	</entry>
 	<entry>
 		<title>How to Hire Me</title>
 		<content type="html">&lt;h1&gt;How to Hire Me&lt;/h1&gt;
