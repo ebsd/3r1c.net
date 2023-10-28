@@ -78,4 +78,4 @@ afin de conserver un bon niveau de santé.
 - Recharger au max à 80%, sauf si on "vide" les 20% de 80 à 100% dans les 24h
 - Ne pas stocker les derniers 20% plus de 24h.
 - Lorsque le véhicule ne bouge pas durablement, charger entre 55 et 70%.
-
+- Eviter les recharges sur courant continu (DC) : les recharges à plus de 22kw.
