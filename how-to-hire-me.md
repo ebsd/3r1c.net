@@ -1,5 +1,19 @@
 # How to Hire Me
 
+J'occupe actuellement un emploi satisfaisant associé à une rémunération tout à fait convenable. Si vous recherchez à recruter, je vous remercie de fournir les informations suivantes afin que je puisse étudier l'offre et effectuer les recherches d'usage concernant l'entreprise.
+
+- le nom de l'entreprise qui propose l'emploi
+- le salaire et les éventuels avantages
+- les compétences requises
+- les compétences appréciées
+- la part de télé-travail
+- les besoins en déplacements
+- nationalité acceptées, permis de travail éventuels et autres autorisations nécessaires
+- pourquoi le poste est ouvert ?
+
+S'il vous plaît ne m'écrivez pas sur mes comptes professionnels. 
+
+
 I currently have a stable job that pays reasonably well for my locale. If you’re looking to hire, please provide the following information so that I can make an informed decision and do further research to learn about your company.
 
 - the name of the company offering the job
@@ -10,4 +24,4 @@ I currently have a stable job that pays reasonably well for my locale. If you’
 - citizenship, visa, and clearance requirements
 - why the position is open
 
-Please do not send me contract-to-hire jobs, send email to my work accounts, or call me by my first name. Such familiarity toward a stranger is unprofessional and unwelcome.
+Please do not send email to my work accounts.
