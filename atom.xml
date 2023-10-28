@@ -2,11 +2,30 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-18T21:57:23+02:00</updated>
+	<updated>2023-10-28T17:12:48+02:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
 	<id>tag:jurassi.ch,2020-05-23:default-atom-feed</id>
+	<entry>
+		<title>How to Hire Me</title>
+		<content type="html">&lt;h1&gt;How to Hire Me&lt;/h1&gt;
+&lt;p&gt;I currently have a stable job that pays reasonably well for my locale. If you’re looking to hire, please provide the following information so that I can make an informed decision and do further research to learn about your company.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the name of the company offering the job&lt;/li&gt;
+&lt;li&gt;salary and benefits on offer&lt;/li&gt;
+&lt;li&gt;required skills&lt;/li&gt;
+&lt;li&gt;optional skills&lt;/li&gt;
+&lt;li&gt;presence and travel requirements&lt;/li&gt;
+&lt;li&gt;citizenship, visa, and clearance requirements&lt;/li&gt;
+&lt;li&gt;why the position is open&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Please do not send me contract-to-hire jobs, send email to my work accounts, or call me by my first name. Such familiarity toward a stranger is unprofessional and unwelcome.&lt;/p&gt;</content>
+		<link href="how-to-hire-me.html"/>
+		<id>tag:jurassi.ch,2023-10-26:posts/how-to-hire-me.md</id>
+		<published>2023-10-26T21:02:53+01:00</published>
+		<updated>2023-10-26T21:07:03+01:00</updated>
+	</entry>
 	<entry>
 		<title>Outils et services</title>
 		<content type="html">&lt;h1&gt;Outils et services&lt;/h1&gt;
