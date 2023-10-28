@@ -152,5 +152,9 @@ cp pages/twtxt.txt build
 mkdir build/img
 cp pages/img/* build/img
 
+# ezine files
+mkdir build/ezine
+cp pages/ezine/* build/ezine
+
 # add CNAME file for github pages hosting
 echo "jurassi.ch" >> build/CNAME
