@@ -74,20 +74,19 @@
 
 <main>
 <h1>Wrap Existing Text at 80 Characters in Vim</h1>
-<p>You have an existing block of text or code in vim. You want to re-format it to wrap to 80-characters.</p>
+<p>Vous avez un bloc de text ou de code existant dans vim. Vous voulez le reformater sur maximum 80 caractères.</p>
 <pre><code>:set textwidth=80
 </code></pre>
-<p>You might want this setting to apply automatically within certain file types like Markdown:</p>
+<p>Vous voudrez peut être cette config pour appliquer automatiquement la limite de 80 pour certain type de fichiers.</p>
 <pre><code>au BufRead,BufNewFile *.md setlocal textwidth=80
 </code></pre>
-<p>We have that setting in thoughtbot/dotfiles.</p>
-<p>Select the lines of text you want to re-format:</p>
+<p>Sélectionner les lignes à reformater avec la touche v.</p>
 <pre><code>v
 </code></pre>
-<p>Reformat it:</p>
+<p>Refomater:</p>
 <pre><code>gq
 </code></pre>
-<p>Learn more:</p>
+<p>Aide:</p>
 <pre><code>:h gq
 </code></pre>
 <small>Written on 2023-10-28.</small>
