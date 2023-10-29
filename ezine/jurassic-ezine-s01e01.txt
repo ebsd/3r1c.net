@@ -15,7 +15,7 @@ Qu'est-ce que c'est ?
 
 Ceci est un simple document qui me permet de "tracer" mes activités, mes
 découvertes sur une période de 1 à 2 mois. A mon sens, elles peuvent être
-utiles à d'autres alors les partage via ce modeste document. Toute
+utiles à d'autres alors je les partage via ce modeste document. Toute
 participation est la bienvenue, soit par l'ajout de contenu (pull request),
 soit par relecture et/ ou corrections des éventuelles coquilles (pull request
 aussi :-).
