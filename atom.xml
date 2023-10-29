@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-28T18:55:48+02:00</updated>
+	<updated>2023-10-29T09:41:11+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -29,7 +29,7 @@
 		<link href="wrap-existing-test-at-80-char-in-vim.html"/>
 		<id>tag:jurassi.ch,2023-10-28:posts/wrap-existing-test-at-80-char-in-vim.md</id>
 		<published>2023-10-28T18:50:19+02:00</published>
-		<updated>2023-10-28T18:50:19+02:00</updated>
+		<updated>2023-10-28T18:55:49+02:00</updated>
 	</entry>
 	<entry>
 		<title>How to Hire Me</title>
