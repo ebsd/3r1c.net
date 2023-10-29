@@ -11,5 +11,4 @@ Mes amis il va falloir se <a href="kit-survie.html">préparer à vivre ou surviv
 
 Mais bien avant la fin de la croissance économique, l'humanité devra faire face à une crise majeure liée à l'immigration climatique. Des centaines de milliers de personnes qui se déplacent, ça risque de se passer dans la douleur. Les business models n'y résisteront probablement pas. Ce qui risque d'accentuer ou de précipiter la fin de notre modèle.
 
-Mais ce n'est rien continuons à fermer les yeux, c'est le meilleur moyen de subir ce changement cataclysmique.
-
+Mais ce n'est rien continuons à fermer les yeux, c'est le meilleur moyen de subir ce changement cataclysmique, plutôt que de l'anticiper et l'accompagner. Continuons à produire à outrance, à piller les ressources, détruire la plupart des formes de vie que cette planète accueille.
