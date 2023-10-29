@@ -4,10 +4,12 @@ _Ceci est une fiction. Toute ressemblence avec une réalité alternative serait 
 
 Voyez-vous les temps post-covid devaient définir le monde d'après. Un monde nouveau dans lequel on aurait tiré les enseignements de la pandémie. Mais quels seraient-ils ? La pénurie de paracétamol ? Les lacunes de l'industrie pharmaceutique ? Le télétravail qui réduit les émissions de gaz à effets de serre ? 
 
-Peu importe les enseignements, puisque visiblement rien ou si peu a changé. Ce qui me paraît plus probable en tout cas, c'est qu'un tout autre changement, et celui-ci en sera un véritable, est déjà en marche.
-Ce monde d'après auquel je pense, c'est un monde dans lequel mous avons terminé le travail. La planète est ravagée, et ses ressources sont épuiseés. Je ne sais pas prédire quand, mais il me semble que c'est un fait mathématique. Notre société basée sur la croissance économique ne compte que sur des ressources épuisables pour "croître". On va donc inévitablement atteindre un stade auquel il n'y aura plus rien à épuiser. On ne pourra plus fabriquer des trucs inutiles en plastique au bout du monde pour les renvendre à un autre bout, pour finalement les mettre à la poubelle. La croissance économique ne sera plus.
+Peu importe les enseignements, puisque visiblement rien ou si peu a changé. Un tout autre changement paraît bien plus probable, et celui-ci en sera un véritable puisqu'inévitable, est déjà en marche.
+Ce monde d'après auquel je pense, c'est un monde dans lequel mous avons terminé le travail. La planète est ravagée, et ses ressources sont épuiseés. Notre société basée sur la croissance économique ne compte que sur des ressources épuisables pour "croitre". On va donc inévitablement atteindre un stade auquel il n'y aura plus rien à épuiser. On ne pourra plus fabriquer des trucs inutiles en plastique au bout du monde pour les renvendre à un autre bout, pour finalement les mettre à la poubelle. La croissance économique ne sera plus.
 
-Mes amis il va falloir se <a href="kit-survie.html">préparer à vivre ou survivre dans ce monde de demain</a>, et a croître d'une autre manière. Car rien ne sera plus comme on l'a connu. Les plus grands de ce monde se retrouveront comme les moins grands : au plus bas, à niveau de vie égal.
+Mes amis il va falloir se <a href="kit-survie.html">préparer à vivre ou survivre dans ce monde de demain</a>, et à croître d'une autre manière, car rien ne sera plus comme on l'a connu. Les plus grands de ce monde se retrouveront comme les moins grands : au plus bas, à niveau de vie égal.
 
-Bien avant la fin de la croissance économique, l'humanité devra faire face à une crise majeure liée à l'immigration climatique. Des centaines de milliers de personnes qui se déplacent, ça risque de se passer dans la douleur. Les business models n'y résisteront probablement pas. Ce qui risque d'accentuer ou de précipiter la fin de la "croissance".
+Mais bien avant la fin de la croissance économique, l'humanité devra faire face à une crise majeure liée à l'immigration climatique. Des centaines de milliers de personnes qui se déplacent, ça risque de se passer dans la douleur. Les business models n'y résisteront probablement pas. Ce qui risque d'accentuer ou de précipiter la fin de notre modèle.
+
+Mais ce n'est rien continuons à fermer les yeux, c'est le meilleur moyen de subir ce changement cataclysmique.
 
