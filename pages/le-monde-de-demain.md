@@ -9,5 +9,5 @@ Ce monde d'après auquel je pense, c'est un monde dans lequel mous avons termin�
 
 Mes amis il va falloir se <a href="kit-survie.html">préparer à vivre ou survivre dans ce monde de demain</a>, et a croître d'une autre manière. Car rien ne sera plus comme on l'a connu. Les plus grands de ce monde se retrouveront comme les moins grands : au plus bas, à niveau de vie égal.
 
-Bien avant la fin de la croissance économique, l'humanité devra faire face à une crise majeure liée à l'immigration climatique. Des centaines de milliers de personnes qui se déplacent, ça risque de se passer dans la douleur. Les business models n'y résisteront probablement pas. Ce qui risque d'accentuer ou de précipiter la fin de la "croîssance".
+Bien avant la fin de la croissance économique, l'humanité devra faire face à une crise majeure liée à l'immigration climatique. Des centaines de milliers de personnes qui se déplacent, ça risque de se passer dans la douleur. Les business models n'y résisteront probablement pas. Ce qui risque d'accentuer ou de précipiter la fin de la "croissance".
 
