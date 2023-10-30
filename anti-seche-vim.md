@@ -45,4 +45,4 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 - Indenter (tabulation) un bloc de texte : sélectionner le texte avec `V`, puis `jj>`
 - Déplacer le curseur librement : `set virtualedit=all`
 
-Tags: linux
+Sources multiples dont : https://blog.sanctum.geek.nz/vim-anti-patterns/
