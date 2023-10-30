@@ -2,6 +2,9 @@
 
 Profitons de cette période de **confinement** numéro 1 pour réviser.
 
+- Mode insertion : `i`
+- Mode insertion au début de ligne : `I`
+- Revenir au mode normal : `ESC` ou CTRL+[
 - Se déplacer au mot suivant : `w`
 - Se déplacer au mot précédant : `b`
 - Se déplacer au caractère précédant / suivant : `F` / `f`
