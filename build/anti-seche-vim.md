@@ -4,10 +4,13 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 
 - Se déplacer au mot suivant : `w`
 - Se déplacer au mot précédant : `b`
+- Se déplacer au caractère précédant / suivant : `F` / `f`
 - Fin de ligne : `$`
 - Début de ligne : `^`
 - Aller à la ligne n : `nG`
 - Aller à la 1ere ligne : `1G`
+- Aller au paragraphe précédant / suivant : `{}`
+- Aller à l'écran précédant / suivant : CTRL+F /CTRL+B
 - Dernière : `G`
 - Undo : `u`
 - Joindre la ligne suivante à la ligne courrante : `J`
