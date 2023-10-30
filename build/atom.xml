@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-30T20:55:31+01:00</updated>
+	<updated>2023-10-30T20:56:44+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -299,6 +299,58 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 		<updated>2023-09-12T12:47:18+02:00</updated>
 	</entry>
 	<entry>
+		<title>Antisèche vim</title>
+		<content type="html">&lt;h1&gt;Antisèche vim&lt;/h1&gt;
+&lt;p&gt;Profitons de cette période de &lt;strong&gt;confinement&lt;/strong&gt; numéro 1 pour réviser.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Se déplacer au mot suivant : &lt;code&gt;w&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Se déplacer au mot précédant : &lt;code&gt;b&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Se déplacer au caractère précédant / suivant : &lt;code&gt;F&lt;/code&gt; / &lt;code&gt;f&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Fin de ligne : &lt;code&gt;$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Début de ligne : &lt;code&gt;^&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Aller à la ligne n : &lt;code&gt;nG&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Aller à la 1ere ligne : &lt;code&gt;1G&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Aller au paragraphe précédant / suivant : &lt;code&gt;{}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Aller à l&#39;écran précédant / suivant : CTRL+F /CTRL+B&lt;/li&gt;
+&lt;li&gt;Dernière : &lt;code&gt;G&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Undo : &lt;code&gt;u&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Joindre la ligne suivante à la ligne courrante : &lt;code&gt;J&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Numéro de ligne : &lt;code&gt;Ctrl-g&lt;/code&gt; ou &lt;code&gt;:set number&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copier la sélection : &lt;code&gt;y&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copier la ligne : &lt;code&gt;yy&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copier n lignes : &lt;code&gt;nyy&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copier le mot : &lt;code&gt;yw&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copier n mots : &lt;code&gt;nyw&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Coller après le curseur : &lt;code&gt;p&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Coller avant le curseur &lt;code&gt;P&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer la ligne : &lt;code&gt;dd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer le reste de la ligne : &lt;code&gt;d$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer depuis le début de la ligne : &lt;code&gt;d^&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer jusqu&#39;à la fin du fichier : &lt;code&gt;dG&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer depuis le début du fichier : &lt;code&gt;d1G&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer n lignes : &lt;code&gt;ndd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer n mots : &lt;code&gt;ndw&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Rechercher vers le bas : &lt;code&gt;/chaine&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Rechercher vers le haut : &lt;code&gt;?chaine&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Répéter la recherche : &lt;code&gt;n&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Repéter la recherche dans la direction inverse : &lt;code&gt;N&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Désactiver la sensibilité à la casse : &lt;code&gt;:set ignorecase&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Un peu plus loin&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Supprimer les espaces à la fin de chaque ligne : &lt;code&gt;:%s/\s\+$//e&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Idem au début de chaque ligne : &lt;code&gt;:%s/^\s+//e&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Afficher un guide d&#39;indentation (tab) : &lt;code&gt;:set listchars=tab:\|\` puis  &lt;/code&gt;:set list&lt;code&gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Indenter (tabulation) un bloc de texte : sélectionner le texte avec &lt;code&gt;V&lt;/code&gt;, puis &lt;code&gt;jj&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Déplacer le curseur librement : &lt;code&gt;set virtualedit=all&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Tags: linux&lt;/p&gt;</content>
+		<link href="anti-seche-vim.html"/>
+		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
+		<published>2023-09-11T19:01:55+02:00</published>
+		<updated>2023-10-30T20:55:31+01:00</updated>
+	</entry>
+	<entry>
 		<title>[en] eCPPT course and exam review</title>
 		<content type="html">&lt;h1&gt;[en] eCPPT course and exam review&lt;/h1&gt;
 &lt;p&gt;I decided to write this [eCPPT][1] course review after passing the exam. It&#39;s a totally independent review, I have nothing to gain.&lt;/p&gt;
@@ -454,58 +506,6 @@ $ mkdir -p /tmp/remotebackup/rootfs
 &lt;p&gt;Tags: backup, cloud, rclone, gocryptfs&lt;/p&gt;</content>
 		<link href="chiffrement-des-backups-dans-le-cloud.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/chiffrement-des-backups-dans-le-cloud.md</id>
-		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-09-11T19:01:55+02:00</updated>
-	</entry>
-	<entry>
-		<title>Antisèche vim</title>
-		<content type="html">&lt;h1&gt;Antisèche vim&lt;/h1&gt;
-&lt;p&gt;Profitons de cette période de &lt;strong&gt;confinement&lt;/strong&gt; numéro 1 pour réviser.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Se déplacer au mot suivant : &lt;code&gt;w&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Se déplacer au mot précédant : &lt;code&gt;b&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Se déplacer au caractère précédant / suivant : &lt;code&gt;F&lt;/code&gt; / &lt;code&gt;f&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Fin de ligne : &lt;code&gt;$&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Début de ligne : &lt;code&gt;^&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Aller à la ligne n : &lt;code&gt;nG&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Aller à la 1ere ligne : &lt;code&gt;1G&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Aller au paragraphe précédant / suivant : &lt;code&gt;{}&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Aller à l&#39;écran précédant / suivant : CTRL+F /CTRL+B&lt;/li&gt;
-&lt;li&gt;Dernière : &lt;code&gt;G&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Undo : &lt;code&gt;u&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Joindre la ligne suivante à la ligne courrante : &lt;code&gt;J&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Numéro de ligne : &lt;code&gt;Ctrl-g&lt;/code&gt; ou &lt;code&gt;:set number&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Copier la sélection : &lt;code&gt;y&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Copier la ligne : &lt;code&gt;yy&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Copier n lignes : &lt;code&gt;nyy&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Copier le mot : &lt;code&gt;yw&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Copier n mots : &lt;code&gt;nyw&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Coller après le curseur : &lt;code&gt;p&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Coller avant le curseur &lt;code&gt;P&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Supprimer la ligne : &lt;code&gt;dd&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Supprimer le reste de la ligne : &lt;code&gt;d$&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Supprimer depuis le début de la ligne : &lt;code&gt;d^&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Supprimer jusqu&#39;à la fin du fichier : &lt;code&gt;dG&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Supprimer depuis le début du fichier : &lt;code&gt;d1G&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Supprimer n lignes : &lt;code&gt;ndd&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Supprimer n mots : &lt;code&gt;ndw&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Rechercher vers le bas : &lt;code&gt;/chaine&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Rechercher vers le haut : &lt;code&gt;?chaine&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Répéter la recherche : &lt;code&gt;n&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Repéter la recherche dans la direction inverse : &lt;code&gt;N&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Désactiver la sensibilité à la casse : &lt;code&gt;:set ignorecase&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4&gt;Un peu plus loin&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;Supprimer les espaces à la fin de chaque ligne : &lt;code&gt;:%s/\s\+$//e&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Idem au début de chaque ligne : &lt;code&gt;:%s/^\s+//e&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Afficher un guide d&#39;indentation (tab) : &lt;code&gt;:set listchars=tab:\|\` puis  &lt;/code&gt;:set list&lt;code&gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Indenter (tabulation) un bloc de texte : sélectionner le texte avec &lt;code&gt;V&lt;/code&gt;, puis &lt;code&gt;jj&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Déplacer le curseur librement : &lt;code&gt;set virtualedit=all&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Tags: linux&lt;/p&gt;</content>
-		<link href="anti-seche-vim.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
