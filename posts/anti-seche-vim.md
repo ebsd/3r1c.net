@@ -18,7 +18,7 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 - Aller à l'écran précédant / suivant : `CTRL+F` / `CTRL+B`
 - Dernière : `G`
 - Undo : `u`
-- Joindre la ligne suivante à la ligne courrante : `J`
+- Joindre la ligne suivante à la ligne courante : `J`
 - Numéro de ligne : `Ctrl-g` ou `:set number`
 - Copier la sélection : `y`
 - Copier la ligne : `yy`
@@ -37,15 +37,23 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 - Rechercher vers le bas : `/chaine`
 - Rechercher vers le haut : `?chaine`
 - Répéter la recherche : `n`
-- Repéter la recherche dans la direction inverse : `N`
+- Répéter la recherche dans la direction inverse : `N`
 - Désactiver la sensibilité à la casse : `:set ignorecase`
 
-#### Un peu plus loin
+## Un peu plus loin
 - Supprimer les espaces à la fin de chaque ligne : `:%s/\s\+$//e`
 - Idem au début de chaque ligne : `:%s/^\s+//e`
 - Afficher un guide d'indentation (tab) : `:set listchars=tab:\|\` puis  `:set list`
 - Indenter (tabulation) un bloc de texte : sélectionner le texte avec `V`, puis `jj>`
 - Déplacer le curseur librement : `set virtualedit=all`
 - Fixer une largeur de 80 caractères : `set textwidth=80`
+
+## Spell check
+
+Dans ~/.vimrc
+```
+set spell
+set spelllang+=fr
+```
 
 Sources multiples dont : https://blog.sanctum.geek.nz/vim-anti-patterns/
