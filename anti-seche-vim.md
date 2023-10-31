@@ -10,6 +10,7 @@
 - Rechercher le mod sous le curseur : `#` ou `*`
 - Remplacer et insérer le mot sous le curseur : `cw`
 - Remplacer et insérer le mot sous le curseur et le mot suivant : `c2w`
+- Remplacer la ligne et insérer : `c$`
 - Copier n lignes : `nyy`
 
 ## Détails 
@@ -57,6 +58,7 @@
 - Désactiver la sensibilité à la casse : `:set ignorecase`
 - Remplacer et insérer à partir du curseur : `cw`
 - Remplacer et insérer à partir du curseur jusqu'au second mot : `c2w`
+- Remplacer la ligne et insérer : `c$`
 
 ## Un peu plus loin
 - Supprimer les espaces à la fin de chaque ligne : `:%s/\s\+$//e`
