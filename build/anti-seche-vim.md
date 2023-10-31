@@ -21,7 +21,9 @@
 - Se déplacer à la fin du mot suivant : `e`
 - Se déplacer au caractère précédant / suivant : `F` / `f`
 - Se déplacer au mot suivant : `w`
+- Se déplacer 9 mots plus loin : `9w`
 - Se déplacer au mot précédant : `b`
+- Se déplacer de 8 lignes : `8j`
 - Fin de ligne : `$`
 - Début de ligne : `^`
 - Aller à la ligne n : `nG`
@@ -44,8 +46,9 @@
 - Supprimer depuis le début de la ligne : `d^`
 - Supprimer jusqu'à la fin du fichier : `dG`
 - Supprimer depuis le début du fichier : `d1G`
-- Supprimer n lignes : `ndd`
-- Supprimer n mots : `ndw`
+- Supprimer 4 lignes : `4dd`
+- Supprimer 3 mots : `3dw`
+- Supprimer les 3 mots précédent : `d3b`
 - Rechercher le mod sous le curseur : `#` ou `*`
 - Rechercher vers le bas : `/chaine`
 - Rechercher vers le haut : `?chaine`
@@ -79,4 +82,6 @@ set spelllang+=fr
 Pour obtenir une suggestion de correction `z=`.
 Pour se déplacer à la prochaine erreur `]s` et pour la précédente `[s`.
 
-Sources multiples dont : https://blog.sanctum.geek.nz/vim-anti-patterns/
+Sources multiples dont : 
+https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
+https://blog.sanctum.geek.nz/vim-anti-patterns/

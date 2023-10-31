@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-31T10:51:39+01:00</updated>
+	<updated>2023-10-31T12:18:20+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -322,7 +322,9 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Se déplacer à la fin du mot suivant : &lt;code&gt;e&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Se déplacer au caractère précédant / suivant : &lt;code&gt;F&lt;/code&gt; / &lt;code&gt;f&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Se déplacer au mot suivant : &lt;code&gt;w&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Se déplacer 9 mots plus loin : &lt;code&gt;9w&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Se déplacer au mot précédant : &lt;code&gt;b&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Se déplacer de 8 lignes : &lt;code&gt;8j&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Fin de ligne : &lt;code&gt;$&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Début de ligne : &lt;code&gt;^&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Aller à la ligne n : &lt;code&gt;nG&lt;/code&gt;&lt;/li&gt;
@@ -345,8 +347,9 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Supprimer depuis le début de la ligne : &lt;code&gt;d^&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Supprimer jusqu&#39;à la fin du fichier : &lt;code&gt;dG&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Supprimer depuis le début du fichier : &lt;code&gt;d1G&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Supprimer n lignes : &lt;code&gt;ndd&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Supprimer n mots : &lt;code&gt;ndw&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer 4 lignes : &lt;code&gt;4dd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer 3 mots : &lt;code&gt;3dw&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Supprimer les 3 mots précédent : &lt;code&gt;d3b&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Rechercher le mod sous le curseur : &lt;code&gt;#&lt;/code&gt; ou &lt;code&gt;*&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Rechercher vers le bas : &lt;code&gt;/chaine&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Rechercher vers le haut : &lt;code&gt;?chaine&lt;/code&gt;&lt;/li&gt;
@@ -376,11 +379,13 @@ set spelllang+=fr
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Pour obtenir une suggestion de correction &lt;code&gt;z=&lt;/code&gt;.
 Pour se déplacer à la prochaine erreur &lt;code&gt;]s&lt;/code&gt; et pour la précédente &lt;code&gt;[s&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Sources multiples dont : https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
+&lt;p&gt;Sources multiples dont : 
+https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
+https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-10-31T10:40:56+01:00</updated>
+		<updated>2023-10-31T10:51:39+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>
