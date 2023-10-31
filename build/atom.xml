@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-31T12:18:20+01:00</updated>
+	<updated>2023-10-31T14:49:49+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -366,7 +366,7 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Afficher un guide d&#39;indentation (tab) : &lt;code&gt;:set listchars=tab:\|\` puis  &lt;/code&gt;:set list&lt;code&gt;&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Indenter (tabulation) un bloc de texte : sélectionner le texte avec &lt;code&gt;V&lt;/code&gt;, puis &lt;code&gt;jj&amp;gt;&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Déplacer le curseur librement : &lt;code&gt;set virtualedit=all&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Fixer une largeur de 80 caractères : &lt;code&gt;set textwidth=80&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Fixer une largeur de 80 caractères : &lt;code&gt;set textwidth=80&lt;/code&gt; ou &lt;code&gt;set tw=80&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;autosave&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;~/.vimrc&lt;/code&gt;&lt;/p&gt;
@@ -385,7 +385,7 @@ https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-10-31T10:51:39+01:00</updated>
+		<updated>2023-10-31T12:18:20+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>
