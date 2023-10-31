@@ -67,6 +67,10 @@
 - Indenter (tabulation) un bloc de texte : sélectionner le texte avec `V`, puis `jj>`
 - Déplacer le curseur librement : `set virtualedit=all`
 - Fixer une largeur de 80 caractères : `set textwidth=80` ou `set tw=80`
+- Fixer cette largeur pour tout les fichiers .txt, dans `~/.vimrc`
+```
+autocmd FileType text setlocal textwidth=80
+```
 
 ## autosave
 `~/.vimrc`
