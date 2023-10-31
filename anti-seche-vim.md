@@ -71,7 +71,7 @@
 ```
 autocmd FileType text setlocal textwidth=80
 ```
-
+- Pour remplacer la touche ESC (un peu lointaine du centre du clavier) par `jj` dans `~/.vimrc` : `inoremap jj <Esc>`. Note : on peut aussi utiliser `CTRL+[`
 ## autosave
 `~/.vimrc`
 ```
