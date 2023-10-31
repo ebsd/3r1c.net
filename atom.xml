@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-30T20:59:00+01:00</updated>
+	<updated>2023-10-31T09:49:09+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -305,7 +305,7 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;ul&gt;
 &lt;li&gt;Mode insertion : &lt;code&gt;i&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Mode insertion au début de ligne : &lt;code&gt;I&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Revenir au mode normal : &lt;code&gt;ESC&lt;/code&gt; ou CTRL+[&lt;/li&gt;
+&lt;li&gt;Revenir au mode normal : &lt;code&gt;ESC&lt;/code&gt; ou &lt;code&gt;CTRL+[&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Se déplacer au mot suivant : &lt;code&gt;w&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Se déplacer au mot précédant : &lt;code&gt;b&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Se déplacer au caractère précédant / suivant : &lt;code&gt;F&lt;/code&gt; / &lt;code&gt;f&lt;/code&gt;&lt;/li&gt;
@@ -314,7 +314,7 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Aller à la ligne n : &lt;code&gt;nG&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Aller à la 1ere ligne : &lt;code&gt;1G&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Aller au paragraphe précédant / suivant : &lt;code&gt;{}&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Aller à l&#39;écran précédant / suivant : CTRL+F /CTRL+B&lt;/li&gt;
+&lt;li&gt;Aller à l&#39;écran précédant / suivant : &lt;code&gt;CTRL+F&lt;/code&gt; / &lt;code&gt;CTRL+B&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Dernière : &lt;code&gt;G&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Undo : &lt;code&gt;u&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Joindre la ligne suivante à la ligne courrante : &lt;code&gt;J&lt;/code&gt;&lt;/li&gt;
@@ -346,12 +346,13 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Afficher un guide d&#39;indentation (tab) : &lt;code&gt;:set listchars=tab:\|\` puis  &lt;/code&gt;:set list&lt;code&gt;&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Indenter (tabulation) un bloc de texte : sélectionner le texte avec &lt;code&gt;V&lt;/code&gt;, puis &lt;code&gt;jj&amp;gt;&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Déplacer le curseur librement : &lt;code&gt;set virtualedit=all&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Fixer une largeur de 80 caractères : &lt;code&gt;set textwidth=80&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Sources multiples dont : https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-10-30T20:58:28+01:00</updated>
+		<updated>2023-10-30T20:59:01+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>
