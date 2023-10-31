@@ -6,10 +6,10 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 - Mode insertion au début de ligne : `I`
 - Revenir au mode normal : `ESC` ou `CTRL+[`
 - Se déplacer à l'endroit de la dernière insertion : `gi`
-- Se déplacer au mot suivant : `w`
-- Se déplacer au mot précédant : `b`
 - Se déplacer à la fin du mot suivant : `e`
 - Se déplacer au caractère précédant / suivant : `F` / `f`
+- Se déplacer au mot suivant : `w`
+- Se déplacer au mot précédant : `b`
 - Fin de ligne : `$`
 - Début de ligne : `^`
 - Aller à la ligne n : `nG`
