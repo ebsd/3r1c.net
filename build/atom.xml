@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-31T09:49:09+01:00</updated>
+	<updated>2023-10-31T09:54:41+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -306,8 +306,10 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Mode insertion : &lt;code&gt;i&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Mode insertion au début de ligne : &lt;code&gt;I&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Revenir au mode normal : &lt;code&gt;ESC&lt;/code&gt; ou &lt;code&gt;CTRL+[&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Se déplacer à l&#39;endroit de la dernière insertion : &lt;code&gt;gi&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Se déplacer au mot suivant : &lt;code&gt;w&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Se déplacer au mot précédant : &lt;code&gt;b&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Se déplacer à la fin du mot suivant : &lt;code&gt;e&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Se déplacer au caractère précédant / suivant : &lt;code&gt;F&lt;/code&gt; / &lt;code&gt;f&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Fin de ligne : &lt;code&gt;$&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Début de ligne : &lt;code&gt;^&lt;/code&gt;&lt;/li&gt;
@@ -352,7 +354,7 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 		<link href="anti-seche-vim.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-10-30T20:59:01+01:00</updated>
+		<updated>2023-10-31T09:49:10+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>
