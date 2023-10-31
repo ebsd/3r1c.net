@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-31T15:14:10+01:00</updated>
+	<updated>2023-10-31T15:15:14+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -311,6 +311,7 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Rechercher le mod sous le curseur : &lt;code&gt;#&lt;/code&gt; ou &lt;code&gt;*&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Remplacer et insérer le mot sous le curseur : &lt;code&gt;cw&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Remplacer et insérer le mot sous le curseur et le mot suivant : &lt;code&gt;c2w&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Remplacer la ligne et insérer : &lt;code&gt;c$&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Copier n lignes : &lt;code&gt;nyy&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Détails &lt;/h2&gt;
@@ -358,6 +359,7 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Désactiver la sensibilité à la casse : &lt;code&gt;:set ignorecase&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Remplacer et insérer à partir du curseur : &lt;code&gt;cw&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Remplacer et insérer à partir du curseur jusqu&#39;au second mot : &lt;code&gt;c2w&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Remplacer la ligne et insérer : &lt;code&gt;c$&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Un peu plus loin&lt;/h2&gt;
 &lt;ul&gt;
@@ -385,7 +387,7 @@ https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-10-31T14:49:49+01:00</updated>
+		<updated>2023-10-31T15:14:10+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>
