@@ -34,6 +34,7 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 - Supprimer depuis le début du fichier : `d1G`
 - Supprimer n lignes : `ndd`
 - Supprimer n mots : `ndw`
+- Rechercher le mod sous le curseur : `#` ou `*`
 - Rechercher vers le bas : `/chaine`
 - Rechercher vers le haut : `?chaine`
 - Répéter la recherche : `n`
