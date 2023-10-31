@@ -50,10 +50,12 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 
 ## Spell check
 
-Dans ~/.vimrc
+Dans `~/.vimrc` :
 ```
 set spell
 set spelllang+=fr
 ```
+Pour obtenir une suggestion de correction `z=`.
+Pour se déplacer à la prochaine erreur `]s` et pour la précédente `[s`.
 
 Sources multiples dont : https://blog.sanctum.geek.nz/vim-anti-patterns/
