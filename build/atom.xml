@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-31T15:19:07+01:00</updated>
+	<updated>2023-10-31T15:36:34+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -373,6 +373,9 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;/ul&gt;
 &lt;pre&gt;&lt;code&gt;autocmd FileType text setlocal textwidth=80
 &lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Pour remplacer la touche ESC (un peu lointaine du centre du clavier) par &lt;code&gt;jj&lt;/code&gt; dans &lt;code&gt;~/.vimrc&lt;/code&gt; : &lt;code&gt;inoremap jj &amp;lt;Esc&amp;gt;&lt;/code&gt;. Note : on peut aussi utiliser &lt;code&gt;CTRL+[&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2&gt;autosave&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;~/.vimrc&lt;/code&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;let g:auto_save = 1
@@ -390,7 +393,7 @@ https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-10-31T15:15:15+01:00</updated>
+		<updated>2023-10-31T15:19:08+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>
