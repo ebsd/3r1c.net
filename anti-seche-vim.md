@@ -1,6 +1,18 @@
 # Antisèche vim
 
-Profitons de cette période de **confinement** numéro 1 pour réviser.
+## Le meilleur
+
+- Revenir au mode normal : `ESC` ou `CTRL+[`
+- Se déplacer à la fin du mot suivant : `e`
+- Se déplacer au caractère précédant / suivant : `F` / `f`
+- Aller au paragraphe précédant / suivant : `{}`
+- Copier la ligne : `yy`
+- Rechercher le mod sous le curseur : `#` ou `*`
+- Remplacer et insérer à partir du curseur : `cw`
+- Remplacer et insérer à partir du curseur jusqu'au second mot : `c2w`
+- Copier n lignes : `nyy`
+
+## Détails 
 
 - Mode insertion : `i`
 - Mode insertion au début de ligne : `I`
@@ -40,6 +52,8 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 - Répéter la recherche : `n`
 - Répéter la recherche dans la direction inverse : `N`
 - Désactiver la sensibilité à la casse : `:set ignorecase`
+- Remplacer et insérer à partir du curseur : `cw`
+- Remplacer et insérer à partir du curseur jusqu'au second mot : `c2w`
 
 ## Un peu plus loin
 - Supprimer les espaces à la fin de chaque ligne : `:%s/\s\+$//e`
