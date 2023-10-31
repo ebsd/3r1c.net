@@ -4,7 +4,7 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 
 - Mode insertion : `i`
 - Mode insertion au début de ligne : `I`
-- Revenir au mode normal : `ESC` ou CTRL+[
+- Revenir au mode normal : `ESC` ou `CTRL+[`
 - Se déplacer au mot suivant : `w`
 - Se déplacer au mot précédant : `b`
 - Se déplacer au caractère précédant / suivant : `F` / `f`
@@ -13,7 +13,7 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 - Aller à la ligne n : `nG`
 - Aller à la 1ere ligne : `1G`
 - Aller au paragraphe précédant / suivant : `{}`
-- Aller à l'écran précédant / suivant : CTRL+F /CTRL+B
+- Aller à l'écran précédant / suivant : `CTRL+F` / `CTRL+B`
 - Dernière : `G`
 - Undo : `u`
 - Joindre la ligne suivante à la ligne courrante : `J`
@@ -44,5 +44,6 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 - Afficher un guide d'indentation (tab) : `:set listchars=tab:\|\` puis  `:set list`
 - Indenter (tabulation) un bloc de texte : sélectionner le texte avec `V`, puis `jj>`
 - Déplacer le curseur librement : `set virtualedit=all`
+- Fixer une largeur de 80 caractères : `set textwidth=80`
 
 Sources multiples dont : https://blog.sanctum.geek.nz/vim-anti-patterns/
