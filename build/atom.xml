@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-31T10:19:15+01:00</updated>
+	<updated>2023-10-31T10:37:18+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -350,6 +350,10 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Déplacer le curseur librement : &lt;code&gt;set virtualedit=all&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Fixer une largeur de 80 caractères : &lt;code&gt;set textwidth=80&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2&gt;autosave&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;~/.vimrc&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;let g:auto_save = 1
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;Spell check&lt;/h2&gt;
 &lt;p&gt;Dans &lt;code&gt;~/.vimrc&lt;/code&gt; :&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;set spell
@@ -361,7 +365,7 @@ Pour se déplacer à la prochaine erreur &lt;code&gt;]s&lt;/code&gt; et pour la 
 		<link href="anti-seche-vim.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-10-31T10:14:33+01:00</updated>
+		<updated>2023-10-31T10:19:16+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>

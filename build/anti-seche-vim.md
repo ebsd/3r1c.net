@@ -48,6 +48,12 @@ Profitons de cette période de **confinement** numéro 1 pour réviser.
 - Déplacer le curseur librement : `set virtualedit=all`
 - Fixer une largeur de 80 caractères : `set textwidth=80`
 
+## autosave
+`~/.vimrc`
+```
+let g:auto_save = 1
+```
+
 ## Spell check
 
 Dans `~/.vimrc` :
