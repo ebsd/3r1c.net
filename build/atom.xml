@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-31T10:37:18+01:00</updated>
+	<updated>2023-10-31T10:40:55+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -335,6 +335,7 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Supprimer depuis le début du fichier : &lt;code&gt;d1G&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Supprimer n lignes : &lt;code&gt;ndd&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Supprimer n mots : &lt;code&gt;ndw&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Rechercher le mod sous le curseur : &lt;code&gt;#&lt;/code&gt; ou &lt;code&gt;*&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Rechercher vers le bas : &lt;code&gt;/chaine&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Rechercher vers le haut : &lt;code&gt;?chaine&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Répéter la recherche : &lt;code&gt;n&lt;/code&gt;&lt;/li&gt;
@@ -365,7 +366,7 @@ Pour se déplacer à la prochaine erreur &lt;code&gt;]s&lt;/code&gt; et pour la 
 		<link href="anti-seche-vim.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-10-31T10:19:16+01:00</updated>
+		<updated>2023-10-31T10:37:19+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>
