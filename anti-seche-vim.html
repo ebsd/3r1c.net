@@ -92,7 +92,7 @@
 <li>Aller à l'écran précédant / suivant : <code>CTRL+F</code> / <code>CTRL+B</code></li>
 <li>Dernière : <code>G</code></li>
 <li>Undo : <code>u</code></li>
-<li>Joindre la ligne suivante à la ligne courrante : <code>J</code></li>
+<li>Joindre la ligne suivante à la ligne courante : <code>J</code></li>
 <li>Numéro de ligne : <code>Ctrl-g</code> ou <code>:set number</code></li>
 <li>Copier la sélection : <code>y</code></li>
 <li>Copier la ligne : <code>yy</code></li>
@@ -111,10 +111,10 @@
 <li>Rechercher vers le bas : <code>/chaine</code></li>
 <li>Rechercher vers le haut : <code>?chaine</code></li>
 <li>Répéter la recherche : <code>n</code></li>
-<li>Repéter la recherche dans la direction inverse : <code>N</code></li>
+<li>Répéter la recherche dans la direction inverse : <code>N</code></li>
 <li>Désactiver la sensibilité à la casse : <code>:set ignorecase</code></li>
 </ul>
-<h4>Un peu plus loin</h4>
+<h2>Un peu plus loin</h2>
 <ul>
 <li>Supprimer les espaces à la fin de chaque ligne : <code>:%s/\s\+$//e</code></li>
 <li>Idem au début de chaque ligne : <code>:%s/^\s+//e</code></li>
@@ -123,6 +123,11 @@
 <li>Déplacer le curseur librement : <code>set virtualedit=all</code></li>
 <li>Fixer une largeur de 80 caractères : <code>set textwidth=80</code></li>
 </ul>
+<h2>Spell check</h2>
+<p>Dans ~/.vimrc</p>
+<pre><code>set spell
+set spelllang+=fr
+</code></pre>
 <p>Sources multiples dont : https://blog.sanctum.geek.nz/vim-anti-patterns/</p>
 <small>Written on 2023-09-11. Last updated on 2023-10-31.</small>
 </main>

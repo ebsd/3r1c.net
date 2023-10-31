@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-31T10:02:50+01:00</updated>
+	<updated>2023-10-31T10:14:33+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -319,7 +319,7 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Aller à l&#39;écran précédant / suivant : &lt;code&gt;CTRL+F&lt;/code&gt; / &lt;code&gt;CTRL+B&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Dernière : &lt;code&gt;G&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Undo : &lt;code&gt;u&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Joindre la ligne suivante à la ligne courrante : &lt;code&gt;J&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Joindre la ligne suivante à la ligne courante : &lt;code&gt;J&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Numéro de ligne : &lt;code&gt;Ctrl-g&lt;/code&gt; ou &lt;code&gt;:set number&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Copier la sélection : &lt;code&gt;y&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Copier la ligne : &lt;code&gt;yy&lt;/code&gt;&lt;/li&gt;
@@ -338,10 +338,10 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Rechercher vers le bas : &lt;code&gt;/chaine&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Rechercher vers le haut : &lt;code&gt;?chaine&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Répéter la recherche : &lt;code&gt;n&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Repéter la recherche dans la direction inverse : &lt;code&gt;N&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Répéter la recherche dans la direction inverse : &lt;code&gt;N&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Désactiver la sensibilité à la casse : &lt;code&gt;:set ignorecase&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;Un peu plus loin&lt;/h4&gt;
+&lt;h2&gt;Un peu plus loin&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Supprimer les espaces à la fin de chaque ligne : &lt;code&gt;:%s/\s\+$//e&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Idem au début de chaque ligne : &lt;code&gt;:%s/^\s+//e&lt;/code&gt;&lt;/li&gt;
@@ -350,11 +350,16 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Déplacer le curseur librement : &lt;code&gt;set virtualedit=all&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Fixer une largeur de 80 caractères : &lt;code&gt;set textwidth=80&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2&gt;Spell check&lt;/h2&gt;
+&lt;p&gt;Dans ~/.vimrc&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;set spell
+set spelllang+=fr
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Sources multiples dont : https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-10-31T09:54:41+01:00</updated>
+		<updated>2023-10-31T10:02:50+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>
