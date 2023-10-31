@@ -8,8 +8,8 @@
 - Aller au paragraphe précédant / suivant : `{}`
 - Copier la ligne : `yy`
 - Rechercher le mod sous le curseur : `#` ou `*`
-- Remplacer et insérer à partir du curseur : `cw`
-- Remplacer et insérer à partir du curseur jusqu'au second mot : `c2w`
+- Remplacer et insérer le mot sous le curseur : `cw`
+- Remplacer et insérer le mot sous le curseur et le mot suivant : `c2w`
 - Copier n lignes : `nyy`
 
 ## Détails 
