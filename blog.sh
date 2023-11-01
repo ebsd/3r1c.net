@@ -64,8 +64,7 @@ EOF
 	while read -r f title created updated; do
 		if [ "$created" = "draft" ]; then continue; fi
 
-		day=$(echo "$created" | sed 's/T.*//')
-		content=$($MARKDOWN "$f" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g')
+		day=$(echo "$created" | sed 's/T.*//')	content=$($MARKDOWN "$f" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g')
 
 		cat <<EOF
 	<entry>
