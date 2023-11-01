@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Un vieux site du jurassic H.</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-10-31T15:36:34+01:00</updated>
+	<updated>2023-11-01T18:53:50+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -378,7 +378,7 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;/ul&gt;
 &lt;h2&gt;autosave&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;~/.vimrc&lt;/code&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;let g:auto_save = 1
+&lt;pre&gt;&lt;code&gt;autocmd TextChanged,TextChangedI &amp;lt;buffer&amp;gt; silent write
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;Spell check&lt;/h2&gt;
 &lt;p&gt;Dans &lt;code&gt;~/.vimrc&lt;/code&gt; :&lt;/p&gt;
@@ -386,6 +386,8 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 set spelllang+=fr
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Pour obtenir une suggestion de correction &lt;code&gt;z=&lt;/code&gt;.
+Pour ajouter un mot au dic : &lt;code&gt;zg&lt;/code&gt;
+Pour supprimer un mot du doc : &lt;code&gt;zw&lt;/code&gt;
 Pour se déplacer à la prochaine erreur &lt;code&gt;]s&lt;/code&gt; et pour la précédente &lt;code&gt;[s&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Sources multiples dont : 
 https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
@@ -393,7 +395,7 @@ https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
 		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-10-31T15:19:08+01:00</updated>
+		<updated>2023-10-31T15:36:35+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>
