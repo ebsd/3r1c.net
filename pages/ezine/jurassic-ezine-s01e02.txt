@@ -43,7 +43,7 @@ Elles tirent des enseignement de l'année qui s'est écoulée. La promenade en
 forêt permet de récolter des feuilles mortes ou autres présent laisser par la
 nature. Ceux-ci servent de décors aux autels souvent présent chez les
 sorcières.
-Le soir d'halloween, lumières et bougies illumines les abords des maisons pour
+Le soir d'halloween, lumières et bougies illuminent les abords des maisons pour
 guider les esprits en recherche de la chaleur d'un foyer. Pour au contraire
 repousser les esprits indésirés de l'autre monde, des protections sont mises en
 évidences : sel, runes, etc. Les créations effrayantes comme les citrouilles
@@ -52,3 +52,4 @@ L'autre grande fete annuelle se situe dans la nuit du 30 avril au 1er mai : le
 Walpurgis. On continue le célébrer dans certains pays, certaines régions. La
 nuit est passée à préparer des farces aux voisins qu'ils ne découvriront qu'au
 petit jour.
+
