@@ -9,7 +9,7 @@ Se préparer à vivre dans ce [nouveau monde](le-monde-de-demain.html), c'est au
 - la lavande contre les troubles du sommeil et pour aromatiser les desserts
 - la mélisse contre les troubles nerveux du sommeil et digestifs, mais aussi pour assaisonner les salades
 - la menthe contre les troubles de la digestion et pour parfumer la cuisine
-- le romarin pour son action sur le foie et son côté stimulant et pour aromatiser les viandes
+- le romarin pour son action sur le foie et son côté stimulant et pour aromatiser les viandes (s'il en reste)
 - la sauge officinale contre les problèmes digestifs et les règles difficiles et pour donner du goût aux farces
 - le thym pour éloigner les rhumes et composer les bouquets garnis
 - et aussi :
