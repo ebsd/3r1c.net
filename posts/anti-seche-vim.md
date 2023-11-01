@@ -75,7 +75,7 @@ autocmd FileType text setlocal textwidth=80
 ## autosave
 `~/.vimrc`
 ```
-let g:auto_save = 1
+autocmd TextChanged,TextChangedI <buffer> silent write
 ```
 
 ## Spell check
@@ -86,6 +86,8 @@ set spell
 set spelllang+=fr
 ```
 Pour obtenir une suggestion de correction `z=`.
+Pour ajouter un mot au dic : `zg`
+Pour supprimer un mot du doc : `zw`
 Pour se déplacer à la prochaine erreur `]s` et pour la précédente `[s`.
 
 Sources multiples dont : 

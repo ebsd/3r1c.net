@@ -151,7 +151,7 @@
 </ul>
 <h2>autosave</h2>
 <p><code>~/.vimrc</code></p>
-<pre><code>let g:auto_save = 1
+<pre><code>autocmd TextChanged,TextChangedI &lt;buffer&gt; silent write
 </code></pre>
 <h2>Spell check</h2>
 <p>Dans <code>~/.vimrc</code> :</p>
@@ -159,6 +159,8 @@
 set spelllang+=fr
 </code></pre>
 <p>Pour obtenir une suggestion de correction <code>z=</code>.
+Pour ajouter un mot au dic : <code>zg</code>
+Pour supprimer un mot du doc : <code>zw</code>
 Pour se déplacer à la prochaine erreur <code>]s</code> et pour la précédente <code>[s</code>.</p>
 <p>Sources multiples dont : 
 https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
