@@ -79,5 +79,19 @@ nécessite une quantité d'eau astronomique, une eau qui finira donc polluée (a
 métaux), une eau qui va ruisseler dans les nappes et les polluer également.
 Deuxièmement les personnes qui travaillent dans ces mines subissent des effets
 néfastes sur leur santé. Je ne maîtrise pas bien ces effets mais
-envisageriez-vous d'allez bosser là-bas pour y respirer des particules de métaux
+envisageriez-vous d'aller bosser là-bas pour y respirer des particules de métaux
 nocifs ? 
+
+email auto hébergé
+==================
+
+Il semblerait que certains parviennent à recevoir des mails seulement avec un
+script / service en python [1]. L'envoi se ferait avec un service de type smtp2go
+[2] qui propose en envoi gratuit pour 1000 mails par mois. Pour la réception
+mail4one [1] ne prévoit pas de check spf et dkim, donc ceci peut engendrer du
+spam. Mais peut être qu'un postgrey serait une solution palliative ?
+
+[1]: https://gitlab.com/balki/mail4one
+[2]: https://support.smtp2go.com/hc/en-gb/articles/223087947-Free-Plan
+
+
