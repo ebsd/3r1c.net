@@ -4,11 +4,12 @@ Bienvenue. Ceci est un espace simple, une parcelle du web 1.0 de l'époque tant 
 Contactez moi via <a href="mailto:eric chez jurassi.ch" rel="me">email</a> ou <a href="https://infosec.exchange/@nap" rel="me">mastodon</a>. Souscrivez au [flux Atom](atom.xml) pour obtenir les nouveaux posts.
 
 ## Sommaire
+- [About](#about)
 - [Android](#android)
 - [Liens intéressants](#links)
 - [Notes](#Notes)
 
-## About
+## <a name="about"></a>About
 Je m'apelle Eric. J'aime la simplicité et il me semble que je suis resté coincé dans l'internet des années 1990 ! C'est pourquoi vous constatez que ce site est particulièrement évolué :) Ceci est un site statique, il fonctionne avec un minimum de techno, juste un peu de css. Bienvenue dans cette petite partie de small web.
 
 ##  <a name="Android"></a>Android
