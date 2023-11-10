@@ -5,6 +5,7 @@ Contactez moi via <a href="mailto:eric chez jurassi.ch" rel="me">email</a> ou <a
 
 ## Sommaire
 - [Android](#android)
+- [Liens intéressants](#links)
 - [Notes](#Notes)
  
 ##  <a name="Android"></a>Android
@@ -19,7 +20,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid.
 - Tutanota
 - Syncthing
 
-## <a name="links"></a>Liens
+## <a name="links"></a>Liens intéressants
 - Small web 
   - [1mb club](https://1mb.club/)
   - [512kb club](https://512kb.club/)
