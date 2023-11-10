@@ -109,5 +109,11 @@ Maintenant j'ai un Pixel 5 sans Google. Je viens d'installer le gestionnaire
 d'application F-Droid. Et je peux utiliser mes applis préférées : NewPipe,
 OrganicMaps, Mull, SkyMap, Glider for Hacker News.
 
+Du côté des fonctionnalités que j'avais à "reproduire" :
+- la synchro des photos se fait avec Syncthing (que j'utilise depuis bien
+  longtemps)
+- la synchro des contacts avec DecSync.
+
+
 [1]: https://wiki.lineageos.org/devices/redfin/install
 [2]: https://wiki.lineageos.org/adb_fastboot_guide
