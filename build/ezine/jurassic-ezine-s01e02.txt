@@ -94,4 +94,20 @@ spam. Mais peut être qu'un postgrey serait une solution palliative ?
 [1]: https://gitlab.com/balki/mail4one
 [2]: https://support.smtp2go.com/hc/en-gb/articles/223087947-Free-Plan
 
+Dégugeulisation
+===============
 
+Je ne pensais pas pouvoir me passer d'android et des produits google sur mon
+smartphone, mais j'ai découvert LineageOS : un android dépourvu des fioritures
+et autres merdouilles assoiffées de données personnelles.
+
+Pour installer LineageOS sur un Google Pixel 5, il suffit de suivre le mode OP
+[1], c'est assez simple. Il faut peut être y consacrer 1 heure le temps
+d'appréhender les outils ADB et FASTBOOT [2].
+
+Maintenant j'ai un Pixel 5 sans Google. Je viens d'installer le gestionnaire
+d'application F-Droid. Et je peux utiliser mes applis préférées : NewPipe,
+OrganicMaps, Mull, SkyMap, Glider for Hacker News.
+
+[1]: https://wiki.lineageos.org/devices/redfin/install
+[2]: https://wiki.lineageos.org/adb_fastboot_guide
