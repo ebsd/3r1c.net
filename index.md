@@ -18,7 +18,8 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid.
 - Binary Eye
 - Tutanota
 - Syncthing
-## <name="links"></a>Liens
+
+## <a name="links"></a>Liens
 - Small web 
   - [1mb club](https://1mb.club/)
   - [512kb club](https://512kb.club/)
