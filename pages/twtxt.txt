@@ -113,3 +113,4 @@
 2022-10-28T13:18:30.000000Z	Durcissement d&#39;un système GNU/Linux : Gestion des utilisateurs &amp;  des connexions | Net-Security ⌘ https://net-security.fr/securite/durcissement-gnulinux-1/
 2022-11-12T21:57:10.000000Z	Teams sur Linux : Une nouvelle application disponible ! https://www.tutos-informatique.com/application-teams-linux/
 2023-10-26T21:18:30.000000Z Dernier jour de vacances à Albufeira :(
+2023-11-10T15:54:55+01:00	 A tester en remplacement de postman : https://www.usebruno.com/
