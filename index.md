@@ -1,5 +1,6 @@
 # Le petit web d'3r1c
-(_3r1c : prononcer troisrunc ;-)_)
+(_3r1c : prononcer troisrunc ou plus simplement Eric ;-)_)
+
 Bienvenue sur cette parcelle du web 1.0. C'est tout un univers : [un jardin](herbularium.html), une [gallerie d'art](my-little-art.html), un [ezine](ezine.html), un blog ou plutôt un blob, et aussi un [micro blog](twtxt.txt) et enfin [une fiction](le-monde-de-demain.html) :)
 
 Contactez moi via <a href="mailto:eric(chez)3r1c_dot_net" rel="me">email</a> ou <a href="https://infosec.exchange/@nap" rel="me">mastodon</a>. Souscrivez au [flux Atom](atom.xml) pour obtenir les [nouvelles](#notes).
