@@ -6,7 +6,7 @@ Contactez moi via <a href="mailto:eric chez jurassi.ch" rel="me">email</a> ou <a
 ## Sommaire
 [Android](#android)
 [Notes](#Notes)
-## Android
+##  <a name="Android"></a>Android
 Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid.
 - NewPipe, un client youtube
 - OrganicMaps
