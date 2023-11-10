@@ -10,7 +10,7 @@ Contactez moi via <a href="mailto:eric chez 3r1c dot net" rel="me">email</a> ou 
 - [Notes](#notes)
 
 ## <a name="about"></a>About
-Je m'apelle Eric. J'aime la simplicité et il me semble que je suis resté coincé dans l'internet des années 1990 ! C'est pourquoi vous constatez que ce site est particulièrement évolué :) Ceci est un site statique, il fonctionne avec un minimum de techno, juste un peu de css. Bienvenue dans cette petite partie de small web.
+Je m'appelle Eric. Je suis resté coincé dans l'internet des années 1990 ! C'est pourquoi vous constatez que ce site est particulièrement évolué :) Ceci est un site statique, il fonctionne avec un minimum de techno, juste un peu de css. Bienvenue dans cette petite partie de small web.
 PS : si vous trouvez un autre 3r1c ailleurs qu'ici, ce n'est pas moi.
 
 ##  <a name="android"></a>Android
