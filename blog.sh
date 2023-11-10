@@ -156,4 +156,4 @@ mkdir build/ezine
 cp pages/ezine/* build/ezine
 
 # add CNAME file for github pages hosting
-echo "jurassi.ch" >> build/CNAME
+echo "3r1c.net" >> build/CNAME
