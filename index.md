@@ -23,7 +23,9 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid.
 - MaterialFile
 - Binary Eye
 - Tutanota
+- Spotube, client spotify
 - Syncthing
+- DecSync, pour synchroniser contacts et calendriers et tâches. Il s'appuie sur Syncthing.
 
 ## <a name="links"></a>Liens intéressants
 - Small web 
