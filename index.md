@@ -63,4 +63,4 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid.
 - encryption
   - https://github.com/drduh/YubiKey-Guide
 
-## <a name="Notes"></a>Notes
+## <a name="notes"></a>Notes
