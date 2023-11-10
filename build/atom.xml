@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>3r1c webpage</title>
-	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-11-10T11:23:45+01:00</updated>
+	<link href="https://3r1c.net/atom.xml" rel="self" />
+	<updated>2023-11-10T11:39:30+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
-	<id>tag:jurassi.ch,2020-05-23:default-atom-feed</id>
+	<id>tag:3r1c.net,2020-05-23:default-atom-feed</id>
 	<entry>
 		<title>Wrap Existing Text at 80 Characters in Vim</title>
 		<content type="html">&lt;h1&gt;Wrap Existing Text at 80 Characters in Vim&lt;/h1&gt;
@@ -26,7 +26,7 @@
 &lt;pre&gt;&lt;code&gt;:h gq
 &lt;/code&gt;&lt;/pre&gt;</content>
 		<link href="wrap-existing-test-at-80-char-in-vim.html"/>
-		<id>tag:jurassi.ch,2023-10-28:posts/wrap-existing-test-at-80-char-in-vim.md</id>
+		<id>tag:3r1c.net,2023-10-28:posts/wrap-existing-test-at-80-char-in-vim.md</id>
 		<published>2023-10-28T18:50:19+02:00</published>
 		<updated>2023-10-29T09:52:16+01:00</updated>
 	</entry>
@@ -57,7 +57,7 @@
 &lt;/ul&gt;
 &lt;p&gt;Please do not send email to my work accounts.&lt;/p&gt;</content>
 		<link href="how-to-hire-me.html"/>
-		<id>tag:jurassi.ch,2023-10-26:posts/how-to-hire-me.md</id>
+		<id>tag:3r1c.net,2023-10-26:posts/how-to-hire-me.md</id>
 		<published>2023-10-26T21:02:53+01:00</published>
 		<updated>2023-10-28T17:51:28+02:00</updated>
 	</entry>
@@ -121,7 +121,7 @@
 &lt;li&gt;&lt;a href=&quot;https://dev.yorhel.nl/ncdu&quot;&gt;ncdu&lt;/a&gt; : pour gérer mon espace disque&lt;/li&gt;
 &lt;/ul&gt;</content>
 		<link href="outils-et-services.html"/>
-		<id>tag:jurassi.ch,2023-09-17:posts/outils-et-services.md</id>
+		<id>tag:3r1c.net,2023-09-17:posts/outils-et-services.md</id>
 		<published>2023-09-17T10:34:05+02:00</published>
 		<updated>2023-10-07T13:27:20+02:00</updated>
 	</entry>
@@ -294,7 +294,7 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;pre&gt;&lt;code&gt;$ sudo mount /dev/md/raspberrypi\:0 /mnt/raid1
 &lt;/code&gt;&lt;/pre&gt;</content>
 		<link href="nas-maison-raspberry-pi4-quad-sata.html"/>
-		<id>tag:jurassi.ch,2023-09-12:posts/nas-maison-raspberry-pi4-quad-sata.md</id>
+		<id>tag:3r1c.net,2023-09-12:posts/nas-maison-raspberry-pi4-quad-sata.md</id>
 		<published>2023-09-12T10:38:36+02:00</published>
 		<updated>2023-09-12T12:47:18+02:00</updated>
 	</entry>
@@ -393,7 +393,7 @@ Pour se déplacer à la prochaine erreur &lt;code&gt;]s&lt;/code&gt; et pour la 
 https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
 https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/anti-seche-vim.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-11-01T18:53:51+01:00</updated>
 	</entry>
@@ -434,7 +434,7 @@ If you fail, you&#39;ll have a second chance.&lt;/p&gt;
 &lt;p&gt;[1]: https://www.elearnsecurity.com/certification/ecppt/&lt;/p&gt;
 &lt;p&gt;Tags: eCPPT, pentest&lt;/p&gt;</content>
 		<link href="ecppt-course-and-exam-review.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/ecppt-course-and-exam-review.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/ecppt-course-and-exam-review.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
@@ -507,7 +507,7 @@ fi
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Tags: linux, security, umask, ansible&lt;/p&gt;</content>
 		<link href="configurer-un-umask-plus-securise.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/configurer-un-umask-plus-securise.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/configurer-un-umask-plus-securise.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
@@ -552,7 +552,7 @@ $ mkdir -p /tmp/remotebackup/rootfs
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Tags: backup, cloud, rclone, gocryptfs&lt;/p&gt;</content>
 		<link href="chiffrement-des-backups-dans-le-cloud.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/chiffrement-des-backups-dans-le-cloud.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/chiffrement-des-backups-dans-le-cloud.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
@@ -660,7 +660,7 @@ meterpreter&amp;gt; wdigest
 &lt;p&gt;L’enchaînement de plusieurs vulnérabilités peut mener à la compromission d&#39;un réseau informatique  : tester et auditer votre sécurité.&lt;/p&gt;
 &lt;p&gt;Tags: pentest&lt;/p&gt;</content>
 		<link href="anatomie-dune-attaque-informatique.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/anatomie-dune-attaque-informatique.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/anatomie-dune-attaque-informatique.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
@@ -894,7 +894,7 @@ sudo -S /usr/bin/python3 /opt/scripts/system-checkup.py full-checkup
 &lt;pre&gt;&lt;code&gt;$ nc -nlvp 9002
 &lt;/code&gt;&lt;/pre&gt;</content>
 		<link href="2023-08-17-busqueda.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/2023-08-17-busqueda.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/2023-08-17-busqueda.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
@@ -1488,7 +1488,7 @@ Surname               :
 UserPrincipalName     :
 &lt;/code&gt;&lt;/pre&gt;</content>
 		<link href="2022-02-17-blackfield-hackthebox.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/2022-02-17-blackfield-hackthebox.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/2022-02-17-blackfield-hackthebox.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
@@ -1793,7 +1793,7 @@ Successfully loaded driver
 &lt;p&gt;[^2]: https://raw.githubusercontent.com/TarlogicSecurity/EoPLoadDriver/master/eoploaddriver.cpp
 [^1]: https://github.com/tandasat/ExploitCapcom&lt;/p&gt;</content>
 		<link href="2020-10-29-fuse.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/2020-10-29-fuse.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/2020-10-29-fuse.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
@@ -2104,7 +2104,7 @@ def make_archive(a, b, c):
 &lt;p&gt;Et notre netcat reçoit la connexion en retour. Nous sommes root.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/assets/img/image-20200608211500892.png&quot; alt=&quot;image-20200608211500892&quot; /&gt;&lt;/p&gt;</content>
 		<link href="2020-09-29-admirer.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/2020-09-29-admirer.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/2020-09-29-admirer.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
@@ -2214,7 +2214,7 @@ tasklist.exe                  8740 N/A
 &lt;p&gt;https://p0i5on8.github.io/posts/hackthebox-buff/&lt;/p&gt;
 &lt;p&gt;4c827b7074e99eefd49d05872185f7f8&lt;/p&gt;</content>
 		<link href="2020-09-02-buff.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/2020-09-02-buff.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/2020-09-02-buff.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
@@ -2519,7 +2519,7 @@ cat root.txt
 2a5148892d8ae104a26698ae3e94bb3e
 &lt;/code&gt;&lt;/pre&gt;</content>
 		<link href="2020-06-16-blunder.html"/>
-		<id>tag:jurassi.ch,2023-09-11:posts/2020-06-16-blunder.md</id>
+		<id>tag:3r1c.net,2023-09-11:posts/2020-06-16-blunder.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
 		<updated>2023-09-11T19:01:55+02:00</updated>
 	</entry>
