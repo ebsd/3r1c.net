@@ -36,9 +36,9 @@ index_html() {
 	## Fediring
 	#echo '<p>'
 	echo '<a href="https://fediring.net/random">Fediring</a>'
-	echo ' | <a href="https://hotlinewebring.club/jurassi/previous">&lt;&lt;</a>'
+	echo ' | <a href="https://hotlinewebring.club/3r1c/previous">&lt;&lt;</a>'
 	echo '<a href="https://hotlinewebring.club">Hotline webring</a>'
-	echo '<a href="https://hotlinewebring.club/jurassi/next">>></a>'
+	echo '<a href="https://hotlinewebring.club/3r1c/next">>></a>'
 	#echo '</p>'
 	# Closing main at the end of the page
 	echo '</main>'
