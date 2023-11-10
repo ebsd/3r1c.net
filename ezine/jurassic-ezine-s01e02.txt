@@ -111,9 +111,10 @@ OrganicMaps, Mull, SkyMap, Glider for Hacker News.
 
 Du côté des fonctionnalités que j'avais à "reproduire" :
 - la synchro des photos se fait avec Syncthing (que j'utilise depuis bien
-  longtemps)
+  longtemps).
 - la synchro des contacts avec DecSync.
-
+- Musique spotify avec Spotube.
+- andoid auto : possible de l'installer, mais je ne sais pas si je vais tester
 
 [1]: https://wiki.lineageos.org/devices/redfin/install
 [2]: https://wiki.lineageos.org/adb_fastboot_guide
