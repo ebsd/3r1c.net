@@ -1,2 +1,2 @@
-- [jurassic-ezine-s01e01.txt](ezine/jurassic-ezine-s01e01.txt)
-- [jurassic-ezine-s01e02.txt](ezine/jurassic-ezine-s01e02.txt)
+- [tuveuxconnaitremonreve-s01e01.txt](ezine/tuveuxconnaitremonreve-s01e01.txt)
+- [tuveuxconnaitremonreve-es01e02.txt](ezine/tuveuxconnaitremonreve-s01e02.txt)
