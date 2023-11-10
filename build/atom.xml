@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-	<title>La petite pageweb d'3r1c</title>
+	<title>Le petit web d'3r1c</title>
 	<link href="https://3r1c.net/atom.xml" rel="self" />
-	<updated>2023-11-10T15:33:44+01:00</updated>
+	<updated>2023-11-10T15:34:08+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
