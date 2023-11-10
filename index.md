@@ -7,7 +7,10 @@ Contactez moi via <a href="mailto:eric chez jurassi.ch" rel="me">email</a> ou <a
 - [Android](#android)
 - [Liens intéressants](#links)
 - [Notes](#Notes)
- 
+
+## About
+Je m'apelle Eric. J'aime la simplicité et il me semble que je suis resté coincé dans l'internet des années 1990 ! C'est pourquoi vous constatez que ce site est particulièrement évolué :) Ceci est un site statique, il fonctionne avec un minimum de techno, juste un peu de css. Bienvenue dans cette petite partie de small web.
+
 ##  <a name="Android"></a>Android
 Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid.
 - NewPipe, un client youtube
