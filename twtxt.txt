@@ -1,6 +1,6 @@
 # client = txtnish/0.2
 # nick = ebsd
-# twturl = http://jurassi.ch/twtxt.txt
+# twturl = http://3r1c.net/twtxt.txt
 # following = gbmor https://gbmor.dev/twtxt.txt
 # following = alip https://dev.exherbo.org/~alip/twtxt.txt
 # following = deepend https://yourtilde.com/~deepend/twtxt.txt
