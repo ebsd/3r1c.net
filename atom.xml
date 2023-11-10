@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-	<title>Un vieux site du jurassic H.</title>
+	<title>3r1c webpage</title>
 	<link href="https://jurassi.ch/atom.xml" rel="self" />
-	<updated>2023-11-10T11:12:54+01:00</updated>
+	<updated>2023-11-10T11:20:44+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
