@@ -26,7 +26,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
 - Binary Eye, qrcode scanner
 - Tutanota, email
 - Spotube, client spotify
-- Serveit, partage de fichiers depuis un smartphone
+- Pairdrop, partage de fichiers depuis un smartphone
 - Syncthing, pour synchro de fichiers
 - DecSync, pour synchroniser contacts et calendriers et tâches. Il s'appuie sur Syncthing.
 
