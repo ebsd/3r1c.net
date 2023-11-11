@@ -8,6 +8,6 @@ Peu importe les enseignements, puisque suite au covid rien ou si peu a changé. 
 
 Mes amis il a fallu se <a href="kit-survie.html">préparer à vivre ou survivre dans ce monde</a>, et à croître d'une autre manière. En effet aujourd'hui rien est plus comme on l'a connu. Les plus grands de ce monde sont comme les moins grands : au plus bas, à niveau de vie égal.
 
-Mais bien avant la décroissance économique qui débuta en 2007, l'humanité dû faire face à une crise majeure liée à l'immigration climatique. Des centaines de milliers de personnes qui se déplacent, sans aucune anticipation, ça c'est passer dans la douleur. Les business models n'y ont pas résister à la guerre. C'est ce qui a précipité notre modèle de société dans le chaos. 
+Mais bien avant la décroissance économique qui débuta en 2007, l'humanité dû faire face à une crise majeure liée à l'immigration climatique. Des centaines de milliers de personnes qui se déplacent, sans aucune anticipation, ça c'est passé dans la douleur. Les business models n'ont pas résisté à la guerre. C'est ce qui a précipité notre modèle de société dans le chaos. 
 
-Si seulement nous avions préparé ce changement cataclysmique, plutôt que de fermer les yeux et continuer à produire à outrance en pillant les ressources et détruisant la plupart des formes de vie que cette planète a accueilli. Nous aurions éviter ce nouvel effondrement, cette sixième extinction massive.
+Si seulement nous avions préparé ces changements cataclysmiques, plutôt que de fermer les yeux et continuer à produire à outrance en pillant les ressources et détruisant la plupart des formes de vie que cette planète a accueilli. Nous aurions sans doute pu éviter ce nouvel effondrement, cette sixième extinction massive.
