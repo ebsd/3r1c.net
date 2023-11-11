@@ -2,7 +2,7 @@
 Se préparer à vivre dans ce [nouveau monde](le-monde-de-demain.html), c'est aussi apprendre à cultiver quelques plantes bien utiles.
 - menthe, absinthe et chardon pour les maux de ventres
 - la petite camomille, la verveine officinale et la benoîte pour la fièvre
-- le souci pour cicatriser
+- le souci, reconnu pour ses propriétés cicatrisantes, antiseptiques et anti-inflammatoires.
 - la verveine officinale ou le thym pour apaiser les rhumes
 - l'armoise ou la mélisse pour soulager les douleurs menstruations
 - l'hysope contre les affections bronchiques et le nez bouché, et pour réhausser les sauces
@@ -20,6 +20,3 @@ Se préparer à vivre dans ce [nouveau monde](le-monde-de-demain.html), c'est au
   - la ciboulette
   - la marjolaine vraie
   - le serpolet, très efficace sur les voies respiratoires en cas de toux, rhume, grippe, rhinite, maux de gorge, angine, asthme, sinusite.
-  - le souci, reconnu pour ses propriétés cicatrisantes, antiseptiques et anti-inflammatoires.
-  - la verveine odorante
-  - la verveine officinale
