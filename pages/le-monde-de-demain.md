@@ -13,3 +13,7 @@ Mais bien avant la fin de la décroissance économique débutée en 2007, l'huma
 Si seulement nous avions préparé ces changements cataclysmiques, plutôt que de fermer les yeux et continuer à produire à outrance en pillant les ressources et détruisant la plupart des formes de vie que cette planète a accueilli. Nous aurions sans doute pu éviter ce nouvel effondrement, cette sixième extinction massive.
 
 Tout a commencé en 2032, quand 3 étés successifs longs de plus de six mois avec des températures à 55 degrés ont coûté la vie de milliers de personnes des pays du sud. Ceux-ci qui n'avaient rien demandé jusque là, et qui n'y sont pour rien dans l'affaire du réchauffement climatique, on fini par se lier et demander aux pays du nord de recueillir des migrants qui tentaient de traverser la méditerranée. L'occident a persisté, et dans sa violence habituelle a raccompagné les migrants vers leurs pays d'origines. 
+
+
+
+A suivre...
