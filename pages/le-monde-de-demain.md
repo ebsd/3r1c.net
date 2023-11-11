@@ -1,4 +1,4 @@
-# Le monde de demain, le monde d'après ?
+# Le monde de demain
 
 _Ceci est une fiction. Toute ressemblence avec une réalité alternative serait purement fortuite._
 
