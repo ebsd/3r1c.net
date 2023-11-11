@@ -18,15 +18,16 @@ PS : si vous trouvez un autre 3r1c ailleurs qu'ici, ce n'est pas moi.
 ##  <a name="android"></a>Android
 Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid.
 - NewPipe, un client youtube
-- OrganicMaps
-- Sky Map
+- OrganicMaps, alternatives à gmaps
+- Sky Map, pour se repérer dans les étoiles
 - SurvivalMaterial
 - Gilder for Hacker News
-- MaterialFile
-- Binary Eye
-- Tutanota
+- MaterialFile, un gestionnaire de fichier
+- Binary Eye, qrcode scanner
+- Tutanota, email
 - Spotube, client spotify
-- Syncthing
+- Serveit, partage de fichiers depuis un smartphone
+- Syncthing, pour synchro de fichiers
 - DecSync, pour synchroniser contacts et calendriers et tâches. Il s'appuie sur Syncthing.
 
 ## <a name="links"></a>Liens intéressants
