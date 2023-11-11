@@ -49,6 +49,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid.
   - [web 0.5](https://tilde.pt/~fimdomeio/index2.html)
   - [textfiles.com](https://textfiles.com)
   - [chriskoehnke.com](https://chriskoehnke.com/)
+  - [shinobi website](https://shinobi.bt.ht/)
 - Francophone
   - [si3t.ch](http://si3t.ch/)
   - [skiserv.eu](https://blog.skiserv.eu/)
