@@ -2,7 +2,7 @@
 
 _Ceci est une fiction. Toute ressemblence avec une réalité alternative serait purement fortuite._
 
-Voyez-vous les temps post-covid devaient définir le monde d'après. Un monde nouveau dans lequel on aurait tiré les enseignements de la pandémie. Mais quels seraient-ils ? La pénurie de paracétamol ? Les lacunes de l'industrie pharmaceutique ? Le télétravail qui réduit les émissions de gaz à effets de serre ? 
+Les temps post-covid devaient définir le monde d'après. Un monde nouveau dans lequel on aurait tiré les enseignements de la pandémie. Mais quels seraient-ils ? Le retour des animaux en ville ? La pénurie de paracétamol ? Les lacunes de l'industrie pharmaceutique ? Le télétravail qui réduit les émissions de gaz à effets de serre ? Tout simplement la possibilité d'un autre système ? 
 
 Peu importe les enseignements, puisque visiblement rien ou si peu a changé. Un tout autre changement paraît bien plus probable, et celui-ci en sera un véritable puisqu'inévitable, est déjà en marche.
 Ce monde d'après auquel je pense, c'est un monde dans lequel mous avons terminé le travail. La planète est ravagée, et ses ressources sont épuiseés. Notre société basée sur la croissance économique ne compte que sur des ressources épuisables pour "croitre". On va donc inévitablement atteindre un stade auquel il n'y aura plus rien à épuiser. On ne pourra plus fabriquer des trucs inutiles en plastique au bout du monde pour les renvendre à un autre bout, pour finalement les mettre à la poubelle. La croissance économique ne sera plus.
