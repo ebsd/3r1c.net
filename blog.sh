@@ -86,9 +86,9 @@ write_page() {
 	target=$(echo "$filename" | sed -r 's|\w+/(.*).md|build/\1.html|')
 	created=$(echo "$3" | sed 's/T.*//')
 	updated=$(echo "$4" | sed 's/T.*//')
-	dates_text="Written on ${created}."
+	dates_text="Ecrit le ${created}."
 	if [ "$created" != "$updated" ]; then
-		dates_text="$dates_text Last updated on ${updated}."
+		dates_text="$dates_text Dernière mise à jour le ${updated}."
 	fi
 	title=$2
 
