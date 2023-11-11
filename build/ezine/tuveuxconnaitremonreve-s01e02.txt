@@ -120,5 +120,9 @@ Du côté des fonctionnalités que j'avais à "reproduire" :
 - Musique spotify avec Spotube.
 - andoid auto : possible de l'installer, mais je ne sais pas si je vais tester
 
+Pour exporter les contacts de gueulassemail.com, il y a une fonction pour
+exporter un .vcf. Ce fichier peut ensuite être importé dans l'app contact de
+LineageOS.
+
 [1]: https://wiki.lineageos.org/devices/redfin/install
 [2]: https://wiki.lineageos.org/adb_fastboot_guide
