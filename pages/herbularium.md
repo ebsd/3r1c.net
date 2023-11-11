@@ -13,13 +13,13 @@ Se préparer à vivre dans ce [nouveau monde](le-monde-de-demain.html), c'est au
 - la sauge officinale contre les problèmes digestifs et les règles difficiles et pour donner du goût aux farces
 - le thym pour éloigner les rhumes et composer les bouquets garnis
 - et aussi :
-  - l'aneth
-  - l'armoise commune
-  - la camomille romaine
-  - le fenouil doux
+  - l'aneth, pour soigner les coliques, maux de ventre et apaiser le système nerveux
+  - l'armoise commune, contre les troubles digestifs
+  - la camomille romaine, pour ses propriétés relaxantes
+  - le fenouil doux 
   - la ciboulette
   - la marjolaine vraie
-  - le serpolet
-  - le souci
+  - le serpolet, très efficace sur les voies respiratoires en cas de toux, rhume, grippe, rhinite, maux de gorge, angine, asthme, sinusite.
+  - le souci, reconnu pour ses propriétés cicatrisantes, antiseptiques et anti-inflammatoires.
   - la verveine odorante
   - la verveine officinale
