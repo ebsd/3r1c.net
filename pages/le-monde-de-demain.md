@@ -11,3 +11,5 @@ Mes amis il a fallu se <a href="kit-survie.html">préparer à vivre ou survivre 
 Mais bien avant la décroissance économique qui débuta en 2007, l'humanité dû faire face à une crise majeure liée à l'immigration climatique. Des centaines de milliers de personnes qui se déplacent, sans aucune anticipation, ça c'est passé dans la douleur. Les business models n'ont pas résisté à la guerre. C'est ce qui a précipité notre modèle de société dans le chaos. 
 
 Si seulement nous avions préparé ces changements cataclysmiques, plutôt que de fermer les yeux et continuer à produire à outrance en pillant les ressources et détruisant la plupart des formes de vie que cette planète a accueilli. Nous aurions sans doute pu éviter ce nouvel effondrement, cette sixième extinction massive.
+
+Tout a commencé en 2023, quand 3 étés longs de plus de six mois avec des températures à 55 degrés ont coûté la vie de milliers de personnes des pays du sud. Ceux-ci qui n'avaient rien demandé jusque là, et qui n'y sont pour rien dans l'affaire du réchauffement climatique, on fini par se lier et demander aux pays du nord d'accepter les migrants qui tentaient de traverser la méditerranée.
