@@ -16,7 +16,7 @@ Je m'appelle Eric. Je suis resté coincé dans l'Internet des années nonante ! 
 PS : si vous trouvez un autre 3r1c ailleurs qu'ici, ce n'est pas moi.
 
 ##  <a name="android"></a>Android
-Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid.
+Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app store ne contient que des applications libres et open sources qui sont focalisés plus sur le service à l'utilisateur que sur la monetisation.
 - NewPipe, un client youtube
 - OrganicMaps, alternatives à gmaps
 - Sky Map, pour se repérer dans les étoiles
