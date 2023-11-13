@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Le petit web d'3r1c</title>
 	<link href="https://3r1c.net/atom.xml" rel="self" />
-	<updated>2023-11-13T21:28:29+01:00</updated>
+	<updated>2023-11-13T22:25:09+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -390,13 +390,21 @@ set spelllang+=fr
 Pour ajouter un mot au dic : &lt;code&gt;zg&lt;/code&gt;
 Pour supprimer un mot du doc : &lt;code&gt;zw&lt;/code&gt;
 Pour se déplacer à la prochaine erreur &lt;code&gt;]s&lt;/code&gt; et pour la précédente &lt;code&gt;[s&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Plugins&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;https://github.com/vim-pandoc/vim-pandoc&lt;/li&gt;
+&lt;li&gt;https://github.com/Scuilion/markdown-drawer&lt;/li&gt;
+&lt;li&gt;https://github.com/junegunn/goyo.vim&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Gestion et Installation&lt;/h3&gt;
+&lt;p&gt;https://github.com/junegunn/vim-plug&lt;/p&gt;
 &lt;p&gt;Sources multiples dont : 
 https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
 https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
 		<id>tag:3r1c.net,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-11-01T18:53:51+01:00</updated>
+		<updated>2023-11-13T21:28:30+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>
