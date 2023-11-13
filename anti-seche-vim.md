@@ -91,6 +91,17 @@ Pour ajouter un mot au dic : `zg`
 Pour supprimer un mot du doc : `zw`
 Pour se déplacer à la prochaine erreur `]s` et pour la précédente `[s`.
 
+## Plugins
+
+- https://github.com/vim-pandoc/vim-pandoc
+- https://github.com/Scuilion/markdown-drawer
+- https://github.com/junegunn/goyo.vim
+
+### Gestion et Installation
+
+https://github.com/junegunn/vim-plug
+
+
 Sources multiples dont : 
 https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
 https://blog.sanctum.geek.nz/vim-anti-patterns/
