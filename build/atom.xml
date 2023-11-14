@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Le petit web d'3r1c</title>
 	<link href="https://3r1c.net/atom.xml" rel="self" />
-	<updated>2023-11-14T14:52:24+01:00</updated>
+	<updated>2023-11-14T17:34:50+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -313,7 +313,9 @@ mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
 &lt;li&gt;Remplacer et insérer le mot sous le curseur et le mot suivant : &lt;code&gt;c2w&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Remplacer la ligne et insérer : &lt;code&gt;c$&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Copier n lignes : &lt;code&gt;nyy&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Explorer le filesystem : &lt;code&gt;:Ex&lt;/code&gt;, &lt;code&gt;:Vex&lt;/code&gt;, &lt;code&gt;:Sex&lt;/code&gt;, &lt;code&gt;:Tex&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Explorer le file system : &lt;code&gt;:Ex&lt;/code&gt;, &lt;code&gt;:Vex&lt;/code&gt;, &lt;code&gt;:Sex&lt;/code&gt;, &lt;code&gt;:Tex&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Remplacer dans tout le texte : &lt;code&gt;:%s/old/new/g&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Remplacer dans la sélection (visual mode) : &lt;code&gt;:s/old/new/g&lt;/code&gt; &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Détails &lt;/h2&gt;
 &lt;ul&gt;

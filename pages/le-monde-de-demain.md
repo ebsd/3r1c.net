@@ -3,7 +3,7 @@
 _Ceci est une fiction. Toute ressemblence avec une réalité alternative serait purement fortuite._
 
 ## Introduction 
-Les temps post-covid devaient définir le monde d'après. Un monde nouveau dans lequel on aurait tiré les enseignements de la pandémie. Mais quels étaient-ils ? Le retour des animaux en ville ? La pénurie de paracétamol ? Les lacunes de l'industrie pharmaceutique ? Le télétravail qui réduisait les émissions de gaz à effets de serre ? Tout simplement la possibilité d'un autre système ? 
+Les temps post-covid devaient définir le monde d'après. Un monde nouveau dans lequel on aurait tiré les enseignements de la pandémie. Mais quels étaient-ils ? Le retour des animaux en ville, le retour rapide de la nature ? La pénurie de paracétamol ? Les lacunes de l'industrie pharmaceutique ? Le télétravail qui réduisait les émissions de gaz à effets de serre ? Tout simplement la possibilité d'un autre système ? 
 
 Peu importe les enseignements, puisque suite au covid rien ou si peu a changé. En revanche, un tout autre changement s'est amorcé et a laisser place à un autre monde. Ce monde d'après, c'est un monde dans lequel nous avons terminé le travail. La planète est maintenant ravagée, et ses ressources sont épuisées. Notre société avait basé son fonctionnement sur une croissance économique qui ne comptait que sur des ressources épuisables pour "croitre". On a donc inévitablement atteint un stade auquel il n'y avait plus rien à épuiser. On ne pouvait plus fabriquer des trucs en plastique inutiles au bout du monde pour les revendre à un autre bout ; pour finalement les mettre à la poubelle. La croissance économique avait pris fin.
 

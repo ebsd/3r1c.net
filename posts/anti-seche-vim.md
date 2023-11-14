@@ -12,7 +12,9 @@
 - Remplacer et insérer le mot sous le curseur et le mot suivant : `c2w`
 - Remplacer la ligne et insérer : `c$`
 - Copier n lignes : `nyy`
-- Explorer le filesystem : `:Ex`, `:Vex`, `:Sex`, `:Tex`
+- Explorer le file system : `:Ex`, `:Vex`, `:Sex`, `:Tex`
+- Remplacer dans tout le texte : `:%s/old/new/g`
+- Remplacer dans la sélection (visual mode) : `:s/old/new/g` 
 
 ## Détails 
 
