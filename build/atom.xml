@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Le petit web d'3r1c</title>
 	<link href="https://3r1c.net/atom.xml" rel="self" />
-	<updated>2023-11-13T22:25:09+01:00</updated>
+	<updated>2023-11-14T14:52:24+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -404,7 +404,7 @@ https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
 		<id>tag:3r1c.net,2023-09-11:posts/anti-seche-vim.md</id>
 		<published>2023-09-11T19:01:55+02:00</published>
-		<updated>2023-11-13T21:28:30+01:00</updated>
+		<updated>2023-11-13T22:25:10+01:00</updated>
 	</entry>
 	<entry>
 		<title>[en] eCPPT course and exam review</title>

@@ -126,3 +126,26 @@ LineageOS.
 
 [1]: https://wiki.lineageos.org/devices/redfin/install
 [2]: https://wiki.lineageos.org/adb_fastboot_guide
+
+Le "savoir procéder"
+====================
+Là où je bosse, certains crient haut et fort que nous ne sommes qu'une bande
+d'incapables désorganisés. Ils martèlent jour après jour à quel point
+l'organisation est foireuse et déplorent que personne ne mette de l'ordre dans
+cet enfer. "Pourquoi ce n'est pas géré comme d'habitude ?", "Qui est la personne
+référante ?", "Comment gérez vous ça ?". Autant de questions légitimes bien
+évidemment, mais qui ne trouvent étrangement jamais de réponses, alors pourquoi
+?  
+Dans une "organisation" justement, je pense que nous savons plusieurs
+typologies d'expertises requises. On connait tous le "savoir faire". Celui qui
+sait comment faire concrètement. On connait moins le "savoir concevoir", celui
+qui sait comment construire ce qui doit être fait. Et je vois malgré moi qu'on
+ne connait pas du tout le "savoir procéder". Celui qui sait comment on va
+procéder. Le procédé au sens "procédural". C'est celui qui sait qui va faire
+quoi et quand. Et justement, ce sont bien le personnes qui devraient posséder ce
+"savoir procéder" qui ne voient que de la désorganisation partout. Pire encore,
+ceux-ci vont insister pour qu'une tâche soit effectuée rapidement, sans grand
+design conceptuel, et sans jamais aucune procédure, ni aucune organisation.
+C'est affligeant. Voilà pourquoi, les questions d'organisation ne trouvent
+jamais de réponse. Ceux-ci sont censer la porter, n'en on pas conscience. Ils
+sont malheureusement résolument tournés vers le "savoir faire". 
