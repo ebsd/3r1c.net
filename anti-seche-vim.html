@@ -170,8 +170,20 @@ Pour se déplacer à la prochaine erreur <code>]s</code> et pour la précédente
 </ul>
 <h3>Gestion et Installation</h3>
 <p>https://github.com/junegunn/vim-plug</p>
-<p>Sources multiples dont : 
-https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
+<p>Installation :</p>
+<pre><code>curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+</code></pre>
+<p>Puis dans <code>~/.vimrc</code></p>
+<pre><code>call plug#begin()
+Plug 'junegunn/goyo.vim'
+call plug#end()
+</code></pre>
+<p>Enfin dans vim</p>
+<pre><code>:PlugInstall
+</code></pre>
+<h2>Sources</h2>
+<p>https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
 https://blog.sanctum.geek.nz/vim-anti-patterns/</p>
-<small>Ecrit le 2023-09-11. Dernière mise à jour le 2023-11-13.</small>
+<small>Ecrit le 2023-09-11. Dernière mise à jour le 2023-11-14.</small>
 </main>
