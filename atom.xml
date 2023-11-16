@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Le petit web d'3r1c</title>
 	<link href="https://3r1c.net/atom.xml" rel="self" />
-	<updated>2023-11-16T21:56:59+01:00</updated>
+	<updated>2023-11-16T22:07:19+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -400,8 +400,20 @@ Pour se déplacer à la prochaine erreur &lt;code&gt;]s&lt;/code&gt; et pour la 
 &lt;/ul&gt;
 &lt;h3&gt;Gestion et Installation&lt;/h3&gt;
 &lt;p&gt;https://github.com/junegunn/vim-plug&lt;/p&gt;
-&lt;p&gt;Sources multiples dont : 
-https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
+&lt;p&gt;Installation :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Puis dans &lt;code&gt;~/.vimrc&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;call plug#begin()
+Plug &#39;junegunn/goyo.vim&#39;
+call plug#end()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Enfin dans vim&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;:PlugInstall
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Sources&lt;/h2&gt;
+&lt;p&gt;https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
 https://blog.sanctum.geek.nz/vim-anti-patterns/&lt;/p&gt;</content>
 		<link href="anti-seche-vim.html"/>
 		<id>tag:3r1c.net,2023-09-11:posts/anti-seche-vim.md</id>
