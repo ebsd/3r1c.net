@@ -1,16 +1,11 @@
 # client = txtnish/0.2
-# nick = ebsd
+# nick = 3r1c
 # twturl = http://3r1c.net/twtxt.txt
-# following = gbmor https://gbmor.dev/twtxt.txt
-# following = alip https://dev.exherbo.org/~alip/twtxt.txt
 # following = deepend https://yourtilde.com/~deepend/twtxt.txt
 # following = edsu http://edsu.github.io/twtxt/twtxt.txt
 # following = pelmel http://pelmel.org/twtxt.txt
-# following = kasdk https://enotty.dk/kasdk.txt
 # following = directory http://twtxt.reednj.com/twtxt/directory.twtxt.txt
-# following = tx https://shroom.party/twtxt.txt
 # following = benaiah https://benaiah.me/twtxt.txt
-# following = akraut https://akraut.keybase.pub/twtxt.txt
 # following = tildebeast https://tilde.team/~tildebeast/twtxt/twtxt.txt
 # following = reednj https://sedo.com/search/details/?domain=twtxt.xyz&campaignId=329145&origin=sales_lander_15
 # following = vinc https://vinc.cc/twtxt.txt
@@ -18,9 +13,7 @@
 # following = marado https://tilde.pt/~marado/twtxt.txt
 # following = autoalk http://autoalk.tk/twtxt/autoalk.txt
 # following = xandkar https://xandkar.net/twtxt.txt
-# following = port70 gopher://port70.dk:70/0/port70.txt
 # following = dzns https://tilde.town/~dozens/tw.txt
-# following = mk https://mk.sdf.org/twtxt.txt
 # following = lucidiot https://tilde.town/~lucidiot/twtxt.txt
 # following = ruebot http://ruebot.github.io/twtxt/twtxt.txt
 # following = jcolag https://john.colagioia.net/twtxt.txt
@@ -29,16 +22,11 @@
 # following = mdosch https://mdosch.de/twtxt.txt
 # following = tux0r https://twtxt.rosaelefanten.org/
 # following = iolfree https://tilde.club/~iolfree/twtxt.txt
-# following = abliss https://abliss.keybase.pub/twtxt.txt#7a778276dd852edc65217e759cba637a28b4426b
 # following = von https://tilde.town/~von/twtxt.txt
 # following = mr_woggle https://tilde.town/~mr_woggle/twtxt.txt
-# following = oevl http://oevl.info/twtxt.txt
-# following = sysdharma https://twtxt.rodolpho.dev/twtxt.txt
 # following = quite https://lublin.se/twtxt.txt
 # following = tfurrows https://grex.org/~tfurrows/twtxt.txt
-# following = clementd http://clementd-files.cellar.services.clever-cloud.com/twtxt.txt
 # following = frogorbits.com https://www.frogorbits.com/twtxt.txt
-# following = kas https://enotty.dk/twtxt.txt
 # following = sixbitproxywax https://sixbitproxywax.com/twtxt.txt
 # following = esc http://escowles.github.io/tw.txt
 # following = jb55 https://jb55.com/twtxt.txt
@@ -54,7 +42,6 @@
 # following = gil https://tilde.pt/~gil/twtxt.txt
 # following = johanbove https://johanbove.info/twtxt.txt
 # following = sdk https://codevoid.de/tw.txt
-# following = nonlinear https://nonlinear.radiofreqs.space/twtxt.txt
 # following = leo https://www.gkbrk.com/twtxt.txt
 2020-04-23T22:06:42+02:00	C'est parti !
 2020-04-24T07:28:47+02:00	Twtxt sur un second laptop.
