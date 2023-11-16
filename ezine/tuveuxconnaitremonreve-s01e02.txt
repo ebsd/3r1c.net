@@ -8,7 +8,10 @@ Dans ce numéro :
 1. Qu'est-ce que c'est ?
 2. Halloween petites infos
 3. Amulette de sommeil
-4. Dégugeulisation
+4. Véhicule électrique vert ? (2)
+5. email auto hébergé
+6. Dégugeulisation
+7. Le "savoir procéder"
 
 Mots-clés : halloween, sahwin, samhain, f-droid, lineageos, pixel5, self-host,
 email 
@@ -34,7 +37,7 @@ Halloween semble se rattacher à de très anciens rites qu'on célébrait le soi
 31 octobre. Selon wikipedia il s'agit d'une fête traditionnelle païenne
 originaire des îles anglo-celtes. Nombreux prêtent à Halloween un héritage de la
 fête religieuse de Samhain (prononcer sahwin) qui était aussi célébrée le 31
-octobre par les Celtes.  Samhain était en quelque sorte un nouvel an. Samhain
+octobre par les Celtes. Samhain était en quelque sorte un nouvel an. Samhain
 est d'ailleurs la fête majeure de l'année pour toute Sorcière. Il marque la fin
 de l'été et donc le passage à l'hiver. La nature se meurt mais pas totalement,
 l'hiver est le temp de la régénération et du renouvellement. Cette nuit du
