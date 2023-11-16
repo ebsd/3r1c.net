@@ -103,7 +103,24 @@ Pour se déplacer à la prochaine erreur `]s` et pour la précédente `[s`.
 
 https://github.com/junegunn/vim-plug
 
+Installation :
+```
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
 
-Sources multiples dont : 
+Puis dans `~/.vimrc`
+```
+call plug#begin()
+Plug 'junegunn/goyo.vim'
+call plug#end()
+```
+
+Enfin dans vim
+```
+:PlugInstall
+```
+
+## Sources
 https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
 https://blog.sanctum.geek.nz/vim-anti-patterns/

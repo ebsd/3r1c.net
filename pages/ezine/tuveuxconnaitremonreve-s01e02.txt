@@ -8,10 +8,16 @@ Dans ce numéro :
 1. Qu'est-ce que c'est ?
 2. Halloween petites infos
 3. Amulette de sommeil
+<<<<<<< HEAD
 4. Véhicule électrique vert ? (2)
 5. email auto hébergé
 6. Dégugeulisation
 7. Le "savoir procéder"
+=======
+4. Dégugeulisation
+5. Le "savoir procéder"
+6. Le monde de demain
+>>>>>>> f5b4c0ba3b41807ebf5e0e893b7f44b33c763a75
 
 Mots-clés : halloween, sahwin, samhain, f-droid, lineageos, pixel5, self-host,
 email 
@@ -21,12 +27,12 @@ Qu'est-ce que c'est ?
 
 Ceci est un simple document qui me permet de "tracer" mes activités, mes
 découvertes sur une période de 1 à 2 mois. A mon sens, elles peuvent être utiles
-à d'autres alors je les partage via ce modeste document. Toute participation est
-la bienvenue, soit par l'ajout de contenu (pull request), soit par relecture et/
-ou corrections des éventuelles coquilles (pull request aussi :-).
+à d'autres alors je les partage modestement. Toute participation est la
+bienvenue, soit par l'ajout de contenu (pull request), soit par relecture et/ ou
+corrections des éventuelles coquilles (pull request aussi :-).
 
-Les sujets abordés sont : informatique en général, plus particulièrement la
-sécurité.
+Les sujets abordés sont : un peu tout, l'informatique en général, plus
+particulièrement la sécurité.
 
 En espérant que ceci soit utile...
 
@@ -40,16 +46,20 @@ fête religieuse de Samhain (prononcer sahwin) qui était aussi célébrée le 3
 octobre par les Celtes. Samhain était en quelque sorte un nouvel an. Samhain
 est d'ailleurs la fête majeure de l'année pour toute Sorcière. Il marque la fin
 de l'été et donc le passage à l'hiver. La nature se meurt mais pas totalement,
-l'hiver est le temp de la régénération et du renouvellement. Cette nuit du
-nouvel an celtique le monde des vivants et le monde des morts se rapprochent, la
-frontière devient si mince que les habitants de l'autre monde viennent visiter
-les humains, et inversement. Les fantômes et autres esprits peuvent alors se
-promener parmi les vivants qui eux honorent leurs ancêtres.  Les Sorcières
-profitent de Samhain pour se recueillir, en particulier en forêt.  Elles tirent
-des enseignement de l'année qui s'est écoulée. La promenade en forêt permet de
-récolter des feuilles mortes ou autres présent laisser par la nature. Ceux-ci
-servent de décors aux autels de rituels souvent présent chez les sorcières.  Le
-soir d'halloween, lumières et bougies illuminent les abords des maisons pour
+l'hiver est le temp de la régénération et du renouvellement.
+
+Cette nuit du nouvel an celtique le monde des vivants et le monde des morts se
+rapprochent, la frontière devient si mince que les habitants de l'autre monde
+viennent visiter les humains, et inversement. Les fantômes et autres esprits
+peuvent alors se promener parmi les vivants qui eux honorent leurs ancêtres.
+
+Les Sorcières profitent de Samhain pour se recueillir, en particulier en forêt.
+Elles tirent des enseignement de l'année qui s'est écoulée. La promenade en
+forêt permet de récolter des feuilles mortes ou autres cadeaux laisser par la
+nature. Ceux-ci servent de décors aux autels de rituels souvent présents chez
+les sorcières. 
+
+Le soir d'halloween, lumières et bougies illuminent les abords des maisons pour
 guider les esprits en recherche de la chaleur d'un foyer. Pour au contraire
 repousser les esprits indésirés de l'autre monde, des protections sont mises en
 évidences : sel, runes, etc. Les créations effrayantes comme les citrouilles
@@ -137,7 +147,7 @@ Là où je bosse, certains crient haut et fort que nous ne sommes qu'une bande
 d'incapables désorganisés. Ils martèlent jour après jour à quel point
 l'organisation est foireuse et déplorent que personne ne mette de l'ordre dans
 cet enfer. "Pourquoi ce n'est pas géré comme d'habitude ?", "Qui est la personne
-référante ?", "Comment gérez vous ça ?". Autant de questions légitimes bien
+référente ?", "Comment gérez vous ça ?". Autant de questions légitimes bien
 évidemment, mais qui ne trouvent étrangement jamais de réponses, alors pourquoi
 ?  
 Dans une "organisation" justement, je pense que nous savons plusieurs
@@ -153,3 +163,13 @@ design conceptuel, et sans jamais aucune procédure, ni aucune organisation.
 C'est affligeant. Voilà pourquoi, les questions d'organisation ne trouvent
 jamais de réponse. Ceux-ci sont censer la porter, n'en on pas conscience. Ils
 sont malheureusement résolument tournés vers le "savoir faire". 
+
+Le monde de demain
+==================
+Idées en mode brouillon pour mon modeste récit collapse / effondrement :
+- Trois façon de mourir collectivement : guerre, maladie, famine
+- Les réacteurs nucléaires ont besoin de 4 mois de refroidissement après un
+  arrêt de la centrale. Donc 4 mois d'énergie. Évidemment on ne les aura pas
+sinon ce serait pas drôle :)
+- Les humains seraient plus efficace ensemble en situation de stress, meilleures
+  coopérations. Tout seul on va vite, ensemble on va loin.
