@@ -156,8 +156,8 @@ mkdir build/ezine
 cp pages/ezine/* build/ezine
 
 mkdir build/posts
-cp log/atom.xml build/posts
-cp log/atom.xsl build/posts
+cp log-shinobi/feed.xml build/posts
+cp log-shinobo/rss.xsl build/posts
 
 # add CNAME file for github pages hosting
 echo "3r1c.net" >> build/CNAME
