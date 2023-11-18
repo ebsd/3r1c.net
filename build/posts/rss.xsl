@@ -25,7 +25,7 @@
             <body>
                 <pre><xsl:value-of select="/rss/channel/title"/></pre>
 		<pre><xsl:value-of select="/rss/channel/description"/></pre>
-		<p>Retour à la page d'accueil</p>
+		<pre><a href="/">Retour à la page d'accueil</a></pre>
                 <xsl:for-each select="/rss/channel/item">
                     <xsl:sort select="category" order="descending"/>
                         <pre class="date"><xsl:value-of select="pubDate" /></pre>
