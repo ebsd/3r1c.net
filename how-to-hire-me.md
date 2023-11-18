@@ -1,4 +1,5 @@
 # How to Hire Me
+2023-10-26T10:20:00Z
 
 J'occupe actuellement un emploi satisfaisant associé à une rémunération tout à fait convenable. Si vous recherchez à recruter, je vous remercie de fournir les informations suivantes afin que je puisse étudier l'offre et effectuer les recherches d'usage concernant l'entreprise.
 
