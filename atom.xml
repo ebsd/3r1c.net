@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Le petit web d'3r1c</title>
 	<link href="https://3r1c.net/atom.xml" rel="self" />
-	<updated>2023-11-18T13:08:41+01:00</updated>
+	<updated>2023-11-18T13:10:17+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -60,7 +60,7 @@
 		<link href="how-to-hire-me.html"/>
 		<id>tag:3r1c.net,2023-10-26:posts/how-to-hire-me.md</id>
 		<published>2023-10-26T21:02:53+01:00</published>
-		<updated>2023-10-28T17:51:28+02:00</updated>
+		<updated>2023-11-18T13:08:42+01:00</updated>
 	</entry>
 	<entry>
 		<title>Outils et services</title>
