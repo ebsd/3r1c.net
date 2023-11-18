@@ -127,7 +127,7 @@ index_tsv posts | sort -rt "	" -k 3 > build/posts.tsv
 index_html build/posts.tsv hide-drafts > build/index.html
 index_html build/posts.tsv show-drafts > build/index-with-drafts.html
 #index_gmi build/posts.tsv hide-drafts > build/index.gmi
-atom_xml build/posts.tsv > build/atom.xml
+#atom_xml build/posts.tsv > build/atom.xml
 while read -r f title created updated; do
 	write_page "$f" "$title" "$created" "$updated"
 done < build/posts.tsv
@@ -139,7 +139,7 @@ while read -r f title created updated; do
 done < build/pages.tsv
 
 # Static files
-cp -r posts/* build
+#cp -r posts/* build
 
 # Robots.txt file
 cp pages/robots.txt build
