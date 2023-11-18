@@ -1,7 +1,8 @@
-# Antisèche vim
+Antisèche vim
 2023-11-18T11:24:56Z
 
-## Le meilleur
+Le meilleur
+-----------
 
 - Revenir au mode normal : `ESC` ou `CTRL+[`
 - Se déplacer à la fin du mot suivant : `e`
@@ -17,7 +18,14 @@
 - Remplacer dans tout le texte : `:%s/old/new/g`
 - Remplacer dans la sélection (visual mode) : `:s/old/new/g` 
 
-## Détails 
+Les onglets (tabs)
+------------------
+
+- Créer un nouveau fichier dans un nouveau tab : `:tabnew /path/to/newfile`
+- Se déplacer vers le tab suivant / précédant : `:tabn` et `:tabp`
+
+Détails 
+-------
 
 - Mode insertion : `i`
 - Mode insertion au début de ligne : `I`
@@ -64,7 +72,9 @@
 - Remplacer et insérer à partir du curseur jusqu'au second mot : `c2w`
 - Remplacer la ligne et insérer : `c$`
 
-## Un peu plus loin
+Un peu plus loin
+----------------
+
 - Supprimer les espaces à la fin de chaque ligne : `:%s/\s\+$//e`
 - Idem au début de chaque ligne : `:%s/^\s+//e`
 - Afficher un guide d'indentation (tab) : `:set listchars=tab:\|\` puis  `:set list`
@@ -76,13 +86,17 @@
 autocmd FileType text setlocal textwidth=80
 ```
 - Pour remplacer la touche ESC (un peu lointaine du centre du clavier) par `jj` dans `~/.vimrc` : `inoremap jj <Esc>`. Note : on peut aussi utiliser `CTRL+[`
-## autosave
+
+autosave
+--------
+
 `~/.vimrc`
 ```
 autocmd TextChanged,TextChangedI <buffer> silent write
 ```
 
-## Spell check
+Spell check
+-----------
 
 Dans `~/.vimrc` :
 ```
@@ -94,13 +108,15 @@ Pour ajouter un mot au dic : `zg`
 Pour supprimer un mot du doc : `zw`
 Pour se déplacer à la prochaine erreur `]s` et pour la précédente `[s`.
 
-## Plugins
+Plugins
+-------
 
 - https://github.com/vim-pandoc/vim-pandoc
 - https://github.com/Scuilion/markdown-drawer
 - https://github.com/junegunn/goyo.vim
 
-### Gestion et Installation
+Gestion et Installation
+.......................
 
 https://github.com/junegunn/vim-plug
 
@@ -118,10 +134,7 @@ call plug#end()
 ```
 
 Enfin dans vim
+
 ```
 :PlugInstall
 ```
-
-## Sources
-https://stackoverflow.com/questions/597077/what-are-the-benefits-of-learning-vim
-https://blog.sanctum.geek.nz/vim-anti-patterns/
