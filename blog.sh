@@ -156,6 +156,9 @@ mkdir build/ezine
 cp pages/ezine/* build/ezine
 
 mkdir build/posts
+cd log-shinobi
+./script.sh > ./feed.xml
+cd $OLDPWD
 cp log-shinobi/feed.xml build/posts
 cp log-shinobi/rss.xsl build/posts
 cp log-shinobi/posts/* build/posts
