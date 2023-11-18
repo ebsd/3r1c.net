@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet href="rss.xsl" type="text/xsl"?>
+<rss version="2.0">
+  <channel>
+    <title>3r1c.net</title>
+    <link>http://3r1c.net</link>
+    <description>A text-based, RSS focused blogging system</description>
+    <copyright></copyright>
+    <ttl>60</ttl>
+<item>
+<pubDate>2023-11-18T11:24:56Z 13:31:19 CET</pubDate>
+  <category>2023/11/18/6</category>
+  <title>FIRST MAJOR PATCH AND QOL IMPROVEMENTS</title>
+  <link>http://3r1c.net/posts/patch-1.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>The main shinobi script has received its first external patch!
+
+It&#39;s getting just past 10PM on this stormy Sunday night, but I have an 
+urge to share this post now instead of waiting for next week. 
+Afterwards I&#39;ll be going to bed before the start of a new week.
+
+If you&#39;ve been following along, you might have noticed a pretty solid 
+patch has been added to the core shinobi script project:
+
+https://git.sr.ht/~tdarb/shinobi-script
+
+Special shout out to Matthew Graybosch[0] for putting together these 
+improvements and working towards a more consistent experience across 
+all RSS readers.
+
+
+THE CHANGES AT A GLANCE
+-----------------------
+
+In a nutshell:
+
+- text inside the CDATA tag is now wrapped with &lt;pre&gt; tags
+- &lt;pre&gt; tag has inline CSS to specify reasonable wrapping
+- tail command to retrieve post text now pipes into sed to escape HTML 
+tags.
+- added test posts
+- added makefile for local testing
+
+Please take a look at the changes directly in the official patch 
+notes[1]. Take notice of some of the new folders/files included with 
+the default project. You&#39;ll also see updated instructions in the README 
+to help with testing and local development.
+
+
+QUALITY OF LIFE
+---------------
+
+In addition to the first major patch, I&#39;ve included basic styling to 
+properly render the RSS feed directory in supported browsers. To see it 
+in action, simply check out:
+
+https://shinobi.website/feed.xml
+
+The styles are included in the new `rss.css` file of the shinobi 
+project. The current layout is taken from Len Falken&#39;s main 
+directory[2]. Feel free to change this to however you see fit! I&#39;ve 
+kept them consistent with the remainder of the project, but there is 
+nothing stopping you from including things like XSLT.
+
+To reflect these changes, I&#39;ve updated some of the details found in the 
+original &quot;SIMPLE GUIDE FOR CREATING YOUR OWN SHINOBI.WEBSITE&quot;[3]
+
+
+TESTING, TESTING, TESTING
+-------------------------
+
+I&#39;m trying my best to test every RSS reader available to me. My main 
+machine is running macOS and my phone iOS, thus making me somewhat 
+limited in my access to other OS-specific RSS applications. Even still, 
+I&#39;ve added a growing list to the project README documenting readers 
+that have been tested, along with their support &quot;grade&quot;. Feel free to 
+include your own testing in tickets or patches on your own!
+
+That is really all there is to say. Enjoy your week!
+
+
+LINKS
+-----
+
+[0]: https://matthewgraybosch.com
+[1]: 
+https://git.sr.ht/~tdarb/shinobi-script/log?from=7e2f8bd312d648ff1c8d3cf
+dc747d2e5634100d7#log-7e2f8bd312d648ff1c8d3cfdc747d2e5634100d7
+[2]: http://len.falken.directory
+[3]: https://shinobi.website/posts/create-your-own-shinobi-website.txt
+
+
+***
+
+Thanks for reading,
+-- Brad</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/patch-1.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-18T11:24:56Z 13:31:19 CET</pubDate>
+  <category>2023/11/18/6</category>
+  <title>titre</title>
+  <link>http://3r1c.net/posts/test.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>ddd ca va ?</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/test.txt</guid>
+  </item>
+  </channel>
+</rss>
