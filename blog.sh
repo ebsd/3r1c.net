@@ -151,10 +151,6 @@ cp pages/twtxt.txt build
 mkdir build/img
 cp pages/img/* build/img
 
-# ezine files
-#mkdir build/ezine
-#cp pages/ezine/* build/ezine
-
 mkdir build/posts
 cd log-shinobi
 ./script.sh > ./feed.xml
