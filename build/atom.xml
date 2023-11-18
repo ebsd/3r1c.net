@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Le petit web d'3r1c</title>
 	<link href="https://3r1c.net/atom.xml" rel="self" />
-	<updated>2023-11-18T10:41:31+01:00</updated>
+	<updated>2023-11-18T13:08:41+01:00</updated>
 	<author>
 		<name>ebsd</name>
 	</author>
@@ -33,6 +33,7 @@
 	<entry>
 		<title>How to Hire Me</title>
 		<content type="html">&lt;h1&gt;How to Hire Me&lt;/h1&gt;
+&lt;p&gt;2023-10-26T10:20:00Z&lt;/p&gt;
 &lt;p&gt;J&#39;occupe actuellement un emploi satisfaisant associé à une rémunération tout à fait convenable. Si vous recherchez à recruter, je vous remercie de fournir les informations suivantes afin que je puisse étudier l&#39;offre et effectuer les recherches d&#39;usage concernant l&#39;entreprise.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;le nom de l&#39;entreprise qui propose l&#39;emploi&lt;/li&gt;

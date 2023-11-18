@@ -155,5 +155,7 @@ cp pages/img/* build/img
 mkdir build/ezine
 cp pages/ezine/* build/ezine
 
+mkdir build/log
+cp log/atom.xml build/posts
 # add CNAME file for github pages hosting
 echo "3r1c.net" >> build/CNAME
