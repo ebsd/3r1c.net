@@ -9,7 +9,6 @@ Contactez moi via <a href="mailto:eric(chez)3r1c_dot_net" rel="me">email</a> ou 
 - [About](#about)
 - [Android](#android)
 - [Liens intéressants](#links)
-- [Notes](#notes)
 
 ## <a name="about"></a>About
 Je m'appelle Eric. Je suis resté coincé dans l'Internet des années nonante ! C'est pourquoi vous constatez que ce site est particulièrement évolué :) C'est un site statique, il fonctionne avec un minimum de techno : juste un peu de CSS. Bienvenue dans cette petite partie de small web.
@@ -71,4 +70,4 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
 - encryption
   - https://github.com/drduh/YubiKey-Guide
 
-## <a name="notes"></a>Notes
+<!-- ## <a name="notes"></a>Notes -->
