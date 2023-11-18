@@ -1,4 +1,4 @@
-# Chiffrer ses backups dans le cloud
+Chiffrer ses backups dans le cloud
 2022-07-18T11:24:56Z
 
 [Rclone](https://rclone.org/) permet de synchroniser vos fichiers avec le cloud (Dropbox, Google drive, pcloud, Mega et bien d'autres). C'est idéal pour un backup en ligne. Pour assurer la confidentialité de nos données, utilisons en complément [gocryptfs](https://nuetzlich.net/gocryptfs/).

@@ -1,4 +1,4 @@
-# htb Busqueda
+htb Busqueda
 2023-08-17T11:24:56Z
 
 Résumé : l'exploitation d'une vulnérabilité de type injection de commandes permet d'obtenir un accès non privilégié à la machine. On découvre des crédentiels dans la configuration git, qui nous permettent de nous connecter à gitea. De la lecture du code d'un script nous déduisons la présence d'une vulnérabilité introduite par l'utilisation d'un chemin relatif par ce script. Ce script peu sécurisé peut être utilisé en sudo, et nous permet d’exécuter du code à distance avec les privilèges root.

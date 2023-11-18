@@ -1,4 +1,4 @@
-# Anatomie d'une attaque informatique
+Anatomie d'une attaque informatique
 2019-05-18T11:24:56Z
 
 Au cours de cet article, je vous propose de décortiquer le processus d'une attaque informatique à distance. Il s'agit d'un cas réel, pour lequel l'entreprise a entrepris des actions correctives. Pour des raisons éthiques, toute information potentiellement sensible a été anonymisée ou supprimée.
