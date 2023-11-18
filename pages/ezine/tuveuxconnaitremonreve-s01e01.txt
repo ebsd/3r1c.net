@@ -25,47 +25,6 @@ sécurité.
 
 En espérant que ceci soit utile...
 
-De-googlisation
-===============
-
-Je ne sais pas si c'est correctement orthographié, mais vous voyez bien l'idée.
-Depuis quelques temps j'explore les pistes pour sortir de l'emprise du gouglle.
-
-Aujourd'hui parlons smartphone. Abandonner android c'est pas encore pour demain
-selon mes quelques lectures. Cepandant, on peut sans doute commencer par
-quelques applications.
-
-Exit maps
----------
-
-Je n'en suis qu'à mes premiers pas :-) J'ai un tout petit peu progressé du côté
-de mon smartphone. Une des grandes interrogations étaient de trouver une
-alternative à maps. C'est chose faite avec **Organic Maps**, disponible sur
-F-Droid.
-
-Il faut donc installer F-Droid dans un 1er temps. Puis, lui donner
-l'autorisation d'installer des applications (la demande d'autorisation se fait
-lors de la première installation d'une app de F-Droid).
-
-Quelques autres apps sur F-Droid
---------------------------------
-
-J'en profite pour faire part également de ma découverte de ces applications :
-
-- Mull, un navigateur orienté "vie privée" basé sur Mozilla
-- Sky Map, une fenêtre sur votre ciel
-- New Pipe, un client youtube
-
-gmail
------
-
-Je réfléchis toujours à une alternative auto-hébergée. Mais qui ne génère pas
-"trop" de maintenance. Exim ?  Il faut dire que c'est un peu compliqué car je ne
-dispose que d'une connexion 4G (pas de fibre ou adsl) et en conséquence je n'ai
-pas vraiment d'IP publique, et celle qui est vue de "l'extérieure" est en fait
-partagée avec des centaines de personnes. J'aurais donc sans doute à utiliser un
-VPS en tant que relai smtp. Ca ne simplifie pas les choses.
-
 Véhicule électrique : un véhicule vert ?
 ========================================
 
