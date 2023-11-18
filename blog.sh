@@ -123,7 +123,7 @@ index_gmi() {
 rm -fr build && mkdir build
 
 # Blog posts
-#index_tsv posts | sort -rt "	" -k 3 > build/posts.tsv
+index_tsv posts | sort -rt "	" -k 3 > build/posts.tsv
 index_html build/posts.tsv hide-drafts > build/index.html
 #index_html build/posts.tsv show-drafts > build/index-with-drafts.html
 #index_gmi build/posts.tsv hide-drafts > build/index.gmi
