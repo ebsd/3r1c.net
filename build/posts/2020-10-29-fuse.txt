@@ -1,4 +1,4 @@
-# htb fuse
+htb fuse
 2020-10-29T11:24:56Z
 
 L'art de **l'exploitation de driver signé** sur un OS 64 bits quand un administrateur a donné les permissions de chargé un driver (**SeLoadDriverPrivilege**) à un utilisateur.

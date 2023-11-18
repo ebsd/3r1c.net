@@ -1,4 +1,4 @@
-# Configurer un umask + securisé
+Configurer un umask + securisé
 2021-03-18T11:24:56Z
 
 Je fais le point sur les différentes options de configuration du umask. Pour rendre les permissions de votre système plus restrictives, sans pour aurant bloquer tout son fonctionnement, le umask idéal est à mon sens le 027 ; l'utilisateur peut lire et écrire, et le groupe peut seulement lire. Les autres utilisateurs ne possèdent pas de permissions.

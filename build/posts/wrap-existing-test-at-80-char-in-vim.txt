@@ -1,4 +1,4 @@
-# Wrap Existing Text at 80 Characters in Vim
+Wrap Existing Text at 80 Characters in Vim
 2023-11-07T11:24:56Z
 
 Vous avez un bloc de text ou de code existant dans vim. Vous voulez le reformater sur maximum 80 caractères.
