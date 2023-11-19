@@ -4,6 +4,8 @@ La vie en rose ukulélé
 La vie en rose
 ==============
 
+_Note_ = 2 temps au lieu de 4.
+
  G    Gmaj7   G6     Am7    D
 ||||   ||||   ||||   ||||   ||||
 |o|o   |ooo   |o|o   ||||   ooo|
@@ -44,4 +46,3 @@ Une part de bonheur
      G7            C
 Dont je connais la cause
 
-_Note_ = 2 temps au lieu de 4.
