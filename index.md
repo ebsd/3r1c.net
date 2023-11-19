@@ -38,6 +38,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [10kb club](https://10kbclub.com)
   - [nocss club](https://nocss.club/)
   - [xxiivv webring](https://webring.xxiivv.com/)
+  - [Fediring (random site)](https://fediring.net/random)
 - Small web
   - [the small web is beautiful](https://benhoyt.com/writings/the-small-web-is-beautiful/)
   - [QotNews](https://news.t0.vc)
