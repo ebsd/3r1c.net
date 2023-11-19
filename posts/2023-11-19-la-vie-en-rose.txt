@@ -5,7 +5,6 @@ La vie en rose
 ==============
 
  G    Gmaj7   G6     Am7    D
-
 ||||   ||||   ||||   ||||   ||||
 |o|o   |ooo   |o|o   ||||   ooo|
 ||o|   ||||   ||||   ||||   ||||
@@ -18,4 +17,30 @@ Il ne parle tout bas
                   Am7  D
 Je vois la vie en ro - se
 
+Am      D     Gdim
+||||   ||||   |o|o
+o|||   ooo|   ||||
+||||   ||||   ||||
+||||   ||||   ||||
+
+Am                  D
+Il me dit des mots d'amour
+                     Am
+Des mots de tout les jours
+   D                  Gdim D
+Et ça me fait quelque chose
+
+
+ G    Gmaj7   G6     G7     C 
+||||   ||||   ||||   ||o|   ||||
+|o|o   |ooo   |o|o   |o|o   ||||
+||o|   ||||   ||||   ||||   |||o
+||||   ||||   ||||   ||||   ||||
+
+G                     Gmaj7
+Il est entré dans mon coeur
+                G6
+Une part de bonheur
+     G7            C
+Dont je connais la cause
 
