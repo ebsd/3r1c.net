@@ -13,8 +13,8 @@ La vie en rose
 G                          Gmaj7
 Quand il me prend dans ses bras
                 G6
-Il ne parle tout bas
-                  Am7  D
+Il me parle tout bas
+                  _Am7_  _D_
 Je vois la vie en ro - se
 
 Am      D     Gdim
@@ -25,9 +25,9 @@ o|||   ooo|   ||||
 
 Am                  D
 Il me dit des mots d'amour
-                     Am
+                     _Am_
 Des mots de tout les jours
-   D                  Gdim D
+   _D_              _Gdim_ _D_
 Et ça me fait quelque chose
 
 
@@ -44,3 +44,4 @@ Une part de bonheur
      G7            C
 Dont je connais la cause
 
+_Note_ = 2 temps au lieu de 4.
