@@ -8,7 +8,7 @@
     <copyright></copyright>
     <ttl>60</ttl>
 <item>
-<pubDate>2019-05-18T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2019-05-18T11:24:56Z 09:41:43 CET</pubDate>
   <category>2019/05/18/6</category>
   <title>Anatomie d'une attaque informatique</title>
   <link>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</link>
@@ -138,7 +138,7 @@ Tags: pentest</pre>]]>
   <guid>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-16T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2020-06-16T11:24:56Z 09:41:43 CET</pubDate>
   <category>2020/06/16/2</category>
   <title>htb blunder</title>
   <link>http://3r1c.net/posts/2020-06-16-blunder.txt</link>
@@ -519,7 +519,7 @@ cat root.txt
   <guid>http://3r1c.net/posts/2020-06-16-blunder.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-02T10:21:56Z 09:36:44 CET</pubDate>
+<pubDate>2020-09-02T10:21:56Z 09:41:43 CET</pubDate>
   <category>2020/09/02/3</category>
   <title>buff</title>
   <link>http://3r1c.net/posts/2020-09-02-buff.txt</link>
@@ -663,7 +663,7 @@ https://p0i5on8.github.io/posts/hackthebox-buff/
   <guid>http://3r1c.net/posts/2020-09-02-buff.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-29T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2020-09-29T11:24:56Z 09:41:43 CET</pubDate>
   <category>2020/09/29/2</category>
   <title>htb admirer</title>
   <link>http://3r1c.net/posts/2020-09-29-admirer.txt</link>
@@ -1055,7 +1055,7 @@ Et notre netcat reçoit la connexion en retour. Nous sommes root.
   <guid>http://3r1c.net/posts/2020-09-29-admirer.txt</guid>
   </item>
 <item>
-<pubDate>2020-10-29T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2020-10-29T11:24:56Z 09:41:43 CET</pubDate>
   <category>2020/10/29/4</category>
   <title>htb fuse</title>
   <link>http://3r1c.net/posts/2020-10-29-fuse.txt</link>
@@ -1465,7 +1465,7 @@ Successfully loaded driver
   <guid>http://3r1c.net/posts/2020-10-29-fuse.txt</guid>
   </item>
 <item>
-<pubDate>2022-02-17T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2022-02-17T11:24:56Z 09:41:43 CET</pubDate>
   <category>2022/02/17/4</category>
   <title>htb blackfield</title>
   <link>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</link>
@@ -2129,7 +2129,7 @@ On peut vérifier que le compte _support_ est bien &quot;vulnérable&quot; à l&
   <guid>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</guid>
   </item>
 <item>
-<pubDate>2023-08-17T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2023-08-17T11:24:56Z 09:41:43 CET</pubDate>
   <category>2023/08/17/4</category>
   <title>htb Busqueda</title>
   <link>http://3r1c.net/posts/2023-08-17-busqueda.txt</link>
@@ -2423,7 +2423,7 @@ $ nc -nlvp 9002
   <guid>http://3r1c.net/posts/2023-08-17-busqueda.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-04 09:36:44 CET</pubDate>
+<pubDate>2023-10-04 09:41:43 CET</pubDate>
   <category>2023/10/04/3</category>
   <title>Recommandations de recharge de véhicule électrique</title>
   <link>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</link>
@@ -2441,7 +2441,7 @@ batterie d&#39;un véhucule électrique afin de conserver un bon niveau de sant�
   <guid>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-08 09:36:44 CET</pubDate>
+<pubDate>2023-10-08 09:41:43 CET</pubDate>
   <category>2023/10/08/7</category>
   <title>Véhicule électrique : un véhicule vert ?</title>
   <link>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</link>
@@ -2466,7 +2466,7 @@ votre VE :)</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-31 09:36:44 CET</pubDate>
+<pubDate>2023-10-31 09:41:43 CET</pubDate>
   <category>2023/10/31/2</category>
   <title>Halloween petites infos</title>
   <link>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</link>
@@ -2507,7 +2507,7 @@ quelques infos. Voilà c&#39;était la minute culturelle du mois :-))</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-02 09:36:44 CET</pubDate>
+<pubDate>2023-11-02 09:41:43 CET</pubDate>
   <category>2023/11/02/4</category>
   <title>Amulette de sommeil</title>
   <link>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</link>
@@ -2528,7 +2528,7 @@ physique et mental. Mettre tous les ingrédients dans le sachet :
   <guid>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-09 09:36:44 CET</pubDate>
+<pubDate>2023-11-09 09:41:43 CET</pubDate>
   <category>2023/11/09/4</category>
   <title>Véhicule électrique vert ? (2)</title>
   <link>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</link>
@@ -2553,7 +2553,7 @@ chez les autres.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-10 09:36:44 CET</pubDate>
+<pubDate>2023-11-10 09:41:43 CET</pubDate>
   <category>2023/11/10/5</category>
   <title>email auto hébergé</title>
   <link>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</link>
@@ -2572,7 +2572,7 @@ postgrey serait une solution palliative ?
   <guid>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-14 09:36:44 CET</pubDate>
+<pubDate>2023-11-14 09:41:43 CET</pubDate>
   <category>2023/11/14/2</category>
   <title>Dégugeulisation</title>
   <link>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</link>
@@ -2608,7 +2608,7 @@ LineageOS.
   <guid>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-15 09:36:44 CET</pubDate>
+<pubDate>2023-11-15 09:41:43 CET</pubDate>
   <category>2023/11/15/3</category>
   <title>Le "savoir procéder"</title>
   <link>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</link>
@@ -2639,7 +2639,7 @@ Ils sont malheureusement résolument tournés vers le &quot;savoir faire&quot;. 
   <guid>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-16 09:36:44 CET</pubDate>
+<pubDate>2023-11-16 09:41:43 CET</pubDate>
   <category>2023/11/16/4</category>
   <title>Le monde de demain</title>
   <link>http://3r1c.net/posts/2023-11-16-le-monde-de-demain-draft.txt</link>
@@ -2657,7 +2657,7 @@ sinon ce serait pas drôle :)
   <guid>http://3r1c.net/posts/2023-11-16-le-monde-de-demain-draft.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-18T21:03:07Z 09:36:44 CET</pubDate>
+<pubDate>2023-11-18T21:03:07Z 09:41:43 CET</pubDate>
   <category>2023/11/18/6</category>
   <title>Shinobi website</title>
   <link>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</link>
@@ -2674,7 +2674,40 @@ Toutes les infos sont ici : https://shinobi.bt.ht/</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-18T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2023-11-19T09:37:49Z 09:41:43 CET</pubDate>
+  <category>2023/11/19/7</category>
+  <title>Le monde de demain (3) - Sans transition</title>
+  <link>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-3.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Ce billet fait partie d&#39;un essai que j&#39;ai nommé &quot;Le monde de demain&quot;.
+
+Vers 2038 la prétendue transition écologique ne trompait plus personne. Le monde
+avait compris, mais bien trop tard, qu&#39;elle n&#39;existait pas. Remplacer les
+centrales à charbon par des éoliennes aura seulement permis de limiter les
+particules fines dans l&#39;air. On avait résolu le dernier de nos problèmes. De
+telles constructions en mer on continué à détruire la vie marine. A tel point
+que la pêche était devenue tout simplement sans résultat. On ne mange plus de
+poisson depuis. Même plus les poissons des lacs et des rivières puisqu&#39;ils sont
+pollués aux pesticides. Ce qui est positif c&#39;est que nous n&#39;utilisons plus les
+pesticides nocifs car il s&#39;agissait de produits dérivé du pétrole, dont nous
+avons sucé la dernière goutte en 2055. La fin de l&#39;époque pétrolière a entraîné
+la mort de la plupart des commerces. En effet, le pétrole était très largement
+utilisé pour fabriquer des vêtements, des chaussures, tout les objets en
+plastique, des détergents, des huiles pour les moteurs, etc. Ce fût probablement
+le coup de grâce pour la croissance économique. La production d&#39;énergie éolienne
+et nucléaire a probablement été ce qui a terminé de nous conduire dans le mûr.
+Nous avons abandonné le gasoil pour le véhicule et les camions électrique, mais
+nous avons poursuivi la destruction des forêts pour construire des parkings et
+des immeubles, bouleversant ainsi les écosystèmes. Notre plus grande erreur fût
+de penser qu&#39;on pouvait continuer les mêmes activités, mais de manière plus
+écologique. Non, nous aurions dû arrêter nos activités.</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-3.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-18T11:24:56Z 09:41:43 CET</pubDate>
   <category>2023/11/18/6</category>
   <title>Antisèche vim</title>
   <link>http://3r1c.net/posts/anti-seche-vim.txt</link>
@@ -2822,7 +2855,7 @@ Enfin dans vim
   <guid>http://3r1c.net/posts/anti-seche-vim.txt</guid>
   </item>
 <item>
-<pubDate>2022-07-18T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2022-07-18T11:24:56Z 09:41:43 CET</pubDate>
   <category>2022/07/18/1</category>
   <title>Chiffrer ses backups dans le cloud</title>
   <link>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</link>
@@ -2879,7 +2912,7 @@ Tags: backup, cloud, rclone, gocryptfs</pre>]]>
   <guid>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</guid>
   </item>
 <item>
-<pubDate>2021-03-18T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2021-03-18T11:24:56Z 09:41:43 CET</pubDate>
   <category>2021/03/18/4</category>
   <title>Configurer un umask + securisé</title>
   <link>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</link>
@@ -2967,7 +3000,7 @@ Tags: linux, security, umask, ansible</pre>]]>
   <guid>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-16T18:04:21Z 09:36:44 CET</pubDate>
+<pubDate>2023-10-16T18:04:21Z 09:41:43 CET</pubDate>
   <category>2023/10/16/1</category>
   <title>De-googlisation</title>
   <link>http://3r1c.net/posts/degougueulisation.txt</link>
@@ -3015,7 +3048,7 @@ VPS en tant que relai smtp. Ca ne simplifie pas les choses.</pre>]]>
   <guid>http://3r1c.net/posts/degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2018-01-02T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2018-01-02T11:24:56Z 09:41:43 CET</pubDate>
   <category>2018/01/02/2</category>
   <title>[en] eCPPT course and exam review</title>
   <link>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</link>
@@ -3085,7 +3118,7 @@ Tags: eCPPT, pentest</pre>]]>
   <guid>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-26T10:20:00Z 09:36:44 CET</pubDate>
+<pubDate>2023-10-26T10:20:00Z 09:41:43 CET</pubDate>
   <category>2023/10/26/4</category>
   <title>How to Hire Me</title>
   <link>http://3r1c.net/posts/how-to-hire-me.txt</link>
@@ -3127,7 +3160,7 @@ Please do not send email to my work accounts.</pre>]]>
   <guid>http://3r1c.net/posts/how-to-hire-me.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-18T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2020-06-18T11:24:56Z 09:41:43 CET</pubDate>
   <category>2020/06/18/4</category>
   <title>Home made  nas</title>
   <link>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</link>
@@ -3323,7 +3356,7 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</guid>
   </item>
 <item>
-<pubDate>2021-11-18T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2021-11-18T11:24:56Z 09:41:43 CET</pubDate>
   <category>2021/11/18/4</category>
   <title>Outils et services</title>
   <link>http://3r1c.net/posts/outils-et-services.txt</link>
@@ -3373,7 +3406,7 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/outils-et-services.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-07T11:24:56Z 09:36:44 CET</pubDate>
+<pubDate>2023-11-07T11:24:56Z 09:41:43 CET</pubDate>
   <category>2023/11/07/2</category>
   <title>Wrap Existing Text at 80 Characters in Vim</title>
   <link>http://3r1c.net/posts/wrap-existing-test-at-80-char-in-vim.txt</link>
