@@ -63,7 +63,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [midnight.pub](https://midnight.pub/)
   - [smol.pub](https://smol.pub)
 - Search engines
-  - [wiby.me](https://wiby.me)
+  - [wiby.me](https://wiby.me) : a search engine for text-based sites
 - vim
   - [vim anti patterns](https://blog.sanctum.geek.nz/vim-anti-patterns/)
   - [https://ronaldsvilcins.com/2023/10/01/ultimate-vim-cheat-sheet/](https://ronaldsvilcins.com/2023/10/01/ultimate-vim-cheat-sheet/)
