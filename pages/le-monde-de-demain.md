@@ -17,4 +17,7 @@ Si seulement nous avions préparé ces changements cataclysmiques, plutôt que d
 
 Tout a commencé en 2032, quand 3 étés successifs longs de plus de six mois avec des températures à 55 degrés ont coûté la vie de milliers de personnes des pays du sud. Ceux-ci qui n'avaient rien demandé jusque là, et qui n'y sont pour rien dans l'affaire du réchauffement climatique, on fini par se lier et demander aux pays du nord de recueillir des migrants qui tentaient de traverser la méditerranée. L'occident a persisté, et dans sa violence habituelle a raccompagné les migrants vers leurs pays d'origines. Des pays armés du sud on donc menacé de faire usage de la force, ce qu'ils ont fait. Bien évidemment la riposte a été sans merci. Aujourd'hui nous accueillons régulièrement des migrants climatiques, qui rejoignent le nord de l'Europe. La population des pays de l'occident a fortement augmenté, ce qui a engendré de graves problèmes d'approvisionnement en nourriture, et de graves difficultés sociales. Des sortes de ZAD on vu le jour. Des communautés dans lesquelles les gens essayent de s'entraider, d'échanger des services, de vitre ensemble, en marge d'une société déjà à bout de souffle.
 
-[Suite à suivre sous forme de billets ici](https://3r1c.net/posts/feed.xml). 
+[Suite à suivre sous forme de billets ici](https://3r1c.net/posts/feed.xml).
+
+- [Sans transition (3)](https://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt)
+- [Ce que le monde redoute (4)](https://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt)
