@@ -1,0 +1,12 @@
+image: debian/stable
+oauth: pages.sr.ht/PAGES:RW
+environment:
+  site: shinobi.bt.ht
+sources:
+  - https://git.sr.ht/~bt/shinobi
+tasks:
+- package: |
+    cd shinobi
+    tar -cvz . > ../site.tar.gz
+- upload: |
+    acurl -f https://pages.sr.ht/publish/$site -Fcontent=@site.tar.gz

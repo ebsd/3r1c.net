@@ -1,0 +1,11 @@
+email auto hébergé
+2023-11-10
+
+Je parviens désormais à recevoir mes mails seulement avec un script / service en
+python [1]. L'envoi se fait avec le service smtp2go [2] qui propose en envoi
+gratuit pour 1000 mails par mois. Pour la réception mail4one [1] ne prévoit pas
+de check spf et dkim, donc ceci peut engendrer du spam. Mais peut être qu'un
+postgrey serait une solution palliative ?
+
+[1]: https://gitlab.com/balki/mail4one
+[2]: https://support.smtp2go.com/hc/en-gb/articles/223087947-Free-Plan

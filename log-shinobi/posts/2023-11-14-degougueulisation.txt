@@ -1,0 +1,28 @@
+Dégugeulisation
+2023-11-14
+
+Je ne pensais pas pouvoir me passer d'android et des produits google sur mon
+smartphone, mais j'ai découvert LineageOS : un android dépourvu des fioritures
+et autres merdouilles assoiffées de données personnelles.
+
+Pour installer LineageOS sur un Google Pixel 5, il suffit de suivre le mode OP
+[1], c'est assez simple. Il faut peut être y consacrer 1 heure le temps
+d'appréhender les outils ADB et FASTBOOT [2].
+
+Maintenant j'ai un Pixel 5 sans Google. Je viens d'installer le gestionnaire
+d'application F-Droid. Et je peux utiliser mes applis préférées : NewPipe,
+OrganicMaps, Mull, SkyMap, Glider for Hacker News.
+
+Du côté des fonctionnalités que j'avais à "reproduire" :
+- la synchro des photos se fait avec Syncthing (que j'utilise depuis bien
+  longtemps).
+- la synchro des contacts avec DecSync.
+- Musique spotify avec Spotube.
+- andoid auto : possible de l'installer, mais je ne sais pas si je vais tester
+
+Pour exporter les contacts de gueulassemail.com, il y a une fonction pour
+exporter un .vcf. Ce fichier peut ensuite être importé dans l'app contact de
+LineageOS.
+
+[1]: https://wiki.lineageos.org/devices/redfin/install
+[2]: https://wiki.lineageos.org/adb_fastboot_guide
