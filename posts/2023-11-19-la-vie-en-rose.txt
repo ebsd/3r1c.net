@@ -56,7 +56,7 @@ Cm
 C'est lui pour moi
          G
 Moi pour lui dans la vie
-A7                             _Am7_ _D_
+A7                 _Am7_         _D_
 Il me l'a dit, l'a juré pour la vie
 
  G    Gmaj7    Am      D      
@@ -65,7 +65,7 @@ Il me l'a dit, l'a juré pour la vie
 ||o|   ||||    ||||   ||||
 ||||   ||||    ||||   ||||
 
-G                 Gmaj7
+G              Gmaj7
 Et dès que je l'aperçois
-                [Am,  D   Am    D   G ]
+                 [Am,  D   Am    D   G ]
 Alors je sens en moi, mon coeur qui bat...
