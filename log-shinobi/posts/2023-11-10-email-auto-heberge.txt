@@ -11,7 +11,7 @@ prévoit pas de check spf et dkim, donc ceci peut engendrer du spam. Mais peut
 être qu'un postgrey serait une solution palliative ? 
 
 Notons que mail4one propose aussi un serveur pop3. Malheureusement, il ne semble
-pas compatible avec tous les clients mails. K9 et Thunderbird ont été testé. En
+pas compatible avec tous les clients mails. K9 et Thunderbird ont été testés. En
 revanche, mutt ne peut pas récupérer les mails par exemple. Mais ce n'est pas
 grave puisque on peut utiliser munt à travers ssh avec : `ssh -t user@server
 mutt`.
