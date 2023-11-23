@@ -38,7 +38,7 @@ set record="+.Sent"
 set postponed="+.Drafts"
 set spoolfile="/var/lib/mail4one/mails/all"
 # Adresse électronique de l'expéditeur
-set from="Eric <eric@3r1c.net>"
+set from="Eric <site@3r1c.net>"
 # Nom complet de l'expéditeur
 set realname = "Eric"
 # Génération du champs from
