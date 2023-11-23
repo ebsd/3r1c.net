@@ -18,6 +18,15 @@ Le meilleur
 - Remplacer dans tout le texte : `:%s/old/new/g`
 - Remplacer dans la sélection (visual mode) : `:s/old/new/g` 
 
+Commenter un bloc
+-----------------
+Commenter :
+Placer le curseur à la 1ère ligne. `CTRL+V` et sélectionner la 1ère colonne
+jusqu'en bas du bloc. `SHIFT+I`, `#`, `Esc`.  
+Décommenter :
+Placer le curseur sur le premier `#`. `CTRL+V` puis sélectionner jusqu'en bas.
+Appuyer sur `x`.
+
 Les onglets (tabs)
 ------------------
 
