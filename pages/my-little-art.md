@@ -15,3 +15,9 @@
 <img src="img/image3.jpg" width="200">
 
 <img src="img/image4.jpg" width="200">
+
+<img src="img/image6.jpg" width="200">
+
+<img src="img/image7.jpg" width="200">
+
+<img src="img/image8.jpg" width="200">
