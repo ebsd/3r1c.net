@@ -15,7 +15,7 @@
 # ------------------------------------------
 #
 #    nick = 3r1c
-#     url = https://3r1c.net/twtxt.txt
+#    url = https://3r1c.net/twtxt.txt
 #    lang = en
 
 2020-04-23T22:06:42+02:00	C'est parti !
@@ -61,7 +61,7 @@
 2022-02-18T12:38:50+01:00	https://downloads.cisecurity.org/
 2022-02-21T08:00:07+01:00	https://itsfoss.com/glow-cli-tool-markdown/
 2022-02-22T15:57:14+01:00	Ostorlab is going open-source, releasing our scanning engine, vulnerability detectors, and analyzers https://blog.ostorlab.co/ostorlab-open-source.html
-2022-03-01T20:29:53+01:00	(SharpChromium)[https://github.com/djhohnstein/SharpChromium]
+2022-03-01T20:29:53+01:00	SharpChromium https://github.com/djhohnstein/SharpChromium
 2022-03-01T21:35:12+01:00	https://github.com/tsale/translated_conti_leaked_comms
 2022-03-05T13:03:35.000000Z	https://www.aukfood.fr/teleport-une-solution-pour-votre-bastion-ssh/
 2022-03-14T10:06:58.000000Z	This repository contains all the Incident Response Playbooks and Workflows of Company's SOC [https://gitlab.com/syntax-ir/playbooks]
@@ -70,8 +70,7 @@
 2022-09-18T09:44:22.000000Z	Yubikey Linux auth (pam sudo gnome) https://www.aukfood.fr/yubikey-parametrage-authentification-linux/
 2022-10-26T08:23:50+02:00       https://crt.sh/ pour lister / inventaire des certificats utilisés sur une URL externe.
 2022-10-28T12:53:58.000000Z	Pass : À la Découverte d'un Gestionnaire de Mot de Passe https://doc.huc.fr.eu.org/fr/post/pass-gestionnaire-mot-passe-unix/
-2022-10-28T13:14:38.000000Z	HTB Shocker - YouTube ⌘ https://www.youtube.com/watch?v=BeeV5uWA_EM
-2022-10-28T13:18:30.000000Z	Durcissement d&#39;un système GNU/Linux : Gestion des utilisateurs &amp;  des connexions | Net-Security ⌘ https://net-security.fr/securite/durcissement-gnulinux-1/
+2022-10-28T13:18:30.000000Z	Durcissement d'un système GNU/Linux : Gestion des utilisateurs et des connexions | Net-Security ⌘ https://net-security.fr/securite/durcissement-gnulinux-1/
 2022-11-12T21:57:10.000000Z	Teams sur Linux : Une nouvelle application disponible ! https://www.tutos-informatique.com/application-teams-linux/
 2023-10-26T21:18:30.000000Z	Dernier jour de vacances à Albufeira :
 2023-11-10T15:54:55+01:00	A tester en remplacement de postman : https://www.usebruno.com
