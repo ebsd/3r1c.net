@@ -1,3 +1,23 @@
+# | |___      _| |___  _| |_
+# | __\ \ /\ / / __\ \/ / __|
+# | |_ \ V  V /| |_ >  <| |_
+#  \__| \_/\_/  \__/_/\_\\__|
+#
+# Twtxt is an open, distributed
+# microblogging platform that
+# uses human-readable text files,
+# common transport protocols, and
+# free software.
+#
+# Learn more about twtxt at
+#   https://github.com/buckket/twtxt
+#
+# ------------------------------------------
+#
+#    nick = 3r1c
+#     url = https://3r1c.net/twtxt.txt
+#    lang = en
+
 2020-04-23T22:06:42+02:00	C'est parti !
 2020-04-24T07:28:47+02:00	Twtxt sur un second laptop.
 2020-04-24T10:13:30+02:00	On Kickstarter: SSHatellite A public-access shell server in space. https://www.kickstarter.com/projects/sshatellite/sshatellite
