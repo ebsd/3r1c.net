@@ -69,6 +69,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
 - vim
   - [vim anti patterns](https://blog.sanctum.geek.nz/vim-anti-patterns/)
   - [https://ronaldsvilcins.com/2023/10/01/ultimate-vim-cheat-sheet/](https://ronaldsvilcins.com/2023/10/01/ultimate-vim-cheat-sheet/)
+  - [peppe.rs](https://peppe.rs/)
 - encryption
   - https://github.com/drduh/YubiKey-Guide
 
