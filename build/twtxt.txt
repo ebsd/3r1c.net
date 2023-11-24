@@ -78,3 +78,4 @@
 2023-11-23T16:50:14+01:00	1ere gelée à basse altitud
 2023-11-23T18:08:30+01:00	Mon blog est désormais un site shinobi https://3r1c.net/posts/feed.xml 
 2023-11-24T08:03:50+01:00	https://3r1c.net/posts/2023-11-18-shinobi-website.txt
+2023-11-24T09:02:49+01:00	Plaintext journaling https://peppe.rs/posts/plain_text_journaling/
