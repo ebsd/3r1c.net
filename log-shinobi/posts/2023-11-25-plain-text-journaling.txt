@@ -1,0 +1,85 @@
+Plain text journaling
+2023-11-25T15:30:25Z
+
+J'utilise actuellement un système maison pour organiser mes tâches. Un
+ensemble de script bash minimalistes. J'ai récemment découvert cet
+article [1] qui me permet d'apporter des améliorations. Notamment une
+coloration visuelle des tâches en cours, terminées ou reportées.
+
+Structure des fichiers
+======================
+Un dossier "journal" contenant des dossiers par années, eux même
+contenant un fichier texte par jour.
+
+journal/
+|
+|-- 2023/
+|    |- 01
+|    |- 02
+|    |- 03
+|    |-...
+|-- 2024/
+|    |- 01
+|    |- 02
+|    |- 03
+|    |-...
+
+Ouvrons un fichier...
+
+$ vim journal/2023/11
+
+Puis ajoutons en en-tête le calendrier et les numéros de semaines, grâce
+à la commande cal.
+
+:read !cal -mw
+
+Ce qui nous donne ceci :
+
+     November 2023
+   Mo Tu We Th Fr Sa Su
+44        1  2  3  4  5
+45  6  7  8  9 10 11 12
+46 13 14 15 16 17 18 19
+47 20 21 22 23 24 25 26
+48 27 28 29 30
+
+Ensuite, ajouter des sections, pour gérer les tâches semaines par
+semaines.
+
+SEMAINE1 -------------
+
+done Tâche terminée
+todo Tâche à faire
+> Tâche reportée
+- Ceci est une note
+
+SEMAINE2 -------------
+
+done Tâche terminée
+todo Tâche à faire
+> Tâche reportée
+- Ceci est une note
+
+Chaque tâche de la liste est préfixée pour en définir son état : "done",
+"todo", "reportée". Il reste aussi le moyen de définir une "note".
+
+Grâce aux abbreviations de vim, on va pouvoir transformer le texte
+"done" et "todo" en petit "pico" respectivement : × et ·
+Ajoutons ceci dans notre .vimrc
+
+autocmd vimenter */journal/* abbrev todo ·
+autocmd vimenter */journal/* abbrev done ×
+
+Maintenant, todo et done sont remplacé automatiquement par les petits
+pictos.
+
+Nous avons la possibilité de trier les types d'items en sélectionnant la
+liste et en utilisant `:gq`. Pour ce faire, ajouter ceci au .vimrc.
+
+autocmd vimenter */journal/* set formatprg=sort\ -V
+
+** Rédaction en cours **
+
+
+
+[1]: https://peppe.rs/posts/plain_text_journaling/
