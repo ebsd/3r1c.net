@@ -24,3 +24,6 @@ Pour connaitre le textwidth en cours :
 Et pour revenir à une limite de 72 caractères :
 
 :set tw=72
+
+Pour "reformatter" un texte qui doit devenir d'une largeur maxi de 72
+caractères ; sélectionner les lignes avec SHIFT+V, puis : `gq`.
