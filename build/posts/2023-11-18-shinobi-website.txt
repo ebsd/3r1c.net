@@ -1,9 +1,9 @@
 Shinobi website
 2023-11-18T21:03:07Z
 
-J'ai décidé de passer sur un weblog "shinobi", qui correspond plus à ce que
-j'attends d'un site web. Il s'agit d'une page rss, qui présente tous les
-articles (du weblog), articles qui étaient stockés dans un format .txt depuis
-longtemps.
+J'ai décidé de passer sur un weblog "shinobi", qui correspond plus à ce
+que j'attends d'un site web. Il s'agit d'une page rss, qui présente tous
+les articles (du weblog), articles qui étaient stockés dans un format
+.txt depuis longtemps.
 
 Toutes les infos sont ici : https://shinobi.bt.ht/

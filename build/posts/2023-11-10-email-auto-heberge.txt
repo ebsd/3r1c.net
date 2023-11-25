@@ -4,20 +4,21 @@ email auto hébergé
 mail4one
 ========
 
-Je parviens désormais à recevoir mes mails seulement avec un script / service en
-python : mail4one [1]. L'envoi se fait avec le service smtp2go [2] qui propose
-en envoi gratuit pour 1000 mails par mois. Pour la réception mail4one [1] ne
-prévoit pas de check spf et dkim, donc ceci peut engendrer du spam. Mais peut
-être qu'un postgrey serait une solution palliative ? 
+Je parviens désormais à recevoir mes mails seulement avec un script /
+service en en envoi gratuit pour 1000 mails par mois. Pour la réception
+mail4one [1] ne prévoit pas de check spf et dkim, donc ceci peut
+engendrer du spam. Mais peut python : mail4one [1]. L'envoi se fait avec
+le service smtp2go [2] qui propose être qu'un postgrey serait une
+solution palliative ? 
 
-Notons que mail4one propose aussi un serveur pop3. Malheureusement, il ne semble
-pas compatible avec tous les clients mails. K9 et Thunderbird ont été testés. En
-revanche, mutt ne peut pas récupérer les mails par exemple. Mais ce n'est pas
-grave puisque on peut utiliser munt à travers ssh avec : `ssh -t user@server
-mutt`.
+Notons que mail4one propose aussi un serveur pop3. Malheureusement, il
+ne semble pas compatible avec tous les clients mails. K9 et Thunderbird
+ont été testés. En revanche, mutt ne peut pas récupérer les mails par
+exemple. Mais ce n'est pas grave puisque on peut utiliser munt à travers
+ssh avec : `ssh -t user@server mutt`.
 
-La documentation mail4one [1] est très correcte. Elle permet de démarrer son
-propre serveur mail en quelques minutes.
+La documentation mail4one [1] est très correcte. Elle permet de démarrer
+son propre serveur mail en quelques minutes.
 
 [1]: https://gitlab.com/balki/mail4one
 [2]: https://support.smtp2go.com/hc/en-gb/articles/223087947-Free-Plan
@@ -26,8 +27,8 @@ propre serveur mail en quelques minutes.
 Client mail mutt
 ================
 
-Configurer mutt pour pointer sur le dossiers /var/mails, et utiliser le relais
-smtp de smtp2go.
+Configurer mutt pour pointer sur le dossiers /var/mails, et utiliser le
+relais smtp de smtp2go.
 ```
 # Vim comme éditeur
 set editor = "vim -c 'set tw=72' -c 'set wrap'"
