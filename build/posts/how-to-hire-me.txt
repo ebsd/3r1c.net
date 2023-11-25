@@ -10,7 +10,7 @@ et effectuer les recherches d'usage concernant l'entreprise.
 - le salaire et les éventuels avantages
 - les compétences requises
 - les compétences appréciées
-- la part de télé-travail
+- la part de télétravail
 - les besoins en déplacements
 - nationalité acceptées, permis de travail éventuels et autres
   autorisations nécessaires

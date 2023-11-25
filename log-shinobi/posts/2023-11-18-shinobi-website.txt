@@ -12,3 +12,15 @@ Tout ce qui est lisible ici est rédigé sous vim, avec une largeur de
 colonne de maximum 72 caractères. Grâce à ceci dans mon ~/.vimrc :
 
 autocmd FileType text setlocal textwidth=72
+
+Si par aventure je devais revenir sur un textwidth "normal", je peux :
+
+:set tw=0
+
+Pour connaitre le textwidth en cours :
+
+:set tw?
+
+Et pour revenir à une limite de 72 caractères :
+
+:set tw=72
