@@ -40,6 +40,8 @@ index_html() {
 	echo '<a href="https://hotlinewebring.club">Hotline webring</a>'
 	echo '<a href="https://hotlinewebring.club/3r1c/next">>></a>'
 	## geekring	
+	echo '<hr>'
+	echo '<b>This site is a proud member of the geekring! Check some other geeky websites here!</b><br>'
 	echo '<a href="http://geekring.net/site/326/previous">Previous site</a> --'
         echo '<a href="http://geekring.net/site/326/random">Random site</a> --'
         echo '<a href="http://geekring.net/site/326/next">Next site</a>'
