@@ -72,5 +72,6 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [peppe.rs](https://peppe.rs/)
 - encryption
   - https://github.com/drduh/YubiKey-Guide
-
+- gemini
+  - gemini://perso.pw/blog/
 <!-- ## <a name="notes"></a>Notes -->
