@@ -81,3 +81,5 @@
 2023-11-24T09:02:49+01:00	Plaintext journaling https://peppe.rs/posts/plain_text_journaling/
 2023-11-24T11:14:11+01:00	Line Length Limits "SHOULD be no more than 78 characters, excluding the CRLF" https://www.ietf.org/rfc/rfc2822.txt
 2023-11-26T11:28:07+01:00	DNS as a Password Manager https://thoughts.theden.sh/posts/dns-txt-record-fun/
+2023-11-29T20:05:19+01:00	 Email obfuscation, What works in 2023 https://spencermortensen.com/articles/email-obfuscation/
+2023-11-29T20:07:31+01:00	 Mouse Balls :) http://www.textfiles.com/100/balls.txt
