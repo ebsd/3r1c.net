@@ -255,7 +255,7 @@ Je modifie le mot de passe du compte `audit2020`.
 Le compte audit2020 est compromis ! Je peux maintenant accéder au contenu du dossier forensic. 
 
 
-	kali@kali:~$ smbclient \\\\10.10.10.192\\forensic -U "blackfield\audit2020" 
+	kali@kali:~$ smbclient \\\\10.10.10.192\\forensic -U "blackfield\\audit2020" 
 	Enter BLACKFIELD\audit2020's password: 
 	Try "help" to get a list of possible commands.
 	smb: \> dir
