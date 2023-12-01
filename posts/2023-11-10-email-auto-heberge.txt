@@ -41,51 +41,6 @@ son propre serveur mail en quelques minutes.
 [2]: https://support.smtp2go.com/hc/en-gb/articles/223087947-Free-Plan
 [3]: https://github.com/mail4one/mail4one/tree/main/deploy_configs
 
-Client mail mutt pour utiliser smtp2go
-=======================================
-
-Configurer mutt pour pointer sur le dossiers /var/mails, et utiliser le
-relais smtp de smtp2go.
-```
-# Vim comme éditeur
-set editor = "vim -c 'set tw=72' -c 'set wrap'"
-set folder="/var/lib/mail4one/mails/all"
-set mask="!^\\.[^.]"
-set mbox="/var/lib/mail4one/mails/all"
-set record="+.Sent"
-set postponed="+.Drafts"
-set spoolfile="/var/lib/mail4one/mails/all"
-# Adresse électronique de l'expéditeur
-set from="Eric <site@3r1c.net>"
-# Nom complet de l'expéditeur
-set realname = "Eric"
-# Génération du champs from
-set use_from = yes
-set smtp_url = "smtp://user:password@mail.smtp2go.com:587"
-set ssl_starttls = yes
-set edit_headers=yes
-set markers=no
-```
-
-Config mutt
-===========
-
-~/.muttrc
-set editor = "vim -c 'set tw=72' -c 'set wrap'"
-set edit_headers=yes
-set markers=no
-set mbox_type = Maildir
-set folder = ~/Maildir/
-set spoolfile = +/
-set realname = "eric"
-set from = "eric@3r1c.net"
-set use_envelope_from = yes
-set edit_headers = yes # Will allow us to change the from address from Mutt
-set record = +/sent/
-set sort = threads
-auto_view text/html # view html automatically
-alternative_order text/plain text/enriched text/html
-
 
 postfix
 =======
@@ -331,5 +286,48 @@ $ postconf -e 'smtpd_tls_key_file = /etc/letsencrypt/live/<your.domain>/privkey.
 
 $ postconf -e "smtp_use_tls=yes"
 
+Config mutt
+===========
+
+~/.muttrc
+set editor = "vim -c 'set tw=72' -c 'set wrap'"
+set edit_headers=yes
+set markers=no
+set mbox_type = Maildir
+set folder = ~/Maildir/
+set spoolfile = +/
+set realname = "eric"
+set from = "eric@3r1c.net"
+set use_envelope_from = yes
+set edit_headers = yes # Will allow us to change the from address from Mutt
+set record = +/sent/
+set sort = threads
+auto_view text/html # view html automatically
+alternative_order text/plain text/enriched text/html
 
 
+Client mail mutt pour utiliser smtp2go
+=======================================
+
+Configurer mutt pour pointer sur le dossiers /var/mails, et utiliser le
+relais smtp de smtp2go.
+```
+# Vim comme éditeur
+set editor = "vim -c 'set tw=72' -c 'set wrap'"
+set folder="/var/lib/mail4one/mails/all"
+set mask="!^\\.[^.]"
+set mbox="/var/lib/mail4one/mails/all"
+set record="+.Sent"
+set postponed="+.Drafts"
+set spoolfile="/var/lib/mail4one/mails/all"
+# Adresse électronique de l'expéditeur
+set from="Eric <site@3r1c.net>"
+# Nom complet de l'expéditeur
+set realname = "Eric"
+# Génération du champs from
+set use_from = yes
+set smtp_url = "smtp://user:password@mail.smtp2go.com:587"
+set ssl_starttls = yes
+set edit_headers=yes
+set markers=no
+```
