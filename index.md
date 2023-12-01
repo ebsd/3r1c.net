@@ -74,4 +74,6 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - https://github.com/drduh/YubiKey-Guide
 - gemini
   - gemini://perso.pw/blog/
+- auto hébergement
+  - [https://landchad.net/](Setup an Email Server)
 <!-- ## <a name="notes"></a>Notes -->
