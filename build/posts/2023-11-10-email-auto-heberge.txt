@@ -6,8 +6,11 @@ Intro
 
 Plusieurs options.
 Pour la réception :
-- mail4one : un serveur smtp + pop. Livraison au format maildir.
-- postfix + dovecot : serveur smtp et serveur imap.
+- mail4one : un serveur smtp + pop. Livraison au format maildir. Il n'y
+  a pas d'envoi possible. Il faut utiliser un service tiers (pourquoi
+pas c'est beaucoup plus simple).
+- postfix + dovecot : serveur smtp et serveur imap avec authentification
+  sasl.
 
 Pour l'envoi :
 - mail4one : il faudra utiliser un service tiers comme smtp2go.
