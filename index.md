@@ -76,4 +76,5 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - gemini://perso.pw/blog/
 - auto hébergement
   - https://landchad.net/ Setup an Email Server and a Web server
+  - [https://dkvz.eu/wp-content/stuff/postfix_mutt_catch_all.pdf](Postfix et mutt simplement)
 <!-- ## <a name="notes"></a>Notes -->
