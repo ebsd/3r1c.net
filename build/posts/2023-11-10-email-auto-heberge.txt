@@ -3,6 +3,11 @@ email auto hébergé
 
 Mise à jour - date d'origine 2023-11-10
 
+Note
+====
+
+Ceci est largement inspiré de https://landchad.net/mail.
+
 Intro
 =====
 
