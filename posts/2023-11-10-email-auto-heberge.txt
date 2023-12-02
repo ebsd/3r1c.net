@@ -47,7 +47,7 @@ postfix
 
 Une installation debian.
 
-sudo apt install postfix mailutils rsyslog
+$ apt install postfix mailutils rsyslog
 
 Note: rsyslog est nécessaire pour produire les mail.log
 
@@ -65,7 +65,7 @@ s'affranchir de ces questions de configuration pour rendrei (plus)
 On peut tester un envoi de mail ainsi, mais il y a de très fortes chance
 qu'on finisse dans le dossier spam :
 
-echo "Salut, ça joue ?"  | mail -s "Email depuis mon serveur"
+$ echo "Salut, ça joue ?"  | mail -s "Email depuis mon serveur"
 toi@email-externe.com 
 
 Reverse DNS (rDNS)
@@ -85,14 +85,14 @@ DKIM
 OpenDKIM va nous permettre de signer nos mails. C'est quasiment
 obligatoire maintenant.
 
-sudo apt install opendkim opendkim-tools
+$ apt install opendkim opendkim-tools
 
 Générer un clé DKIM
 
-mkdir -p /etc/postfix/dkim
-opendkim-genkey -D /etc/postfix/dkim/ -d example.org -s mail
-chgrp opendkim /etc/postfix/dkim/*
-chmod g+r /etc/postfix/dkim/*
+$ mkdir -p /etc/postfix/dkim
+$ opendkim-genkey -D /etc/postfix/dkim/ -d example.org -s mail
+$ chgrp opendkim /etc/postfix/dkim/*
+$ chmod g+r /etc/postfix/dkim/*
 
 Informons OpenDKIM que nous avons créé une clé privée.
 
@@ -251,9 +251,9 @@ Maintenant on a le choix :
 postfix dans des maildirs
 -------------------------
 
-L'idée est de configurée un "catchall" pour que toutes les adresses du
-domaine soit dirigée dans une seule boîte. Il ne sera donc pas
-nécessaire de configurer multiples comptes.
+L'idée est de configurer un "catchall" pour que toutes les adresses du
+domaine soient dirigées dans une seule boîte. Il ne sera donc pas
+nécessaire de configurer de multiples comptes.
 
 Dans cette config, un dossier Maildir est créé dans le /home de
 l'utilisateur.
@@ -270,11 +270,29 @@ une bonne idée, il faudrait créé un autre user unix) avec cette commande
 
 $ mutt -f ~/Maildir/
 
+Config mutt
+-----------
+
+~/.muttrc
+set editor = "vim -c 'set tw=72' -c 'set wrap'"
+set edit_headers=yes
+set markers=no
+set mbox_type = Maildir
+set folder = ~/Maildir/
+set spoolfile = +/
+set realname = "eric"
+set from = "eric@example.org"
+set use_envelope_from = yes
+set edit_headers = yes # Will allow us to change the from address from Mutt
+set record = +/sent/
+set sort = threads
+auto_view text/html # view html automatically
+alternative_order text/plain text/enriched text/html
 
 Améliorer postix
 ----------------
 
-Utilisons des certificats publiques pour chiffrer nos cannaux de
+Utilisons des certificats publiques pour chiffrer nos canaux de
 communications.
 
 $ apt install certbot
@@ -464,24 +482,6 @@ Il faudra configurer :
 - le serveur sortant SMTP (mail.example.org) avec STARTTLS.
 
 
-Config mutt
-===========
-
-~/.muttrc
-set editor = "vim -c 'set tw=72' -c 'set wrap'"
-set edit_headers=yes
-set markers=no
-set mbox_type = Maildir
-set folder = ~/Maildir/
-set spoolfile = +/
-set realname = "eric"
-set from = "eric@example.org"
-set use_envelope_from = yes
-set edit_headers = yes # Will allow us to change the from address from Mutt
-set record = +/sent/
-set sort = threads
-auto_view text/html # view html automatically
-alternative_order text/plain text/enriched text/html
 
 
 Client mail mutt pour utiliser smtp2go
