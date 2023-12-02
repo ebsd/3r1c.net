@@ -78,4 +78,8 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [Setup an Email Server and a Web server](https://landchad.net/) 
   - [Postfix et mutt simplement - en](https://dkvz.eu/wp-content/stuff/postfix_mutt_catch_all.pdf)
   - [Postfix et mutt simplement - fr](https://dkvz.eu/articles/email_catch_all_postfix_mutt)
+- RFC
+  - [Comment se comporter dans une conversation sur internet ?](https://www.rfc-editor.org/rfc/rfc1855.txt)
+
+
 <!-- ## <a name="notes"></a>Notes -->
