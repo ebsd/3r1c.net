@@ -41,6 +41,32 @@ son propre serveur mail en quelques minutes.
 [2]: https://support.smtp2go.com/hc/en-gb/articles/223087947-Free-Plan
 [3]: https://github.com/mail4one/mail4one/tree/main/deploy_configs
 
+mutt pour utiliser smtp2go
+==========================
+
+Configurer mutt pour pointer sur le dossiers /var/mails, et utiliser le
+relais smtp de smtp2go.
+```
+# Vim comme éditeur
+set editor = "vim -c 'set tw=72' -c 'set wrap'"
+set folder="/var/lib/mail4one/mails/all"
+set mask="!^\\.[^.]"
+set mbox="/var/lib/mail4one/mails/all"
+set record="+.Sent"
+set postponed="+.Drafts"
+set spoolfile="/var/lib/mail4one/mails/all"
+# Adresse électronique de l'expéditeur
+set from="Eric <site@3r1c.net>"
+# Nom complet de l'expéditeur
+set realname = "Eric"
+# Génération du champs from
+set use_from = yes
+set smtp_url = "smtp://user:password@mail.smtp2go.com:587"
+set ssl_starttls = yes
+set edit_headers=yes
+set markers=no
+```
+
 
 postfix
 =======
@@ -200,13 +226,10 @@ postconf -e "header_checks = regexp:/etc/postfix/header_checks"
 Config fail2ban
 ...............
 
-apt-get install fail2ban
+$ apt-get install fail2ban
+$ cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 
-cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-
-
-
-Et alimenter jail.local avec
+Et alimenter /etc.fail2ban/jail.local avec
 
 [postfix]
 
@@ -246,7 +269,8 @@ Lire ses mails directement depuis le serveur ou IMAP ?
 Maintenant on a le choix :
 - soit on lit les mails directement sur le serveur avec mutt ou alpine
   par exemple (configurer postfix pour livrer dans des maildirs)
-- soit on installe un serveur IMAP comme dovecot
+- soit on installe un serveur IMAP comme dovecot. Ceci rend possible la
+  lecture des mails depuis un smartphone, avec le client K9 par exemple.
 
 postfix dans des maildirs
 -------------------------
@@ -315,7 +339,7 @@ dovecot, un serveur imap.
 $ apt install dovecot-imapd dovecot-sieve spamassassin spamc
 
 Configuration
-.............
+-------------
 Faire un backup de la configuration d'origine et utiliser celle-ci.
 
 -- /etc/dovecot/dovecot.conf ----------
@@ -396,7 +420,7 @@ plugin {
 -- end of dovecot.conf -------------
 
 Configuration de sieve
-......................
+----------------------
 Pour déplacer les mails taggués spam directement dans le dossier junk.
 
 $ mkdir -p /var/lib/dovecot/sieve
@@ -435,7 +459,7 @@ $ systemctl restart dovecot
 
 
 Connecter postfix et spamassassin
-.................................
+---------------------------------
 
 On modifie master.cf pour que postfix route les mails dans spamassassin.
 
@@ -463,7 +487,7 @@ Et on redémarre postfix.
 $ systemctl restart postfix
 
 Créer un utilisateur
-....................
+--------------------
 
 Tout utilisateur qui doit recevoir du courrier doit être dans le groupe
 "mail".
@@ -474,39 +498,19 @@ $ passwd eric
 Dans votre client de messagerie, le compte utilisateur sera ce nom que
 vous définissez ici.
 
-Client de messagerie
-....................
+Client de messagerie imap
+-------------------------
 
 Il faudra configurer :
 - le serveur entrant IMAP (mail.example.org)
 - le serveur sortant SMTP (mail.example.org) avec STARTTLS.
 
+Mutt
+----
 
+Il reste possible de relever ces mails avec Mutt, directement sur le
+serveur. Le dossier contenant les maildirs est ~/Mail/Inbox et
+~/Mail/Junk.
 
-
-Client mail mutt pour utiliser smtp2go
-=======================================
-
-Configurer mutt pour pointer sur le dossiers /var/mails, et utiliser le
-relais smtp de smtp2go.
-```
-# Vim comme éditeur
-set editor = "vim -c 'set tw=72' -c 'set wrap'"
-set folder="/var/lib/mail4one/mails/all"
-set mask="!^\\.[^.]"
-set mbox="/var/lib/mail4one/mails/all"
-set record="+.Sent"
-set postponed="+.Drafts"
-set spoolfile="/var/lib/mail4one/mails/all"
-# Adresse électronique de l'expéditeur
-set from="Eric <site@3r1c.net>"
-# Nom complet de l'expéditeur
-set realname = "Eric"
-# Génération du champs from
-set use_from = yes
-set smtp_url = "smtp://user:password@mail.smtp2go.com:587"
-set ssl_starttls = yes
-set edit_headers=yes
-set markers=no
-```
+$ mutt -f ~/Mail/Inbox
 
