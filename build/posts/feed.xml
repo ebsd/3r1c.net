@@ -8,7 +8,7 @@
     <copyright></copyright>
     <ttl>60</ttl>
 <item>
-<pubDate>2019-05-18T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2019-05-18T11:24:56Z 17:41:35 CET</pubDate>
   <category>2019/05/18/6</category>
   <title>Anatomie d'une attaque informatique</title>
   <link>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</link>
@@ -138,7 +138,7 @@ Tags: pentest</pre>]]>
   <guid>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-16T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2020-06-16T11:24:56Z 17:41:35 CET</pubDate>
   <category>2020/06/16/2</category>
   <title>htb blunder</title>
   <link>http://3r1c.net/posts/2020-06-16-blunder.txt</link>
@@ -519,7 +519,7 @@ cat root.txt
   <guid>http://3r1c.net/posts/2020-06-16-blunder.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-02T10:21:56Z 17:18:18 CET</pubDate>
+<pubDate>2020-09-02T10:21:56Z 17:41:35 CET</pubDate>
   <category>2020/09/02/3</category>
   <title>buff</title>
   <link>http://3r1c.net/posts/2020-09-02-buff.txt</link>
@@ -663,7 +663,7 @@ https://p0i5on8.github.io/posts/hackthebox-buff/
   <guid>http://3r1c.net/posts/2020-09-02-buff.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-29T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2020-09-29T11:24:56Z 17:41:35 CET</pubDate>
   <category>2020/09/29/2</category>
   <title>htb admirer</title>
   <link>http://3r1c.net/posts/2020-09-29-admirer.txt</link>
@@ -1055,7 +1055,7 @@ Et notre netcat reçoit la connexion en retour. Nous sommes root.
   <guid>http://3r1c.net/posts/2020-09-29-admirer.txt</guid>
   </item>
 <item>
-<pubDate>2020-10-29T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2020-10-29T11:24:56Z 17:41:35 CET</pubDate>
   <category>2020/10/29/4</category>
   <title>htb fuse</title>
   <link>http://3r1c.net/posts/2020-10-29-fuse.txt</link>
@@ -1465,7 +1465,7 @@ Successfully loaded driver
   <guid>http://3r1c.net/posts/2020-10-29-fuse.txt</guid>
   </item>
 <item>
-<pubDate>2022-02-17T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2022-02-17T11:24:56Z 17:41:35 CET</pubDate>
   <category>2022/02/17/4</category>
   <title>htb blackfield</title>
   <link>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</link>
@@ -2129,7 +2129,7 @@ On peut vérifier que le compte _support_ est bien &quot;vulnérable&quot; à l&
   <guid>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</guid>
   </item>
 <item>
-<pubDate>2023-08-17T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2023-08-17T11:24:56Z 17:41:35 CET</pubDate>
   <category>2023/08/17/4</category>
   <title>htb Busqueda</title>
   <link>http://3r1c.net/posts/2023-08-17-busqueda.txt</link>
@@ -2423,7 +2423,7 @@ $ nc -nlvp 9002
   <guid>http://3r1c.net/posts/2023-08-17-busqueda.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-04 17:18:18 CET</pubDate>
+<pubDate>2023-10-04 17:41:35 CET</pubDate>
   <category>2023/10/04/3</category>
   <title>Recommandations de recharge de véhicule électrique</title>
   <link>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</link>
@@ -2441,7 +2441,7 @@ batterie d&#39;un véhucule électrique afin de conserver un bon niveau de sant�
   <guid>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-08 17:18:18 CET</pubDate>
+<pubDate>2023-10-08 17:41:35 CET</pubDate>
   <category>2023/10/08/7</category>
   <title>Véhicule électrique : un véhicule vert ?</title>
   <link>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</link>
@@ -2466,7 +2466,7 @@ votre VE :)</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-31 17:18:18 CET</pubDate>
+<pubDate>2023-10-31 17:41:35 CET</pubDate>
   <category>2023/10/31/2</category>
   <title>Halloween petites infos</title>
   <link>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</link>
@@ -2507,7 +2507,7 @@ quelques infos. Voilà c&#39;était la minute culturelle du mois :-))</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-02 17:18:18 CET</pubDate>
+<pubDate>2023-11-02 17:41:35 CET</pubDate>
   <category>2023/11/02/4</category>
   <title>Amulette de sommeil</title>
   <link>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</link>
@@ -2528,7 +2528,7 @@ physique et mental. Mettre tous les ingrédients dans le sachet :
   <guid>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-08 17:18:18 CET</pubDate>
+<pubDate>2023-11-08 17:41:35 CET</pubDate>
   <category>2023/11/08/3</category>
   <title>Le monde de demain (3) - Sans transition</title>
   <link>http://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt</link>
@@ -2565,7 +2565,7 @@ vie.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-09 17:18:18 CET</pubDate>
+<pubDate>2023-11-09 17:41:35 CET</pubDate>
   <category>2023/11/09/4</category>
   <title>Véhicule électrique vert ? (2)</title>
   <link>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</link>
@@ -2590,7 +2590,7 @@ chez les autres.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-02 17:18:18 CET</pubDate>
+<pubDate>2023-12-02 17:41:35 CET</pubDate>
   <category>2023/12/02/6</category>
   <title>email auto hébergé</title>
   <link>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</link>
@@ -2606,29 +2606,30 @@ Ceci est largement inspiré de https://landchad.net/mail.
 Intro
 =====
 
+Il s&#39;agit de documenter la mise en place d&#39;un auto hébergement de mails.
 Plusieurs options.
+
 Pour la réception :
-- mail4one : un serveur smtp + pop. Livraison au format maildir. Il n&#39;y
-  a pas d&#39;envoi possible. Il faut utiliser un service tiers (pourquoi
-pas c&#39;est beaucoup plus simple).
-- postfix + dovecot : serveur smtp et serveur imap avec authentification
-  sasl.
+- Option 1 : mail4one - un serveur smtp + pop pour un seul utilisateur. Livraison
+  au format maildir. Il n&#39;y a pas d&#39;envoi possible. Il faut utiliser un
+service tiers. C&#39;est une solution simple et rapide.
+- Optins 2 : postfix + dovecot - serveur smtp (postfix) et serveur imapi (dovecot)
+  avec authentification sasl.
 
 Pour l&#39;envoi :
-- mail4one : il faudra utiliser un service tiers comme smtp2go.
-- postfix + dovecot : postfix peut relayer les mails directement à
-  d&#39;autres serveurs de messagerie d&#39;internet. Il serait aussi possible
-d&#39;utiliser un smarthost comme smtp2go.
+- Option 1 : mail4one - il faudra utiliser un service tiers comme
+  smtp2go. C&#39;est sans frais dans une certaine limite (nbr de mails).
+- Option2 : postfix + dovecot - postfix peut relayer les mails
+  directement à d&#39;autres serveurs de messagerie d&#39;Internet. Il serait
+aussi possible d&#39;utiliser un smarthost comme smtp2go.
 
-mail4one
-========
+Option 1 - mail4one
+====================
 
-Je parviens désormais à recevoir mes mails seulement avec un script /
-service en en envoi gratuit pour 1000 mails par mois. Pour la réception
-mail4one [1] ne prévoit pas de check spf et dkim, donc ceci peut
-engendrer du spam. Mais peut python : mail4one [1]. L&#39;envoi se fait avec
-le service smtp2go [2] qui propose être qu&#39;un postgrey serait une
-solution palliative ? 
+Un script assez simple que permet de recevoir des mails. mail4one [1] ne
+prévoit pas de check spf et dkim, donc ceci peut engendrer du spam dans
+vos courriers. L&#39;envoi se fait avec le service smtp2go [2] qui propose
+1000 mails par mois.
 
 Notons que mail4one propose aussi un serveur pop3. Malheureusement, il
 ne semble pas compatible avec tous les clients mails. K9 et Thunderbird
@@ -2637,7 +2638,8 @@ exemple. Mais ce n&#39;est pas grave puisque on peut utiliser munt à travers
 ssh avec : `ssh -t user@server mutt`.
 
 La documentation mail4one [1] est très correcte. Elle permet de démarrer
-son propre serveur mail en quelques minutes.
+son propre serveur mail en quelques minutes. Je ne donne donc pas de
+détails ici.
 
 [1]: https://gitlab.com/balki/mail4one
 [2]: https://support.smtp2go.com/hc/en-gb/articles/223087947-Free-Plan
@@ -2670,38 +2672,37 @@ set markers=no
 ```
 
 
-postfix
-=======
+Option 2 postfix
+================
 
-Une installation debian.
+Tout ceci est réalisé sur une installation debian.
 
 $ apt install postfix mailutils rsyslog
 
 Note: rsyslog est nécessaire pour produire les mail.log
 
-Lors de l&#39;installation, choisir un type &quot;Internet Site&quot;.
+Lors de l&#39;installation de postfix, choisir un type &quot;Internet Site&quot;.
 Puis lors de la demande du &quot;system mail name&quot;, indiquer votre domaine de
-messagerie.
-Voilà, à partir de ce point, notre serveur peut déjà envoyer du
-courrier. Mais attention, on risque d&#39;être &quot;vu&quot; comme un spammeur car on
-a rien configurer du tout. En particulier, DMARC (SPF + DKIM) qui
-permette d&#39;authentifier la source des emails. C&#39;est pas très difficile à
-mettre en place. On va voir ça plus tard. Pour éviter de se compliquer
-la vie, l&#39;utilisation d&#39;un smarthost pour envoyer le courrier permet de
-s&#39;affranchir de ces questions de configuration pour rendrei (plus)
-&quot;légitime&quot; notre serveur de messagerie.
+messagerie (example.org).
+Voilà, à partir de ce point, notre serveur peut déjà envoyer du courrier
+! Mais attention, on risque d&#39;être &quot;vu&quot; comme un spammeur car on a rien
+configuré du tout. En particulier, DMARC (SPF + DKIM) qui permettent
+d&#39;authentifier la source (notre serveur) des emails. C&#39;est pas très
+difficile à mettre en place. On va voir ça plus tard. Pour éviter de se
+compliquer la vie, l&#39;utilisation d&#39;un smarthost (smtp2go par exemple)
+pour envoyer le courrier permet de s&#39;affranchir de ces questions de
+configuration pour rendre (plus) &quot;légitime&quot; notre serveur de messagerie.
 On peut tester un envoi de mail ainsi, mais il y a de très fortes chance
 qu&#39;on finisse dans le dossier spam :
 
-$ echo &quot;Salut, ça joue ?&quot;  | mail -s &quot;Email depuis mon serveur&quot;
-toi@email-externe.com 
+$ echo &quot;Salut, ça joue ?&quot;  | mail -s &quot;Email depuis mon serveur&quot; toi@email-externe.com 
 
 Reverse DNS (rDNS)
 ------------------
 
 Très important pour un serveur de mail, le reverse DNS. Il doit être
-configurer pour refléter votre nom de domaine sur les IPv4 et IPv6 de votre
-serveur.
+configuré pour refléter votre nom de domaine (example.org) sur les IPv4
+et IPv6 de votre serveur.
 
 Pour un serveur VPS OVH par exemple, suivre ce document [1].
 
@@ -2711,7 +2712,7 @@ DKIM
 ----
 
 OpenDKIM va nous permettre de signer nos mails. C&#39;est quasiment
-obligatoire maintenant.
+obligatoire &quot;de nos jours&quot;.
 
 $ apt install opendkim opendkim-tools
 
@@ -2724,50 +2725,52 @@ $ chmod g+r /etc/postfix/dkim/*
 
 Informons OpenDKIM que nous avons créé une clé privée.
 
-echo &quot;mail._domainkey.example.org example.org:mail:/etc/postfix/dkim/mail.private&quot; &gt; /etc/postfix/dkim/keytable
+$ echo &quot;mail._domainkey.example.org example.org:mail:/etc/postfix/dkim/mail.private&quot; &gt; /etc/postfix/dkim/keytable
 
 Créons une &quot;signing table&quot;
 
-echo &quot;*@example.org mail._domainkey.example.org&quot; &gt; /etc/postfix/dkim/signingtable
+$ echo &quot;*@example.org mail._domainkey.example.org&quot; &gt; /etc/postfix/dkim/signingtable
 
 Ajoutons les &quot;trusted hosts&quot;
 
-echo &quot;127.0.0.1
+$ echo &quot;127.0.0.1
 10.1.0.0/16
 1.2.3.4/24&quot; &gt; /etc/postfix/dkim/trustedhosts
 
 Configurons /etc/opendkim.conf. Attention, une ligne &quot;Socket&quot; existe
 déjà, il faudra donc la commenter.
 
+.......
 KeyTable file:/etc/postfix/dkim/keytable
 SigningTable refile:/etc/postfix/dkim/signingtable
 InternalHosts refile:/etc/postfix/dkim/trustedhosts
 
 Canonicalization        relaxed/simple
 Socket                  inet:12301@localhost
+.......
 
 Configurer postfix à l&#39;aide de ces commandes :
 
-postconf -e &quot;myhostname = $(cat /etc/mailname)&quot;
-postconf -e &quot;milter_default_action = accept&quot;
-postconf -e &quot;milter_protocol = 6&quot;
-postconf -e &quot;smtpd_milters = inet:localhost:12301&quot;
-postconf -e &quot;non_smtpd_milters = inet:localhost:12301&quot;
+$ postconf -e &quot;myhostname = $(cat /etc/mailname)&quot;
+$ postconf -e &quot;milter_default_action = accept&quot;
+$ postconf -e &quot;milter_protocol = 6&quot;
+$ postconf -e &quot;smtpd_milters = inet:localhost:12301&quot;
+$ postconf -e &quot;non_smtpd_milters = inet:localhost:12301&quot;
 
 Note : on vérifie la config postfix avec :
 
-postconf -p
+$ postconf -p
 
 Redémarrer postfix et opendkim.
 
-systemctl restart opendkim
-systemctl enable opendkim
-systemctl reload postfix
+$ systemctl restart opendkim
+$ systemctl enable opendkim
+$ systemctl reload postfix
 
-Configurer un enregistrement dns TXT pour DKIM :
-Utiliser cette commande pour obtenir l&#39;enregistrement.
+Configurer un enregistrement dns TXT pour DKIM.
+Utiliser cette commande pour obtenir l&#39;enregistrement à créer.
 
-echo -e &quot;
+$ echo -e &quot;
 
 v=DKIM1; k=rsa; $(tr -d &quot;
 &quot; &lt;/etc/postfix/dkim/mail.txt | sed &quot;s/k=rsa.* \&quot;p=/k=rsa; p=/;s/\&quot;\s*\&quot;//;s/\&quot;\s*).*//&quot; | grep -o &quot;p=.*&quot;)
@@ -2779,18 +2782,17 @@ Le nom de l&#39;hôte pour cet enregistrement TXT est : mail._domainkey
 DMARC
 -----
 
-Créer l&#39;utilisateur dmarc
+Créer l&#39;utilisateur dmarc.
 
-useradd -m -G mail dmarc
+$ useradd -m -G mail dmarc
 
 Ajouter un enregistrement DNS TXT dont vous obtiendrez le contenu avec
 cette commande :
 
-echo &quot;_dmarc.$(cat /etc/mailname)&quot;
-echo &quot;v=DMARC1; p=reject; rua=mailto:dmarc@$(cat /etc/mailname); fo=1&quot;
+$ echo &quot;_dmarc.$(cat /etc/mailname)&quot;
+$ echo &quot;v=DMARC1; p=reject; rua=mailto:dmarc@$(cat /etc/mailname); fo=1&quot;
 
-La 1ere ligne de la sortie de la commande correspond au nom d&#39;hôte de
-l&#39;enregistrement TXT.
+La 1ere commande correspond au nom d&#39;hôte de l&#39;enregistrement TXT.
 La seconde ligne correspond au contenu de l&#39;enregistrement.
 
 SPF
@@ -2799,8 +2801,11 @@ SPF
 Il suffit de créer un enregistrement dns TXT dont vous obtiendrez le
 contenu avec cette commande :
 
-cat /etc/mailname
-echo &quot;v=spf1 mx a:mail.$(cat /etc/mailname) -all&quot;
+$ cat /etc/mailname
+$ echo &quot;v=spf1 mx a:mail.$(cat /etc/mailname) -all&quot;
+
+1ere commande = le nom d&#39;hôte.
+2de commande = contenu de l&#39;enregistrement dns TXT.
 
 Tester dmarc, dkim et spf
 -------------------------
@@ -2809,30 +2814,31 @@ Avec ce site https://appmaildev.com/en/spf
 On vous demande d&#39;envoyez un mail sur une adresse. Par exemple faire
 ceci :
 
-echo &quot;salut&quot; | mail -s &quot;test&quot; -r vous@example.org test-xxxxxx@appmaildev.com
+$ echo &quot;salut&quot; | mail -s &quot;test&quot; -r vous@example.org test-xxxxxx@appmaildev.com
 
 En principe, SPF, DKIM et DMARC devrait avoir un état &quot;PASS&quot;.
 
 Hardening postfix
 -----------------
 
-postconf -e &#39;smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination, reject_unknown_recipient_domain&#39;
+$ postconf -e &#39;smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination, reject_unknown_recipient_domain&#39;
 
-echo &quot;/^Received:.*/     IGNORE
+$ echo &quot;/^Received:.*/     IGNORE
 /^X-Originating-IP:/    IGNORE
 /^User-Agent:/        IGNORE
 /^X-Mailer:/        IGNORE&quot; &gt;&gt; /etc/postfix/header_checks
 
-postconf -e &quot;header_checks = regexp:/etc/postfix/header_checks&quot;
+$ postconf -e &quot;header_checks = regexp:/etc/postfix/header_checks&quot;
 
 Config fail2ban
-...............
+---------------
 
 $ apt-get install fail2ban
 $ cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 
 Et alimenter /etc.fail2ban/jail.local avec
 
+..............................
 [postfix]
 
 enabled  = true
@@ -2859,7 +2865,7 @@ enabled = true
 port    = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
 filter  = dovecot
 logpath = /var/log/mail.log
-
+..............................
 
 Puis :
 
@@ -3023,7 +3029,7 @@ plugin {
 
 Configuration de sieve
 ----------------------
-Pour déplacer les mails taggués spam directement dans le dossier junk.
+Pour déplacer les mails tagués spam directement dans le dossier junk.
 
 $ mkdir -p /var/lib/dovecot/sieve
 $ echo &quot;require [\&quot;fileinto\&quot;, \&quot;mailbox\&quot;];
@@ -3097,8 +3103,8 @@ Tout utilisateur qui doit recevoir du courrier doit être dans le groupe
 $ useradd -m -G mail eric
 $ passwd eric
 
-Dans votre client de messagerie, le compte utilisateur sera ce nom que
-vous définissez ici.
+Dans votre client de messagerie, le compte utilisateur sera ce nom de
+compte unix que vous définissez ici.
 
 Client de messagerie imap
 -------------------------
@@ -3111,8 +3117,8 @@ Mutt
 ----
 
 Il reste possible de relever ces mails avec Mutt, directement sur le
-serveur. Le dossier contenant les maildirs est ~/Mail/Inbox et
-~/Mail/Junk.
+serveur. Le dossier contenant les maildirs alimentés par dovecot est
+~/Mail/Inbox et ~/Mail/Junk.
 
 $ mutt -f ~/Mail/Inbox</pre>]]>
   </description>
@@ -3120,7 +3126,7 @@ $ mutt -f ~/Mail/Inbox</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-14 17:18:18 CET</pubDate>
+<pubDate>2023-11-14 17:41:35 CET</pubDate>
   <category>2023/11/14/2</category>
   <title>Dégugeulisation</title>
   <link>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</link>
@@ -3157,7 +3163,7 @@ contact de LineageOS.
   <guid>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-15 17:18:18 CET</pubDate>
+<pubDate>2023-11-15 17:41:35 CET</pubDate>
   <category>2023/11/15/3</category>
   <title>Le "savoir procéder"</title>
   <link>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</link>
@@ -3191,7 +3197,7 @@ malheureusement résolument tournés vers le &quot;savoir faire&quot;. </pre>]]>
   <guid>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-18T21:03:07Z 17:18:18 CET</pubDate>
+<pubDate>2023-11-18T21:03:07Z 17:41:35 CET</pubDate>
   <category>2023/11/18/6</category>
   <title>Shinobi website</title>
   <link>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</link>
@@ -3228,7 +3234,7 @@ caractères ; sélectionner les lignes avec SHIFT+V, puis : `gq`.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-19T17:35:10Z 17:18:18 CET</pubDate>
+<pubDate>2023-11-19T17:35:10Z 17:41:35 CET</pubDate>
   <category>2023/11/19/7</category>
   <title>La vie en rose ukulélé</title>
   <link>http://3r1c.net/posts/2023-11-19-la-vie-en-rose.txt</link>
@@ -3307,7 +3313,7 @@ Alors je sens en moi, mon coeur qui bat...</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-19-la-vie-en-rose.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-19 17:18:18 CET</pubDate>
+<pubDate>2023-11-19 17:41:35 CET</pubDate>
   <category>2023/11/19/7</category>
   <title>Le monde de demain (4) - Ce que le monde redoute</title>
   <link>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt</link>
@@ -3352,7 +3358,7 @@ réacteurs, avec les conséquences pour vous connaissez.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-25T15:30:25Z 17:18:18 CET</pubDate>
+<pubDate>2023-11-25T15:30:25Z 17:41:35 CET</pubDate>
   <category>2023/11/25/6</category>
   <title>Plain text journaling</title>
   <link>http://3r1c.net/posts/2023-11-25-plain-text-journaling.txt</link>
@@ -3503,7 +3509,7 @@ https://peppe.rs/posts/plain_text_journaling/</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-25-plain-text-journaling.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-18T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2023-11-18T11:24:56Z 17:41:35 CET</pubDate>
   <category>2023/11/18/6</category>
   <title>Antisèche vim</title>
   <link>http://3r1c.net/posts/anti-seche-vim.txt</link>
@@ -3666,7 +3672,7 @@ sh -c &#39;curl -fLo &quot;${XDG_DATA_HOME:-$HOME/.local/share}&quot;/nvim/site/
   <guid>http://3r1c.net/posts/anti-seche-vim.txt</guid>
   </item>
 <item>
-<pubDate>2022-07-18T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2022-07-18T11:24:56Z 17:41:35 CET</pubDate>
   <category>2022/07/18/1</category>
   <title>Chiffrer ses backups dans le cloud</title>
   <link>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</link>
@@ -3723,7 +3729,7 @@ Tags: backup, cloud, rclone, gocryptfs</pre>]]>
   <guid>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</guid>
   </item>
 <item>
-<pubDate>2021-03-18T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2021-03-18T11:24:56Z 17:41:35 CET</pubDate>
   <category>2021/03/18/4</category>
   <title>Configurer un umask + securisé</title>
   <link>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</link>
@@ -3811,7 +3817,7 @@ Tags: linux, security, umask, ansible</pre>]]>
   <guid>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-16T18:04:21Z 17:18:18 CET</pubDate>
+<pubDate>2023-10-16T18:04:21Z 17:41:35 CET</pubDate>
   <category>2023/10/16/1</category>
   <title>De-googlisation</title>
   <link>http://3r1c.net/posts/degougueulisation.txt</link>
@@ -3859,7 +3865,7 @@ VPS en tant que relai smtp. Ca ne simplifie pas les choses.</pre>]]>
   <guid>http://3r1c.net/posts/degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2018-01-02T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2018-01-02T11:24:56Z 17:41:35 CET</pubDate>
   <category>2018/01/02/2</category>
   <title>[en] eCPPT course and exam review</title>
   <link>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</link>
@@ -3929,7 +3935,7 @@ Tags: eCPPT, pentest</pre>]]>
   <guid>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-26T10:20:00Z 17:18:18 CET</pubDate>
+<pubDate>2023-10-26T10:20:00Z 17:41:35 CET</pubDate>
   <category>2023/10/26/4</category>
   <title>How to Hire Me</title>
   <link>http://3r1c.net/posts/how-to-hire-me.txt</link>
@@ -3972,7 +3978,7 @@ Please do not send email to my work accounts.</pre>]]>
   <guid>http://3r1c.net/posts/how-to-hire-me.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-01 17:18:18 CET</pubDate>
+<pubDate>2023-10-01 17:41:35 CET</pubDate>
   <category>2023/10/01/7</category>
   <title>Brouillon pour "le monde de demain"</title>
   <link>http://3r1c.net/posts/le-monde-de-demain-draft.txt</link>
@@ -3990,7 +3996,7 @@ sinon ce serait pas drôle :)
   <guid>http://3r1c.net/posts/le-monde-de-demain-draft.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-18T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2020-06-18T11:24:56Z 17:41:35 CET</pubDate>
   <category>2020/06/18/4</category>
   <title>Home made  nas</title>
   <link>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</link>
@@ -4186,7 +4192,7 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</guid>
   </item>
 <item>
-<pubDate>2021-11-18T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2021-11-18T11:24:56Z 17:41:35 CET</pubDate>
   <category>2021/11/18/4</category>
   <title>Outils et services</title>
   <link>http://3r1c.net/posts/outils-et-services.txt</link>
@@ -4236,7 +4242,7 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/outils-et-services.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-07T11:24:56Z 17:18:18 CET</pubDate>
+<pubDate>2023-11-07T11:24:56Z 17:41:35 CET</pubDate>
   <category>2023/11/07/2</category>
   <title>Wrap Existing Text at 80 Characters in Vim</title>
   <link>http://3r1c.net/posts/wrap-existing-test-at-80-char-in-vim.txt</link>

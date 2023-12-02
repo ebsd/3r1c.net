@@ -11,29 +11,30 @@ Ceci est largement inspiré de https://landchad.net/mail.
 Intro
 =====
 
+Il s'agit de documenter la mise en place d'un auto hébergement de mails.
 Plusieurs options.
+
 Pour la réception :
-- mail4one : un serveur smtp + pop. Livraison au format maildir. Il n'y
-  a pas d'envoi possible. Il faut utiliser un service tiers (pourquoi
-pas c'est beaucoup plus simple).
-- postfix + dovecot : serveur smtp et serveur imap avec authentification
-  sasl.
+- Option 1 : mail4one - un serveur smtp + pop pour un seul utilisateur. Livraison
+  au format maildir. Il n'y a pas d'envoi possible. Il faut utiliser un
+service tiers. C'est une solution simple et rapide.
+- Optins 2 : postfix + dovecot - serveur smtp (postfix) et serveur imapi (dovecot)
+  avec authentification sasl.
 
 Pour l'envoi :
-- mail4one : il faudra utiliser un service tiers comme smtp2go.
-- postfix + dovecot : postfix peut relayer les mails directement à
-  d'autres serveurs de messagerie d'internet. Il serait aussi possible
-d'utiliser un smarthost comme smtp2go.
+- Option 1 : mail4one - il faudra utiliser un service tiers comme
+  smtp2go. C'est sans frais dans une certaine limite (nbr de mails).
+- Option2 : postfix + dovecot - postfix peut relayer les mails
+  directement à d'autres serveurs de messagerie d'Internet. Il serait
+aussi possible d'utiliser un smarthost comme smtp2go.
 
-mail4one
-========
+Option 1 - mail4one
+====================
 
-Je parviens désormais à recevoir mes mails seulement avec un script /
-service en en envoi gratuit pour 1000 mails par mois. Pour la réception
-mail4one [1] ne prévoit pas de check spf et dkim, donc ceci peut
-engendrer du spam. Mais peut python : mail4one [1]. L'envoi se fait avec
-le service smtp2go [2] qui propose être qu'un postgrey serait une
-solution palliative ? 
+Un script assez simple que permet de recevoir des mails. mail4one [1] ne
+prévoit pas de check spf et dkim, donc ceci peut engendrer du spam dans
+vos courriers. L'envoi se fait avec le service smtp2go [2] qui propose
+1000 mails par mois.
 
 Notons que mail4one propose aussi un serveur pop3. Malheureusement, il
 ne semble pas compatible avec tous les clients mails. K9 et Thunderbird
@@ -42,7 +43,8 @@ exemple. Mais ce n'est pas grave puisque on peut utiliser munt à travers
 ssh avec : `ssh -t user@server mutt`.
 
 La documentation mail4one [1] est très correcte. Elle permet de démarrer
-son propre serveur mail en quelques minutes.
+son propre serveur mail en quelques minutes. Je ne donne donc pas de
+détails ici.
 
 [1]: https://gitlab.com/balki/mail4one
 [2]: https://support.smtp2go.com/hc/en-gb/articles/223087947-Free-Plan
@@ -75,38 +77,37 @@ set markers=no
 ```
 
 
-postfix
-=======
+Option 2 postfix
+================
 
-Une installation debian.
+Tout ceci est réalisé sur une installation debian.
 
 $ apt install postfix mailutils rsyslog
 
 Note: rsyslog est nécessaire pour produire les mail.log
 
-Lors de l'installation, choisir un type "Internet Site".
+Lors de l'installation de postfix, choisir un type "Internet Site".
 Puis lors de la demande du "system mail name", indiquer votre domaine de
-messagerie.
-Voilà, à partir de ce point, notre serveur peut déjà envoyer du
-courrier. Mais attention, on risque d'être "vu" comme un spammeur car on
-a rien configurer du tout. En particulier, DMARC (SPF + DKIM) qui
-permette d'authentifier la source des emails. C'est pas très difficile à
-mettre en place. On va voir ça plus tard. Pour éviter de se compliquer
-la vie, l'utilisation d'un smarthost pour envoyer le courrier permet de
-s'affranchir de ces questions de configuration pour rendrei (plus)
-"légitime" notre serveur de messagerie.
+messagerie (example.org).
+Voilà, à partir de ce point, notre serveur peut déjà envoyer du courrier
+! Mais attention, on risque d'être "vu" comme un spammeur car on a rien
+configuré du tout. En particulier, DMARC (SPF + DKIM) qui permettent
+d'authentifier la source (notre serveur) des emails. C'est pas très
+difficile à mettre en place. On va voir ça plus tard. Pour éviter de se
+compliquer la vie, l'utilisation d'un smarthost (smtp2go par exemple)
+pour envoyer le courrier permet de s'affranchir de ces questions de
+configuration pour rendre (plus) "légitime" notre serveur de messagerie.
 On peut tester un envoi de mail ainsi, mais il y a de très fortes chance
 qu'on finisse dans le dossier spam :
 
-$ echo "Salut, ça joue ?"  | mail -s "Email depuis mon serveur"
-toi@email-externe.com 
+$ echo "Salut, ça joue ?"  | mail -s "Email depuis mon serveur" toi@email-externe.com 
 
 Reverse DNS (rDNS)
 ------------------
 
 Très important pour un serveur de mail, le reverse DNS. Il doit être
-configurer pour refléter votre nom de domaine sur les IPv4 et IPv6 de votre
-serveur.
+configuré pour refléter votre nom de domaine (example.org) sur les IPv4
+et IPv6 de votre serveur.
 
 Pour un serveur VPS OVH par exemple, suivre ce document [1].
 
@@ -116,7 +117,7 @@ DKIM
 ----
 
 OpenDKIM va nous permettre de signer nos mails. C'est quasiment
-obligatoire maintenant.
+obligatoire "de nos jours".
 
 $ apt install opendkim opendkim-tools
 
@@ -129,50 +130,52 @@ $ chmod g+r /etc/postfix/dkim/*
 
 Informons OpenDKIM que nous avons créé une clé privée.
 
-echo "mail._domainkey.example.org example.org:mail:/etc/postfix/dkim/mail.private" > /etc/postfix/dkim/keytable
+$ echo "mail._domainkey.example.org example.org:mail:/etc/postfix/dkim/mail.private" > /etc/postfix/dkim/keytable
 
 Créons une "signing table"
 
-echo "*@example.org mail._domainkey.example.org" > /etc/postfix/dkim/signingtable
+$ echo "*@example.org mail._domainkey.example.org" > /etc/postfix/dkim/signingtable
 
 Ajoutons les "trusted hosts"
 
-echo "127.0.0.1
+$ echo "127.0.0.1
 10.1.0.0/16
 1.2.3.4/24" > /etc/postfix/dkim/trustedhosts
 
 Configurons /etc/opendkim.conf. Attention, une ligne "Socket" existe
 déjà, il faudra donc la commenter.
 
+.......
 KeyTable file:/etc/postfix/dkim/keytable
 SigningTable refile:/etc/postfix/dkim/signingtable
 InternalHosts refile:/etc/postfix/dkim/trustedhosts
 
 Canonicalization        relaxed/simple
 Socket                  inet:12301@localhost
+.......
 
 Configurer postfix à l'aide de ces commandes :
 
-postconf -e "myhostname = $(cat /etc/mailname)"
-postconf -e "milter_default_action = accept"
-postconf -e "milter_protocol = 6"
-postconf -e "smtpd_milters = inet:localhost:12301"
-postconf -e "non_smtpd_milters = inet:localhost:12301"
+$ postconf -e "myhostname = $(cat /etc/mailname)"
+$ postconf -e "milter_default_action = accept"
+$ postconf -e "milter_protocol = 6"
+$ postconf -e "smtpd_milters = inet:localhost:12301"
+$ postconf -e "non_smtpd_milters = inet:localhost:12301"
 
 Note : on vérifie la config postfix avec :
 
-postconf -p
+$ postconf -p
 
 Redémarrer postfix et opendkim.
 
-systemctl restart opendkim
-systemctl enable opendkim
-systemctl reload postfix
+$ systemctl restart opendkim
+$ systemctl enable opendkim
+$ systemctl reload postfix
 
-Configurer un enregistrement dns TXT pour DKIM :
-Utiliser cette commande pour obtenir l'enregistrement.
+Configurer un enregistrement dns TXT pour DKIM.
+Utiliser cette commande pour obtenir l'enregistrement à créer.
 
-echo -e "
+$ echo -e "
 
 v=DKIM1; k=rsa; $(tr -d "
 " </etc/postfix/dkim/mail.txt | sed "s/k=rsa.* \"p=/k=rsa; p=/;s/\"\s*\"//;s/\"\s*).*//" | grep -o "p=.*")
@@ -184,18 +187,17 @@ Le nom de l'hôte pour cet enregistrement TXT est : mail._domainkey
 DMARC
 -----
 
-Créer l'utilisateur dmarc
+Créer l'utilisateur dmarc.
 
-useradd -m -G mail dmarc
+$ useradd -m -G mail dmarc
 
 Ajouter un enregistrement DNS TXT dont vous obtiendrez le contenu avec
 cette commande :
 
-echo "_dmarc.$(cat /etc/mailname)"
-echo "v=DMARC1; p=reject; rua=mailto:dmarc@$(cat /etc/mailname); fo=1"
+$ echo "_dmarc.$(cat /etc/mailname)"
+$ echo "v=DMARC1; p=reject; rua=mailto:dmarc@$(cat /etc/mailname); fo=1"
 
-La 1ere ligne de la sortie de la commande correspond au nom d'hôte de
-l'enregistrement TXT.
+La 1ere commande correspond au nom d'hôte de l'enregistrement TXT.
 La seconde ligne correspond au contenu de l'enregistrement.
 
 SPF
@@ -204,8 +206,11 @@ SPF
 Il suffit de créer un enregistrement dns TXT dont vous obtiendrez le
 contenu avec cette commande :
 
-cat /etc/mailname
-echo "v=spf1 mx a:mail.$(cat /etc/mailname) -all"
+$ cat /etc/mailname
+$ echo "v=spf1 mx a:mail.$(cat /etc/mailname) -all"
+
+1ere commande = le nom d'hôte.
+2de commande = contenu de l'enregistrement dns TXT.
 
 Tester dmarc, dkim et spf
 -------------------------
@@ -214,30 +219,31 @@ Avec ce site https://appmaildev.com/en/spf
 On vous demande d'envoyez un mail sur une adresse. Par exemple faire
 ceci :
 
-echo "salut" | mail -s "test" -r vous@example.org test-xxxxxx@appmaildev.com
+$ echo "salut" | mail -s "test" -r vous@example.org test-xxxxxx@appmaildev.com
 
 En principe, SPF, DKIM et DMARC devrait avoir un état "PASS".
 
 Hardening postfix
 -----------------
 
-postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination, reject_unknown_recipient_domain'
+$ postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination, reject_unknown_recipient_domain'
 
-echo "/^Received:.*/     IGNORE
+$ echo "/^Received:.*/     IGNORE
 /^X-Originating-IP:/    IGNORE
 /^User-Agent:/        IGNORE
 /^X-Mailer:/        IGNORE" >> /etc/postfix/header_checks
 
-postconf -e "header_checks = regexp:/etc/postfix/header_checks"
+$ postconf -e "header_checks = regexp:/etc/postfix/header_checks"
 
 Config fail2ban
-...............
+---------------
 
 $ apt-get install fail2ban
 $ cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 
 Et alimenter /etc.fail2ban/jail.local avec
 
+..............................
 [postfix]
 
 enabled  = true
@@ -264,7 +270,7 @@ enabled = true
 port    = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
 filter  = dovecot
 logpath = /var/log/mail.log
-
+..............................
 
 Puis :
 
@@ -428,7 +434,7 @@ plugin {
 
 Configuration de sieve
 ----------------------
-Pour déplacer les mails taggués spam directement dans le dossier junk.
+Pour déplacer les mails tagués spam directement dans le dossier junk.
 
 $ mkdir -p /var/lib/dovecot/sieve
 $ echo "require [\"fileinto\", \"mailbox\"];
@@ -502,8 +508,8 @@ Tout utilisateur qui doit recevoir du courrier doit être dans le groupe
 $ useradd -m -G mail eric
 $ passwd eric
 
-Dans votre client de messagerie, le compte utilisateur sera ce nom que
-vous définissez ici.
+Dans votre client de messagerie, le compte utilisateur sera ce nom de
+compte unix que vous définissez ici.
 
 Client de messagerie imap
 -------------------------
@@ -516,8 +522,8 @@ Mutt
 ----
 
 Il reste possible de relever ces mails avec Mutt, directement sur le
-serveur. Le dossier contenant les maildirs est ~/Mail/Inbox et
-~/Mail/Junk.
+serveur. Le dossier contenant les maildirs alimentés par dovecot est
+~/Mail/Inbox et ~/Mail/Junk.
 
 $ mutt -f ~/Mail/Inbox
 
