@@ -286,6 +286,184 @@ $ postconf -e 'smtpd_tls_key_file = /etc/letsencrypt/live/<your.domain>/privkey.
 
 $ postconf -e "smtp_use_tls=yes"
 
+
+Dovecot
+=======
+
+Pour lire ses emails à distance (je veux dire sans être connecté en ssh
+sur son serveur), il nous faut un serveur imap ou pop. Utilisons
+dovecot, un serveur imap.
+
+$ apt install dovecot-imapd dovecot-sieve spamassassin spamc
+
+Configuration
+.............
+Faire un backup de la configuration d'origine et utiliser celle-ci.
+
+-- /etc/dovecot/dovecot.conf ----------
+# Note that in the dovecot conf, you can use:
+# %u for username
+# %n for the name in name@domain.tld
+# %d for the domain
+# %h the user's home directory
+
+# Connections between the mail client and Dovecot needs to be encrypted
+ssl = required
+ssl_cert = </etc/letsencrypt/live/mail.example.org/fullchain.pem
+ssl_key = </etc/letsencrypt/live/mail.example.org/privkey.pem
+ssl_min_protocol = TLSv1.2
+ssl_cipher_list = EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA256:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA384:EDH+aRSA+AESGCM:EDH+aRSA+SHA256:EDH+aRSA:EECDH:!aNULL:!eNULL:!MEDIUM:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS:!RC4:!SEED
+ssl_prefer_server_ciphers = yes
+ssl_dh = </usr/share/dovecot/dh.pem
+auth_mechanisms = plain login
+auth_username_format = %n
+
+protocols = $protocols imap
+
+# Search for valid users in /etc/passwd
+userdb {
+    driver = passwd
+}
+#Fallback: Use plain old PAM to find user passwords
+passdb {
+    driver = pam
+}
+
+# Our mail for each user will be in ~/Mail, and the inbox will be ~/Mail/Inbox
+mail_location = maildir:~/Mail:INBOX=~/Mail/Inbox:LAYOUT=fs
+namespace inbox {
+    inbox = yes
+    mailbox Drafts {
+    special_use = \Drafts
+    auto = subscribe
+}
+    mailbox Junk {
+    special_use = \Junk
+    auto = subscribe
+    autoexpunge = 30d
+}
+    mailbox Sent {
+    special_use = \Sent
+    auto = subscribe
+}
+    mailbox Trash {
+    special_use = \Trash
+}
+    mailbox Archive {
+    special_use = \Archive
+}
+}
+
+# Here we let Postfix use Dovecot's authetication system.
+service auth {
+  unix_listener /var/spool/postfix/private/auth {
+    mode = 0660
+    user = postfix
+    group = postfix
+}
+}
+
+protocol lda {
+  mail_plugins = $mail_plugins sieve
+}
+protocol lmtp {
+  mail_plugins = $mail_plugins sieve
+}
+plugin {
+	sieve = ~/.dovecot.sieve
+	sieve_default = /var/lib/dovecot/sieve/default.sieve
+	sieve_dir = ~/.sieve
+	sieve_global_dir = /var/lib/dovecot/sieve/
+}
+-- end of dovecot.conf -------------
+
+Configuration de sieve
+......................
+Pour déplacer les mails taggués spam directement dans le dossier junk.
+
+$ mkdir -p /var/lib/dovecot/sieve
+$ echo "require [\"fileinto\", \"mailbox\"];
+if header :contains \"X-Spam-Flag\" \"YES\"
+        {
+                fileinto \"Junk\";
+        }" > /var/lib/dovecot/sieve/default.sieve
+
+Créer un user vmail qui accédera aux emails. Mettre à jour ensuite la
+config sieve.
+
+$ grep -q '^vmail:' /etc/passwd || useradd vmail
+$ chown -R vmail:vmail /var/lib/dovecot
+$ sievec /var/lib/dovecot/sieve/default.sieve
+
+Activer l'authentification pam pour dovecot.
+
+$ echo "auth    required        pam_unix.so nullok
+account required        pam_unix.so" >> /etc/pam.d/dovecot
+
+Connecter postfix et dovecot
+............................
+
+On indique à postfix d'utiliser dovecot pour authentifier les
+utilisateurs.
+
+$ postconf -e 'smtpd_sasl_auth_enable = yes'
+$ postconf -e 'smtpd_sasl_type = dovecot'
+$ postconf -e 'smtpd_sasl_path = private/auth'
+$ postconf -e 'mailbox_command = /usr/lib/dovecot/deliver'
+
+Puis redémarrer dovecot :
+
+$ systemctl restart dovecot
+
+
+Connecter postfix et spamassassin
+.................................
+
+On modifie master.cf pour que postfix route les mails dans spamassassin.
+
+$ sed -i '/^\s*-o/d;/^\s*submission/d;/^\s*smtp/d' /etc/postfix/master.cf
+
+Puis :
+
+$ echo "smtp unix - - n - - smtp
+smtp inet n - y - - smtpd
+  -o content_filter=spamassassin
+submission inet n       -       y       -       -       smtpd
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_tls_auth_only=yes
+smtps     inet  n       -       y       -       -       smtpd
+  -o syslog_name=postfix/smtps
+  -o smtpd_tls_wrappermode=yes
+  -o smtpd_sasl_auth_enable=yes
+spamassassin unix -     n       n       -       -       pipe
+  user=debian-spamd argv=/usr/bin/spamc -f -e /usr/sbin/sendmail -oi -f \${sender} \${recipient}" >> /etc/postfix/master.cf
+
+Et on redémarre postfix.
+
+$ systemctl restart postfix
+
+Créer un utilisateur
+....................
+
+Tout utilisateur qui doit recevoir du courrier doit être dans le groupe
+"mail".
+
+$ useradd -m -G mail eric
+$ passwd eric
+
+Dans votre client de messagerie, le compte utilisateur sera ce nom que
+vous définissez ici.
+
+Client de messagerie
+....................
+
+Il faudra configurer :
+- le serveur entrant IMAP (mail.example.org)
+- le serveur sortant SMTP (mail.example.org) avec STARTTLS.
+
+
 Config mutt
 ===========
 
@@ -297,7 +475,7 @@ set mbox_type = Maildir
 set folder = ~/Maildir/
 set spoolfile = +/
 set realname = "eric"
-set from = "eric@3r1c.net"
+set from = "eric@example.org"
 set use_envelope_from = yes
 set edit_headers = yes # Will allow us to change the from address from Mutt
 set record = +/sent/
@@ -331,3 +509,4 @@ set ssl_starttls = yes
 set edit_headers=yes
 set markers=no
 ```
+
