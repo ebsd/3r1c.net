@@ -222,8 +222,8 @@ Tester dmarc, dkim et spf
 -------------------------
 
 Avec ce site https://appmaildev.com/en/spf 
-On vous demande d'envoyez un mail sur une adresse. Par exemple faire
-ceci :
+On vous demande d'envoyer un mail sur une adresse fournie. Par exemple
+faire ceci :
 
 $ echo "salut" | mail -s "test" -r vous@example.org test-xxxxxx@appmaildev.com
 
@@ -437,6 +437,20 @@ plugin {
 	sieve_global_dir = /var/lib/dovecot/sieve/
 }
 -- end of dovecot.conf -------------
+
+Quelques explications :
+1. Config SSL pour permettre les communications chiffrées
+2. Le serveur mail va authentifier les utilisateurs grâce à PAM, ce qui
+signifie que les utilisateurs créés sur le serveur pourront recevoir du
+courrier (il faut qu'ils soient dans le groupe mail).
+3. Config des dossiers par défaut.
+4. Config d'un listener unix qui va permettre à Postfix d'authentifier
+les utilisateurs via dovecot.
+5. Configure le plugin sieve de dovecot qui fournit des fonctions de
+filtrage de mails au moment de la livraison finale. Les scripts sieve
+peuvent être utilisés pour personnaliser la manière dont un message est
+livré.
+
 
 Configuration de sieve
 ----------------------
