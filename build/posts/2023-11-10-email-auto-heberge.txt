@@ -207,7 +207,7 @@ faire ceci :
 
 $ echo "salut" | mail -s "test" -r vous@example.org test-xxxxxx@appmaildev.com
 
-En principe, SPF, DKIM et DMARC devrait avoir un état "PASS".
+En principe, SPF, DKIM et DMARC devraient avoir un état "PASS".
 
 ## Hardening postfix
 
