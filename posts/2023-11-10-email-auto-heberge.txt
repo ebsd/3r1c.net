@@ -3,67 +3,48 @@ email auto hébergé
 
 Mise à jour - date d'origine 2023-11-10
 
-Note
-====
+# Note
 
 Ceci est largement inspiré de https://landchad.net/mail.
 
-Intro
-=====
+# Intro
 
 Il s'agit de documenter la mise en place d'un auto hébergement de mails.
 Plusieurs options.
 
-Pour la réception :
-- Option 1 : mail4one - un serveur smtp + pop pour un seul utilisateur. Livraison
-  au format maildir. Il n'y a pas d'envoi possible. Il faut utiliser un
-service tiers. C'est une solution simple et rapide.
-- Optins 2 : postfix + dovecot - serveur smtp (postfix) et serveur imapi (dovecot)
+- Option 1 : mail4one [1], un serveur smtp (réception) + pop
+  (consultation) pour un seul utilisateur. Livraison au format maildir.
+Notons que mail4one ne semble pas compatible avec tous les clients
+mails, cependants K9 et Thunderbird ont été testés.  Il n'y a pas
+d'envoi possible, en conséquence il faut utiliser un service tiers comme
+smtp2go [2]. C'est une solution simple et rapide.  mail4one ne prévoit pas
+de check spf et dkim, donc ceci peut engendrer du spam dans vos
+courriers entrants. 
+- Option 2 : postfix (envoi et réception), avec livraison dans des
+  maildirs, sans possibilité de relever ces mails avec un client mail,
+sauf celui du serveur, mutt ou alpine par exemple. A distance il reste
+possible de relever le courrier via ssh.
+- Option 3 : postfix (envoi et réception) + dovecot (consultation imap)
   avec authentification sasl.
-
-Pour l'envoi :
-- Option 1 : mail4one - il faudra utiliser un service tiers comme
-  smtp2go. C'est sans frais dans une certaine limite (nbr de mails).
-- Option2 : postfix + dovecot - postfix peut relayer les mails
-  directement à d'autres serveurs de messagerie d'Internet. Il serait
-aussi possible d'utiliser un smarthost comme smtp2go.
-
-L'option la plus simple est la première. Toutefois on peut très bien
-envisager également la seconde option en installant seulement postfix
-pour livrer les mails dans un maildir, et envoyez grâce à un service
-tiers. Ceci ne permet pas de consulter les mails avec un client de
-messagerie (avec un serveur imap ou pop).
-
-Préalable
-=========
-
-Première chose, il nous faut un enregistrement dns de tpye MX qui pointe
-vers notre serveur de mail, par exemple vers le nom mail.example.org.
-
-Option 1 - mail4one
-====================
-
-Un script assez simple que permet de recevoir des mails. mail4one [1] ne
-prévoit pas de check spf et dkim, donc ceci peut engendrer du spam dans
-vos courriers. L'envoi se fait avec le service smtp2go [2] qui propose
-1000 mails par mois.
-
-Notons que mail4one propose aussi un serveur pop3. Malheureusement, il
-ne semble pas compatible avec tous les clients mails. K9 et Thunderbird
-ont été testés. En revanche, mutt ne peut pas récupérer les mails par
-exemple. Mais ce n'est pas grave puisque on peut utiliser munt à travers
-ssh avec : `ssh -t user@server mutt`.
-
-La documentation mail4one [1] est très correcte. Elle permet de démarrer
-son propre serveur mail en quelques minutes. Je ne donne donc pas de
-détails ici.
 
 [1]: https://gitlab.com/balki/mail4one
 [2]: https://support.smtp2go.com/hc/en-gb/articles/223087947-Free-Plan
+
+# Préalable
+
+Première chose et dans tous les cas, il nous faut un enregistrement dns
+de type MX qui pointe vers notre serveur de mail, par exemple vers le
+nom mail.example.org.
+
+# Option 1 - mail4one
+
+La documentation mail4one [3] est très correcte. Elle permet de démarrer
+son propre serveur mail en quelques minutes. Je ne donne donc pas de
+détails ici.
+
 [3]: https://github.com/mail4one/mail4one/tree/main/deploy_configs
 
-mutt pour utiliser smtp2go
-==========================
+# mutt pour utiliser smtp2go
 
 Configurer mutt pour pointer sur le dossiers /var/mails, et utiliser le
 relais smtp de smtp2go.
@@ -88,9 +69,7 @@ set edit_headers=yes
 set markers=no
 ```
 
-
-Option 2 postfix
-================
+# Option 2 postfix
 
 Tout ceci est réalisé sur une installation debian.
 
@@ -114,16 +93,15 @@ qu'on finisse dans le dossier spam :
 
 $ echo "Salut, ça joue ?"  | mail -s "Email depuis mon serveur" toi@email-externe.com 
 
-Reverse DNS (rDNS)
-------------------
+# Reverse DNS (rDNS)
 
 Très important pour un serveur de mail, le reverse DNS. Il doit être
 configuré pour refléter votre nom de domaine (example.org) sur les IPv4
 et IPv6 de votre serveur.
 
-Pour un serveur VPS OVH par exemple, suivre ce document [1].
+Pour un serveur VPS OVH par exemple, suivre ce document [4].
 
-[1]: https://help.ovhcloud.com/csm/en-vps-configure-reverse-dns?id=kb_article_view&sysparm_article=KB0047602
+[4]: https://help.ovhcloud.com/csm/en-vps-configure-reverse-dns?id=kb_article_view&sysparm_article=KB0047602
 
 DKIM
 ----
