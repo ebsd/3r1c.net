@@ -28,6 +28,12 @@ Pour l'envoi :
   directement à d'autres serveurs de messagerie d'Internet. Il serait
 aussi possible d'utiliser un smarthost comme smtp2go.
 
+L'option la plus simple est la première. Toutefois on peut très bien
+envisager également la seconde option en installant seulement postfix
+pour livrer les mails dans un maildir, et envoyez grâce à un service
+tiers. Ceci ne permet pas de consulter les mails avec un client de
+messagerie (avec un serveur imap ou pop).
+
 Préalable
 =========
 
