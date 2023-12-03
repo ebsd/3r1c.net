@@ -93,7 +93,7 @@ qu'on finisse dans le dossier spam :
 
 $ echo "Salut, ça joue ?"  | mail -s "Email depuis mon serveur" toi@email-externe.com 
 
-# Reverse DNS (rDNS)
+## Reverse DNS (rDNS)
 
 Très important pour un serveur de mail, le reverse DNS. Il doit être
 configuré pour refléter votre nom de domaine (example.org) sur les IPv4
@@ -103,8 +103,7 @@ Pour un serveur VPS OVH par exemple, suivre ce document [4].
 
 [4]: https://help.ovhcloud.com/csm/en-vps-configure-reverse-dns?id=kb_article_view&sysparm_article=KB0047602
 
-DKIM
-----
+## DKIM
 
 OpenDKIM va nous permettre de signer nos mails. C'est quasiment
 obligatoire "de nos jours".
@@ -135,14 +134,14 @@ $ echo "127.0.0.1
 Configurons /etc/opendkim.conf. Attention, une ligne "Socket" existe
 déjà, il faudra donc la commenter.
 
-.......
+```
 KeyTable file:/etc/postfix/dkim/keytable
 SigningTable refile:/etc/postfix/dkim/signingtable
 InternalHosts refile:/etc/postfix/dkim/trustedhosts
 
 Canonicalization        relaxed/simple
 Socket                  inet:12301@localhost
-.......
+```
 
 Configurer postfix à l'aide de ces commandes :
 
@@ -174,8 +173,7 @@ v=DKIM1; k=rsa; $(tr -d "
 
 Le nom de l'hôte pour cet enregistrement TXT est : mail._domainkey
 
-DMARC
------
+## DMARC
 
 Créer l'utilisateur dmarc.
 
@@ -190,8 +188,7 @@ $ echo "v=DMARC1; p=reject; rua=mailto:dmarc@$(cat /etc/mailname); fo=1"
 La 1ere commande correspond au nom d'hôte de l'enregistrement TXT.
 La seconde ligne correspond au contenu de l'enregistrement.
 
-SPF
----
+## SPF
 
 Il suffit de créer un enregistrement dns TXT dont vous obtiendrez le
 contenu avec cette commande :
@@ -202,8 +199,7 @@ $ echo "v=spf1 mx a:mail.$(cat /etc/mailname) -all"
 1ere commande = le nom d'hôte.
 2de commande = contenu de l'enregistrement dns TXT.
 
-Tester dmarc, dkim et spf
--------------------------
+## Tester dmarc, dkim et spf
 
 Avec ce site https://appmaildev.com/en/spf 
 On vous demande d'envoyer un mail sur une adresse fournie. Par exemple
@@ -213,8 +209,7 @@ $ echo "salut" | mail -s "test" -r vous@example.org test-xxxxxx@appmaildev.com
 
 En principe, SPF, DKIM et DMARC devrait avoir un état "PASS".
 
-Hardening postfix
------------------
+## Hardening postfix
 
 $ postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination, reject_unknown_recipient_domain'
 
@@ -225,15 +220,14 @@ $ echo "/^Received:.*/     IGNORE
 
 $ postconf -e "header_checks = regexp:/etc/postfix/header_checks"
 
-Config fail2ban
----------------
+## Config fail2ban
 
 $ apt-get install fail2ban
 $ cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 
 Et alimenter /etc.fail2ban/jail.local avec
 
-..............................
+```
 [postfix]
 
 enabled  = true
@@ -260,14 +254,13 @@ enabled = true
 port    = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
 filter  = dovecot
 logpath = /var/log/mail.log
-..............................
+```
 
 Puis :
 
 $ systemctl restart fail2ban
 
-Lire ses mails directement depuis le serveur ou IMAP ?
-------------------------------------------------------
+## Lire ses mails directement depuis le serveur ou installer un service IMAP ?
 
 Maintenant on a le choix :
 - soit on lit les mails directement sur le serveur avec mutt ou alpine
@@ -275,8 +268,7 @@ Maintenant on a le choix :
 - soit on installe un serveur IMAP comme dovecot. Ceci rend possible la
   lecture des mails depuis un smartphone, avec le client K9 par exemple.
 
-postfix dans des maildirs
--------------------------
+## postfix dans des maildirs
 
 L'idée est de configurer un "catchall" pour que toutes les adresses du
 domaine soient dirigées dans une seule boîte. Il ne sera donc pas
@@ -297,8 +289,7 @@ une bonne idée, il faudrait créé un autre user unix) avec cette commande
 
 $ mutt -f ~/Maildir/
 
-Config mutt
------------
+## Config mutt
 
 ~/.muttrc
 set editor = "vim -c 'set tw=72' -c 'set wrap'"
@@ -316,8 +307,7 @@ set sort = threads
 auto_view text/html # view html automatically
 alternative_order text/plain text/enriched text/html
 
-Améliorer postix
-----------------
+## Améliorer postix
 
 Utilisons des certificats publiques pour chiffrer nos canaux de
 communications.
@@ -332,8 +322,7 @@ $ postconf -e 'smtpd_tls_key_file = /etc/letsencrypt/live/<your.domain>/privkey.
 $ postconf -e "smtp_use_tls=yes"
 
 
-Dovecot
-=======
+# Dovecot
 
 Pour lire ses emails à distance (je veux dire sans être connecté en ssh
 sur son serveur), il nous faut un serveur imap ou pop. Utilisons
@@ -341,11 +330,12 @@ dovecot, un serveur imap.
 
 $ apt install dovecot-imapd dovecot-sieve spamassassin spamc
 
-Configuration
--------------
+## Configuration
+
 Faire un backup de la configuration d'origine et utiliser celle-ci.
 
--- /etc/dovecot/dovecot.conf ----------
+/etc/dovecot/dovecot.conf
+```
 # Note that in the dovecot conf, you can use:
 # %u for username
 # %n for the name in name@domain.tld
@@ -420,6 +410,7 @@ plugin {
 	sieve_dir = ~/.sieve
 	sieve_global_dir = /var/lib/dovecot/sieve/
 }
+```
 -- end of dovecot.conf -------------
 
 Quelques explications :
@@ -436,8 +427,8 @@ peuvent être utilisés pour personnaliser la manière dont un message est
 livré.
 
 
-Configuration de sieve
-----------------------
+## Configuration de sieve
+
 Pour déplacer les mails tagués spam directement dans le dossier junk.
 
 $ mkdir -p /var/lib/dovecot/sieve
@@ -459,8 +450,7 @@ Activer l'authentification pam pour dovecot.
 $ echo "auth    required        pam_unix.so nullok
 account required        pam_unix.so" >> /etc/pam.d/dovecot
 
-Connecter postfix et dovecot
-............................
+## Connecter postfix et dovecot
 
 On indique à postfix d'utiliser dovecot pour authentifier les
 utilisateurs.
@@ -475,8 +465,7 @@ Puis redémarrer dovecot :
 $ systemctl restart dovecot
 
 
-Connecter postfix et spamassassin
----------------------------------
+## Connecter postfix et spamassassin
 
 On modifie master.cf pour que postfix route les mails dans spamassassin.
 
@@ -503,8 +492,7 @@ Et on redémarre postfix.
 
 $ systemctl restart postfix
 
-Créer un utilisateur
---------------------
+## Créer un utilisateur
 
 Tout utilisateur qui doit recevoir du courrier doit être dans le groupe
 "mail".
@@ -515,15 +503,13 @@ $ passwd eric
 Dans votre client de messagerie, le compte utilisateur sera ce nom de
 compte unix que vous définissez ici.
 
-Client de messagerie imap
--------------------------
+## Client de messagerie imap
 
 Il faudra configurer :
 - le serveur entrant IMAP (mail.example.org)
 - le serveur sortant SMTP (mail.example.org) avec STARTTLS.
 
-Mutt
-----
+## Mutt
 
 Il reste possible de relever ces mails avec Mutt, directement sur le
 serveur. Le dossier contenant les maildirs alimentés par dovecot est
