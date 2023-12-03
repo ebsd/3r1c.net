@@ -28,6 +28,12 @@ Pour l'envoi :
   directement à d'autres serveurs de messagerie d'Internet. Il serait
 aussi possible d'utiliser un smarthost comme smtp2go.
 
+Préalable
+=========
+
+Première chose, il nous faut un enregistrement dns de tpye MX qui pointe
+vers notre serveur de mail, par exemple vers le nom mail.example.org.
+
 Option 1 - mail4one
 ====================
 
