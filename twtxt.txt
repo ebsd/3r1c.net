@@ -83,3 +83,5 @@
 2023-11-26T11:28:07+01:00	DNS as a Password Manager https://thoughts.theden.sh/posts/dns-txt-record-fun/
 2023-11-29T20:05:19+01:00	 Email obfuscation, What works in 2023 https://spencermortensen.com/articles/email-obfuscation/
 2023-11-29T20:07:31+01:00	 Mouse Balls :) http://www.textfiles.com/100/balls.txt
+2023-12-08T11:28:48+01:00	 DWM xsessions file https://www.youtube.com/watch?v=dP8OKP-r1tw
+2023-12-08T11:37:55+01:00	 DWM xsession file https://bbs.archlinux.org/viewtopic.php?id=125706
