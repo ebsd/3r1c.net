@@ -79,4 +79,16 @@ Modifier le ~/xprofile
 
 while true; do xsetroot -name " $(date +"%H:%M") "; sleep 60; done &
 
+# Bluetooth
+
+sudo pacman -S bluez-utils
+bluetoothctl scan on
+bluetoothctl connect 74:74:46:1D:EF:AD
+
+bluetoothctl power on
+bluetoothctl power off
+
+
+bluetoothctl power on
+bluetoothctl power off
 
