@@ -87,3 +87,4 @@
 2023-12-08T11:37:55+01:00	 DWM xsession file https://bbs.archlinux.org/viewtopic.php?id=125706
 2023-12-08T13:48:02+01:00	 chadwm to test https://github.com/siduck/chadwm
 2023-12-08T15:48:26+01:00	 https://gist.github.com/palopezv/efd34059af6126ad970940bcc6a90f2e
+2023-12-09T11:05:53+01:00	 https://github.com/ronylee11/suckless
