@@ -68,6 +68,11 @@ static const Key keys[] = {
 	{ 0,				XF86XK_MonBrightnessUp,		spawn,	{.v = light_up} },
 	{ 0,				XF86XK_MonBrightnessDown,	spawn,	{.v = light_down} },
 
+# DWM usage
+
+MOD+i et MOD+d incrémenter ou décrementer le nbt de fenêtre dans le
+master
+
 # Utilisation dmenu
 
 MOD-P permet de lancer une commande
@@ -92,3 +97,10 @@ bluetoothctl power off
 bluetoothctl power on
 bluetoothctl power off
 
+# Wifi
+
+Scanner les réseaux :
+nmcli device wifi list
+
+Se connecter :
+nmcli device wifi connect <SSID> password <PASSWORD>
