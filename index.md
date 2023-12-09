@@ -80,6 +80,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [Postfix et mutt simplement - fr](https://dkvz.eu/articles/email_catch_all_postfix_mutt)
 - RFC
   - [Comment se comporter dans une conversation sur internet ?](https://www.rfc-editor.org/rfc/rfc1855.txt)
-
+- News
+  - [68k news](http://68k.news)
 
 <!-- ## <a name="notes"></a>Notes -->
