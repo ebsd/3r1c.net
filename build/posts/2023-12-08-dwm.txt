@@ -104,3 +104,20 @@ nmcli device wifi list
 
 Se connecter :
 nmcli device wifi connect <SSID> password <PASSWORD>
+
+# Lock screen
+
+git clone https://git.suckless.org/slock
+cd slock
+sudo make clean install
+
+Dans config.h de slock, modifier le group qui doit être nobody et non
+nogroup sur arch, puis recompiler.  Lancer la commande slock pour
+verrouiller.
+
+Modifier config.h de dwm :
+static const char *lockscreen[]     = { "/usr/local/bin/slock",  "NULL", "NULL", "NULL", NULL };
+
+static const Key keys[] = {
+        { MODKEY,                       XK_s, spawn, {.v = lockscreen  } },
+
