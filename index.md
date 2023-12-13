@@ -50,7 +50,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [paritybit.ca](https://paritybit.ca)
   - [theWebIsFucked](https://thewebisfucked.com/)
   - [web 0.5](https://tilde.pt/~fimdomeio/index2.html)
-  - [textfiles.com](https://textfiles.com)
+  - [textfiles.com](http://textfiles.com)
   - [chriskoehnke.com](https://chriskoehnke.com/)
   - [shinobi website](https://shinobi.bt.ht/)
 - Francophone
