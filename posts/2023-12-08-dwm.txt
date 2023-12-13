@@ -1,0 +1,123 @@
+DWM
+2023-12-08T13:11:20Z
+
+# Intro
+
+# Xsessions
+
+Comme j'ai déjà gnome, on va ajouter une entrée à gdm. 
+Créer le fichier /usr/share/xsessions/dwm.desktop                                
+
+[Desktop Entry]
+Encoding=UTF-8
+Name=Dwm
+Comment=Dynamic window manager
+Exec=/usr/local/bin/dwm
+Icon=dwm
+Type=XSession
+
+# Touchpad
+
+Activer le déroulement "naturel".
+
+/etc/X11/xorg.conf.d/01-touchpad.conf 
+
+Section "InputClass"
+    Identifier "touchpad"
+    MatchIsTouchpad "on"
+    Option "Tapping" "on"
+    Option "ClickMethod" "clickfinger"
+    Option "DisableWhileTyping" "on"
+    Option "MiddleEmulation" "on"
+    Option "NaturalScrolling"
+
+# Récupérer les sources
+
+dwm
+dmenu
+st
+
+sudo make clean install
+
+# Config DWM (config.h)
+
+## Touche MOD, plus pratique de remplacer ALT par la touche Win.
+#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
+
+## Activer les touches de volumes
+static const char *upvol[]      = { "/usr/bin/amixer",  "set", "Master", "5%+", NULL };
+static const char *downvol[]    = { "/usr/bin/amixer",  "set", "Master", "5%-", NULL };
+static const char *mutevol[]    = { "/usr/bin/amixer",  "set", "Master", "toggle", NULL };
+
+static const Key keys[] = {
+        { MODKEY,                       XK_F2, spawn, {.v = downvol } },
+        { MODKEY,                       XK_F1,  spawn, {.v = mutevol } },
+        { MODKEY,                       XK_F3, spawn, {.v = upvol   } },
+
+## Activer les touches de luminosité
+
+sudo pacman -S light
+sudo chmod +s /user/bin/light
+
+static const char *light_up[]   = { "/usr/bin/light",   "-A", "5", NULL };
+static const char *light_down[] = { "/usr/bin/light",   "-U", "5", NULL };
+
+
+static const Key keys[] = {
+	{ 0,				XF86XK_MonBrightnessUp,		spawn,	{.v = light_up} },
+	{ 0,				XF86XK_MonBrightnessDown,	spawn,	{.v = light_down} },
+
+# DWM usage
+
+MOD+i et MOD+d incrémenter ou décrementer le nbt de fenêtre dans le
+master
+
+# Utilisation dmenu
+
+MOD-P permet de lancer une commande
+
+
+# Configurer une horloge
+
+Modifier le ~/xprofile
+
+while true; do xsetroot -name " $(date +"%H:%M") "; sleep 60; done &
+
+# Bluetooth
+
+sudo pacman -S bluez-utils
+bluetoothctl scan on
+bluetoothctl connect 74:74:46:1D:EF:AD
+
+bluetoothctl power on
+bluetoothctl power off
+
+
+bluetoothctl power on
+bluetoothctl power off
+
+# Wifi
+
+Scanner les réseaux :
+nmcli device wifi list
+
+Se connecter :
+nmcli device wifi connect <SSID> password <PASSWORD>
+
+# Lock screen
+
+git clone https://git.suckless.org/slock
+cd slock
+sudo make clean install
+
+Dans config.h de slock, modifier le group qui doit être nobody et non
+nogroup sur arch, puis recompiler.  Lancer la commande slock pour
+verrouiller.
+
+Modifier config.h de dwm :
+static const char *lockscreen[]     = { "/usr/local/bin/slock",  "NULL", "NULL", "NULL", NULL };
+
+static const Key keys[] = {
+        { MODKEY,                       XK_s, spawn, {.v = lockscreen  } },
+
