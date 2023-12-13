@@ -62,13 +62,13 @@ Et voici une tâche ansible qui fait le job :
 	  replace:
 	    path: /etc/profile
 	    regexp: '(^\s+umask) (0[012][0-6])'
-	    replace: '\1 027'
+	    replace: '027'
 
 	- name: Set default umask 027 in /etc/login.defs for newly created home directories
 	  replace:
 	    path: /etc/login.defs
 	    regexp: '(umask|UMASK).+(0[012][0-6])'
-	    replace: '\1 027'
+	    replace: '027'
 
 	- name: Set mask 022 or set back to 022 if other umask already set for specific account
 	  lineinfile:
