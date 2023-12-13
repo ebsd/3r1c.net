@@ -83,3 +83,4 @@
 2023-11-26T11:28:07+01:00	DNS as a Password Manager https://thoughts.theden.sh/posts/dns-txt-record-fun/
 2023-11-29T20:05:19+01:00	 Email obfuscation, What works in 2023 https://spencermortensen.com/articles/email-obfuscation/
 2023-11-29T20:07:31+01:00	 Mouse Balls :) http://www.textfiles.com/100/balls.txt
+2023-12-13T20:42:18+01:00	 Note pour plus tard : tester une simple install arch linux + DWM. Archolinux ou bare install ?
