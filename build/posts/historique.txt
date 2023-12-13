@@ -1,0 +1,31 @@
+Historique
+2019-01-08T13:11:20Z
+
+J'ai débuté mon tout premier site perso, de type blog courant 2002. A
+cette époque, il s'agissait de code html + php + mysql. Il n'existait
+pas encore ce qu'on qualifiera plus tard de "plateforme", un blog
+c'était donc un "développement maison". Je me suis plus tard intéressé à
+la météorologie et j'ai aussi développé un site de prévision météo.
+Toujours php + mysql.
+J'ai renoué plus tard avec le "blog" notamment pour partager des
+découvertes technico-informatiques. J'ai utilisé joomla et wordpress.
+J'ai trouvé ça très sympa et je me suis même mis à concevoir quelques
+design web pour ces deux CMS.
+Mais voilà, plus le temps passe et plus je recherche la simplicité (ou
+la facilité ?). Je me suis aventuré sur les CMS "sans DB". Mais il
+existait toujours cette possibilité d'ajouter des plugins, et donc des
+tentations de pousser l'installation et de la complexifier à nouveau.
+Aujourd'hui, je me satisfais du minimum : des fichiers textes et un peu
+de markdown si nécessaire.
+Ce site est devenu totalement statique, avec quelques scripts
+d'automatisation.
+Voilà 20 ans résumés en 20 lignes :-)
+
+L'internet des années 2000 me manque. Je me souviens des blogueurs et
+blogueuses : nacara.free.fr, bingirl.free.fr, websucks.net,
+camstory.net, zerotom.net, geradon.be, et bien d'autres. Que sont-ils
+devenus ? Cette époque nettement différente et surtout encore très
+lointaine des réseaux sociaux était à mon sens encore, osons le dire :
+"saine". Les social network ont tout dévasté. Les irc, les forums, le
+mails et même les sites web. Enfin ça c'est peut être javascript et les
+sur-dose de webdesign qui les ont rendu si indigestes.
