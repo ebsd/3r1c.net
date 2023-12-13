@@ -50,7 +50,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [paritybit.ca](https://paritybit.ca)
   - [theWebIsFucked](https://thewebisfucked.com/)
   - [web 0.5](https://tilde.pt/~fimdomeio/index2.html)
-  - [textfiles.com](https://textfiles.com)
+  - [textfiles.com](http://textfiles.com)
   - [chriskoehnke.com](https://chriskoehnke.com/)
   - [shinobi website](https://shinobi.bt.ht/)
 - Francophone
@@ -59,13 +59,14 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [ferale.art](https://ferale.art/blog/2021/le-monde-est-en-transition.html)
   - [hugo.spocy.cc](https://hugo.soucy.cc/)
 - News
+  - [68k news](http://68k.news)
   - [lobste.rs](https://lobste.rs/top)
   - [tilde.news](https://tilde.news)
 - Social
   - [midnight.pub](https://midnight.pub/)
   - [smol.pub](https://smol.pub)
 - Search engines
-  - [wiby.me](https://wiby.me) : a search engine for text-based sites
+  - [wiby.me](https://wiby.me) a search engine for text-based sites
 - vim
   - [vim anti patterns](https://blog.sanctum.geek.nz/vim-anti-patterns/)
   - [https://ronaldsvilcins.com/2023/10/01/ultimate-vim-cheat-sheet/](https://ronaldsvilcins.com/2023/10/01/ultimate-vim-cheat-sheet/)
@@ -74,4 +75,13 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - https://github.com/drduh/YubiKey-Guide
 - gemini
   - gemini://perso.pw/blog/
+- auto hébergement
+  - [Setup an Email Server and a Web server](https://landchad.net/) 
+  - [Postfix et mutt simplement - en](https://dkvz.eu/wp-content/stuff/postfix_mutt_catch_all.pdf)
+  - [Postfix et mutt simplement - fr](https://dkvz.eu/articles/email_catch_all_postfix_mutt)
+- RFC
+  - [Comment se comporter dans une conversation sur internet ?](https://www.rfc-editor.org/rfc/rfc1855.txt)
+- Linux
+  - [Archlinux install](https://nih.ar/arch_install)
+
 <!-- ## <a name="notes"></a>Notes -->
