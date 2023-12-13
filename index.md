@@ -59,6 +59,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [ferale.art](https://ferale.art/blog/2021/le-monde-est-en-transition.html)
   - [hugo.spocy.cc](https://hugo.soucy.cc/)
 - News
+  - [68k news](http://68k.news)
   - [lobste.rs](https://lobste.rs/top)
   - [tilde.news](https://tilde.news)
 - Social
@@ -80,7 +81,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [Postfix et mutt simplement - fr](https://dkvz.eu/articles/email_catch_all_postfix_mutt)
 - RFC
   - [Comment se comporter dans une conversation sur internet ?](https://www.rfc-editor.org/rfc/rfc1855.txt)
-- News
-  - [68k news](http://68k.news)
+- Linux
+  - [Archlinux install](https://nih.ar/arch_install)
 
 <!-- ## <a name="notes"></a>Notes -->
