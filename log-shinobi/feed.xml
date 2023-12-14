@@ -8,7 +8,7 @@
     <copyright></copyright>
     <ttl>60</ttl>
 <item>
-<pubDate>2019-05-18T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2019-05-18T11:24:56Z 19:25:54 CET</pubDate>
   <category>2019/05/18/6</category>
   <title>Anatomie d'une attaque informatique</title>
   <link>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</link>
@@ -138,7 +138,7 @@ Tags: pentest</pre>]]>
   <guid>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-16T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2020-06-16T11:24:56Z 19:25:54 CET</pubDate>
   <category>2020/06/16/2</category>
   <title>htb blunder</title>
   <link>http://3r1c.net/posts/2020-06-16-blunder.txt</link>
@@ -520,7 +520,7 @@ cat root.txt
   <guid>http://3r1c.net/posts/2020-06-16-blunder.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-02T10:21:56Z 19:22:40 CET</pubDate>
+<pubDate>2020-09-02T10:21:56Z 19:25:54 CET</pubDate>
   <category>2020/09/02/3</category>
   <title>buff</title>
   <link>http://3r1c.net/posts/2020-09-02-buff.txt</link>
@@ -665,7 +665,7 @@ https://p0i5on8.github.io/posts/hackthebox-buff/
   <guid>http://3r1c.net/posts/2020-09-02-buff.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-29T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2020-09-29T11:24:56Z 19:25:54 CET</pubDate>
   <category>2020/09/29/2</category>
   <title>htb admirer</title>
   <link>http://3r1c.net/posts/2020-09-29-admirer.txt</link>
@@ -1058,7 +1058,7 @@ Et notre netcat reçoit la connexion en retour. Nous sommes root.
   <guid>http://3r1c.net/posts/2020-09-29-admirer.txt</guid>
   </item>
 <item>
-<pubDate>2020-10-29T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2020-10-29T11:24:56Z 19:25:54 CET</pubDate>
   <category>2020/10/29/4</category>
   <title>htb fuse</title>
   <link>http://3r1c.net/posts/2020-10-29-fuse.txt</link>
@@ -1446,7 +1446,7 @@ UserPrincipalName :
 
 ```bash
 *Evil-WinRM* PS C:\users\svc-print\Documents&gt; .\VbLoadDriver.exe HKU\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService C:\users\svc-print\Documents<item>
-<pubDate>2022-02-17T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2022-02-17T11:24:56Z 19:25:54 CET</pubDate>
   <category>2022/02/17/4</category>
   <title>htb blackfield</title>
   <link>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</link>
@@ -1723,7 +1723,7 @@ De nouveaux fichiers, de nouvelles lectures :) Je télécharge tout.
 
 	smb: \&gt; cd commands_output\
 	smb: <item>
-<pubDate>2023-08-17T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2023-08-17T11:24:56Z 19:25:54 CET</pubDate>
   <category>2023/08/17/4</category>
   <title>htb Busqueda</title>
   <link>http://3r1c.net/posts/2023-08-17-busqueda.txt</link>
@@ -2018,7 +2018,7 @@ $ nc -nlvp 9002
   <guid>http://3r1c.net/posts/2023-08-17-busqueda.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-04 19:22:40 CET</pubDate>
+<pubDate>2023-10-04 19:25:54 CET</pubDate>
   <category>2023/10/04/3</category>
   <title>Recommandations de recharge de véhicule électrique</title>
   <link>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</link>
@@ -2036,7 +2036,7 @@ batterie d&#39;un véhucule électrique afin de conserver un bon niveau de sant�
   <guid>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-08 19:22:40 CET</pubDate>
+<pubDate>2023-10-08 19:25:54 CET</pubDate>
   <category>2023/10/08/7</category>
   <title>Véhicule électrique : un véhicule vert ?</title>
   <link>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</link>
@@ -2061,7 +2061,7 @@ votre VE :)</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-31 19:22:40 CET</pubDate>
+<pubDate>2023-10-31 19:25:54 CET</pubDate>
   <category>2023/10/31/2</category>
   <title>Halloween petites infos</title>
   <link>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</link>
@@ -2102,7 +2102,7 @@ quelques infos. Voilà c&#39;était la minute culturelle du mois :-))</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-02 19:22:40 CET</pubDate>
+<pubDate>2023-11-02 19:25:54 CET</pubDate>
   <category>2023/11/02/4</category>
   <title>Amulette de sommeil</title>
   <link>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</link>
@@ -2123,7 +2123,7 @@ physique et mental. Mettre tous les ingrédients dans le sachet :
   <guid>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-08 19:22:40 CET</pubDate>
+<pubDate>2023-11-08 19:25:54 CET</pubDate>
   <category>2023/11/08/3</category>
   <title>Le monde de demain (3) - Sans transition</title>
   <link>http://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt</link>
@@ -2160,7 +2160,7 @@ vie.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-09 19:22:40 CET</pubDate>
+<pubDate>2023-11-09 19:25:54 CET</pubDate>
   <category>2023/11/09/4</category>
   <title>Véhicule électrique vert ? (2)</title>
   <link>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</link>
@@ -2185,7 +2185,7 @@ chez les autres.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-02 19:22:40 CET</pubDate>
+<pubDate>2023-12-02 19:25:54 CET</pubDate>
   <category>2023/12/02/6</category>
   <title>email auto hébergé</title>
   <link>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</link>
@@ -2711,7 +2711,7 @@ $ mutt -f ~/Mail/Inbox</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-14 19:22:40 CET</pubDate>
+<pubDate>2023-11-14 19:25:54 CET</pubDate>
   <category>2023/11/14/2</category>
   <title>Dégugeulisation</title>
   <link>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</link>
@@ -2748,7 +2748,7 @@ contact de LineageOS.
   <guid>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-15 19:22:40 CET</pubDate>
+<pubDate>2023-11-15 19:25:54 CET</pubDate>
   <category>2023/11/15/3</category>
   <title>Le "savoir procéder"</title>
   <link>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</link>
@@ -2782,7 +2782,7 @@ malheureusement résolument tournés vers le &quot;savoir faire&quot;. </pre>]]>
   <guid>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-18T21:03:07Z 19:22:40 CET</pubDate>
+<pubDate>2023-11-18T21:03:07Z 19:25:54 CET</pubDate>
   <category>2023/11/18/6</category>
   <title>Shinobi website</title>
   <link>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</link>
@@ -2819,7 +2819,7 @@ caractères ; sélectionner les lignes avec SHIFT+V, puis : `gq`.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-19T17:35:10Z 19:22:40 CET</pubDate>
+<pubDate>2023-11-19T17:35:10Z 19:25:54 CET</pubDate>
   <category>2023/11/19/7</category>
   <title>La vie en rose ukulélé</title>
   <link>http://3r1c.net/posts/2023-11-19-la-vie-en-rose.txt</link>
@@ -2898,7 +2898,7 @@ Alors je sens en moi, mon coeur qui bat...</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-19-la-vie-en-rose.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-19 19:22:40 CET</pubDate>
+<pubDate>2023-11-19 19:25:54 CET</pubDate>
   <category>2023/11/19/7</category>
   <title>Le monde de demain (4) - Ce que le monde redoute</title>
   <link>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt</link>
@@ -2940,7 +2940,7 @@ pour l&#39;ensemble des vivants de la planète.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-25T15:30:25Z 19:22:40 CET</pubDate>
+<pubDate>2023-11-25T15:30:25Z 19:25:54 CET</pubDate>
   <category>2023/11/25/6</category>
   <title>Plain text journaling</title>
   <link>http://3r1c.net/posts/2023-11-25-plain-text-journaling.txt</link>
@@ -3091,7 +3091,7 @@ https://peppe.rs/posts/plain_text_journaling/</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-25-plain-text-journaling.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-08T13:11:20Z 19:22:40 CET</pubDate>
+<pubDate>2023-12-08T13:11:20Z 19:25:54 CET</pubDate>
   <category>2023/12/08/5</category>
   <title>DWM</title>
   <link>http://3r1c.net/posts/2023-12-08-dwm.txt</link>
@@ -3221,7 +3221,7 @@ static const Key keys[] = {
   <guid>http://3r1c.net/posts/2023-12-08-dwm.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-13T21:11:20Z 19:22:40 CET</pubDate>
+<pubDate>2023-12-13T21:11:20Z 19:25:54 CET</pubDate>
   <category>2023/12/13/3</category>
   <title>Historique de ce site, du web 1.0 au 3.0</title>
   <link>http://3r1c.net/posts/2023-12-13-historique.txt</link>
@@ -3282,12 +3282,13 @@ catastrophe pour encore faire plus de thune avec l&#39;inintelligence
 artificielle. Préparez vous à encore plus de publicités ciblées, pour
 rendre encore plus crade internet.
 
-Nous avions un web 1.0 tellement beau§. Comme toujours il a fallu coller
-la dedans des business model pour générer du PIB. Et voilà comment on se
-retrouve avec un web 2|3 dégueulasse.
+Nous avions un web 1.0 tellement beau. Mais comme on ne sait pas grandir
+autrement que par l&#39;argent, il a fallu coller la dedans des business
+model pour générer du PIB. Et voilà comment on se retrouve avec un web
+2|3 dégueulasse.
 
-Si vous êtes ici, je pense que vous êtes déjà convaincu. Le web 1.0 peut
-continuer à vivre heureusement, et grâce à nos sites sites sans pub,
+Si vous êtes ici, je pense que vous êtes déjà convaincu. Mais le web 1.0
+peut continuer à vivre heureusement ! Et ça grâce à nos sites sans pub,
 sans traceur et sans qui ne nécessitent pas la dernière machine
 surpuissante pour le visiter.</pre>]]>
   </description>
@@ -3295,7 +3296,7 @@ surpuissante pour le visiter.</pre>]]>
   <guid>http://3r1c.net/posts/2023-12-13-historique.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-18T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2023-11-18T11:24:56Z 19:25:54 CET</pubDate>
   <category>2023/11/18/6</category>
   <title>Antisèche vim</title>
   <link>http://3r1c.net/posts/anti-seche-vim.txt</link>
@@ -3458,7 +3459,7 @@ sh -c &#39;curl -fLo &quot;${XDG_DATA_HOME:-$HOME/.local/share}&quot;/nvim/site/
   <guid>http://3r1c.net/posts/anti-seche-vim.txt</guid>
   </item>
 <item>
-<pubDate>2022-07-18T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2022-07-18T11:24:56Z 19:25:54 CET</pubDate>
   <category>2022/07/18/1</category>
   <title>Chiffrer ses backups dans le cloud</title>
   <link>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</link>
@@ -3515,7 +3516,7 @@ Tags: backup, cloud, rclone, gocryptfs</pre>]]>
   <guid>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</guid>
   </item>
 <item>
-<pubDate>2021-03-18T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2021-03-18T11:24:56Z 19:25:54 CET</pubDate>
   <category>2021/03/18/4</category>
   <title>Configurer un umask + securisé</title>
   <link>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</link>
@@ -3603,7 +3604,7 @@ Tags: linux, security, umask, ansible</pre>]]>
   <guid>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-16T18:04:21Z 19:22:40 CET</pubDate>
+<pubDate>2023-10-16T18:04:21Z 19:25:54 CET</pubDate>
   <category>2023/10/16/1</category>
   <title>De-googlisation</title>
   <link>http://3r1c.net/posts/degougueulisation.txt</link>
@@ -3651,7 +3652,7 @@ VPS en tant que relai smtp. Ca ne simplifie pas les choses.</pre>]]>
   <guid>http://3r1c.net/posts/degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2018-01-02T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2018-01-02T11:24:56Z 19:25:54 CET</pubDate>
   <category>2018/01/02/2</category>
   <title>[en] eCPPT course and exam review</title>
   <link>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</link>
@@ -3721,7 +3722,7 @@ Tags: eCPPT, pentest</pre>]]>
   <guid>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-26T10:20:00Z 19:22:40 CET</pubDate>
+<pubDate>2023-10-26T10:20:00Z 19:25:54 CET</pubDate>
   <category>2023/10/26/4</category>
   <title>How to Hire Me</title>
   <link>http://3r1c.net/posts/how-to-hire-me.txt</link>
@@ -3764,7 +3765,7 @@ Please do not send email to my work accounts.</pre>]]>
   <guid>http://3r1c.net/posts/how-to-hire-me.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-01 19:22:40 CET</pubDate>
+<pubDate>2023-10-01 19:25:54 CET</pubDate>
   <category>2023/10/01/7</category>
   <title>Brouillon pour "le monde de demain"</title>
   <link>http://3r1c.net/posts/le-monde-de-demain-draft.txt</link>
@@ -3782,7 +3783,7 @@ sinon ce serait pas drôle :)
   <guid>http://3r1c.net/posts/le-monde-de-demain-draft.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-18T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2020-06-18T11:24:56Z 19:25:54 CET</pubDate>
   <category>2020/06/18/4</category>
   <title>Home made  nas</title>
   <link>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</link>
@@ -3978,7 +3979,7 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</guid>
   </item>
 <item>
-<pubDate>2021-11-18T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2021-11-18T11:24:56Z 19:25:54 CET</pubDate>
   <category>2021/11/18/4</category>
   <title>Outils et services</title>
   <link>http://3r1c.net/posts/outils-et-services.txt</link>
@@ -4028,7 +4029,7 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/outils-et-services.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-07T11:24:56Z 19:22:40 CET</pubDate>
+<pubDate>2023-11-07T11:24:56Z 19:25:54 CET</pubDate>
   <category>2023/11/07/2</category>
   <title>Wrap Existing Text at 80 Characters in Vim</title>
   <link>http://3r1c.net/posts/wrap-existing-test-at-80-char-in-vim.txt</link>
