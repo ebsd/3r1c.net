@@ -58,6 +58,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [skiserv.eu](https://blog.skiserv.eu/)
   - [ferale.art](https://ferale.art/blog/2021/le-monde-est-en-transition.html)
   - [hugo.spocy.cc](https://hugo.soucy.cc/)
+  - [linuxmario.net](https://linuxmario.net/fr/)
 - News
   - [68k news](http://68k.news)
   - [lobste.rs](https://lobste.rs/top)
