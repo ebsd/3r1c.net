@@ -40,6 +40,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [xxiivv webring](https://webring.xxiivv.com/)
   - [Fediring (random site)](https://fediring.net/random)
 - Small web
+  - [Redécouvrir le web](https://serveur410.com/les-passages-secrets-du-web/)
   - [the small web is beautiful](https://benhoyt.com/writings/the-small-web-is-beautiful/)
   - [QotNews](https://news.t0.vc)
   - [chotrin smoll internet](https://chotrin.org/notes/smol_internet.html)
