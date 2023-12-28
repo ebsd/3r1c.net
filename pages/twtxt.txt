@@ -95,3 +95,4 @@
 2023-12-13T20:46:27+01:00	 Note pour plus tard : tester une simple install arch linux + DWM. Archolinux ou bare install ?
 2023-12-20T08:06:03+01:00	 Forensics Tools https://github.com/mesquidar/ForensicsTools
 2023-12-28T11:06:03+01:00	Voidlinux post install : https://kennydodrill.com/blog/stable-void-linux-setup-guide/
+2023-12-28T11:07:03+01:00	Voidlinux post install : https://gist.github.com/bastomiadi/abf27618341fc561735adfb17e586916
