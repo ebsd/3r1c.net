@@ -96,3 +96,4 @@
 2023-12-20T08:06:03+01:00	 Forensics Tools https://github.com/mesquidar/ForensicsTools
 2023-12-28T11:06:03+01:00	Voidlinux post install : https://kennydodrill.com/blog/stable-void-linux-setup-guide/
 2023-12-28T11:07:03+01:00	Voidlinux post install : https://gist.github.com/bastomiadi/abf27618341fc561735adfb17e586916
+2024-01-05T09:39:58+01:00	 Optimizations void : https://gist.github.com/themagicalmammal/e443d3c5440d566f8206e5b957ab1493
