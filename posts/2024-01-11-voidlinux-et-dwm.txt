@@ -1,5 +1,5 @@
-
 ## Installer voildlinux.
+2024-01-11T19:24:56Z
 
 $ void-installer
 
