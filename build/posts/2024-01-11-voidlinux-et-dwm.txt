@@ -3,6 +3,8 @@
 
 ## Installer voildlinux
 
+Utiliser l'image ISO de base.
+
 $ void-installer
 
 Configurer le keyboard : fr_CH
@@ -39,6 +41,8 @@ Executer le script de post-install :
 ```
 .void_dotfiles/bin/.local/bin/scripts/void-postinstall/void-postinstall.sh
 ```
+
+Sinon, ce qui suit concerne une installation "manuelle".
 
 ## TRIM SSD
 
@@ -597,3 +601,9 @@ En alternative à cron.
 
 https://kkga.me/notes/void-linux
 
+# FINALISATION
+
+Pour terminer :
+- configurer la synchro syncthing
+- importer la clé gpg pour pass
+- importer la clé privée ssh
