@@ -1,0 +1,597 @@
+
+## Installer voildlinux.
+
+$ void-installer
+
+Configurer le keyboard : fr_CH
+Configurer le network, et le wifi si nécessaire
+Configurer le hostname
+Configurer les locales : en_US.UTF8
+Configurer la timezone
+Configurer le RootPassword
+Configurer le UserAccount, ajouter un compte user standard sans modifier les groupes par défaut
+Configurer le bootloader : sur le dsique principal
+Configurer les partitions, avec cfdisk par exemple. Suivre les
+instructions. Par exemple pour un système EFI, GPT est obligatoire et
+une partition FAT32 de 100Mb mini avec le flag boot.
+Au moins 1 partition /. Et une partition swap de 4 Gb mini.
+Configurer les Filesytems et les points de montage. La 1ere partition de
+type vfati / fat32 avec montage sur /boot/efi. La 2eme partition de type ext4
+avec un point de montage sur /. La 3eme partition de type swap sans
+point de montage.
+Sélectionner le menu install.
+Valider la destruction des partitions.
+
+## Changer le shell par défaut si on a pas déjà bash : 
+Se connecter en mode "user" (non root).
+$ chsh -s /usr/bin/bash
+Se déloguer et se re-loguer.
+
+## Upgrade du système
+$ sudo xbps-install -u xbps
+$ sudo xbps-install -Suv
+
+Installer git et stow.
+Puis clone le repo void_dotfiles.
+Executer le script de post-install :
+```
+.void_dotfiles/bin/.local/bin/scripts/void-postinstall/void-postinstall.sh
+```
+
+## TRIM SSD
+
+TO DO
+
+## Installer les dépendances
+$ sudo xbps-install -S base-devel libX11-devel libXft-devel libXinerama-devel freetype-devel fontconfig-devel 
+
+Dépendance pour slock (lock de l'écran) :
+$ sudo xbps-install -S libXrandr-devel
+
+Et les outils de base :
+$ sudo xbps-install -S vim xorg firefox pass xclip syncthing tmux mupdf libreoffice remmina rsync rtorrent wget flameshot git nmap bind-utils rclone dateutils python3-pip inetutils-telnet
+
+Font pour affichage des emojis dans DWM :
+$ sudo xbps-install nerd-fonts
+
+## Télécharger dwm, dmenu et st.
+$ cd ~
+$ make .build
+$ cd .build
+$ git clone https://git.suckless.org/dwm
+$ git clone https://git.suckless.org/st
+$ git clone https://git.suckless.org/dmenu
+$ git clone https://git.suckless.org/slock
+
+Dans dwm/config.mk, modifier ce chemin :
+X11INC = /usr/include/X11
+X11LIB = /usr/lib/X11
+
+## Complier
+cd dwm
+sudo make clean install
+cd ..
+cd st
+sudo make clean install
+cd ..
+cd dmenu
+sudo make clean install
+cd ..
+cd slock
+sudo make clean install
+
+Créer le fichier ~/.xinitrc
+exec /usr/local/bin/dwm
+
+
+## Clavier
+Configurer le clavier de xorg
+$ sudo mkdir -p /etc/X11/xorg.conf.d
+
+Dans /etc/X11/xorg.conf.d/00-keyboard.conf
+Section "InputClass"
+	Identifier "system-keyboard"
+	MatchIsKeyboard "on"
+	Option "XkbLayout" "ch"
+	Option "XkbVariant" "fr"
+	Option "XkbModel" "pc105"
+EndSection
+
+## Touchpad
+Activer le déroulement "naturel". Ceci est valable pour les touchpad qui
+utilisent le driver "libinput".
+
+/etc/X11/xorg.conf.d/40-touchpad.conf 
+Section "InputClass"
+    Identifier "touchpad"
+    MatchIsTouchpad "on"
+    Option "Tapping" "on"
+    Option "ClickMethod" "clickfinger"
+    Option "DisableWhileTyping" "on"
+    Option "MiddleEmulation" "on"
+    Option "NaturalScrolling" "on"
+    MatchDriver "libinput"
+EndSection
+
+Sur mon thinkpad j'ai découvert que le touchpad utilise le driver
+"synactics". On peut le constater dans /var/log/Xorg.0.log
+```
+[   176.712] (II) Using input driver 'libinput' for 'Sleep Button'
+[   176.723] (II) Using input driver 'libinput' for 'SYNA8016:00 06CB:CEB3 Mouse'
+[   176.741] (II) Using input driver 'synaptics' for 'SYNA8016:00 06CB:CEB3 Touchpad'
+[   176.767] (II) Using input driver 'libinput' for 'sof-hda-dsp Headphone'
+[   176.778] (II) Using input driver 'libinput' for 'Intel HID events'
+```
+
+Dans ce cas, il faut spécifier cette  config
+/etc/X11/xorg.conf.d/70-synaptics.conf
+Les valeurs négatives suivantes activent le natural scrolling :
+
+    	Option "VertScrollDelta" "-100"
+        Option "HorizScrollDelta" "-100"
+```
+Section "InputClass"
+    Identifier "touchpad"
+    Driver "synaptics"
+    MatchIsTouchpad "on"
+        Option "TapButton1" "1"
+        Option "TapButton2" "3"
+        Option "TapButton3" "2"
+        Option "VertEdgeScroll" "on"
+        Option "VertTwoFingerScroll" "on"
+        Option "HorizEdgeScroll" "on"
+        Option "HorizTwoFingerScroll" "on"
+        Option "CircularScrolling" "on"
+        Option "CircScrollTrigger" "2"
+        Option "EmulateTwoFingerMinZ" "40"
+        Option "EmulateTwoFingerMinW" "8"
+        Option "CoastingSpeed" "0"
+        Option "FingerLow" "30"
+        Option "FingerHigh" "50"
+        Option "MaxTapTime" "125"
+    	Option "VertScrollDelta" "-100"
+        Option "HorizScrollDelta" "-100"
+EndSection
+```
+
+## VIDEO
+
+Sans cette config, des applications comme chrome, slack, typora,
+qutebrowser ne s'affichent pas correctement (pb d'accélération gpu ?).
+
+Installer ces packages (pour une carte intel). ```
+```
+sudo xbps-install -S mesa-intel-dri libva-intel-driver sysfsutils
+```
+
+Puis ajouter cette configuration /etc/X11/Xorg.conf.d/01-graphics.conf
+```
+Section "Device"
+        Identifier "Intel Graphics"
+        Driver "modesetting"
+EndSection
+```
+
+## Touche MOD
+Modifier la touch MOD de DWM (ALT => WIN) :
+Dans dwm/config.h
+#define MODKEY Mod4Mask
+
+Puis : sudo make clean install
+
+## Lancer startx
+On peut maintenant lancer startx (composant de xorg).
+
+Pour démarrer automatiquement startx après login :
+$ echo startx >> ~/.bash_profile
+
+## Utilisation
+
+Pour ouvrir dmenu : MOD + p.
+Afficher / cacher la barre : MOD + b
+Quitter : MOD + Shift + Q
+
+MODKEY-t : mode "tiling" ([]=) ; l'écran est divisé comme dans le dessin ci-dessus.
+MODKEY-m : "maximized" ([M]) ; la fenêtre sélectionnée occupe tout l'espace.
+MODKEY-f: "floating" (><>) ; mode flottant, les fenêtres peuvent se redimensionner et se déplacer à la souris comme on le fait avec d'autres gestionnaires de fenêtres.
+MODKEY-l et MODKEY-h : Agrandir ou réduire la taille de la zone master.
+MODKEY-d Abaisse de 1 le nombre de fenêtres dans la zone master
+MODKEY-i Augmenter de 1 le nombre de fenêtres dans la zone master
+MODKEY-shift-Entrée ouvre un terminal.
+MODKEY-shift-c ferme la fenêtre sélectionnée.
+MODKEY-j et MODKEY-k permet de choisir les fenêtres suivantes ou précédentes.
+MODKEY-Entrée déplace la fenêtre dans la zone “master”
+
+MODKEY-, et MODKEY-. : Change d'écran, si il y en a plusieurs
+MODKEY-Shift-, et MODKEY-Shift-. : Envoie la fenêtre sur l'écran suivant
+
+## Fonts complémentaires
+
+Noto fonts
+$ sudo xbps-install -Rs noto-fonts-emoji noto-fonts-ttf noto-fonts-ttf-extra
+
+Meilleures fonts pour firefox
+sudo ln -s /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/
+sudo xbps-reconfigure -f fontconfig
+
+## AUDIO
+
+$ sudo xbps-install -S pulseaudio pulseaudio-utils alsa-plugins-pulseaudio pavucontrol
+
+Note : pavucontrol permet de faire quelques diagnostics et configurations.
+
+Attention, sur un Thinkpad, on a un message au boot qui indique que le
+firmware n'est pas installé. Et quand on consulte le contenu du fichier
+/proc/asound/cards, la mention "no souncard" apparaît. Pour installer le
+firmware :
+$ sudo xbps-install -S sof-firmware
+
+## WIFI
+
+```
+$ wpa_cli -i wlp0s20f3
+Interactive mode
+> list_networks
+network id / ssid / bssid / flags
+0       TP-LINK_1F5F    any     [CURRENT]
+
+> scan
+OK
+<3>CTRL-EVENT-SCAN-STARTED
+<3>CTRL-EVENT-SCAN-RESULTS
+> scan_result
+bssid / frequency / signal level / flags / ssid
+84:16:f9:d8:1f:5f       2412    -47     [WPA2-PSK-CCMP][WPS][ESS]       TP-LIN
+08:36:c9:6b:c9:01       5220    -69     [WPA2-PSK-CCMP][WPS][ESS]       NTGR_C
+
+> add_network
+1  # 1 car le 0 est déjà utilisé (lire la sortie de list_networks)
+
+> set_network 1 ssid "MYSSID"
+> set_network 1 psk "passphrase"
+> enable_network 1
+<2>CTRL-EVENT-CONNECTED - Connection to 00:00:00:00:00:00 completed (reauth) [id=0 id_str=]
+> save_config
+OK
+> quit
+```
+
+Pour forcer une connexion sur un nouveau wifi :
+```
+> enable_network_1
+> reconnect
+> status
+```
+
+### EAP TLS
+
+wpa_supplicant.conf à tester
+```
+# work network; use EAP-TLS with WPA; allow only CCMP and TKIP ciphers
+network={
+ssid="work"
+scan_ssid=1
+key_mgmt=WPA-EAP
+pairwise=CCMP TKIP
+group=CCMP TKIP
+eap=TLS
+identity="user@example.com"
+ca_cert="/etc/cert/ca.pem"
+client_cert="/etc/cert/certificate.pem"
+private_key="/etc/cert/private.p12"
+private_key_passwd="password"
+}
+```
+
+## Bluetooth
+
+$ sudo xbps-install -S bluez
+
+$ sudo ln -s /etc/sv/bluetoothd /var/service
+$ sudo usermod -a -G bluetooth ${USER}
+
+$ sudo ln -s /etc/sv/dbus /var/service
+$ sudo sv start dbus
+$ sudo sv start bluetoothd
+
+$ bluetoothctl
+[CHG] Controller 10:F6:0A:F5:3F:60 Pairable: yes
+[bluetooth]# select 10:F6:0A:F5:3F:60
+[bluetooth]# power on
+[bluetooth]# scan on
+Discovery started
+[CHG] Controller 00:10:20:30:40:50 Discovering: yes
+[NEW] Device 00:12:34:56:78:90 device name
+[CHG] Device 00:12:34:56:78:90 LegacyPairing: yes 
+[bluetooth]# pair 00:12:34:56:78:90
+Attempting to pair with 00:12:34:56:78:90
+[CHG] Device 00:12:34:56:78:90 Connected: yes
+[CHG] Device 00:12:34:56:78:90 Connected: no
+[CHG] Device 00:12:34:56:78:90 Connected: yes
+Request PIN code
+[agent] Enter PIN code: 1234
+[CHG] Device 00:12:34:56:78:90 Paired: yes
+Pairing successful
+[CHG] Device 00:12:34:56:78:90 Connected: no
+[bluetooth]# connect 00:12:34:56:78:90
+Attempting to connect to 00:12:34:56:78:90
+[CHG] Device 00:12:34:56:78:90 Connected: yes
+Connection successful
+[bluetooth]# scan off
+[bluetooth]# exit
+
+## Headset bluetooth
+
+Après avoir appairé, il faut aussi se connecter !
+[bluetooth]# power on
+[bluetooth]# agent on
+[bluetooth]# default-agent
+[bluetooth]# scan on
+[bluetooth]# connect FF:FF:FF:FF:FF:FF:FF
+
+Et pour se connecter automatiquement à l'avenir 
+[bluetooth]# trust 00:1D:43:6D:03:26
+
+https://wiki.archlinux.org/title/bluetooth_headset
+
+Notons que pour que le micro bluetooth du heaset fonctionne, il faut que
+le profile HFP (Handsfree Head Unit) soit positionner sur l'appareil
+dans pavucontrol, onglet "configuration". Lire :
+https://bbs.archlinux.org/viewtopic.php?pid=1921917#p1921917/
+
+### Configurer le profile HFP sur le headset
+
+En cli
+```
+pacmd list-cards
+pacmd set-card-profile <cardnumber> handsfree_head_unit
+```
+
+Ce qui peut être scripté ainsi, et lié à une combinaison de trouches.
+```
+index=`pacmd list-cards | grep -B1 "name: <bluez_card." | cut -d":" -f2 | tr -d " " | head -1`
+pacmd set-card-profile $index handsfree_head_unit
+```
+
+## Impression
+
+$ sudo xbps-install cups cups-pk-helper cups-filters foomatic-db foomatic-db-engine
+$ sudo ln -s /etc/sv/cupsd /var/service
+
+Accéder à http://127.0.0.1:631 pour configurer une imprimante.
+
+## VLC
+
+$ sudo xbps-install vlc
+
+## Heure et battery dans la barre de statut
+
+Créer un fichier ~/scripts/dwm/xroot.sh
+```
+#!/bin/sh
+export DISPLAY=:0
+#while true; do xsetroot -name " $(date +"%H:%M") "; sleep 60; done &
+while true; do
+  BATT=$(/usr/bin/cat /sys/class/power_supply/BAT0/capacity);
+  DATE=$(/bin/date +"%a %b %d %H:%M");
+  ROOT="$BATT% | $DATE";
+  xsetroot -name "$ROOT";
+  sleep 60;
+done &
+```
+
+Puis dans ~/.xinitrc
+```
+#!/bin/bash
+~/scripts/dwm/xroot.sh
+exec /usr/local/bin/dwm
+```
+
+## Réduire la luminosoté de l'écran
+Pour réduire à 10 la luminosité de l'écran au démarrage de X :
+
+$ cat ~/.xinitrc
+```
+#!/bin/bash
+xbacklight -set 10
+```
+
+## Ecran externe au laptop
+
+Pour configurer un écran externe "à droite" de celui du paltop :
+$ xrandr --output HDMI1 --auto --right-of eDP1
+
+Pour lister les écrans connectés :
+$ xrandr
+
+Pour passer en mode "mirroir" :
+$ xrandr --output VGA1 --auto --same-as LVDS1 --mode 1024x768
+$ xrandr --output LVDS1 --mode 1024x768
+
+Pour déplacer les fenêtres d'un écran à l'autre :
+Extreait man dwm :
+
+           Mod1-, Focus previous screen, if any.
+
+           Mod1-. Focus next screen, if any.
+
+           Mod1-Shift-,
+                  Send focused window to previous screen, if any.
+
+           Mod1-Shift-.
+                  Send focused window to next screen, if any.
+
+## Synchro NTP
+
+$ sudo xbps-install -S ntp
+$ sudo ln -s /etc/sv/isc-ntpd /var/service
+$ sudo sv start isc-ntpd
+
+## Syncthing : démarrage en tant qu service "utilisateur"
+
+$ sudo mkdir -p /etc/sv/eric
+$ sudo touch /etc/sv/eric/run
+$ sudo chmod +x /etc/sv/eric/run
+
+Dans /etc/sv/eric/run :
+```
+#!/bin/sh
+
+UID=$(pwd -P)
+UID=${UID##*/}
+
+if [ -d "/home/${UID}/.service" ]; then
+ chpst -u"${UID}" runsvdir /home/${UID}/.service
+fi
+```
+
+Démarrer le nouveau service
+$ sudo ln -s /etc/sv/voiduser /var/service
+
+$ mkdir -p $HOME/.service/syncthing
+$ touch $HOME/.service/syncthing/run
+$ chmod +x $HOME/.service/syncthing/run
+
+Contenu du fichier run :
+```
+#!/bin/sh
+
+export HOME=/home/voiduser/
+exec 2>&1
+exec /usr/bin/syncthing -no-browser -logflags 0 -no-restart > /dev/null
+```
+
+## Screeshots avec flameshot
+
+$ sudo xbps-install flameshot
+
+Puis ajouter ce binding MOD + Shift + s dans config.h (dwm).
+{ MODKEY|ShiftMask, XK_s, spawn, SHCMD("flameshot gui") },
+
+## dwm config.h
+
+J'ai fait qq modifications que voici.
+Noter que `xev` peut être utilisé pour retrouver le "code" des touches. 
+
+### Touche MODKEY
+Touche Win au lieu de ALT en tant que touche MODKEY :
+#define MODKEY Mod4Mask
+
+### Lock screen
+MOD + Shift + Suppr pour verrouiller avec slock :
+	{ MODKEY|ShiftMask,             XK_Delete,     spawn,      SHCMD("slock") },
+
+### Touches volumes
+Ajouter en début de config.h (dwm) :
+#include <X11/XF86keysym.h>
+
+Puis plus bas définir :
+```
+/* mes touhes */
+static const char *upvol[]      = { "/usr/bin/amixer",  "set", "Master", "5%+", NULL };
+static const char *downvol[]    = { "/usr/bin/amixer",  "set", "Master", "5%-", NULL };
+static const char *mutevol[]    = { "/usr/bin/amixer",  "set", "Master", "toggle", NULL };
+
+
+Et enfin dans :
+static const Key keys[] = {
+        { MODKEY,                       XF86XK_AudioMute,  spawn,		{.v = mutevol } },
+        { MODKEY,                       XF86XK_AudioLowerVolume,	spawn,		{.v = downvol } },
+        { MODKEY,                       XF86XK_AudioRaiseVolume,	spawn,		{.v = upvol   } },
+```
+
+## Void-packages (slack, chrome...)
+
+$ cd ~/.build
+$ git clone https://github.com/void-linux/void-packages.git
+$ cd void-packages
+$ ./xbps-src binary-bootstrap
+
+$ ./xbps-src pkg <package_name>
+
+$ echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
+
+$ sudo xbps-install --repository hostdir/binpkgs/nonfree <package_name>
+
+
+## Lightdm
+
+Je ne l'utilise pas,  mais il est possible d'installer un display manager comme lightdm :
+```
+$ sudo xbps-install lightdm
+$ sudo ln -s /etc/sv/lightdm /var/service
+```
+Puis créer ce fichier /usr/share/xsessions/dwm.desktop
+```
+[Desktop Entry]
+Encoding=UTF-8
+Name=Dwm
+Commnent=Dynamic Windows Manager
+Exec=dwm
+Icon=dwm
+Type=XSession
+```
+
+## Veille
+
+$ ZZZ -z
+$ ZZZ -H
+
+$ ZZZ -h
+ZZZ: Usage: ZZZ [-nSzZR]
+   -n   dry run (sleep for 5s instead of suspend/hibernate)
+   -S   Low-power idle (ACPI S1)
+   -z   suspend to RAM (ACPI S3) [DEFAULT for zzz(8)]
+   -Z   hibernate to disk & power off (ACPI S4) [DEFAULT for ZZZ(8)]
+   -R   hibernate to disk & reboot
+   -H   hibernate to disk & suspend (aka suspend-hybrid)
+
+## sudoers
+Pour lancer ces commandes sans demande de mdp sudo :
+
+%wheel ALL=(ALL) NOPASSWD: /bin/poweroff, /bin/reboot, /bin/zzz, /bin/ZZZ
+
+## Troubleshooting
+
+### Certaines applications sont lentes ou ne s'affichent pas correctement
+
+Visiblement, il existerait un problème avec le driver GPU.  Seulement
+sur les applications de type "electron" (?) Par exemple slack-desktop et
+typora  ne fonctionnent pas correctement. Mais avec ce flag
+`--disable-gpu`, tout se passe bien...
+```
+$ slack --disable-gpu
+```
+J'ai découvert plus tard que mon driver vidéo ne devait pas être
+complètement bien installé. J'ai corrigé ça et ajouté une section VIDEO
+à ce document.
+
+### Application "perso" non visible dans dmenu
+
+Tous d'abord les scripts et bin perso doivent être dans le $PATH.
+Dans ~/.bashprofile, ajouter :
+```
+$ PATH=$PATH:~/.local/bin
+```
+Ensuite, le doivent être executable (chmod +x).
+```
+$ chmod +x ~/.local/bin/script.sh
+```
+Si le bin ne s'affiche pas dans dmenu, supprimer le cache dmenu.
+```
+$ rm .cache/dmenu_run
+```
+
+## Certificats CA
+
+Copier les CA dans /usr/local/share/ca-certificates.
+Les fichiers doivent avoir une extension .crt
+Puis :
+$ sudo update-ca-certificates
+
+## SNOOZE
+
+En alternative à cron.
+
+https://kkga.me/notes/void-linux
+
