@@ -8,7 +8,7 @@
     <copyright></copyright>
     <ttl>60</ttl>
 <item>
-<pubDate>2019-05-18T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2019-05-18T11:24:56Z 22:25:11 CET</pubDate>
   <category>2019/05/18/6</category>
   <title>Anatomie d'une attaque informatique</title>
   <link>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</link>
@@ -138,7 +138,7 @@ Tags: pentest</pre>]]>
   <guid>http://3r1c.net/posts/2019-05-18-anatomie-dune-attaque-informatique.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-16T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2020-06-16T11:24:56Z 22:25:11 CET</pubDate>
   <category>2020/06/16/2</category>
   <title>htb blunder</title>
   <link>http://3r1c.net/posts/2020-06-16-blunder.txt</link>
@@ -520,7 +520,7 @@ cat root.txt
   <guid>http://3r1c.net/posts/2020-06-16-blunder.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-02T10:21:56Z 22:21:44 CET</pubDate>
+<pubDate>2020-09-02T10:21:56Z 22:25:11 CET</pubDate>
   <category>2020/09/02/3</category>
   <title>buff</title>
   <link>http://3r1c.net/posts/2020-09-02-buff.txt</link>
@@ -665,7 +665,7 @@ https://p0i5on8.github.io/posts/hackthebox-buff/
   <guid>http://3r1c.net/posts/2020-09-02-buff.txt</guid>
   </item>
 <item>
-<pubDate>2020-09-29T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2020-09-29T11:24:56Z 22:25:11 CET</pubDate>
   <category>2020/09/29/2</category>
   <title>htb admirer</title>
   <link>http://3r1c.net/posts/2020-09-29-admirer.txt</link>
@@ -1058,7 +1058,7 @@ Et notre netcat reçoit la connexion en retour. Nous sommes root.
   <guid>http://3r1c.net/posts/2020-09-29-admirer.txt</guid>
   </item>
 <item>
-<pubDate>2020-10-29T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2020-10-29T11:24:56Z 22:25:11 CET</pubDate>
   <category>2020/10/29/4</category>
   <title>htb fuse</title>
   <link>http://3r1c.net/posts/2020-10-29-fuse.txt</link>
@@ -1446,7 +1446,7 @@ UserPrincipalName :
 
 ```bash
 *Evil-WinRM* PS C:\users\svc-print\Documents&gt; .\VbLoadDriver.exe HKU\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService C:\users\svc-print\Documents<item>
-<pubDate>2022-02-17T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2022-02-17T11:24:56Z 22:25:11 CET</pubDate>
   <category>2022/02/17/4</category>
   <title>htb blackfield</title>
   <link>http://3r1c.net/posts/2022-02-17-blackfield-hackthebox.txt</link>
@@ -1723,7 +1723,7 @@ De nouveaux fichiers, de nouvelles lectures :) Je télécharge tout.
 
 	smb: \&gt; cd commands_output\
 	smb: <item>
-<pubDate>2023-08-17T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2023-08-17T11:24:56Z 22:25:11 CET</pubDate>
   <category>2023/08/17/4</category>
   <title>htb Busqueda</title>
   <link>http://3r1c.net/posts/2023-08-17-busqueda.txt</link>
@@ -2018,7 +2018,7 @@ $ nc -nlvp 9002
   <guid>http://3r1c.net/posts/2023-08-17-busqueda.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-04 22:21:44 CET</pubDate>
+<pubDate>2023-10-04 22:25:11 CET</pubDate>
   <category>2023/10/04/3</category>
   <title>Recommandations de recharge de véhicule électrique</title>
   <link>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</link>
@@ -2036,7 +2036,7 @@ batterie d&#39;un véhucule électrique afin de conserver un bon niveau de sant�
   <guid>http://3r1c.net/posts/2023-10-04-reco-recharge-vehicule-electrique.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-08 22:21:44 CET</pubDate>
+<pubDate>2023-10-08 22:25:11 CET</pubDate>
   <category>2023/10/08/7</category>
   <title>Véhicule électrique : un véhicule vert ?</title>
   <link>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</link>
@@ -2061,7 +2061,7 @@ votre VE :)</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-08-vehicule-electrique-vert.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-31 22:21:44 CET</pubDate>
+<pubDate>2023-10-31 22:25:11 CET</pubDate>
   <category>2023/10/31/2</category>
   <title>Halloween petites infos</title>
   <link>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</link>
@@ -2102,7 +2102,7 @@ quelques infos. Voilà c&#39;était la minute culturelle du mois :-))</pre>]]>
   <guid>http://3r1c.net/posts/2023-10-31-halloween-cest-quoi.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-02 22:21:44 CET</pubDate>
+<pubDate>2023-11-02 22:25:11 CET</pubDate>
   <category>2023/11/02/4</category>
   <title>Amulette de sommeil</title>
   <link>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</link>
@@ -2123,7 +2123,7 @@ physique et mental. Mettre tous les ingrédients dans le sachet :
   <guid>http://3r1c.net/posts/2023-11-02-amulette-de-sommeil.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-08 22:21:44 CET</pubDate>
+<pubDate>2023-11-08 22:25:11 CET</pubDate>
   <category>2023/11/08/3</category>
   <title>Le monde de demain (3) - Sans transition</title>
   <link>http://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt</link>
@@ -2160,7 +2160,7 @@ vie.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-08-le-monde-de-demain-3.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-09 22:21:44 CET</pubDate>
+<pubDate>2023-11-09 22:25:11 CET</pubDate>
   <category>2023/11/09/4</category>
   <title>Véhicule électrique vert ? (2)</title>
   <link>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</link>
@@ -2185,7 +2185,7 @@ chez les autres.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-09-vehicule-electrique-vert-2.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-02 22:21:44 CET</pubDate>
+<pubDate>2023-12-02 22:25:11 CET</pubDate>
   <category>2023/12/02/6</category>
   <title>email auto hébergé</title>
   <link>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</link>
@@ -2711,7 +2711,7 @@ $ mutt -f ~/Mail/Inbox</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-10-email-auto-heberge.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-14 22:21:44 CET</pubDate>
+<pubDate>2023-11-14 22:25:11 CET</pubDate>
   <category>2023/11/14/2</category>
   <title>Dégugeulisation</title>
   <link>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</link>
@@ -2748,7 +2748,7 @@ contact de LineageOS.
   <guid>http://3r1c.net/posts/2023-11-14-degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-15 22:21:44 CET</pubDate>
+<pubDate>2023-11-15 22:25:11 CET</pubDate>
   <category>2023/11/15/3</category>
   <title>Le "savoir procéder"</title>
   <link>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</link>
@@ -2782,7 +2782,7 @@ malheureusement résolument tournés vers le &quot;savoir faire&quot;. </pre>]]>
   <guid>http://3r1c.net/posts/2023-11-15-savoir-proceder.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-18T21:03:07Z 22:21:44 CET</pubDate>
+<pubDate>2023-11-18T21:03:07Z 22:25:11 CET</pubDate>
   <category>2023/11/18/6</category>
   <title>Shinobi website</title>
   <link>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</link>
@@ -2819,7 +2819,7 @@ caractères ; sélectionner les lignes avec SHIFT+V, puis : `gq`.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-18-shinobi-website.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-19T17:35:10Z 22:21:44 CET</pubDate>
+<pubDate>2023-11-19T17:35:10Z 22:25:11 CET</pubDate>
   <category>2023/11/19/7</category>
   <title>La vie en rose ukulélé</title>
   <link>http://3r1c.net/posts/2023-11-19-la-vie-en-rose.txt</link>
@@ -2898,7 +2898,7 @@ Alors je sens en moi, mon coeur qui bat...</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-19-la-vie-en-rose.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-19 22:21:44 CET</pubDate>
+<pubDate>2023-11-19 22:25:11 CET</pubDate>
   <category>2023/11/19/7</category>
   <title>Le monde de demain (4) - Ce que le monde redoute</title>
   <link>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt</link>
@@ -2940,7 +2940,7 @@ pour l&#39;ensemble des vivants de la planète.</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-19-le-monde-de-demain-4.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-25T15:30:25Z 22:21:44 CET</pubDate>
+<pubDate>2023-11-25T15:30:25Z 22:25:11 CET</pubDate>
   <category>2023/11/25/6</category>
   <title>Plain text journaling</title>
   <link>http://3r1c.net/posts/2023-11-25-plain-text-journaling.txt</link>
@@ -3091,7 +3091,7 @@ https://peppe.rs/posts/plain_text_journaling/</pre>]]>
   <guid>http://3r1c.net/posts/2023-11-25-plain-text-journaling.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-08T13:11:20Z 22:21:44 CET</pubDate>
+<pubDate>2023-12-08T13:11:20Z 22:25:11 CET</pubDate>
   <category>2023/12/08/5</category>
   <title>DWM</title>
   <link>http://3r1c.net/posts/2023-12-08-dwm.txt</link>
@@ -3221,7 +3221,7 @@ static const Key keys[] = {
   <guid>http://3r1c.net/posts/2023-12-08-dwm.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-13T21:11:20Z 22:21:44 CET</pubDate>
+<pubDate>2023-12-13T21:11:20Z 22:25:11 CET</pubDate>
   <category>2023/12/13/3</category>
   <title>Historique de ce site, du web 1.0 au 3.0</title>
   <link>http://3r1c.net/posts/2023-12-13-historique.txt</link>
@@ -3296,7 +3296,7 @@ surpuissante pour le visiter.</pre>]]>
   <guid>http://3r1c.net/posts/2023-12-13-historique.txt</guid>
   </item>
 <item>
-<pubDate>2023-12-24T10:45:00Z 22:21:44 CET</pubDate>
+<pubDate>2023-12-24T10:45:00Z 22:25:11 CET</pubDate>
   <category>2023/12/24/7</category>
   <title>Permaculture aventure</title>
   <link>http://3r1c.net/posts/2023-12-24-permaculture-aventure.txt</link>
@@ -3345,19 +3345,611 @@ A suivre ici...</pre>]]>
   <guid>http://3r1c.net/posts/2023-12-24-permaculture-aventure.txt</guid>
   </item>
 <item>
-<pubDate> 22:21:44 CET</pubDate>
-  <category>2024/01/11/4</category>
+<pubDate>## Installer voildlinux. 22:25:11 CET</pubDate>
+  <category></category>
   <title></title>
   <link>http://3r1c.net/posts/2024-01-11-voidlinux-et-dwm.txt</link>
   <description>
     <![CDATA[
-<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'></pre>]]>
+<pre style='border: 0; white-space: pre-wrap; word-break: break-word;'>$ void-installer
+
+Configurer le keyboard : fr_CH
+Configurer le network, et le wifi si nécessaire
+Configurer le hostname
+Configurer les locales : en_US.UTF8
+Configurer la timezone
+Configurer le RootPassword
+Configurer le UserAccount, ajouter un compte user standard sans modifier les groupes par défaut
+Configurer le bootloader : sur le dsique principal
+Configurer les partitions, avec cfdisk par exemple. Suivre les
+instructions. Par exemple pour un système EFI, GPT est obligatoire et
+une partition FAT32 de 100Mb mini avec le flag boot.
+Au moins 1 partition /. Et une partition swap de 4 Gb mini.
+Configurer les Filesytems et les points de montage. La 1ere partition de
+type vfati / fat32 avec montage sur /boot/efi. La 2eme partition de type ext4
+avec un point de montage sur /. La 3eme partition de type swap sans
+point de montage.
+Sélectionner le menu install.
+Valider la destruction des partitions.
+
+## Changer le shell par défaut si on a pas déjà bash : 
+Se connecter en mode &quot;user&quot; (non root).
+$ chsh -s /usr/bin/bash
+Se déloguer et se re-loguer.
+
+## Upgrade du système
+$ sudo xbps-install -u xbps
+$ sudo xbps-install -Suv
+
+Installer git et stow.
+Puis clone le repo void_dotfiles.
+Executer le script de post-install :
+```
+.void_dotfiles/bin/.local/bin/scripts/void-postinstall/void-postinstall.sh
+```
+
+## TRIM SSD
+
+TO DO
+
+## Installer les dépendances
+$ sudo xbps-install -S base-devel libX11-devel libXft-devel libXinerama-devel freetype-devel fontconfig-devel 
+
+Dépendance pour slock (lock de l&#39;écran) :
+$ sudo xbps-install -S libXrandr-devel
+
+Et les outils de base :
+$ sudo xbps-install -S vim xorg firefox pass xclip syncthing tmux mupdf libreoffice remmina rsync rtorrent wget flameshot git nmap bind-utils rclone dateutils python3-pip inetutils-telnet
+
+Font pour affichage des emojis dans DWM :
+$ sudo xbps-install nerd-fonts
+
+## Télécharger dwm, dmenu et st.
+$ cd ~
+$ make .build
+$ cd .build
+$ git clone https://git.suckless.org/dwm
+$ git clone https://git.suckless.org/st
+$ git clone https://git.suckless.org/dmenu
+$ git clone https://git.suckless.org/slock
+
+Dans dwm/config.mk, modifier ce chemin :
+X11INC = /usr/include/X11
+X11LIB = /usr/lib/X11
+
+## Complier
+cd dwm
+sudo make clean install
+cd ..
+cd st
+sudo make clean install
+cd ..
+cd dmenu
+sudo make clean install
+cd ..
+cd slock
+sudo make clean install
+
+Créer le fichier ~/.xinitrc
+exec /usr/local/bin/dwm
+
+
+## Clavier
+Configurer le clavier de xorg
+$ sudo mkdir -p /etc/X11/xorg.conf.d
+
+Dans /etc/X11/xorg.conf.d/00-keyboard.conf
+Section &quot;InputClass&quot;
+	Identifier &quot;system-keyboard&quot;
+	MatchIsKeyboard &quot;on&quot;
+	Option &quot;XkbLayout&quot; &quot;ch&quot;
+	Option &quot;XkbVariant&quot; &quot;fr&quot;
+	Option &quot;XkbModel&quot; &quot;pc105&quot;
+EndSection
+
+## Touchpad
+Activer le déroulement &quot;naturel&quot;. Ceci est valable pour les touchpad qui
+utilisent le driver &quot;libinput&quot;.
+
+/etc/X11/xorg.conf.d/40-touchpad.conf 
+Section &quot;InputClass&quot;
+    Identifier &quot;touchpad&quot;
+    MatchIsTouchpad &quot;on&quot;
+    Option &quot;Tapping&quot; &quot;on&quot;
+    Option &quot;ClickMethod&quot; &quot;clickfinger&quot;
+    Option &quot;DisableWhileTyping&quot; &quot;on&quot;
+    Option &quot;MiddleEmulation&quot; &quot;on&quot;
+    Option &quot;NaturalScrolling&quot; &quot;on&quot;
+    MatchDriver &quot;libinput&quot;
+EndSection
+
+Sur mon thinkpad j&#39;ai découvert que le touchpad utilise le driver
+&quot;synactics&quot;. On peut le constater dans /var/log/Xorg.0.log
+```
+[   176.712] (II) Using input driver &#39;libinput&#39; for &#39;Sleep Button&#39;
+[   176.723] (II) Using input driver &#39;libinput&#39; for &#39;SYNA8016:00 06CB:CEB3 Mouse&#39;
+[   176.741] (II) Using input driver &#39;synaptics&#39; for &#39;SYNA8016:00 06CB:CEB3 Touchpad&#39;
+[   176.767] (II) Using input driver &#39;libinput&#39; for &#39;sof-hda-dsp Headphone&#39;
+[   176.778] (II) Using input driver &#39;libinput&#39; for &#39;Intel HID events&#39;
+```
+
+Dans ce cas, il faut spécifier cette  config
+/etc/X11/xorg.conf.d/70-synaptics.conf
+Les valeurs négatives suivantes activent le natural scrolling :
+
+    	Option &quot;VertScrollDelta&quot; &quot;-100&quot;
+        Option &quot;HorizScrollDelta&quot; &quot;-100&quot;
+```
+Section &quot;InputClass&quot;
+    Identifier &quot;touchpad&quot;
+    Driver &quot;synaptics&quot;
+    MatchIsTouchpad &quot;on&quot;
+        Option &quot;TapButton1&quot; &quot;1&quot;
+        Option &quot;TapButton2&quot; &quot;3&quot;
+        Option &quot;TapButton3&quot; &quot;2&quot;
+        Option &quot;VertEdgeScroll&quot; &quot;on&quot;
+        Option &quot;VertTwoFingerScroll&quot; &quot;on&quot;
+        Option &quot;HorizEdgeScroll&quot; &quot;on&quot;
+        Option &quot;HorizTwoFingerScroll&quot; &quot;on&quot;
+        Option &quot;CircularScrolling&quot; &quot;on&quot;
+        Option &quot;CircScrollTrigger&quot; &quot;2&quot;
+        Option &quot;EmulateTwoFingerMinZ&quot; &quot;40&quot;
+        Option &quot;EmulateTwoFingerMinW&quot; &quot;8&quot;
+        Option &quot;CoastingSpeed&quot; &quot;0&quot;
+        Option &quot;FingerLow&quot; &quot;30&quot;
+        Option &quot;FingerHigh&quot; &quot;50&quot;
+        Option &quot;MaxTapTime&quot; &quot;125&quot;
+    	Option &quot;VertScrollDelta&quot; &quot;-100&quot;
+        Option &quot;HorizScrollDelta&quot; &quot;-100&quot;
+EndSection
+```
+
+## VIDEO
+
+Sans cette config, des applications comme chrome, slack, typora,
+qutebrowser ne s&#39;affichent pas correctement (pb d&#39;accélération gpu ?).
+
+Installer ces packages (pour une carte intel). ```
+```
+sudo xbps-install -S mesa-intel-dri libva-intel-driver sysfsutils
+```
+
+Puis ajouter cette configuration /etc/X11/Xorg.conf.d/01-graphics.conf
+```
+Section &quot;Device&quot;
+        Identifier &quot;Intel Graphics&quot;
+        Driver &quot;modesetting&quot;
+EndSection
+```
+
+## Touche MOD
+Modifier la touch MOD de DWM (ALT =&gt; WIN) :
+Dans dwm/config.h
+#define MODKEY Mod4Mask
+
+Puis : sudo make clean install
+
+## Lancer startx
+On peut maintenant lancer startx (composant de xorg).
+
+Pour démarrer automatiquement startx après login :
+$ echo startx &gt;&gt; ~/.bash_profile
+
+## Utilisation
+
+Pour ouvrir dmenu : MOD + p.
+Afficher / cacher la barre : MOD + b
+Quitter : MOD + Shift + Q
+
+MODKEY-t : mode &quot;tiling&quot; ([]=) ; l&#39;écran est divisé comme dans le dessin ci-dessus.
+MODKEY-m : &quot;maximized&quot; ([M]) ; la fenêtre sélectionnée occupe tout l&#39;espace.
+MODKEY-f: &quot;floating&quot; (&gt;&lt;&gt;) ; mode flottant, les fenêtres peuvent se redimensionner et se déplacer à la souris comme on le fait avec d&#39;autres gestionnaires de fenêtres.
+MODKEY-l et MODKEY-h : Agrandir ou réduire la taille de la zone master.
+MODKEY-d Abaisse de 1 le nombre de fenêtres dans la zone master
+MODKEY-i Augmenter de 1 le nombre de fenêtres dans la zone master
+MODKEY-shift-Entrée ouvre un terminal.
+MODKEY-shift-c ferme la fenêtre sélectionnée.
+MODKEY-j et MODKEY-k permet de choisir les fenêtres suivantes ou précédentes.
+MODKEY-Entrée déplace la fenêtre dans la zone “master”
+
+MODKEY-, et MODKEY-. : Change d&#39;écran, si il y en a plusieurs
+MODKEY-Shift-, et MODKEY-Shift-. : Envoie la fenêtre sur l&#39;écran suivant
+
+## Fonts complémentaires
+
+Noto fonts
+$ sudo xbps-install -Rs noto-fonts-emoji noto-fonts-ttf noto-fonts-ttf-extra
+
+Meilleures fonts pour firefox
+sudo ln -s /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/
+sudo xbps-reconfigure -f fontconfig
+
+## AUDIO
+
+$ sudo xbps-install -S pulseaudio pulseaudio-utils alsa-plugins-pulseaudio pavucontrol
+
+Note : pavucontrol permet de faire quelques diagnostics et configurations.
+
+Attention, sur un Thinkpad, on a un message au boot qui indique que le
+firmware n&#39;est pas installé. Et quand on consulte le contenu du fichier
+/proc/asound/cards, la mention &quot;no souncard&quot; apparaît. Pour installer le
+firmware :
+$ sudo xbps-install -S sof-firmware
+
+## WIFI
+
+```
+$ wpa_cli -i wlp0s20f3
+Interactive mode
+&gt; list_networks
+network id / ssid / bssid / flags
+0       TP-LINK_1F5F    any     [CURRENT]
+
+&gt; scan
+OK
+&lt;3&gt;CTRL-EVENT-SCAN-STARTED
+&lt;3&gt;CTRL-EVENT-SCAN-RESULTS
+&gt; scan_result
+bssid / frequency / signal level / flags / ssid
+84:16:f9:d8:1f:5f       2412    -47     [WPA2-PSK-CCMP][WPS][ESS]       TP-LIN
+08:36:c9:6b:c9:01       5220    -69     [WPA2-PSK-CCMP][WPS][ESS]       NTGR_C
+
+&gt; add_network
+1  # 1 car le 0 est déjà utilisé (lire la sortie de list_networks)
+
+&gt; set_network 1 ssid &quot;MYSSID&quot;
+&gt; set_network 1 psk &quot;passphrase&quot;
+&gt; enable_network 1
+&lt;2&gt;CTRL-EVENT-CONNECTED - Connection to 00:00:00:00:00:00 completed (reauth) [id=0 id_str=]
+&gt; save_config
+OK
+&gt; quit
+```
+
+Pour forcer une connexion sur un nouveau wifi :
+```
+&gt; enable_network_1
+&gt; reconnect
+&gt; status
+```
+
+### EAP TLS
+
+wpa_supplicant.conf à tester
+```
+# work network; use EAP-TLS with WPA; allow only CCMP and TKIP ciphers
+network={
+ssid=&quot;work&quot;
+scan_ssid=1
+key_mgmt=WPA-EAP
+pairwise=CCMP TKIP
+group=CCMP TKIP
+eap=TLS
+identity=&quot;user@example.com&quot;
+ca_cert=&quot;/etc/cert/ca.pem&quot;
+client_cert=&quot;/etc/cert/certificate.pem&quot;
+private_key=&quot;/etc/cert/private.p12&quot;
+private_key_passwd=&quot;password&quot;
+}
+```
+
+## Bluetooth
+
+$ sudo xbps-install -S bluez
+
+$ sudo ln -s /etc/sv/bluetoothd /var/service
+$ sudo usermod -a -G bluetooth ${USER}
+
+$ sudo ln -s /etc/sv/dbus /var/service
+$ sudo sv start dbus
+$ sudo sv start bluetoothd
+
+$ bluetoothctl
+[CHG] Controller 10:F6:0A:F5:3F:60 Pairable: yes
+[bluetooth]# select 10:F6:0A:F5:3F:60
+[bluetooth]# power on
+[bluetooth]# scan on
+Discovery started
+[CHG] Controller 00:10:20:30:40:50 Discovering: yes
+[NEW] Device 00:12:34:56:78:90 device name
+[CHG] Device 00:12:34:56:78:90 LegacyPairing: yes 
+[bluetooth]# pair 00:12:34:56:78:90
+Attempting to pair with 00:12:34:56:78:90
+[CHG] Device 00:12:34:56:78:90 Connected: yes
+[CHG] Device 00:12:34:56:78:90 Connected: no
+[CHG] Device 00:12:34:56:78:90 Connected: yes
+Request PIN code
+[agent] Enter PIN code: 1234
+[CHG] Device 00:12:34:56:78:90 Paired: yes
+Pairing successful
+[CHG] Device 00:12:34:56:78:90 Connected: no
+[bluetooth]# connect 00:12:34:56:78:90
+Attempting to connect to 00:12:34:56:78:90
+[CHG] Device 00:12:34:56:78:90 Connected: yes
+Connection successful
+[bluetooth]# scan off
+[bluetooth]# exit
+
+## Headset bluetooth
+
+Après avoir appairé, il faut aussi se connecter !
+[bluetooth]# power on
+[bluetooth]# agent on
+[bluetooth]# default-agent
+[bluetooth]# scan on
+[bluetooth]# connect FF:FF:FF:FF:FF:FF:FF
+
+Et pour se connecter automatiquement à l&#39;avenir 
+[bluetooth]# trust 00:1D:43:6D:03:26
+
+https://wiki.archlinux.org/title/bluetooth_headset
+
+Notons que pour que le micro bluetooth du heaset fonctionne, il faut que
+le profile HFP (Handsfree Head Unit) soit positionner sur l&#39;appareil
+dans pavucontrol, onglet &quot;configuration&quot;. Lire :
+https://bbs.archlinux.org/viewtopic.php?pid=1921917#p1921917/
+
+### Configurer le profile HFP sur le headset
+
+En cli
+```
+pacmd list-cards
+pacmd set-card-profile &lt;cardnumber&gt; handsfree_head_unit
+```
+
+Ce qui peut être scripté ainsi, et lié à une combinaison de trouches.
+```
+index=`pacmd list-cards | grep -B1 &quot;name: &lt;bluez_card.&quot; | cut -d&quot;:&quot; -f2 | tr -d &quot; &quot; | head -1`
+pacmd set-card-profile $index handsfree_head_unit
+```
+
+## Impression
+
+$ sudo xbps-install cups cups-pk-helper cups-filters foomatic-db foomatic-db-engine
+$ sudo ln -s /etc/sv/cupsd /var/service
+
+Accéder à http://127.0.0.1:631 pour configurer une imprimante.
+
+## VLC
+
+$ sudo xbps-install vlc
+
+## Heure et battery dans la barre de statut
+
+Créer un fichier ~/scripts/dwm/xroot.sh
+```
+#!/bin/sh
+export DISPLAY=:0
+#while true; do xsetroot -name &quot; $(date +&quot;%H:%M&quot;) &quot;; sleep 60; done &amp;
+while true; do
+  BATT=$(/usr/bin/cat /sys/class/power_supply/BAT0/capacity);
+  DATE=$(/bin/date +&quot;%a %b %d %H:%M&quot;);
+  ROOT=&quot;$BATT% | $DATE&quot;;
+  xsetroot -name &quot;$ROOT&quot;;
+  sleep 60;
+done &amp;
+```
+
+Puis dans ~/.xinitrc
+```
+#!/bin/bash
+~/scripts/dwm/xroot.sh
+exec /usr/local/bin/dwm
+```
+
+## Réduire la luminosoté de l&#39;écran
+Pour réduire à 10 la luminosité de l&#39;écran au démarrage de X :
+
+$ cat ~/.xinitrc
+```
+#!/bin/bash
+xbacklight -set 10
+```
+
+## Ecran externe au laptop
+
+Pour configurer un écran externe &quot;à droite&quot; de celui du paltop :
+$ xrandr --output HDMI1 --auto --right-of eDP1
+
+Pour lister les écrans connectés :
+$ xrandr
+
+Pour passer en mode &quot;mirroir&quot; :
+$ xrandr --output VGA1 --auto --same-as LVDS1 --mode 1024x768
+$ xrandr --output LVDS1 --mode 1024x768
+
+Pour déplacer les fenêtres d&#39;un écran à l&#39;autre :
+Extreait man dwm :
+
+           Mod1-, Focus previous screen, if any.
+
+           Mod1-. Focus next screen, if any.
+
+           Mod1-Shift-,
+                  Send focused window to previous screen, if any.
+
+           Mod1-Shift-.
+                  Send focused window to next screen, if any.
+
+## Synchro NTP
+
+$ sudo xbps-install -S ntp
+$ sudo ln -s /etc/sv/isc-ntpd /var/service
+$ sudo sv start isc-ntpd
+
+## Syncthing : démarrage en tant qu service &quot;utilisateur&quot;
+
+$ sudo mkdir -p /etc/sv/eric
+$ sudo touch /etc/sv/eric/run
+$ sudo chmod +x /etc/sv/eric/run
+
+Dans /etc/sv/eric/run :
+```
+#!/bin/sh
+
+UID=$(pwd -P)
+UID=${UID##*/}
+
+if [ -d &quot;/home/${UID}/.service&quot; ]; then
+ chpst -u&quot;${UID}&quot; runsvdir /home/${UID}/.service
+fi
+```
+
+Démarrer le nouveau service
+$ sudo ln -s /etc/sv/voiduser /var/service
+
+$ mkdir -p $HOME/.service/syncthing
+$ touch $HOME/.service/syncthing/run
+$ chmod +x $HOME/.service/syncthing/run
+
+Contenu du fichier run :
+```
+#!/bin/sh
+
+export HOME=/home/voiduser/
+exec 2&gt;&amp;1
+exec /usr/bin/syncthing -no-browser -logflags 0 -no-restart &gt; /dev/null
+```
+
+## Screeshots avec flameshot
+
+$ sudo xbps-install flameshot
+
+Puis ajouter ce binding MOD + Shift + s dans config.h (dwm).
+{ MODKEY|ShiftMask, XK_s, spawn, SHCMD(&quot;flameshot gui&quot;) },
+
+## dwm config.h
+
+J&#39;ai fait qq modifications que voici.
+Noter que `xev` peut être utilisé pour retrouver le &quot;code&quot; des touches. 
+
+### Touche MODKEY
+Touche Win au lieu de ALT en tant que touche MODKEY :
+#define MODKEY Mod4Mask
+
+### Lock screen
+MOD + Shift + Suppr pour verrouiller avec slock :
+	{ MODKEY|ShiftMask,             XK_Delete,     spawn,      SHCMD(&quot;slock&quot;) },
+
+### Touches volumes
+Ajouter en début de config.h (dwm) :
+#include &lt;X11/XF86keysym.h&gt;
+
+Puis plus bas définir :
+```
+/* mes touhes */
+static const char *upvol[]      = { &quot;/usr/bin/amixer&quot;,  &quot;set&quot;, &quot;Master&quot;, &quot;5%+&quot;, NULL };
+static const char *downvol[]    = { &quot;/usr/bin/amixer&quot;,  &quot;set&quot;, &quot;Master&quot;, &quot;5%-&quot;, NULL };
+static const char *mutevol[]    = { &quot;/usr/bin/amixer&quot;,  &quot;set&quot;, &quot;Master&quot;, &quot;toggle&quot;, NULL };
+
+
+Et enfin dans :
+static const Key keys[] = {
+        { MODKEY,                       XF86XK_AudioMute,  spawn,		{.v = mutevol } },
+        { MODKEY,                       XF86XK_AudioLowerVolume,	spawn,		{.v = downvol } },
+        { MODKEY,                       XF86XK_AudioRaiseVolume,	spawn,		{.v = upvol   } },
+```
+
+## Void-packages (slack, chrome...)
+
+$ cd ~/.build
+$ git clone https://github.com/void-linux/void-packages.git
+$ cd void-packages
+$ ./xbps-src binary-bootstrap
+
+$ ./xbps-src pkg &lt;package_name&gt;
+
+$ echo XBPS_ALLOW_RESTRICTED=yes &gt;&gt; etc/conf
+
+$ sudo xbps-install --repository hostdir/binpkgs/nonfree &lt;package_name&gt;
+
+
+## Lightdm
+
+Je ne l&#39;utilise pas,  mais il est possible d&#39;installer un display manager comme lightdm :
+```
+$ sudo xbps-install lightdm
+$ sudo ln -s /etc/sv/lightdm /var/service
+```
+Puis créer ce fichier /usr/share/xsessions/dwm.desktop
+```
+[Desktop Entry]
+Encoding=UTF-8
+Name=Dwm
+Commnent=Dynamic Windows Manager
+Exec=dwm
+Icon=dwm
+Type=XSession
+```
+
+## Veille
+
+$ ZZZ -z
+$ ZZZ -H
+
+$ ZZZ -h
+ZZZ: Usage: ZZZ [-nSzZR]
+   -n   dry run (sleep for 5s instead of suspend/hibernate)
+   -S   Low-power idle (ACPI S1)
+   -z   suspend to RAM (ACPI S3) [DEFAULT for zzz(8)]
+   -Z   hibernate to disk &amp; power off (ACPI S4) [DEFAULT for ZZZ(8)]
+   -R   hibernate to disk &amp; reboot
+   -H   hibernate to disk &amp; suspend (aka suspend-hybrid)
+
+## sudoers
+Pour lancer ces commandes sans demande de mdp sudo :
+
+%wheel ALL=(ALL) NOPASSWD: /bin/poweroff, /bin/reboot, /bin/zzz, /bin/ZZZ
+
+## Troubleshooting
+
+### Certaines applications sont lentes ou ne s&#39;affichent pas correctement
+
+Visiblement, il existerait un problème avec le driver GPU.  Seulement
+sur les applications de type &quot;electron&quot; (?) Par exemple slack-desktop et
+typora  ne fonctionnent pas correctement. Mais avec ce flag
+`--disable-gpu`, tout se passe bien...
+```
+$ slack --disable-gpu
+```
+J&#39;ai découvert plus tard que mon driver vidéo ne devait pas être
+complètement bien installé. J&#39;ai corrigé ça et ajouté une section VIDEO
+à ce document.
+
+### Application &quot;perso&quot; non visible dans dmenu
+
+Tous d&#39;abord les scripts et bin perso doivent être dans le $PATH.
+Dans ~/.bashprofile, ajouter :
+```
+$ PATH=$PATH:~/.local/bin
+```
+Ensuite, le doivent être executable (chmod +x).
+```
+$ chmod +x ~/.local/bin/script.sh
+```
+Si le bin ne s&#39;affiche pas dans dmenu, supprimer le cache dmenu.
+```
+$ rm .cache/dmenu_run
+```
+
+## Certificats CA
+
+Copier les CA dans /usr/local/share/ca-certificates.
+Les fichiers doivent avoir une extension .crt
+Puis :
+$ sudo update-ca-certificates
+
+## SNOOZE
+
+En alternative à cron.
+
+https://kkga.me/notes/void-linux</pre>]]>
   </description>
   <author>3r1c</author>
   <guid>http://3r1c.net/posts/2024-01-11-voidlinux-et-dwm.txt</guid>
   </item>
 <item>
-<pubDate>2022-07-18T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2022-07-18T11:24:56Z 22:25:11 CET</pubDate>
   <category>2022/07/18/1</category>
   <title>Chiffrer ses backups dans le cloud</title>
   <link>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</link>
@@ -3414,7 +4006,7 @@ Tags: backup, cloud, rclone, gocryptfs</pre>]]>
   <guid>http://3r1c.net/posts/chiffrement-des-backups-dans-le-cloud.txt</guid>
   </item>
 <item>
-<pubDate>2021-03-18T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2021-03-18T11:24:56Z 22:25:11 CET</pubDate>
   <category>2021/03/18/4</category>
   <title>Configurer un umask + securisé</title>
   <link>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</link>
@@ -3502,7 +4094,7 @@ Tags: linux, security, umask, ansible</pre>]]>
   <guid>http://3r1c.net/posts/configurer-un-umask-plus-securise.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-16T18:04:21Z 22:21:44 CET</pubDate>
+<pubDate>2023-10-16T18:04:21Z 22:25:11 CET</pubDate>
   <category>2023/10/16/1</category>
   <title>De-googlisation</title>
   <link>http://3r1c.net/posts/degougueulisation.txt</link>
@@ -3550,7 +4142,7 @@ VPS en tant que relai smtp. Ca ne simplifie pas les choses.</pre>]]>
   <guid>http://3r1c.net/posts/degougueulisation.txt</guid>
   </item>
 <item>
-<pubDate>2018-01-02T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2018-01-02T11:24:56Z 22:25:11 CET</pubDate>
   <category>2018/01/02/2</category>
   <title>[en] eCPPT course and exam review</title>
   <link>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</link>
@@ -3620,7 +4212,7 @@ Tags: eCPPT, pentest</pre>]]>
   <guid>http://3r1c.net/posts/ecppt-course-and-exam-review.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-26T10:20:00Z 22:21:44 CET</pubDate>
+<pubDate>2023-10-26T10:20:00Z 22:25:11 CET</pubDate>
   <category>2023/10/26/4</category>
   <title>How to Hire Me</title>
   <link>http://3r1c.net/posts/how-to-hire-me.txt</link>
@@ -3663,7 +4255,7 @@ Please do not send email to my work accounts.</pre>]]>
   <guid>http://3r1c.net/posts/how-to-hire-me.txt</guid>
   </item>
 <item>
-<pubDate>2023-10-01 22:21:44 CET</pubDate>
+<pubDate>2023-10-01 22:25:11 CET</pubDate>
   <category>2023/10/01/7</category>
   <title>Brouillon pour "le monde de demain"</title>
   <link>http://3r1c.net/posts/le-monde-de-demain-draft.txt</link>
@@ -3681,7 +4273,7 @@ sinon ce serait pas drôle :)
   <guid>http://3r1c.net/posts/le-monde-de-demain-draft.txt</guid>
   </item>
 <item>
-<pubDate>2020-06-18T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2020-06-18T11:24:56Z 22:25:11 CET</pubDate>
   <category>2020/06/18/4</category>
   <title>Home made  nas</title>
   <link>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</link>
@@ -3877,7 +4469,7 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/nas-maison-raspberry-pi4-quad-sata.txt</guid>
   </item>
 <item>
-<pubDate>2021-11-18T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2021-11-18T11:24:56Z 22:25:11 CET</pubDate>
   <category>2021/11/18/4</category>
   <title>Outils et services</title>
   <link>http://3r1c.net/posts/outils-et-services.txt</link>
@@ -3927,7 +4519,7 @@ Et cette fois-ci je peux monter le raid :
   <guid>http://3r1c.net/posts/outils-et-services.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-18T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2023-11-18T11:24:56Z 22:25:11 CET</pubDate>
   <category>2023/11/18/6</category>
   <title>Antisèche vim</title>
   <link>http://3r1c.net/posts/vim-anti-seche.txt</link>
@@ -4090,7 +4682,7 @@ sh -c &#39;curl -fLo &quot;${XDG_DATA_HOME:-$HOME/.local/share}&quot;/nvim/site/
   <guid>http://3r1c.net/posts/vim-anti-seche.txt</guid>
   </item>
 <item>
-<pubDate>2023-11-07T11:24:56Z 22:21:44 CET</pubDate>
+<pubDate>2023-11-07T11:24:56Z 22:25:11 CET</pubDate>
   <category>2023/11/07/2</category>
   <title>Wrap Existing Text at 80 Characters in Vim</title>
   <link>http://3r1c.net/posts/wrap-existing-test-at-80-char-in-vim.txt</link>
