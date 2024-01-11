@@ -1,0 +1,29 @@
+Shinobi website
+2023-11-18T21:03:07Z
+
+J'ai décidé de passer sur un weblog "shinobi", qui correspond plus à ce
+que j'attends d'un site web. Il s'agit d'une page rss, qui présente tous
+les articles (du weblog), articles qui étaient stockés dans un format
+.txt depuis longtemps.
+
+Toutes les infos sont ici : https://shinobi.bt.ht/
+
+Tout ce qui est lisible ici est rédigé sous vim, avec une largeur de
+colonne de maximum 72 caractères. Grâce à ceci dans mon ~/.vimrc :
+
+autocmd FileType text setlocal textwidth=72
+
+Si par aventure je devais revenir sur un textwidth "normal", je peux :
+
+:set tw=0
+
+Pour connaitre le textwidth en cours :
+
+:set tw?
+
+Et pour revenir à une limite de 72 caractères :
+
+:set tw=72
+
+Pour "reformatter" un texte qui doit devenir d'une largeur maxi de 72
+caractères ; sélectionner les lignes avec SHIFT+V, puis : `gq`.

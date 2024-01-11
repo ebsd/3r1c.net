@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-MARKDOWN=/usr/local/bin/smu
+MARKDOWN=/home/eric/.local/bin/smu
 #MARKDOWN=pandoc
 GEMINI() { <"$1" perl -0pe 's/<a href="([^"]*)".*>(.*)<\/a>/[\2](\1)/g;s/^<!--.*-->//gsm' | md2gemini --links paragraph; }
 IFS='	'
