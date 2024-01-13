@@ -1,1 +1,1 @@
-/home/ebsd/sync/howtos/voidlinux-dwm.md
+../../../sync/howtos/voidlinux-dwm.md
