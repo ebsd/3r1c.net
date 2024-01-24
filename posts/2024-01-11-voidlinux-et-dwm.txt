@@ -43,8 +43,16 @@ Executer le script de post-install (sans droit root) :
 ```
 
 ## TRIM SSD
+Add the following lines to /etc/cron.weekly/fstrim:
+```
+#!/bin/sh
 
-TO DO
+fstrim /
+```
+Finally, make the script executable:
+```
+chmod u+x /etc/cron.weekly/fstrim
+```
 
 ## Installer les dépendances
 $ sudo xbps-install -S base-devel libX11-devel libXft-devel libXinerama-devel freetype-devel fontconfig-devel 
@@ -256,7 +264,7 @@ Pour forcer une connexion sur un nouveau wifi :
 
 ### EAP TLS
 
-wpa_supplicant.conf à tester
+wpa_supplicant.conf 
 ```
 # work network; use EAP-TLS with WPA; allow only CCMP and TKIP ciphers
 network={
@@ -270,6 +278,13 @@ client_cert="/etc/cert/certificate.pem"
 private_key="/etc/cert/private.pem"
 private_key_passwd="password"
 }
+```
+Les certificats et clés privées doivent être en base 64 avec extension .pem. A
+priori, les p12/pfx ne passe pas.
+
+Après un changement du fichier wpa_supplicant.conf, il convient de lancer :
+```
+$ wpa_cli reconfigure
 ```
 
 En cas de nécessité, il est possible de debugguer la connexion avec :
@@ -344,6 +359,10 @@ pacmd set-card-profile <cardnumber> handsfree_head_unit
 
 Ce qui peut être scripté ainsi, et lié à une combinaison de trouches.
 ```
+#!/bin/bash
+#
+# file: $HOME/.local/bin/headset.sh
+#
 index=`pacmd list-cards | grep -B1 "name: <bluez_card." | cut -d":" -f2 | tr -d " " | head -1`
 pacmd set-card-profile $index handsfree_head_unit
 ```
@@ -394,7 +413,7 @@ xbacklight -set 10
 ## Ecran externe au laptop
 
 Pour configurer un écran externe "à droite" de celui du paltop :
-$ xrandr --output HDMI1 --auto --right-of eDP1
+$ xrandr --output HDMI-1 --auto --right-of eDP-1
 
 Pour lister les écrans connectés :
 $ xrandr
@@ -415,6 +434,14 @@ Extreait man dwm :
 
            Mod1-Shift-.
                   Send focused window to next screen, if any.
+
+Avant de débrancher un écran HDMI :
+
+$ xrandr --output HDMI-1 --off
+
+Puis après re-connexion d'un écran HDMI :
+
+$  xrandr --output HDMI-1 --auto --right-of eDP-1
 
 ## Synchro NTP
 
@@ -542,7 +569,8 @@ ZZZ: Usage: ZZZ [-nSzZR]
 
 ## sudoers
 Pour lancer ces commandes sans demande de mdp sudo :
-
+$ cat /etc/sudoers.d/wheel
+%wheel ALL=(ALL:ALL) ALL
 %wheel ALL=(ALL) NOPASSWD: /bin/poweroff, /bin/reboot, /bin/zzz, /bin/ZZZ
 
 ## Troubleshooting
@@ -599,6 +627,31 @@ En alternative à cron.
 
 https://kkga.me/notes/void-linux
 
+$ sudo xbps-install -S snooze
+$ sudo ln -s /etc/sv/snooze-weekly /var/service
+$ sudo mkdir -p /etc/cron.weekly
+
+On peut aussi activer les services
+$ sudo ln -s /etc/sv/snooze-hourly /var/service
+$ sudo ln -s /etc/sv/snooze-daily /var/service
+$ sudo ln -s /etc/sv/snooze-monthly /var/service
+
+Les scripts dans les dossiers /etc/cron.* seront
+exécutés.
+
+# ST et VIM
+
+Avec le compte root, si on a l'erreur au démarrage de vim :
+
+e558 terminal entry not found in terminfo
+st-256color is not known
+
+Il faut copier /home/eric/.terminfo/s/st-256color
+dans /root/.terminfo/s/st-256color
+
+# mkdir -p /root/.terminfo/s
+# cp /home/eric/.terminfo/s/st-256color /root/.terminfo/s/
+
 # VIRTUALBOX
 
 $ sudo xbps-install -S virtualbox-ose
@@ -621,6 +674,9 @@ $ sudo chattr +i /etc/resolv.conf
 Pour le modifier :
 $ sudo chattr -i /etc/resolv.conf
 
+# GOOGLE CHROME MENU SHADOWS
+Les ombres sous les menus contextuels de chrome sont laids dans DWM. Pour les désactiver : chrome://flags => désactiver les WebUI refresh 2023 
+
 # FINAL
 
 Reste à importer ta clé gpg pour le bon fonctionnement de pass :
@@ -629,7 +685,11 @@ Et aussi importer ta clé privée ssh :
 $ pass keys-backup/ssh_private_key > $HOME/.ssh/id_rsa
 $ chmod 600 $HOME/.ssh/id_rsa
 
-## DWM : Utilisation
+# DIVERS
+
+https://gist.github.com/themagicalmammal/e443d3c5440d566f8206e5b957ab1493#3-turn-off-mitigations
+
+# DWM : Utilisation
 
 MODKEY+p : ouvrir dmenu
 MODKEX+b : Afficher / cacher la barre
