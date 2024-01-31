@@ -534,6 +534,32 @@ $ echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
 $ ./xbps-src pkg <package_name>
 $ sudo xbps-install --repository hostdir/binpkgs/nonfree <package_name>
 
+## Teams
+
+Avec google chrome on a la possibilité d'installer l'app Teams. Dans google
+chrome, on peut cliquer et faire un lien vers le "Desktop". Je constate que ce
+lien arrive dans :
+
+$HOME/.gnome/apps/chrome-cifhbcnohmdccbgoicgdjpfamggdegmo-Default.desktop
+
+Voici le contenu
+```
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=Microsoft Teams
+Exec=/opt/google/chrome/google-chrome --profile-directory=Default --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo
+Icon=chrome-cifhbcnohmdccbgoicgdjpfamggdegmo-Default
+StartupWMClass=crx_cifhbcnohmdccbgoicgdjpfamggdegmo
+OnlyShowIn=Old;
+```
+
+Il est donc possible de lancer Teams directement avec :
+```
+/opt/google/chrome/google-chrome --profile-directory=Default --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo
+```
 
 ## Lightdm
 
@@ -638,6 +664,7 @@ $ sudo ln -s /etc/sv/snooze-monthly /var/service
 
 Les scripts dans les dossiers /etc/cron.* seront
 exécutés.
+Attention il faut que les scripts soient exécutables.
 
 # ST et VIM
 
@@ -713,3 +740,14 @@ MOD+ClicGauche : redimensionner la fenêtre
 ClicMilieu sur le status : un terminal s'ouvre
 ClicMileur sur le titre de la fenêtre : elle passe dans la stack
 
+# Patcher un suckless software
+
+```
+patch -p1 < /path/to/file.diff
+```
+
+Le fichier config.def.h sera paché, pas le config.h. Il restea donc à identifier
+et transférer les changements grâce à vim par exemple :
+```
+vimdiff -O config.h config.def.h
+```
