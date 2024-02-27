@@ -99,7 +99,7 @@ exec /usr/local/bin/dwm
 > $ make
 > $ make install PREFIX=$HOME/.local MANPREFIX=$HOME/.local/man
 >
-> Pour slock, à priori pas possible de l'utilisé si compilà
+> Pour slock, à priori pas possible de l'utiliser si compilé
 > dans $HOME.
 
 ## Clavier
@@ -534,6 +534,12 @@ $ echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
 $ ./xbps-src pkg <package_name>
 $ sudo xbps-install --repository hostdir/binpkgs/nonfree <package_name>
 
+Les mises à jour des packages se font ainsi :
+$ cd void-packages
+$ git pull
+$ ./xbps-src pkg foo
+$ sudo xbps-install -S foo --repository hostdir/binpkgs/nonfree
+
 ## Teams
 
 Avec google chrome on a la possibilité d'installer l'app Teams. Dans google
@@ -598,6 +604,14 @@ Pour lancer ces commandes sans demande de mdp sudo :
 $ cat /etc/sudoers.d/wheel
 %wheel ALL=(ALL:ALL) ALL
 %wheel ALL=(ALL) NOPASSWD: /bin/poweroff, /bin/reboot, /bin/zzz, /bin/ZZZ
+
+
+## Power management
+
+enable acpid, if not enabled;
+install tlp, enable its service;
+configure elogind to ignore ACPI events: set all Handle* keywords to ignore in logind.conf;
+use powertop to diagnose powerusage;
 
 ## Troubleshooting
 
@@ -666,6 +680,13 @@ Les scripts dans les dossiers /etc/cron.* seront
 exécutés.
 Attention il faut que les scripts soient exécutables.
 
+Ensuite, pour le daily, weekly, monthly il faut modifier le service car il
+s'execute à minuit
+par defaut :
+
+$ sudo vim /etc/sv/snooze-daily/run
+Et ajouter `-H12` à la ligne de commande.
+
 # ST et VIM
 
 Avec le compte root, si on a l'erreur au démarrage de vim :
@@ -711,6 +732,15 @@ $ gpg --import ~/sync/private/backups/gpg-private.key
 Et aussi importer ta clé privée ssh :
 $ pass keys-backup/ssh_private_key > $HOME/.ssh/id_rsa
 $ chmod 600 $HOME/.ssh/id_rsa
+
+# Docker
+
+$ sudo xbps-install docker
+$ sudo xbps-install docker-compose
+$ sudo ln -s /etc/sv/docker /var/service
+$ sudo usermod -aG docker $USER
+$ sudo sv up docker
+$ sudo touch /etc/sv/docker/down
 
 # DIVERS
 
