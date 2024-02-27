@@ -90,7 +90,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
 
 ## <a name="cacraint"</a>L'informatique ça craint
 
-- Ce que pense les gens du free software / open source. Ils sont toujours en train radoter que l'argent gagné sur les licences est perdu sur la complexité de gestion puisque le jour où tu as un problème tu es tout seul. D'une part le free software est libre mais pas forcément gratuit, d'autre part l'absence de coût de licence n'implique pas inévitablement de souscrire un support, et enfin : la complexité ce n'est pas le logiciel libre qui l'apporte dans le SI, ce sont les réflexions tortueuses qui fordent les composants du SI qui le rendent complexe.  
+- Ce que pense les gens du free software / open source. Ils sont toujours en train radoter que l'argent gagné sur les licences est perdu sur la complexité de gestion puisque le jour où tu as un problème tu es tout seul. D'une part le free software est libre mais pas forcément gratuit, d'autre part l'absence de coût de licence n'implique pas inévitablement de souscrire un support, et enfin : la complexité ce n'est pas le logiciel libre qui l'apporte dans le SI, ce sont les réflexions tortueuses qui fordent les composants du SI qui le rendent complexe. Et puis frnachement, j'aimerais bien que les DSI se demandent à quoi ressemblerait leur SI sans la communauté open source ..? 
 
 ## <a name="mesmachines"></a>Mes machines
 Deux thinkpad x1 carbon qui fonctionnent sous voidlinx avec dwm.
