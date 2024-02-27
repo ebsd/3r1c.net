@@ -9,6 +9,7 @@ Contactez moi via <a href="mailto:site(chez)3r1c_dot_net" rel="me">email</a> ou 
 - [About](#about)
 - [Android](#android)
 - [Liens intéressants](#links)
+- [Tout ce qui craint](#cacraint)
 
 ## <a name="about"></a>About
 Je m'appelle Eric. Je suis resté coincé dans l'Internet des années nonante ! C'est pourquoi vous constatez que ce site est particulièrement évolué :) C'est un site statique, il fonctionne avec un minimum de techno : juste un peu de CSS. Bienvenue dans cette petite partie de small web.
@@ -86,4 +87,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
 - Linux
   - [Archlinux install](https://nih.ar/arch_install)
 
+## <a name="cacraint"</a>Tout ce qui craint
+
+- Ce que pense les gens du free software / open source. Ils sont toujours en train radoter que l'argent gagné sur les licences est perdu sur la complexité de gestion puisque le jour où tu as un problème tu es tout seul. D'une part le free software est libre mais pas forcément gratuit, d'autre part l'absence de coût de licence n'implique pas inévitablement de souscrire un support, et enfin : la complexité ce n'est pas le logiciel libre qui l'apporte dans le SI, ce sont les réflexions tortueuses qui fordent les composants du SI qui le rendent complexe.  
 <!-- ## <a name="notes"></a>Notes -->
