@@ -9,7 +9,7 @@ Contactez moi via <a href="mailto:site(chez)3r1c_dot_net" rel="me">email</a> ou 
 - [About](#about)
 - [Android](#android)
 - [Liens intéressants](#links)
-- [L'informatique ça craint](#cacraint)
+- [Tout ce qui craint](#cacraint)
 - [Mes machines](#mesmachines)
 
 ## <a name="about"></a>About
@@ -88,10 +88,11 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
 - Linux
   - [Archlinux install](https://nih.ar/arch_install)
 
-## <a name="cacraint"</a>L'informatique ça craint
+## <a name="cacraint"</a>Tout ce qui craint
 
 - Ce que pense les gens du free software / open source.
-Ils sont toujours en train de radoter que l'argent gagné sur les licences est perdu sur la complexité de gestion puisque le jour où tu as un problème tu es tout seul. D'une part le free software est libre mais pas forcément gratuit, d'autre part l'absence de coût de licence n'implique pas inévitablement de souscrire un support, et enfin : la complexité ce n'est pas le logiciel libre qui l'apporte dans le SI, ce sont les réflexions tortueuses qui fordent les composants du SI qui le rendent complexe. Et puis frnachement, j'aimerais bien que les DSI se demandent à quoi ressemblerait leur SI sans la communauté open source ..? 
+Ils radotent que l'argent gagné sur les licences est perdu sur la complexité de gestion puisque le jour où tu as un problème tu es tout seul. D'une part le free software est libre mais pas forcément gratuit, d'autre part l'absence de coût de licence n'empêche pas inévitablement de souscrire un support ! Et enfin : la complexité, ce n'est pas le logiciel libre qui l'apporte dans le SI, ce sont les réflexions tortueuses qui le rendent complexe. Et puis franchement, j'aimerais bien que les DSI se demandent à quoi ressemblerait leur SI sans la communauté open source ..?
+Concernant cette prétendue solitude face aux problèmes, on se demande si les décideurs ont déjà eu à faire au support des plus grands éditeurs, car pour le coup : même avec un support astronomiquement honéreux, on est bien seul...
 
 ## <a name="mesmachines"></a>Mes machines
 Deux thinkpad x1 carbon qui fonctionnent sous voidlinx avec dwm.
