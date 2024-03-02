@@ -58,10 +58,8 @@
 2020-06-15T17:21:18+02:00	https://www.grottedubarbu.fr/securiser-socket-docker/
 2020-06-18T19:15:19.000000Z	Printer bug + Exchange https://dirkjanm.io/exploiting-CVE-2019-1040-relay-vulnerabilities-for-rce-and-domain-admin/
 2020-07-09T17:32:57+02:00	https://www.howtoforge.com/tutorial/linux-dd-command-clone-disk-practical-example/
-2022-02-18T12:38:50+01:00	https://downloads.cisecurity.org/
 2022-02-21T08:00:07+01:00	https://itsfoss.com/glow-cli-tool-markdown/
 2022-02-22T15:57:14+01:00	Ostorlab is going open-source, releasing our scanning engine, vulnerability detectors, and analyzers https://blog.ostorlab.co/ostorlab-open-source.html
-2022-03-01T20:29:53+01:00	SharpChromium https://github.com/djhohnstein/SharpChromium
 2022-03-01T21:35:12+01:00	https://github.com/tsale/translated_conti_leaked_comms
 2022-03-05T13:03:35.000000Z	https://www.aukfood.fr/teleport-une-solution-pour-votre-bastion-ssh/
 2022-03-14T10:06:58.000000Z	This repository contains all the Incident Response Playbooks and Workflows of Company's SOC [https://gitlab.com/syntax-ir/playbooks]
@@ -71,8 +69,7 @@
 2022-10-26T08:23:50+02:00       https://crt.sh/ pour lister / inventaire des certificats utilisés sur une URL externe.
 2022-10-28T12:53:58.000000Z	Pass : À la Découverte d'un Gestionnaire de Mot de Passe https://doc.huc.fr.eu.org/fr/post/pass-gestionnaire-mot-passe-unix/
 2022-10-28T13:18:30.000000Z	Durcissement d'un système GNU/Linux : Gestion des utilisateurs et des connexions | Net-Security ⌘ https://net-security.fr/securite/durcissement-gnulinux-1/
-2022-11-12T21:57:10.000000Z	Teams sur Linux : Une nouvelle application disponible ! https://www.tutos-informatique.com/application-teams-linux/
-2023-10-26T21:18:30.000000Z	Dernier jour de vacances à Albufeira :
+2023-10-26T21:18:30.000000Z	Dernier jour de vacances à Albufeira :(
 2023-11-10T15:54:55+01:00	A tester en remplacement de postman : https://www.usebruno.com
 2023-11-15T21:51:08.000000Z	Journée spéciale crue du siècle à GE
 2023-11-23T16:50:14+01:00	1ere gelée à basse altitud
@@ -81,17 +78,17 @@
 2023-11-24T09:02:49+01:00	Plaintext journaling https://peppe.rs/posts/plain_text_journaling/
 2023-11-24T11:14:11+01:00	Line Length Limits "SHOULD be no more than 78 characters, excluding the CRLF" https://www.ietf.org/rfc/rfc2822.txt
 2023-11-26T11:28:07+01:00	DNS as a Password Manager https://thoughts.theden.sh/posts/dns-txt-record-fun/
-2023-11-29T20:05:19+01:00	 Email obfuscation, What works in 2023 https://spencermortensen.com/articles/email-obfuscation/
-2023-11-29T20:07:31+01:00	 Mouse Balls :) http://www.textfiles.com/100/balls.txt
-2023-12-13T20:42:18+01:00	 Note pour plus tard : tester une simple install arch linux + DWM. Archolinux ou bare install ?
-2023-12-08T11:28:48+01:00	 DWM xsessions file https://www.youtube.com/watch?v=dP8OKP-r1tw
-2023-12-08T11:37:55+01:00	 DWM xsession file https://bbs.archlinux.org/viewtopic.php?id=125706
-2023-12-08T13:48:02+01:00	 chadwm to test https://github.com/siduck/chadwm
-2023-12-08T15:48:26+01:00	 https://gist.github.com/palopezv/efd34059af6126ad970940bcc6a90f2e
-2023-12-09T11:05:53+01:00	 https://github.com/ronylee11/suckless
-2023-12-10T15:56:00+01:00	 https://github.com/pchagas72/suckless-software
-2023-12-13T20:46:27+01:00	 Note pour plus tard : tester une simple install arch linux + DWM. Archolinux ou bare install ?
-2023-12-20T08:06:03+01:00	 Forensics Tools https://github.com/mesquidar/ForensicsTools
+2023-11-29T20:05:19+01:00	Email obfuscation, What works in 2023 https://spencermortensen.com/articles/email-obfuscation/
+2023-11-29T20:07:31+01:00	Mouse Balls :) http://www.textfiles.com/100/balls.txt
+2023-12-13T20:42:18+01:00	Note pour plus tard : tester une simple install arch linux + DWM. Archolinux ou bare install ?
+2023-12-08T11:28:48+01:00	DWM xsessions file https://www.youtube.com/watch?v=dP8OKP-r1tw
+2023-12-08T11:37:55+01:00	DWM xsession file https://bbs.archlinux.org/viewtopic.php?id=125706
+2023-12-08T13:48:02+01:00	chadwm to test https://github.com/siduck/chadwm
+2023-12-08T15:48:26+01:00	https://gist.github.com/palopezv/efd34059af6126ad970940bcc6a90f2e
+2023-12-09T11:05:53+01:00	https://github.com/ronylee11/suckless
+2023-12-10T15:56:00+01:00	https://github.com/pchagas72/suckless-software
+2023-12-13T20:46:27+01:00	Note pour plus tard : tester une simple install arch linux + DWM. Archolinux ou bare install ?
+2023-12-20T08:06:03+01:00	Forensics Tools https://github.com/mesquidar/ForensicsTools
 2023-12-28T11:06:03+01:00	Voidlinux post install : https://kennydodrill.com/blog/stable-void-linux-setup-guide/
 2023-12-28T11:07:03+01:00	Voidlinux post install : https://gist.github.com/bastomiadi/abf27618341fc561735adfb17e586916
-2024-01-05T09:39:58+01:00	 Optimizations void : https://gist.github.com/themagicalmammal/e443d3c5440d566f8206e5b957ab1493
+2024-01-05T09:39:58+01:00	Optimizations void : https://gist.github.com/themagicalmammal/e443d3c5440d566f8206e5b957ab1493
