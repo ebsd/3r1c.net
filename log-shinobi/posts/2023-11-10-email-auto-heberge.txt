@@ -307,13 +307,13 @@ set sort = threads
 auto_view text/html # view html automatically
 alternative_order text/plain text/enriched text/html
 
-## Améliorer postix
+## Améliorer postfix
 
 Utilisons des certificats publiques pour chiffrer nos canaux de
 communications.
 
 $ apt install certbot
-$ certbot certonly --standalone -d example.org
+$ certbot certonly --standalone -d mail.example.org
 
 
 $ postconf -e 'smtpd_tls_cert_file = /etc/letsencrypt/live/<your.domain>/fullchain.pem'
