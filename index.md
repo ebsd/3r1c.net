@@ -44,18 +44,17 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
 - Small web
   - [Redécouvrir le web](https://serveur410.com/les-passages-secrets-du-web/)
   - [the small web is beautiful](https://benhoyt.com/writings/the-small-web-is-beautiful/)
-  - [QotNews](https://news.t0.vc)
   - [chotrin smoll internet](https://chotrin.org/notes/smol_internet.html)
   - [the small things manifesto](https://ajroach42.com/the-small-things-manifesto/)
   - [ooh.directory](https://ooh.directory/)
   - [blogroll.org](https://blogroll.org/)
-  - [deskto.ps](https://deskto.ps/)
   - [paritybit.ca](https://paritybit.ca)
   - [theWebIsFucked](https://thewebisfucked.com/)
   - [web 0.5](https://tilde.pt/~fimdomeio/index2.html)
   - [textfiles.com](http://textfiles.com)
   - [chriskoehnke.com](https://chriskoehnke.com/)
   - [shinobi website](https://shinobi.bt.ht/)
+  - [ersei](https://ersei.net/)
 - Francophone
   - [si3t.ch](http://si3t.ch/)
   - [skiserv.eu](https://blog.skiserv.eu/)
@@ -66,7 +65,9 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [68k news](http://68k.news)
   - [lobste.rs](https://lobste.rs/top)
   - [tilde.news](https://tilde.news)
+  - [QotNews](https://news.t0.vc)
 - Social
+  - [deskto.ps](https://deskto.ps/)
   - [midnight.pub](https://midnight.pub/)
   - [smol.pub](https://smol.pub)
 - Search engines
@@ -74,7 +75,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
 - vim
   - [vim anti patterns](https://blog.sanctum.geek.nz/vim-anti-patterns/)
   - [https://ronaldsvilcins.com/2023/10/01/ultimate-vim-cheat-sheet/](https://ronaldsvilcins.com/2023/10/01/ultimate-vim-cheat-sheet/)
-  - [peppe.rs](https://peppe.rs/)
+  - [peppe.rs journaling](https://peppe.rs/posts/plain_text_journaling/)
 - encryption
   - https://github.com/drduh/YubiKey-Guide
 - gemini
