@@ -92,7 +92,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
 ## <a name="cacraint"</a>Tout ce qui craint
 
 - Ce que pense les gens du free software / open source.
-Ils radotent que l'argent gagné sur les licences est perdu sur la complexité de gestion puisque le jour où tu as un problème tu es tout seul. D'une part le free software est libre mais pas forcément gratuit, d'autre part l'absence de coût de licence n'empêche pas inévitablement de souscrire un support ! Et enfin : la complexité, ce n'est pas le logiciel libre qui l'apporte dans le SI, ce sont les réflexions tortueuses qui le rendent complexe. Et puis franchement, j'aimerais bien que les DSI se demandent à quoi ressemblerait leur SI sans la communauté open source ..?
+Ils radotent que l'argent gagné sur les licences est perdu sur la complexité de gestion puisque le jour où tu as un problème tu es tout seul. D'une part le free software est libre mais pas forcément gratuit, d'autre part l'absence de coût de licence n'empêche pas inévitablement de souscrire un support ! Et enfin : la complexité, ce n'est pas le logiciel libre qui l'apporte dans le SI, ce sont les réflexions tortueuses qui le rendent complexe. Et puis franchement, j'aimerais bien que les DSI se demandent à quoi ressemblerait leur SI sans la communauté open source..?
 Concernant cette prétendue solitude face aux problèmes, on se demande si les décideurs ont déjà eu à faire au support des plus grands éditeurs, car pour le coup : même avec un support astronomiquement honéreux, on est bien seul...
 
 ## <a name="mesmachines"></a>Mes machines
