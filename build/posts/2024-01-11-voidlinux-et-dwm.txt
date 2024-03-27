@@ -537,6 +537,8 @@ $ sudo xbps-install --repository hostdir/binpkgs/nonfree <package_name>
 Les mises à jour des packages se font ainsi :
 $ cd void-packages
 $ git pull
+Fait d'abord un upgrade des packages xbps, puis des packages restricted
+$ sudo xbps-install -Suv
 $ ./xbps-src update-sys
 
 ## Teams
@@ -686,6 +688,18 @@ par defaut :
 $ sudo vim /etc/sv/snooze-daily/run
 Et ajouter `-H12` à la ligne de commande.
 
+# Notifications
+$ sudo xbps-install -S notification-daemon
+Puis créer ce fichier : 
+$ sudo vim /usr/share/dbus-1/services/org.freedesktop.Notifications.service
+Il contient ceci :
+```
+[D-BUS Service]
+Name=org.freedesktop.Notifications
+Exec=/usr/libexec/notification-daemon
+```
+Ainsi le daemon de notifications sera automatiquement démarré par dbus s'il ne l'est pas.
+
 # ST et VIM
 
 Avec le compte root, si on a l'erreur au démarrage de vim :
@@ -780,3 +794,15 @@ et transférer les changements grâce à vim par exemple :
 ```
 vimdiff -O config.h config.def.h
 ```
+
+Puis compiler
+```
+$ make
+$ make install PREFIX=$HOME/.local MANPREFIX=$HOME/.local/man
+```
+
+# Gestionnaire de fichiers graphique
+
+Installer Installer `pcmanfm` et également `thunar-archive-plugin` et `xarchiver` pour dézipper.
+
+
