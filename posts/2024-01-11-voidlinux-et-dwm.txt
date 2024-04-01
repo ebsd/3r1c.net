@@ -227,6 +227,24 @@ $ sudo xbps-install -S sof-firmware
 
 ## WIFI
 
+Packahe wpacupplicant requis pour la suite.
+Si `wpa_cli` donne ce message d'erreur :
+```
+Could not connect to wpa_supplicant
+```
+
+1. Vérifier la config
+```
+# /etc/wpa_supplicant/wpa_supplicant.conf
+ctrl_interface=/run/wpa_supplicant
+update_config=1
+```
+2. Démarrer manuelle wpa_cupplicant ainsi
+```
+wpa_supplicant -B -i wlp3s0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+```
+
+Gérer les connexions wifi avec wpa_cli :
 ```
 $ wpa_cli -i wlp0s20f3
 Interactive mode
@@ -257,7 +275,7 @@ OK
 
 Pour forcer une connexion sur un nouveau wifi :
 ```
-> enable_network_1
+> enable_network 1
 > reconnect
 > status
 ```
