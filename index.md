@@ -41,6 +41,7 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [nocss club](https://nocss.club/)
   - [xxiivv webring](https://webring.xxiivv.com/)
   - [Fediring (random site)](https://fediring.net/random)
+  - [No-JS Club](https://no-js.club/members/)
 - Small web
   - [Redécouvrir le web](https://serveur410.com/les-passages-secrets-du-web/)
   - [the small web is beautiful](https://benhoyt.com/writings/the-small-web-is-beautiful/)
@@ -61,6 +62,9 @@ Mon pixel5 est équipé de LineageOS et mes apps proviennent de F-droid. Cet app
   - [ferale.art](https://ferale.art/blog/2021/le-monde-est-en-transition.html)
   - [hugo.spocy.cc](https://hugo.soucy.cc/)
   - [linuxmario.net](https://linuxmario.net/fr/)
+- Blogs
+  - [Nico Nacq's blog](https://nicolas.light.nacq.me/home/)
+  - [Ploum](https://ploum.net/)
 - News
   - [68k news](http://68k.news)
   - [lobste.rs](https://lobste.rs/top)
