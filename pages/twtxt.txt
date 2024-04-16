@@ -95,3 +95,4 @@
 2024-03-02T14:37:36+01:00	#IMMOBILIER Note pour plus tard, en févirer 2024 nous en sommes à 4537€ / m2. On peut pas dire que ça baisse.
 2024-04-01T16:55:24+02:00	 PocketSOC : https://gitlab.cern.ch/wlcg-soc-wg/PocketSOC
 2024-04-16T15:31:29+02:00	 SOAR : https://tracecat.com/ https://tracecat.com/ https://shuffler.io/
+2024-04-16T16:08:08+02:00	 Regex PCRE pour matcher les guillemets unicodes [\p{Pi}\p{Pf}]
