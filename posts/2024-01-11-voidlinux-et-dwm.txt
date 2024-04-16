@@ -771,6 +771,7 @@ $ sudo xbps-install docker-compose
 $ sudo ln -s /etc/sv/docker /var/service
 $ sudo usermod -aG docker $USER
 $ sudo sv up docker
+## pour ne pas démarrer au boot
 $ sudo touch /etc/sv/docker/down
 
 # DIVERS
