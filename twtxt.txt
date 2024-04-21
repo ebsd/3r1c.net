@@ -97,3 +97,4 @@
 2024-04-16T15:31:29+02:00	 SOAR : https://tracecat.com/ https://tracecat.com/ https://shuffler.io/
 2024-04-16T16:08:08+02:00	 Regex PCRE pour matcher les guillemets unicodes [\p{Pi}\p{Pf}]
 2024-04-16T16:16:12+02:00	 echo 'Remplace les doubles quotes chelou “Test“ | perl -CSAD -pi.orig -pe 's/[\p{Pi}\p{Pf}]/"/g'
+2024-04-21T13:39:20+02:00	 Après un WE à 27°C semaine dernière, ce samedi nous avons fait de la luge aux Jouv !
