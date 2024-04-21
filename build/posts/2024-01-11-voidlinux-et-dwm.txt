@@ -227,7 +227,7 @@ $ sudo xbps-install -S sof-firmware
 
 ## WIFI
 
-Packahe wpacupplicant requis pour la suite.
+Package wpacupplicant requis pour la suite.
 Si `wpa_cli` donne ce message d'erreur :
 ```
 Could not connect to wpa_supplicant
@@ -307,6 +307,7 @@ $ wpa_cli reconfigure
 
 En cas de nécessité, il est possible de debugguer la connexion avec :
 ```
+$ sudo sv stop wpa_supplicant
 $ sudo wpa_supplicant -i wlan1 -c /etc/wpa_supplicant/wpa_supplicant.conf
 ```
 
